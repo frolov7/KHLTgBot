@@ -70,7 +70,7 @@ namespace TelegramBOT.Handlers
                 case "/start":
                     await _messageService.SendKeyboardAsync(
                         chatId,
-                        "Добро пожаловать! Выберите действие:",
+                        "Добро пожаловать! Выберите действие.",
                         _menuService.GetMainMenu()
                     );
                     break;
@@ -119,11 +119,11 @@ namespace TelegramBOT.Handlers
                 case "Статистика игроков":
                     await _messageService.SendTextAsync(chatId, "Здесь будет статистика игроков 👤");
                     break;
+
                 // -------------------------------
                 // Результаты
                 // -------------------------------
                 case "⚡ Результаты":
-                    // 4. Теперь показываем меню
                     await _messageService.SendKeyboardAsync(
                         chatId,
                         "Выберите день",
@@ -131,7 +131,7 @@ namespace TelegramBOT.Handlers
                     );
                     break;
 
-                case "🔄 Обновить":
+                case "🔄 Обновить данные":
                     if (_isUpdatingResults)
                     {
                         await _messageService.SendTextAsync(chatId, "⏳ Уже идёт обновление, подождите...");
@@ -163,7 +163,6 @@ namespace TelegramBOT.Handlers
                     {
                         _isUpdatingResults = false;
                     }
-
                     break;
 
                 case "📅 Сегодня":
@@ -175,75 +174,28 @@ namespace TelegramBOT.Handlers
                     var yesterdayResults = await _matchService.GetResultsYesterdayAsync();
                     await _messageService.SendResultsAsync(chatId, yesterdayResults, DateTime.Today.AddDays(-1));
                     break;
-                case "🔍 Результаты команды":
-                    await _messageService.SendKeyboardAsync(
-                        chatId,
-                        "Выберите конференцию:",
-                        _menuService.GetTeamsConferenceMenu()
-                    );
-                    break;
 
                 // --- Меню выбора конференции ---
-                case "Запад":
+                case "⬅️ Запад":
                     await _messageService.SendKeyboardAsync(
                         chatId,
-                        "Выберите команду (Запад):",
+                        "Выберите команду (Запад)",
                         _menuService.GetWesternTeamsMenu()
                     );
                     break;
 
-                case "Восток":
+                case "➡️ Восток":
                     await _messageService.SendKeyboardAsync(
                         chatId,
-                        "Выберите команду (Восток):",
+                        "Выберите команду (Восток)",
                         _menuService.GetEasternTeamsMenu()
                     );
-                    break;
-
-                // --- Выбор конкретной команды ---
-                default:
-                    // Проверяем, является ли текст одной из команд
-                    var allTeams = new Dictionary<string, string>
-                    {
-                        { "⭐ СКА Санкт-Петербург", "SKA St. Petersburg" },
-                        { "★ ЦСКА Москва", "CSKA Moscow" },
-                        { "🔵 Динамо Москва", "Dynamo Moscow" },
-                        { "♦️ Спартак Москва", "Spartak Moscow" },
-                        { "🚂 Локомотив Ярославль", "Lokomotiv Yaroslavl" },
-                        { "🦌 Торпедо Нижний Новгород", "Nizhny Novgorod" },
-                        { "⚒️ Северсталь Череповец", "Cherepovets" },
-                        { "🐆 ХК Сочи", "Sochi" },
-                        { "🐃 Динамо Минск", "Dinamo Minsk" },
-
-                        { "🦅 Авангард Омск", "Avangard Omsk" },
-                        { "🐯 Ак Барс Казань", "Bars Kazan" },
-                        { "⛏️ Металлург Магнитогорск", "Magnitogorsk" },
-                        { "🕌 Салават Юлаев Уфа", "Salavat Ufa" },
-                        { "🚘 Автомобилист Екатеринбург", "Yekaterinburg" },
-                        { "🚜 Трактор Челябинск", "Tractor Chelyabinsk" },
-                        { "⚓ Адмирал Владивосток", "Vladivostok" },
-                        { "❄️ Сибирь Новосибирск", "Novosibirsk" },
-                        { "🐺 Нефтехимик Нижнекамск", "Niznekamsk" },
-                        { "🐅 Амур Хабаровск", "Khabarovsk" },
-                        { "🚗 Лада Тольятти", "Lada" },
-                        { "🐉 Куньлунь Ред Стар", "Shanghai" }
-                    };
-
-                    if (allTeams.ContainsKey(text))
-                    {
-                        var teamResults = await _matchService.GetAllResultsByTeamAsync(allTeams[text]);
-                        await _messageService.SendResultsAsync(chatId, teamResults, null);
-                    }
-                    else
-                    {
-                        await _messageService.SendTextAsync(chatId, "Я тебя понял 😉");
-                    }
                     break;
 
                 // -------------------------------
                 // Навигация
                 // -------------------------------
-                case "⬅️ Назад":
+                case "🏠 В главное меню":
                     await _messageService.SendKeyboardAsync(
                         chatId,
                         "Возврат в главное меню",
@@ -255,9 +207,48 @@ namespace TelegramBOT.Handlers
                 // По умолчанию
                 // -------------------------------
                 default:
-                    await _messageService.SendTextAsync(chatId, "Я тебя понял 😉");
+                    var allTeams = new Dictionary<string, string>
+                    {
+                        // Запад
+                        { "⭐ СКА Санкт-Петербург", "SKA St. Petersburg" },
+                        { "★ ЦСКА Москва", "CSKA Moscow" },
+                        { "🔵 Динамо Москва", "Dynamo Moscow" },
+                        { "♦️ Спартак Москва", "Spartak Moscow" },
+                        { "🚂 Локомотив Ярославль", "Lokomotiv Yaroslavl" },
+                        { "🦌 Торпедо Нижний Новгород", "Nizhny Novgorod" },
+                        { "⚒️ Северсталь Череповец", "Cherepovets" },
+                        { "🐆 ХК Сочи", "Sochi" },
+                        { "🐃 Динамо Минск", "Dinamo Minsk" },
+                        { "🚗 Лада Тольятти", "Lada" },
+                        { "🐉 Куньлунь Ред Стар", "Shanghai" },
+
+                        // Восток
+                        { "🦅 Авангард Омск", "Avangard Omsk" },
+                        { "🐯 Ак Барс Казань", "Bars Kazan" },
+                        { "⛏️ Металлург Магнитогорск", "Magnitogorsk" },
+                        { "🕌 Салават Юлаев Уфа", "Salavat Ufa" },
+                        { "🚘 Автомобилист Екатеринбург", "Yekaterinburg" },
+                        { "🚜 Трактор Челябинск", "Tractor Chelyabinsk" },
+                        { "⚓ Адмирал Владивосток", "Vladivostok" },
+                        { "❄️ Сибирь Новосибирск", "Novosibirsk" },
+                        { "🐺 Нефтехимик Нижнекамск", "Niznekamsk" },
+                        { "🐅 Амур Хабаровск", "Khabarovsk" }
+                    };
+
+                    if (allTeams.ContainsKey(text))
+                    {
+                        var teamResults = await _matchService.GetAllResultsByTeamAsync(allTeams[text]);
+                        //await _messageService.SendResultsAsync(chatId, teamResults, null);
+                        await _messageService.SendResultsAsync(chatId, teamResults, null, allTeams[text]);
+
+                    }
+                    else
+                    {
+                        await _messageService.SendTextAsync(chatId, "Я тебя понял 😉");
+                    }
                     break;
             }
+
 
             Log.Information("Метод {Method} завершил работу.", nameof(HandleAsync));
         }

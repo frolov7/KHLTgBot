@@ -35,7 +35,7 @@ namespace TelegramBOT.Handlers
                 new KeyboardButton[] { "Сегодня" },
                 new KeyboardButton[] { "Завтра" },
                 new KeyboardButton[] { "Следующие 5 дней" },
-                new KeyboardButton[] { "⬅️ Назад" }
+                new KeyboardButton[] { "🏠 В главное меню" }
             })
             {
                 ResizeKeyboard = true,
@@ -52,7 +52,7 @@ namespace TelegramBOT.Handlers
             {
                 new KeyboardButton[] { "Статистика команд" },
                 new KeyboardButton[] { "Статистика игроков" },
-                new KeyboardButton[] { "⬅️ Назад" }
+                new KeyboardButton[] { "🏠 В главное меню" }
             })
             {
                 ResizeKeyboard = true,
@@ -66,22 +66,9 @@ namespace TelegramBOT.Handlers
             {
                 new[] { new KeyboardButton("📅 Сегодня"), 
                 new KeyboardButton("📅 Вчера") },
-                new[] { new KeyboardButton("🔍 Результаты команды") },
-                new[] { new KeyboardButton("🔄 Обновить") },
-                new[] { new KeyboardButton("⬅️ Назад") }
-            })
-            {
-                ResizeKeyboard = true
-            };
-        }
-
-        // Меню выбора конференции
-        public ReplyKeyboardMarkup GetTeamsConferenceMenu()
-        {
-            return new ReplyKeyboardMarkup(new[]
-            {
-                new[] { new KeyboardButton("Запад"), new KeyboardButton("Восток") },
-                new[] { new KeyboardButton("⬅️ Назад") }
+                new[] { new KeyboardButton("⬅️ Запад"), new KeyboardButton("➡️ Восток") },
+                new[] { new KeyboardButton("🔄 Обновить данные") },
+                new[] { new KeyboardButton("🏠 В главное меню") }
             })
             {
                 ResizeKeyboard = true
@@ -93,12 +80,13 @@ namespace TelegramBOT.Handlers
         {
             return new ReplyKeyboardMarkup(new[]
             {
-                new[] { new KeyboardButton("⭐ СКА Санкт-Петербург"), new KeyboardButton("★ ЦСКА Москва") },
-                new[] { new KeyboardButton("🔵 Динамо Москва"), new KeyboardButton("♦️ Спартак Москва") },
-                new[] { new KeyboardButton("🚂 Локомотив Ярославль"), new KeyboardButton("🦌 Торпедо Нижний Новгород") },
-                new[] { new KeyboardButton("⚒️ Северсталь Череповец"), new KeyboardButton("🐆 ХК Сочи") },
-                new[] { new KeyboardButton("🐃 Динамо Минск") },
-                new[] { new KeyboardButton("⬅️ Назад") }
+                new[] { new KeyboardButton("🦌 Торпедо Нижний Новгород"), new KeyboardButton("🐉 Куньлунь Ред Стар") },
+                new[] { new KeyboardButton("🐃 Динамо Минск"), new KeyboardButton("⚒️ Северсталь Череповец") },
+                new[] { new KeyboardButton("★ ЦСКА Москва"), new KeyboardButton("🐆 ХК Сочи") },
+                new[] { new KeyboardButton("🚂 Локомотив Ярославль"), new KeyboardButton("⭐ СКА Санкт-Петербург") },
+                new[] { new KeyboardButton("🔵 Динамо Москва"), new KeyboardButton("🚗 Лада Тольятти") },
+                new[] { new KeyboardButton("♦️ Спартак Москва") },
+                new[] { new KeyboardButton("🏠 В главное меню") }
             })
             {
                 ResizeKeyboard = true
@@ -110,19 +98,18 @@ namespace TelegramBOT.Handlers
         {
             return new ReplyKeyboardMarkup(new[]
             {
-                new[] { new KeyboardButton("🦅 Авангард Омск"), new KeyboardButton("🐯 Ак Барс Казань") },
-                new[] { new KeyboardButton("⛏️ Металлург Магнитогорск"), new KeyboardButton("🕌 Салават Юлаев Уфа") },
-                new[] { new KeyboardButton("🚘 Автомобилист Екатеринбург"), new KeyboardButton("🚜 Трактор Челябинск") },
-                new[] { new KeyboardButton("⚓ Адмирал Владивосток"), new KeyboardButton("❄️ Сибирь Новосибирск") },
-                new[] { new KeyboardButton("🐺 Нефтехимик Нижнекамск"), new KeyboardButton("🐅 Амур Хабаровск") },
-                new[] { new KeyboardButton("🚗 Лада Тольятти"), new KeyboardButton("🐉 Куньлунь Ред Стар") },
-                new[] { new KeyboardButton("⬅️ Назад") }
+                new[] { new KeyboardButton("🚘 Автомобилист Екатеринбург"), new KeyboardButton("🦅 Авангард Омск") },
+                new[] { new KeyboardButton("🚜 Трактор Челябинск"), new KeyboardButton("🐆 Барыс Астана") },
+                new[] { new KeyboardButton("⛏️ Металлург Магнитогорск"), new KeyboardButton("🐅 Амур Хабаровск") },
+                new[] { new KeyboardButton("🐯 Ак Барс Казань"), new KeyboardButton("⚓ Адмирал Владивосток") },
+                new[] { new KeyboardButton("🐺 Нефтехимик Нижнекамск"), new KeyboardButton("🕌 Салават Юлаев Уфа") },
+                new[] { new KeyboardButton("❄️ Сибирь Новосибирск") },
+                new[] { new KeyboardButton("🏠 В главное меню") }
             })
             {
                 ResizeKeyboard = true
             };
         }
-
 
     }
 }

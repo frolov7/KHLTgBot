@@ -146,7 +146,7 @@ namespace TelegramBOT.Services
         /// <summary>
         /// Отправить результаты матчей одним сообщением
         /// </summary>
-        public async Task SendResultsAsync(long chatId, List<Match> matches, DateTime? date = null)
+        public async Task SendResultsAsync(long chatId, List<Match> matches, DateTime? date = null, string teamName = null)
         {
             if (matches == null || matches.Count == 0)
             {
@@ -163,20 +163,43 @@ namespace TelegramBOT.Services
 
             foreach (var match in matches)
             {
-                // мапим названия команд и статус через словарь
                 var homeName = _mappingService.Map("TeamNames", match.HomeTeamName);
                 var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
-                var status = _mappingService.Map("MatchStatuses", match.Status);
 
-                sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
+                string statusText;
+                if (teamName != null && match.Status != "SCHEDULED")
+                {
+                    // определяем победителя
+                    bool isHome = match.HomeTeamName == teamName;
+                    int homeScore = match.HomeScore ?? 0;
+                    int awayScore = match.AwayScore ?? 0;
 
+                    bool isWin = (isHome && homeScore > awayScore) || (!isHome && awayScore > homeScore);
+
+                    // берём укороченный статус без "Завершён"
+                    var shortStatus = _mappingService.Map("MatchStatusesShort", match.Status);
+
+                    statusText = isWin
+                        ? $"🏆 Победа ({shortStatus})"
+                        : $"❌ Поражение ({shortStatus})";
+                }
+                else
+                    statusText = $"✅ {_mappingService.Map("MatchStatuses", match.Status)}";
+
+                // дата или время
+                if (date != null)
+                    sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
+                else
+                    sb.AppendLine($"📅 {match.MatchDate:dd.MM.yyyy}");
+
+                // счёт или анонс
                 if (match.Status != "SCHEDULED")
                     sb.AppendLine($"{homeName} <b>{match.HomeScore ?? 0} : {match.AwayScore ?? 0}</b> {awayName}");
                 else
                     sb.AppendLine($"{homeName} vs {awayName}");
 
-                sb.AppendLine($"✅ {status}");
-                sb.AppendLine(); // пустая строка между матчами
+                sb.AppendLine(statusText);
+                sb.AppendLine();
             }
 
             await SendTextAsync(chatId, sb.ToString());
