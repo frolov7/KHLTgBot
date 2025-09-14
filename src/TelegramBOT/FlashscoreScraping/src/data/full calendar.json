@@ -1,0 +1,8076 @@
+{
+  "SGa4hpto": {
+    "id": "SGa4hpto",
+    "date": "09.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "nmZxraaD": {
+    "id": "nmZxraaD",
+    "date": "09.09. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "vNVUqLU0": {
+    "id": "vNVUqLU0",
+    "date": "09.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "I7sMos0l": {
+    "id": "I7sMos0l",
+    "date": "09.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "rPsiGmYi": {
+    "id": "rPsiGmYi",
+    "date": "09.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "2eHP52iK": {
+    "id": "2eHP52iK",
+    "date": "10.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "bR2e0tFs": {
+    "id": "bR2e0tFs",
+    "date": "10.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "4vYebKqf": {
+    "id": "4vYebKqf",
+    "date": "11.09. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "C4y4dbE6": {
+    "id": "C4y4dbE6",
+    "date": "11.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "jkoaER24": {
+    "id": "jkoaER24",
+    "date": "11.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "0QHbIuyQ": {
+    "id": "0QHbIuyQ",
+    "date": "11.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "YJPCfxqJ": {
+    "id": "YJPCfxqJ",
+    "date": "11.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "IsbVCJbm": {
+    "id": "IsbVCJbm",
+    "date": "12.09. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "jedwBcTa": {
+    "id": "jedwBcTa",
+    "date": "12.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "fmgf7FSO": {
+    "id": "fmgf7FSO",
+    "date": "12.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "C4Z7C5XG": {
+    "id": "C4Z7C5XG",
+    "date": "12.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "nNkn9ybC": {
+    "id": "nNkn9ybC",
+    "date": "12.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "b1J4RIDt": {
+    "id": "b1J4RIDt",
+    "date": "13.09. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "bLXFAq2T": {
+    "id": "bLXFAq2T",
+    "date": "13.09. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "pIHCPdrg": {
+    "id": "pIHCPdrg",
+    "date": "14.09. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "AP2xKhCU": {
+    "id": "AP2xKhCU",
+    "date": "14.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "tpBLNzD5": {
+    "id": "tpBLNzD5",
+    "date": "14.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "pWdovdcn": {
+    "id": "pWdovdcn",
+    "date": "14.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "6oofxzSb": {
+    "id": "6oofxzSb",
+    "date": "14.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "Ec9TLEsI": {
+    "id": "Ec9TLEsI",
+    "date": "14.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "Aa1YSQHc": {
+    "id": "Aa1YSQHc",
+    "date": "15.09. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "8C6zI5tp": {
+    "id": "8C6zI5tp",
+    "date": "15.09. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "I5En5NPj": {
+    "id": "I5En5NPj",
+    "date": "15.09. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "EBl2zEdB": {
+    "id": "EBl2zEdB",
+    "date": "15.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "6RfsR4nA": {
+    "id": "6RfsR4nA",
+    "date": "15.09. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "tQ4rGqBd": {
+    "id": "tQ4rGqBd",
+    "date": "16.09. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "K89Nwm33": {
+    "id": "K89Nwm33",
+    "date": "16.09. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "SYCVyRXF": {
+    "id": "SYCVyRXF",
+    "date": "16.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "ll1vz52S": {
+    "id": "ll1vz52S",
+    "date": "16.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "EVpJSMf2": {
+    "id": "EVpJSMf2",
+    "date": "17.09. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "COckPrHM": {
+    "id": "COckPrHM",
+    "date": "17.09. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "2iRDl4HL": {
+    "id": "2iRDl4HL",
+    "date": "17.09. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "KWiAUrQk": {
+    "id": "KWiAUrQk",
+    "date": "17.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "6PX4jQn9": {
+    "id": "6PX4jQn9",
+    "date": "17.09. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "ddZLJMvp": {
+    "id": "ddZLJMvp",
+    "date": "18.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "fk6hsM9e": {
+    "id": "fk6hsM9e",
+    "date": "18.09. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "YZHqqruq": {
+    "id": "YZHqqruq",
+    "date": "18.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "C8c4wMOQ": {
+    "id": "C8c4wMOQ",
+    "date": "19.09. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "WhvyYanl": {
+    "id": "WhvyYanl",
+    "date": "19.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "SGJau0v8": {
+    "id": "SGJau0v8",
+    "date": "19.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "xjsqWwH0": {
+    "id": "xjsqWwH0",
+    "date": "19.09. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "8jiTgFwB": {
+    "id": "8jiTgFwB",
+    "date": "19.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "b5ViUHoD": {
+    "id": "b5ViUHoD",
+    "date": "20.09. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "KUKGu413": {
+    "id": "KUKGu413",
+    "date": "20.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "pd4Ana1s": {
+    "id": "pd4Ana1s",
+    "date": "21.09. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "I92IpwWg": {
+    "id": "I92IpwWg",
+    "date": "21.09. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "pxMRteVI": {
+    "id": "pxMRteVI",
+    "date": "21.09. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "QBNwhLwK": {
+    "id": "QBNwhLwK",
+    "date": "21.09. 16:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "xCIJrH06": {
+    "id": "xCIJrH06",
+    "date": "21.09. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "O6NwlCxn": {
+    "id": "O6NwlCxn",
+    "date": "22.09. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "CtZgpUyB": {
+    "id": "CtZgpUyB",
+    "date": "22.09. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "WWQonj7b": {
+    "id": "WWQonj7b",
+    "date": "22.09. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "belPyM0S": {
+    "id": "belPyM0S",
+    "date": "22.09. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "hrJOwrWF": {
+    "id": "hrJOwrWF",
+    "date": "22.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "pfX1r86N": {
+    "id": "pfX1r86N",
+    "date": "23.09. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "Wp6K0kMi": {
+    "id": "Wp6K0kMi",
+    "date": "23.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "4vEYxnUp": {
+    "id": "4vEYxnUp",
+    "date": "23.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "zqnpeojT": {
+    "id": "zqnpeojT",
+    "date": "24.09. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "WEXFkPDj": {
+    "id": "WEXFkPDj",
+    "date": "24.09. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "vHhyc7LG": {
+    "id": "vHhyc7LG",
+    "date": "24.09. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "h0fTbTj4": {
+    "id": "h0fTbTj4",
+    "date": "24.09. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "UwueWaOk": {
+    "id": "UwueWaOk",
+    "date": "24.09. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "jgT3Uwg2": {
+    "id": "jgT3Uwg2",
+    "date": "24.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "hKIAB6zA": {
+    "id": "hKIAB6zA",
+    "date": "25.09. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "nNF2DS5c": {
+    "id": "nNF2DS5c",
+    "date": "25.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "IaLkhso9": {
+    "id": "IaLkhso9",
+    "date": "25.09. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "AXxOZYUs": {
+    "id": "AXxOZYUs",
+    "date": "26.09. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "EZ6J9p5M": {
+    "id": "EZ6J9p5M",
+    "date": "26.09. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "royWXCaf": {
+    "id": "royWXCaf",
+    "date": "26.09. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "pIck4OSq": {
+    "id": "pIck4OSq",
+    "date": "27.09. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "tpib22cd": {
+    "id": "tpib22cd",
+    "date": "27.09. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "vDUvWjU6": {
+    "id": "vDUvWjU6",
+    "date": "27.09. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "YwvpQ5k3": {
+    "id": "YwvpQ5k3",
+    "date": "27.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "veadurfE": {
+    "id": "veadurfE",
+    "date": "27.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "jPNRgvs4": {
+    "id": "jPNRgvs4",
+    "date": "28.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "nwYnUUbJ": {
+    "id": "nwYnUUbJ",
+    "date": "28.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "nHChMNlS": {
+    "id": "nHChMNlS",
+    "date": "29.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "vFiXEus2": {
+    "id": "vFiXEus2",
+    "date": "29.09. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "vyq3WKum": {
+    "id": "vyq3WKum",
+    "date": "29.09. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "WllPG1Ck": {
+    "id": "WllPG1Ck",
+    "date": "29.09. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "U1cXysIP": {
+    "id": "U1cXysIP",
+    "date": "29.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "vi9pOqKF": {
+    "id": "vi9pOqKF",
+    "date": "29.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "OtdiKzJs": {
+    "id": "OtdiKzJs",
+    "date": "30.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "hfZJxqZ8": {
+    "id": "hfZJxqZ8",
+    "date": "30.09. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "SYh8GhI6": {
+    "id": "SYh8GhI6",
+    "date": "01.10. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "K8k0IEmf": {
+    "id": "K8k0IEmf",
+    "date": "01.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "llsHEWnJ": {
+    "id": "llsHEWnJ",
+    "date": "01.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "z3xCUbAa": {
+    "id": "z3xCUbAa",
+    "date": "01.10. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "4rUSQG9O": {
+    "id": "4rUSQG9O",
+    "date": "01.10. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "ry8iuPs1": {
+    "id": "ry8iuPs1",
+    "date": "01.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "foU2xzuQ": {
+    "id": "foU2xzuQ",
+    "date": "02.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "EVAZWD2m": {
+    "id": "EVAZWD2m",
+    "date": "02.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "nclGqing": {
+    "id": "nclGqing",
+    "date": "03.10. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "zJKcR9WO": {
+    "id": "zJKcR9WO",
+    "date": "03.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "vXp8oDHt": {
+    "id": "vXp8oDHt",
+    "date": "03.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "rPsPsVG5": {
+    "id": "rPsPsVG5",
+    "date": "03.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "nq9sViXa": {
+    "id": "nq9sViXa",
+    "date": "03.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "rB2jTV1C": {
+    "id": "rB2jTV1C",
+    "date": "03.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "GxtXu9oI": {
+    "id": "GxtXu9oI",
+    "date": "04.10. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "vkOyoKft": {
+    "id": "vkOyoKft",
+    "date": "04.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "04CpqbPh": {
+    "id": "04CpqbPh",
+    "date": "05.10. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "Q3yrbj1n": {
+    "id": "Q3yrbj1n",
+    "date": "05.10. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "pE7wmQho": {
+    "id": "pE7wmQho",
+    "date": "05.10. 16:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "lrM7hnVN": {
+    "id": "lrM7hnVN",
+    "date": "05.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "fqTbf80B": {
+    "id": "fqTbf80B",
+    "date": "05.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "nJPjdUVb": {
+    "id": "nJPjdUVb",
+    "date": "05.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "zudYwmGU": {
+    "id": "zudYwmGU",
+    "date": "05.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "2kxOfxCi": {
+    "id": "2kxOfxCi",
+    "date": "06.10. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "AFuWhGt4": {
+    "id": "AFuWhGt4",
+    "date": "06.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "8UFhsxf5": {
+    "id": "8UFhsxf5",
+    "date": "06.10. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "bcaKWPP1": {
+    "id": "bcaKWPP1",
+    "date": "07.10. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "xA79wfgU": {
+    "id": "xA79wfgU",
+    "date": "07.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "2V5BYoek": {
+    "id": "2V5BYoek",
+    "date": "07.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "WUTvifBG": {
+    "id": "WUTvifBG",
+    "date": "07.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "4d91uGOH": {
+    "id": "4d91uGOH",
+    "date": "07.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "jin6fTH8": {
+    "id": "jin6fTH8",
+    "date": "08.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "nJuFh7nL": {
+    "id": "nJuFh7nL",
+    "date": "08.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "ny3Key9b": {
+    "id": "ny3Key9b",
+    "date": "09.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "xlKgoPve": {
+    "id": "xlKgoPve",
+    "date": "09.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "GYVpmoAr": {
+    "id": "GYVpmoAr",
+    "date": "09.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "vBaCccvn": {
+    "id": "vBaCccvn",
+    "date": "09.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "0M5l761E": {
+    "id": "0M5l761E",
+    "date": "10.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "pEN1q397": {
+    "id": "pEN1q397",
+    "date": "10.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "Gf7LaOgl": {
+    "id": "Gf7LaOgl",
+    "date": "10.10. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "OKATc2O0": {
+    "id": "OKATc2O0",
+    "date": "10.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "YZ3d5pWQ": {
+    "id": "YZ3d5pWQ",
+    "date": "10.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "pzaxdtgD": {
+    "id": "pzaxdtgD",
+    "date": "11.10. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "4MxUH09d": {
+    "id": "4MxUH09d",
+    "date": "11.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "CtiOJqoK": {
+    "id": "CtiOJqoK",
+    "date": "12.10. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "G8nfEN8s": {
+    "id": "G8nfEN8s",
+    "date": "12.10. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "GGfyhg8N": {
+    "id": "GGfyhg8N",
+    "date": "12.10. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "lMp2C1wf": {
+    "id": "lMp2C1wf",
+    "date": "12.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "hEsJ8JxJ": {
+    "id": "hEsJ8JxJ",
+    "date": "13.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "plvBAu86": {
+    "id": "plvBAu86",
+    "date": "13.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "Y9K5WMUP": {
+    "id": "Y9K5WMUP",
+    "date": "14.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "rq6yR0hm": {
+    "id": "rq6yR0hm",
+    "date": "14.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "YXz8nXVp": {
+    "id": "YXz8nXVp",
+    "date": "14.10. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "QRNgAzOi": {
+    "id": "QRNgAzOi",
+    "date": "14.10. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "MZpjnOy2": {
+    "id": "MZpjnOy2",
+    "date": "14.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "6PFQ4Ayo": {
+    "id": "6PFQ4Ayo",
+    "date": "15.10. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "vBapPvNa": {
+    "id": "vBapPvNa",
+    "date": "15.10. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "W27CSDTi": {
+    "id": "W27CSDTi",
+    "date": "15.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "hIeLQib4": {
+    "id": "hIeLQib4",
+    "date": "15.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "COchNIiC": {
+    "id": "COchNIiC",
+    "date": "15.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "dAhxN9cT": {
+    "id": "dAhxN9cT",
+    "date": "16.10. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "0raTOVSG": {
+    "id": "0raTOVSG",
+    "date": "16.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "UJKA6hNG": {
+    "id": "UJKA6hNG",
+    "date": "16.10. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "MgH28Eh4": {
+    "id": "MgH28Eh4",
+    "date": "16.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "htv8HmLj": {
+    "id": "htv8HmLj",
+    "date": "17.10. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "Qa1fwVsA": {
+    "id": "Qa1fwVsA",
+    "date": "17.10. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "nFk3y9CM": {
+    "id": "nFk3y9CM",
+    "date": "17.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "l8Xrlp7k": {
+    "id": "l8Xrlp7k",
+    "date": "17.10. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "IZcnuiDc": {
+    "id": "IZcnuiDc",
+    "date": "17.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "IctZVnzp": {
+    "id": "IctZVnzp",
+    "date": "18.10. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "xrTxART8": {
+    "id": "xrTxART8",
+    "date": "18.10. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "CdZsUQ4d": {
+    "id": "CdZsUQ4d",
+    "date": "18.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "8rJplndS": {
+    "id": "8rJplndS",
+    "date": "19.10. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "0IFxj8RF": {
+    "id": "0IFxj8RF",
+    "date": "19.10. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "4jMTiUd3": {
+    "id": "4jMTiUd3",
+    "date": "19.10. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "hGfHrQJk": {
+    "id": "hGfHrQJk",
+    "date": "19.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "AeRp85bL": {
+    "id": "AeRp85bL",
+    "date": "20.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "vXhPt4l2": {
+    "id": "vXhPt4l2",
+    "date": "20.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "nwGjcPYr": {
+    "id": "nwGjcPYr",
+    "date": "21.10. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "fuyC47t9": {
+    "id": "fuyC47t9",
+    "date": "21.10. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "ShZJ2oBL": {
+    "id": "ShZJ2oBL",
+    "date": "21.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "Uu8H2qMr": {
+    "id": "Uu8H2qMr",
+    "date": "21.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "zwBP0Nje": {
+    "id": "zwBP0Nje",
+    "date": "22.10. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "voYce33e": {
+    "id": "voYce33e",
+    "date": "22.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "00M6gsY7": {
+    "id": "00M6gsY7",
+    "date": "22.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "S6EhHpQE": {
+    "id": "S6EhHpQE",
+    "date": "22.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "M7WQbxAm": {
+    "id": "M7WQbxAm",
+    "date": "23.10. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "ENpzef9C": {
+    "id": "ENpzef9C",
+    "date": "23.10. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "MmlrgYwP": {
+    "id": "MmlrgYwP",
+    "date": "23.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "SU0jcpjt": {
+    "id": "SU0jcpjt",
+    "date": "23.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "fLUYdGv0": {
+    "id": "fLUYdGv0",
+    "date": "23.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "ObiKM4DE": {
+    "id": "ObiKM4DE",
+    "date": "24.10. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "ze4beOKh": {
+    "id": "ze4beOKh",
+    "date": "24.10. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "dhaYb1L7": {
+    "id": "dhaYb1L7",
+    "date": "24.10. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "Ugc7g2k5": {
+    "id": "Ugc7g2k5",
+    "date": "24.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "27eFitKH": {
+    "id": "27eFitKH",
+    "date": "25.10. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "bZlOkKlU": {
+    "id": "bZlOkKlU",
+    "date": "25.10. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "lbUX9NZo": {
+    "id": "lbUX9NZo",
+    "date": "25.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "KQpTKrrR": {
+    "id": "KQpTKrrR",
+    "date": "26.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "ADIt814b": {
+    "id": "ADIt814b",
+    "date": "26.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "ruWm6uZA": {
+    "id": "ruWm6uZA",
+    "date": "26.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "v7Pd4J3N": {
+    "id": "v7Pd4J3N",
+    "date": "26.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "zwBSbcRp": {
+    "id": "zwBSbcRp",
+    "date": "27.10. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "jogFM0Ji": {
+    "id": "jogFM0Ji",
+    "date": "27.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "GdWbFM5l": {
+    "id": "GdWbFM5l",
+    "date": "27.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "QNmvHdmT": {
+    "id": "QNmvHdmT",
+    "date": "28.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "p8UABzBj": {
+    "id": "p8UABzBj",
+    "date": "28.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "IcpWIIIG": {
+    "id": "IcpWIIIG",
+    "date": "28.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "zan0D0z1": {
+    "id": "zan0D0z1",
+    "date": "28.10. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "rPk8Bv5D": {
+    "id": "rPk8Bv5D",
+    "date": "28.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "drdNKvl4": {
+    "id": "drdNKvl4",
+    "date": "28.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "OKSfZscK": {
+    "id": "OKSfZscK",
+    "date": "29.10. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "d4XcXHX9": {
+    "id": "d4XcXHX9",
+    "date": "29.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "23aVE9Hr": {
+    "id": "23aVE9Hr",
+    "date": "29.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "x2HdZw3c": {
+    "id": "x2HdZw3c",
+    "date": "29.10. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "OImvDmne": {
+    "id": "OImvDmne",
+    "date": "30.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "WrinBRG7": {
+    "id": "WrinBRG7",
+    "date": "30.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "f3JQTLKs": {
+    "id": "f3JQTLKs",
+    "date": "30.10. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "4nntX8wR": {
+    "id": "4nntX8wR",
+    "date": "31.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "zDRYRakf": {
+    "id": "zDRYRakf",
+    "date": "31.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "WYmYYU8E": {
+    "id": "WYmYYU8E",
+    "date": "31.10. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "OWSCRn1l": {
+    "id": "OWSCRn1l",
+    "date": "31.10. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "b97Fo8hK": {
+    "id": "b97Fo8hK",
+    "date": "01.11. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "hCKTN40D": {
+    "id": "hCKTN40D",
+    "date": "01.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "8QPtQwK6": {
+    "id": "8QPtQwK6",
+    "date": "01.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "WdWKPQV0": {
+    "id": "WdWKPQV0",
+    "date": "01.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "hWrBzrpJ": {
+    "id": "hWrBzrpJ",
+    "date": "02.11. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "IglntnGs": {
+    "id": "IglntnGs",
+    "date": "02.11. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "nZu3x4F6": {
+    "id": "nZu3x4F6",
+    "date": "02.11. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "j7nfvQpf": {
+    "id": "j7nfvQpf",
+    "date": "02.11. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "YRLcboxQ": {
+    "id": "YRLcboxQ",
+    "date": "02.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "WbBynLtQ": {
+    "id": "WbBynLtQ",
+    "date": "03.11. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "GWn8ta4m": {
+    "id": "GWn8ta4m",
+    "date": "03.11. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "4hJkOHlJ": {
+    "id": "4hJkOHlJ",
+    "date": "03.11. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "0x6xi3Ua": {
+    "id": "0x6xi3Ua",
+    "date": "04.11. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "4ACThPam": {
+    "id": "4ACThPam",
+    "date": "04.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "Yk4pksaC": {
+    "id": "Yk4pksaC",
+    "date": "04.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "v3ZpmLTO": {
+    "id": "v3ZpmLTO",
+    "date": "05.11. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "UREf7OEt": {
+    "id": "UREf7OEt",
+    "date": "05.11. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "js3352qg": {
+    "id": "js3352qg",
+    "date": "05.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "bFvPxH3C": {
+    "id": "bFvPxH3C",
+    "date": "05.11. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "OhMiqCSj": {
+    "id": "OhMiqCSj",
+    "date": "06.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "U11dK8mo": {
+    "id": "U11dK8mo",
+    "date": "06.11. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "h6aK1KrI": {
+    "id": "h6aK1KrI",
+    "date": "06.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "b76B3tE5": {
+    "id": "b76B3tE5",
+    "date": "06.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "2moGvwZa": {
+    "id": "2moGvwZa",
+    "date": "06.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "v14v7FKc": {
+    "id": "v14v7FKc",
+    "date": "06.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "nR7n5gkA": {
+    "id": "nR7n5gkA",
+    "date": "07.11. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "IFsRcBsp": {
+    "id": "IFsRcBsp",
+    "date": "07.11. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "pAqqrCuh": {
+    "id": "pAqqrCuh",
+    "date": "07.11. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "8tde3XJM": {
+    "id": "8tde3XJM",
+    "date": "07.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "6yOLJh43": {
+    "id": "6yOLJh43",
+    "date": "08.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "23HUHWYF": {
+    "id": "23HUHWYF",
+    "date": "08.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "EsyzdkCd": {
+    "id": "EsyzdkCd",
+    "date": "08.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "j7nitjA4": {
+    "id": "j7nitjA4",
+    "date": "08.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "CMz0vUvH": {
+    "id": "CMz0vUvH",
+    "date": "08.11. 17:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "fBZyGA3S": {
+    "id": "fBZyGA3S",
+    "date": "09.11. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "vqB8AlRk": {
+    "id": "vqB8AlRk",
+    "date": "09.11. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "Knv8x89T": {
+    "id": "Knv8x89T",
+    "date": "09.11. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "KIpY8d7r": {
+    "id": "KIpY8d7r",
+    "date": "10.11. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "Srlt7zxe": {
+    "id": "Srlt7zxe",
+    "date": "10.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "xbs9EIqL": {
+    "id": "xbs9EIqL",
+    "date": "10.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "4pq1GvF8": {
+    "id": "4pq1GvF8",
+    "date": "10.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "vXKvXoXj": {
+    "id": "vXKvXoXj",
+    "date": "10.11. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "lbxk5E67": {
+    "id": "lbxk5E67",
+    "date": "10.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "WQ7QfkPc": {
+    "id": "WQ7QfkPc",
+    "date": "10.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "n9EG8Se2": {
+    "id": "n9EG8Se2",
+    "date": "10.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "G4UzTHbE": {
+    "id": "G4UzTHbE",
+    "date": "11.11. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "A3NqReTQ": {
+    "id": "A3NqReTQ",
+    "date": "11.11. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "ld7rP8ct": {
+    "id": "ld7rP8ct",
+    "date": "12.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "212OJDL0": {
+    "id": "212OJDL0",
+    "date": "12.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "AR5WHijD": {
+    "id": "AR5WHijD",
+    "date": "12.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "xvwRhTgA": {
+    "id": "xvwRhTgA",
+    "date": "12.11. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "6Z8FLZjl": {
+    "id": "6Z8FLZjl",
+    "date": "12.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "MNKkNnSh": {
+    "id": "MNKkNnSh",
+    "date": "13.11. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "IkEbLQd5": {
+    "id": "IkEbLQd5",
+    "date": "13.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "nV5FHrdU": {
+    "id": "nV5FHrdU",
+    "date": "14.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "j3C6J4RH": {
+    "id": "j3C6J4RH",
+    "date": "14.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "zRpPynsn": {
+    "id": "zRpPynsn",
+    "date": "15.11. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "UyI5oonp": {
+    "id": "UyI5oonp",
+    "date": "15.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "p4tZj7OM": {
+    "id": "p4tZj7OM",
+    "date": "15.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "46xtY3tB": {
+    "id": "46xtY3tB",
+    "date": "16.11. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "dtZXZPBb": {
+    "id": "dtZXZPBb",
+    "date": "16.11. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "0YVlWsBN": {
+    "id": "0YVlWsBN",
+    "date": "16.11. 16:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "x2LDqPGd": {
+    "id": "x2LDqPGd",
+    "date": "16.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "d4HKQLYp": {
+    "id": "d4HKQLYp",
+    "date": "16.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "zmMalPQi": {
+    "id": "zmMalPQi",
+    "date": "16.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "rDP7n3e4": {
+    "id": "rDP7n3e4",
+    "date": "16.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "hAkbiyz3": {
+    "id": "hAkbiyz3",
+    "date": "17.11. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "4SDGpsQG": {
+    "id": "4SDGpsQG",
+    "date": "17.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "QNm6kF4F": {
+    "id": "QNm6kF4F",
+    "date": "17.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "ChHOrLfT": {
+    "id": "ChHOrLfT",
+    "date": "18.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "dvYTibXq": {
+    "id": "dvYTibXq",
+    "date": "18.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "C6dccK9M": {
+    "id": "C6dccK9M",
+    "date": "18.11. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "GKCfwaIj": {
+    "id": "GKCfwaIj",
+    "date": "18.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "MksFmgZR": {
+    "id": "MksFmgZR",
+    "date": "18.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "4tgkatuA": {
+    "id": "4tgkatuA",
+    "date": "18.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "8Eat12Ac": {
+    "id": "8Eat12Ac",
+    "date": "18.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "hYXprXdk": {
+    "id": "hYXprXdk",
+    "date": "19.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "reWyjx2d": {
+    "id": "reWyjx2d",
+    "date": "19.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "b3EODuf3": {
+    "id": "b3EODuf3",
+    "date": "20.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "WGCWBJOF": {
+    "id": "WGCWBJOF",
+    "date": "20.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "WEXCikw1": {
+    "id": "WEXCikw1",
+    "date": "20.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "hULLkT7D": {
+    "id": "hULLkT7D",
+    "date": "20.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "EmMgtBR1": {
+    "id": "EmMgtBR1",
+    "date": "20.11. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "QHU4gB8l": {
+    "id": "QHU4gB8l",
+    "date": "20.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "Kp9u4EJ8": {
+    "id": "Kp9u4EJ8",
+    "date": "21.11. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "KzE7DWaK": {
+    "id": "KzE7DWaK",
+    "date": "21.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "CYhn6lhf": {
+    "id": "CYhn6lhf",
+    "date": "22.11. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "IoOn4SM6": {
+    "id": "IoOn4SM6",
+    "date": "22.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "vLfv8ANs": {
+    "id": "vLfv8ANs",
+    "date": "22.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "GC2l2hlL": {
+    "id": "GC2l2hlL",
+    "date": "22.11. 17:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "QBRf26iJ": {
+    "id": "QBRf26iJ",
+    "date": "23.11. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "CrlKdWBr": {
+    "id": "CrlKdWBr",
+    "date": "23.11. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "674sQ9qQ": {
+    "id": "674sQ9qQ",
+    "date": "23.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "8AsTfAte": {
+    "id": "8AsTfAte",
+    "date": "23.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "42nUG56C": {
+    "id": "42nUG56C",
+    "date": "24.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "WllMIRy0": {
+    "id": "WllMIRy0",
+    "date": "24.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "xjeDKm7m": {
+    "id": "xjeDKm7m",
+    "date": "24.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "C89eXQjg": {
+    "id": "C89eXQjg",
+    "date": "25.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "jgLnZnMt": {
+    "id": "jgLnZnMt",
+    "date": "25.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "0UuwFqyP": {
+    "id": "0UuwFqyP",
+    "date": "25.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "S4aKRMKU": {
+    "id": "S4aKRMKU",
+    "date": "26.11. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "0IazglB7": {
+    "id": "0IazglB7",
+    "date": "26.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "fi1CTrjI": {
+    "id": "fi1CTrjI",
+    "date": "26.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "bP73V4L5": {
+    "id": "bP73V4L5",
+    "date": "26.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "06ZZTC1b": {
+    "id": "06ZZTC1b",
+    "date": "27.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "tExNGi3E": {
+    "id": "tExNGi3E",
+    "date": "27.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "MLNrSjWA": {
+    "id": "MLNrSjWA",
+    "date": "27.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "8bHSVYWo": {
+    "id": "8bHSVYWo",
+    "date": "27.11. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "GtWAVPx3": {
+    "id": "GtWAVPx3",
+    "date": "28.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "SKkG9rGq": {
+    "id": "SKkG9rGq",
+    "date": "28.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "OnqP7Mpd": {
+    "id": "OnqP7Mpd",
+    "date": "28.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "nD4fbqmm": {
+    "id": "nD4fbqmm",
+    "date": "28.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "rub3dNHa": {
+    "id": "rub3dNHa",
+    "date": "28.11. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "zqnCT37F": {
+    "id": "zqnCT37F",
+    "date": "29.11. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "GhdBf1nC": {
+    "id": "GhdBf1nC",
+    "date": "29.11. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "r9kKRsxS": {
+    "id": "r9kKRsxS",
+    "date": "29.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "StRjMLak": {
+    "id": "StRjMLak",
+    "date": "30.11. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "zeCChuHO": {
+    "id": "zeCChuHO",
+    "date": "30.11. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "QJiMCr2t": {
+    "id": "QJiMCr2t",
+    "date": "30.11. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "nZuVAMWh": {
+    "id": "nZuVAMWh",
+    "date": "01.12. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "lnCor3M8": {
+    "id": "lnCor3M8",
+    "date": "01.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "z7UbKaU1": {
+    "id": "z7UbKaU1",
+    "date": "01.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "MaAgtsiL": {
+    "id": "MaAgtsiL",
+    "date": "01.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "faqw9015": {
+    "id": "faqw9015",
+    "date": "02.12. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "tpiQzLEr": {
+    "id": "tpiQzLEr",
+    "date": "02.12. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "lAfYYbqe": {
+    "id": "lAfYYbqe",
+    "date": "02.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "fVP6mbbl": {
+    "id": "fVP6mbbl",
+    "date": "03.12. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "bavygKzR": {
+    "id": "bavygKzR",
+    "date": "03.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "jcJFoxT0": {
+    "id": "jcJFoxT0",
+    "date": "03.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "APrsXxE7": {
+    "id": "APrsXxE7",
+    "date": "03.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "2XpSft6E": {
+    "id": "2XpSft6E",
+    "date": "03.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "lbxn7vWH": {
+    "id": "lbxn7vWH",
+    "date": "03.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "xjaA7JkK": {
+    "id": "xjaA7JkK",
+    "date": "04.12. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "8Ykt2cDs": {
+    "id": "8Ykt2cDs",
+    "date": "04.12. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "dfMNqGcD": {
+    "id": "dfMNqGcD",
+    "date": "04.12. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "xEscbFC6": {
+    "id": "xEscbFC6",
+    "date": "05.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "40qk0yrf": {
+    "id": "40qk0yrf",
+    "date": "05.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "0x64PLon": {
+    "id": "0x64PLon",
+    "date": "05.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "IisyjdtT": {
+    "id": "IisyjdtT",
+    "date": "05.12. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "MeE93Aln": {
+    "id": "MeE93Aln",
+    "date": "05.12. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "dGcbdgsJ": {
+    "id": "dGcbdgsJ",
+    "date": "05.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "MBzf5I0U": {
+    "id": "MBzf5I0U",
+    "date": "05.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "UHcLLwoB": {
+    "id": "UHcLLwoB",
+    "date": "06.12. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "829CNaGb": {
+    "id": "829CNaGb",
+    "date": "06.12. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "GpECm2hB": {
+    "id": "GpECm2hB",
+    "date": "07.12. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "ENvoxaVi": {
+    "id": "ENvoxaVi",
+    "date": "07.12. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "AkYgzw04": {
+    "id": "AkYgzw04",
+    "date": "07.12. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "MTiaEewo": {
+    "id": "MTiaEewo",
+    "date": "07.12. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "2PI7pz4j": {
+    "id": "2PI7pz4j",
+    "date": "07.12. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "Gny2YGUG": {
+    "id": "Gny2YGUG",
+    "date": "07.12. 16:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "2qBSJHFN": {
+    "id": "2qBSJHFN",
+    "date": "07.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "OhbTlxFc": {
+    "id": "OhbTlxFc",
+    "date": "16.12. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "AuJ16HQ9": {
+    "id": "AuJ16HQ9",
+    "date": "16.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "d6dymGqA": {
+    "id": "d6dymGqA",
+    "date": "16.12. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "8pGtRYMj": {
+    "id": "8pGtRYMj",
+    "date": "16.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "UVAg8wdc": {
+    "id": "UVAg8wdc",
+    "date": "16.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "Esy2U7Tr": {
+    "id": "Esy2U7Tr",
+    "date": "16.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "x2PAWfaT": {
+    "id": "x2PAWfaT",
+    "date": "16.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "rgH94eeM": {
+    "id": "rgH94eeM",
+    "date": "16.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "M7vASobe": {
+    "id": "M7vASobe",
+    "date": "17.12. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "rNSIQPS7": {
+    "id": "rNSIQPS7",
+    "date": "17.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "A31lcDmd": {
+    "id": "A31lcDmd",
+    "date": "18.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "n9ErsoDl": {
+    "id": "n9ErsoDl",
+    "date": "18.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "jwTCn7kR": {
+    "id": "jwTCn7kR",
+    "date": "18.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "ATK4lTKE": {
+    "id": "ATK4lTKE",
+    "date": "18.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "2wbtaZIq": {
+    "id": "2wbtaZIq",
+    "date": "18.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "KtoH4uBC": {
+    "id": "KtoH4uBC",
+    "date": "18.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "j1Baw3CD": {
+    "id": "j1Baw3CD",
+    "date": "19.12. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "Wdln164K": {
+    "id": "Wdln164K",
+    "date": "19.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "javyLGu3": {
+    "id": "javyLGu3",
+    "date": "19.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "tWZHepSs": {
+    "id": "tWZHepSs",
+    "date": "20.12. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "ABRYi2R6": {
+    "id": "ABRYi2R6",
+    "date": "20.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "xbTQgOdf": {
+    "id": "xbTQgOdf",
+    "date": "20.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "WGCTDqlQ": {
+    "id": "WGCTDqlQ",
+    "date": "21.12. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "xGxqJfAF": {
+    "id": "xGxqJfAF",
+    "date": "21.12. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "6wLsjtdJ": {
+    "id": "6wLsjtdJ",
+    "date": "21.12. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "Gll08NBm": {
+    "id": "Gll08NBm",
+    "date": "21.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "WGfH0nfl": {
+    "id": "WGfH0nfl",
+    "date": "21.12. 17:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "OEi861t0": {
+    "id": "OEi861t0",
+    "date": "22.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "4UhPbQO0": {
+    "id": "4UhPbQO0",
+    "date": "22.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "jatX49Mh": {
+    "id": "jatX49Mh",
+    "date": "23.12. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "KvYm1RLH": {
+    "id": "KvYm1RLH",
+    "date": "23.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "QZwKK7oK": {
+    "id": "QZwKK7oK",
+    "date": "23.12. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "hfqP2JuP": {
+    "id": "hfqP2JuP",
+    "date": "23.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "CEUu3mi5": {
+    "id": "CEUu3mi5",
+    "date": "23.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "rZxP6Vit": {
+    "id": "rZxP6Vit",
+    "date": "23.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "0dnYd4gD": {
+    "id": "0dnYd4gD",
+    "date": "23.12. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "CCkMrJ5j": {
+    "id": "CCkMrJ5j",
+    "date": "24.12. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "A7FjFo9s": {
+    "id": "A7FjFo9s",
+    "date": "24.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "vm93edkd": {
+    "id": "vm93edkd",
+    "date": "25.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "IXIbDPwf": {
+    "id": "IXIbDPwf",
+    "date": "25.12. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "8bZO2vcM": {
+    "id": "8bZO2vcM",
+    "date": "25.12. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "hWAecIKq": {
+    "id": "hWAecIKq",
+    "date": "25.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "46x86Mcc": {
+    "id": "46x86Mcc",
+    "date": "25.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "0YVG40S9": {
+    "id": "0YVG40S9",
+    "date": "25.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "S8kbHwCF": {
+    "id": "S8kbHwCF",
+    "date": "26.12. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "feijJas3": {
+    "id": "feijJas3",
+    "date": "26.12. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "EaC7B386": {
+    "id": "EaC7B386",
+    "date": "26.12. 17:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "nDAF9swJ": {
+    "id": "nDAF9swJ",
+    "date": "26.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "C6UgXpVP": {
+    "id": "C6UgXpVP",
+    "date": "27.12. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "Ozq7FHtS": {
+    "id": "Ozq7FHtS",
+    "date": "27.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "vNPCMYme": {
+    "id": "vNPCMYme",
+    "date": "28.12. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "SMUWVxR8": {
+    "id": "SMUWVxR8",
+    "date": "28.12. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "KK9BOfJr": {
+    "id": "KK9BOfJr",
+    "date": "28.12. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "v1lxAe4k": {
+    "id": "v1lxAe4k",
+    "date": "28.12. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "0Gxo8ZY1": {
+    "id": "0Gxo8ZY1",
+    "date": "28.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "OlOuUGeL": {
+    "id": "OlOuUGeL",
+    "date": "28.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "rkLPROhm": {
+    "id": "rkLPROhm",
+    "date": "28.12. 17:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "nmTKKCI7": {
+    "id": "nmTKKCI7",
+    "date": "29.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "Sr67rGAE": {
+    "id": "Sr67rGAE",
+    "date": "30.12. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "449YP2Na": {
+    "id": "449YP2Na",
+    "date": "30.12. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "CUCtOthC": {
+    "id": "CUCtOthC",
+    "date": "30.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "M5s3Xk2D": {
+    "id": "M5s3Xk2D",
+    "date": "30.12. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "hQknyY2l": {
+    "id": "hQknyY2l",
+    "date": "30.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "QwlfZBX0": {
+    "id": "QwlfZBX0",
+    "date": "30.12. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "z99FtfuR": {
+    "id": "z99FtfuR",
+    "date": "30.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "6T5kMKMO": {
+    "id": "6T5kMKMO",
+    "date": "30.12. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "nobEv79t": {
+    "id": "nobEv79t",
+    "date": "03.01. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "80nNxovg": {
+    "id": "80nNxovg",
+    "date": "03.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "MutatO7t": {
+    "id": "MutatO7t",
+    "date": "03.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "tSaUzP85": {
+    "id": "tSaUzP85",
+    "date": "03.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "lYMeipgn": {
+    "id": "lYMeipgn",
+    "date": "04.01. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "I7Z7v2xg": {
+    "id": "I7Z7v2xg",
+    "date": "04.01. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "A7ioXt8U": {
+    "id": "A7ioXt8U",
+    "date": "04.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "fVP3kONb": {
+    "id": "fVP3kONb",
+    "date": "04.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "xfgwZ2wI": {
+    "id": "xfgwZ2wI",
+    "date": "04.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "rebitKpo": {
+    "id": "rebitKpo",
+    "date": "05.01. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "QXxGxt75": {
+    "id": "QXxGxt75",
+    "date": "05.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "OAHKotNN": {
+    "id": "OAHKotNN",
+    "date": "05.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "2H4n0uxH": {
+    "id": "2H4n0uxH",
+    "date": "06.01. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "fFqRhcUj": {
+    "id": "fFqRhcUj",
+    "date": "06.01. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "OWhebJ6T": {
+    "id": "OWhebJ6T",
+    "date": "06.01. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "zkow4Nxh": {
+    "id": "zkow4Nxh",
+    "date": "06.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "fi1v2174": {
+    "id": "fi1v2174",
+    "date": "06.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "Y3PWYc6U": {
+    "id": "Y3PWYc6U",
+    "date": "06.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "nmROzKyI": {
+    "id": "nmROzKyI",
+    "date": "06.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "CUfsg1in": {
+    "id": "CUfsg1in",
+    "date": "07.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "f5tDG0Mc": {
+    "id": "f5tDG0Mc",
+    "date": "07.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "SIvLEviA": {
+    "id": "SIvLEviA",
+    "date": "07.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "fTOa7dqp": {
+    "id": "fTOa7dqp",
+    "date": "08.01. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "GrD85zEd": {
+    "id": "GrD85zEd",
+    "date": "08.01. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "Mu0fTw63": {
+    "id": "Mu0fTw63",
+    "date": "08.01. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "OpYTCILM": {
+    "id": "OpYTCILM",
+    "date": "08.01. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "tAnbkJjB": {
+    "id": "tAnbkJjB",
+    "date": "08.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "prgkiuMb": {
+    "id": "prgkiuMb",
+    "date": "08.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "I7g3RHzG": {
+    "id": "I7g3RHzG",
+    "date": "09.01. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "WjTUWAzp": {
+    "id": "WjTUWAzp",
+    "date": "09.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "lfGz99Kl": {
+    "id": "lfGz99Kl",
+    "date": "09.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "pM9q7mk1": {
+    "id": "pM9q7mk1",
+    "date": "10.01. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "jJCi5RJD": {
+    "id": "jJCi5RJD",
+    "date": "10.01. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "h6HwVl5d": {
+    "id": "h6HwVl5d",
+    "date": "10.01. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "YsxxDwwK": {
+    "id": "YsxxDwwK",
+    "date": "10.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "0hMG5eVg": {
+    "id": "0hMG5eVg",
+    "date": "11.01. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "4QS77H0s": {
+    "id": "4QS77H0s",
+    "date": "11.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "lh1tkAdS": {
+    "id": "lh1tkAdS",
+    "date": "12.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "Y5KO3Za6": {
+    "id": "Y5KO3Za6",
+    "date": "12.01. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "Gv3YjWRF": {
+    "id": "Gv3YjWRF",
+    "date": "12.01. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "vJkP1DUI": {
+    "id": "vJkP1DUI",
+    "date": "12.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "KC9Phhc3": {
+    "id": "KC9Phhc3",
+    "date": "12.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "jcJsKfpm": {
+    "id": "jcJsKfpm",
+    "date": "13.01. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "bNMkIYEa": {
+    "id": "bNMkIYEa",
+    "date": "13.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "6PsBPGMP": {
+    "id": "6PsBPGMP",
+    "date": "13.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "hMFbGCqC": {
+    "id": "hMFbGCqC",
+    "date": "14.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "QZD6EjEO": {
+    "id": "QZD6EjEO",
+    "date": "14.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "40qHYgat": {
+    "id": "40qHYgat",
+    "date": "14.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "CQnPWXTh": {
+    "id": "CQnPWXTh",
+    "date": "14.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "WC45qlKk": {
+    "id": "WC45qlKk",
+    "date": "14.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "KdZuTkTH": {
+    "id": "KdZuTkTH",
+    "date": "15.01. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "GOSlRTcU": {
+    "id": "GOSlRTcU",
+    "date": "15.01. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "vw8DsSl2": {
+    "id": "vw8DsSl2",
+    "date": "15.01. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "YuyYUBb5": {
+    "id": "YuyYUBb5",
+    "date": "15.01. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "KYp05Vt9": {
+    "id": "KYp05Vt9",
+    "date": "15.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "Wz3boXrn": {
+    "id": "Wz3boXrn",
+    "date": "16.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "2XCsoOl3": {
+    "id": "2XCsoOl3",
+    "date": "17.01. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "nPUfNKdd": {
+    "id": "nPUfNKdd",
+    "date": "17.01. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "KAEEskrB": {
+    "id": "KAEEskrB",
+    "date": "17.01. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "ITSndR3e": {
+    "id": "ITSndR3e",
+    "date": "17.01. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "vaRnPtSq": {
+    "id": "vaRnPtSq",
+    "date": "17.01. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "Sbl839BL": {
+    "id": "Sbl839BL",
+    "date": "17.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "pGUvbmZr": {
+    "id": "pGUvbmZr",
+    "date": "17.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "S2d7qBDb": {
+    "id": "S2d7qBDb",
+    "date": "17.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "zoBkq2JF": {
+    "id": "zoBkq2JF",
+    "date": "18.01. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "fmRjstlS": {
+    "id": "fmRjstlS",
+    "date": "18.01. 16:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "no6VZct2": {
+    "id": "no6VZct2",
+    "date": "19.01. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "EibHc1Y8": {
+    "id": "EibHc1Y8",
+    "date": "19.01. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "QVHMyKBk": {
+    "id": "QVHMyKBk",
+    "date": "19.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "8jiQeu3L": {
+    "id": "8jiQeu3L",
+    "date": "19.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "EeMef5Y7": {
+    "id": "EeMef5Y7",
+    "date": "19.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "4MxdjJQr": {
+    "id": "4MxdjJQr",
+    "date": "20.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "0lW4lcee": {
+    "id": "0lW4lcee",
+    "date": "20.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "t2EsI8QE": {
+    "id": "t2EsI8QE",
+    "date": "20.01. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "2H2jGneR": {
+    "id": "2H2jGneR",
+    "date": "20.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "lACaAvIE": {
+    "id": "lACaAvIE",
+    "date": "21.01. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "b13LAQIl": {
+    "id": "b13LAQIl",
+    "date": "21.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "MyQ68InR": {
+    "id": "MyQ68InR",
+    "date": "21.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "8EZCnyQ7": {
+    "id": "8EZCnyQ7",
+    "date": "21.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "EZ4o1zu1": {
+    "id": "EZ4o1zu1",
+    "date": "22.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "tM6w3dAl": {
+    "id": "tM6w3dAl",
+    "date": "22.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "Stex7rID": {
+    "id": "Stex7rID",
+    "date": "22.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "fTdU84m1": {
+    "id": "fTdU84m1",
+    "date": "22.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "A1bfaE9D": {
+    "id": "A1bfaE9D",
+    "date": "22.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "zujtNH1K": {
+    "id": "zujtNH1K",
+    "date": "23.01. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "dIMyCigJ": {
+    "id": "dIMyCigJ",
+    "date": "24.01. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "KCRCHePs": {
+    "id": "KCRCHePs",
+    "date": "24.01. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "SxVKFZgf": {
+    "id": "SxVKFZgf",
+    "date": "24.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "YZktJ80n": {
+    "id": "YZktJ80n",
+    "date": "24.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "pIPMEfyK": {
+    "id": "pIPMEfyK",
+    "date": "24.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "O4OTDDO6": {
+    "id": "O4OTDDO6",
+    "date": "24.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "EXFh9Ybs": {
+    "id": "EXFh9Ybs",
+    "date": "24.01. 17:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "t0glHnVb": {
+    "id": "t0glHnVb",
+    "date": "25.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "Auo5D4UN": {
+    "id": "Auo5D4UN",
+    "date": "26.01. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "2FscFQaB": {
+    "id": "2FscFQaB",
+    "date": "26.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "61TMVoph": {
+    "id": "61TMVoph",
+    "date": "26.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "zm417CTg": {
+    "id": "zm417CTg",
+    "date": "26.01. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "2TMVTPE4": {
+    "id": "2TMVTPE4",
+    "date": "26.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "E7ty8rho": {
+    "id": "E7ty8rho",
+    "date": "26.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "rD795jb6": {
+    "id": "rD795jb6",
+    "date": "26.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "AgQwS3qH": {
+    "id": "AgQwS3qH",
+    "date": "27.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "W8EnQsET": {
+    "id": "W8EnQsET",
+    "date": "27.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "vu1I3USI": {
+    "id": "vu1I3USI",
+    "date": "28.01. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "WWSAQBP9": {
+    "id": "WWSAQBP9",
+    "date": "28.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "SbMJOkfM": {
+    "id": "SbMJOkfM",
+    "date": "28.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "bJU2SXfc": {
+    "id": "bJU2SXfc",
+    "date": "28.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "tr0IKLyi": {
+    "id": "tr0IKLyi",
+    "date": "28.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "IT0bH7nd": {
+    "id": "IT0bH7nd",
+    "date": "29.01. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "U7CTAozn": {
+    "id": "U7CTAozn",
+    "date": "29.01. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "dECkJTHq": {
+    "id": "dECkJTHq",
+    "date": "29.01. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "EFp1yTwS": {
+    "id": "EFp1yTwS",
+    "date": "30.01. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "t2ngwk9F": {
+    "id": "t2ngwk9F",
+    "date": "30.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "lASU8P4b": {
+    "id": "lASU8P4b",
+    "date": "30.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "pzgpuBv3": {
+    "id": "pzgpuBv3",
+    "date": "30.01. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "IkKo5s4N": {
+    "id": "IkKo5s4N",
+    "date": "31.01. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "W6qKilO8": {
+    "id": "W6qKilO8",
+    "date": "31.01. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "jB6XTpW1": {
+    "id": "jB6XTpW1",
+    "date": "31.01. 13:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "dzWx73ZA": {
+    "id": "dzWx73ZA",
+    "date": "31.01. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "ro3PV61k": {
+    "id": "ro3PV61k",
+    "date": "31.01. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "x6BiZu8s": {
+    "id": "x6BiZu8s",
+    "date": "31.01. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "W440XJxf": {
+    "id": "W440XJxf",
+    "date": "01.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "0pdHTyxJ": {
+    "id": "0pdHTyxJ",
+    "date": "01.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "4I28Vc76": {
+    "id": "4I28Vc76",
+    "date": "01.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "lYAHaLRp": {
+    "id": "lYAHaLRp",
+    "date": "02.02. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "f7HjryiC": {
+    "id": "f7HjryiC",
+    "date": "02.02. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "buOspcMa": {
+    "id": "buOspcMa",
+    "date": "02.02. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "COPZoJim": {
+    "id": "COPZoJim",
+    "date": "02.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "Sjl3iuUP": {
+    "id": "Sjl3iuUP",
+    "date": "02.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "6oo90I6t": {
+    "id": "6oo90I6t",
+    "date": "03.02. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "My6BL2l4": {
+    "id": "My6BL2l4",
+    "date": "03.02. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "SKFbtFLO": {
+    "id": "SKFbtFLO",
+    "date": "03.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "lO73NOJi": {
+    "id": "lO73NOJi",
+    "date": "03.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "bg3Gbdyg": {
+    "id": "bg3Gbdyg",
+    "date": "04.02. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "I3aKJtJG": {
+    "id": "I3aKJtJG",
+    "date": "04.02. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "K8iPdz65": {
+    "id": "K8iPdz65",
+    "date": "04.02. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "SYfXfEzI": {
+    "id": "SYfXfEzI",
+    "date": "04.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "O0ltgh5U": {
+    "id": "O0ltgh5U",
+    "date": "04.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "bFviBZKb": {
+    "id": "bFviBZKb",
+    "date": "05.02. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "QT2SHKmT": {
+    "id": "QT2SHKmT",
+    "date": "05.02. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "vDOkDejn": {
+    "id": "vDOkDejn",
+    "date": "05.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "A1vaCbBj": {
+    "id": "A1vaCbBj",
+    "date": "05.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "CI4QPYZi": {
+    "id": "CI4QPYZi",
+    "date": "10.02. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "bwNw2Vso": {
+    "id": "bwNw2Vso",
+    "date": "10.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "6ura9DkB": {
+    "id": "6ura9DkB",
+    "date": "10.02. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "SfW77iKN": {
+    "id": "SfW77iKN",
+    "date": "10.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "CQKgYuY9": {
+    "id": "CQKgYuY9",
+    "date": "10.02. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "GbRpz23c": {
+    "id": "GbRpz23c",
+    "date": "10.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "pW2YNC44": {
+    "id": "pW2YNC44",
+    "date": "10.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "ncOE3rJk": {
+    "id": "ncOE3rJk",
+    "date": "11.02. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "tbdsMjZG": {
+    "id": "tbdsMjZG",
+    "date": "11.02. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "0KE8PPu9": {
+    "id": "0KE8PPu9",
+    "date": "12.02. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "pvJ1WJ2M": {
+    "id": "pvJ1WJ2M",
+    "date": "12.02. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "dn8HN3AL": {
+    "id": "dn8HN3AL",
+    "date": "12.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "8CCN1Mm2": {
+    "id": "8CCN1Mm2",
+    "date": "12.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "AL2tPyed": {
+    "id": "AL2tPyed",
+    "date": "12.02. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "4OaYQcQq": {
+    "id": "4OaYQcQq",
+    "date": "12.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "hIgmIsYr": {
+    "id": "hIgmIsYr",
+    "date": "12.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "zwTjx3PE": {
+    "id": "zwTjx3PE",
+    "date": "13.02. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "fsj4EaX7": {
+    "id": "fsj4EaX7",
+    "date": "13.02. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "lpmdGL2e": {
+    "id": "lpmdGL2e",
+    "date": "13.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "r3WbzsfR": {
+    "id": "r3WbzsfR",
+    "date": "13.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "jHuTnum3": {
+    "id": "jHuTnum3",
+    "date": "14.02. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "2mDVUKHl": {
+    "id": "2mDVUKHl",
+    "date": "14.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "M9JQlt9K": {
+    "id": "M9JQlt9K",
+    "date": "15.02. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "6secqKWs": {
+    "id": "6secqKWs",
+    "date": "15.02. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "z1BwTbn1": {
+    "id": "z1BwTbn1",
+    "date": "15.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "f3RvRxHD": {
+    "id": "f3RvRxHD",
+    "date": "15.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "f9xpqcnS": {
+    "id": "f9xpqcnS",
+    "date": "15.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "bsqyoJHF": {
+    "id": "bsqyoJHF",
+    "date": "15.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "fH6DuxW6": {
+    "id": "fH6DuxW6",
+    "date": "16.02. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "E7b5sb1f": {
+    "id": "E7b5sb1f",
+    "date": "16.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "v9pIwbGP": {
+    "id": "v9pIwbGP",
+    "date": "17.02. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "W6PdWF8a": {
+    "id": "W6PdWF8a",
+    "date": "17.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "juOFwyAk": {
+    "id": "juOFwyAk",
+    "date": "17.02. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "AiylYyvm": {
+    "id": "AiylYyvm",
+    "date": "17.02. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "SU4LwG0J": {
+    "id": "SU4LwG0J",
+    "date": "17.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "COuwCoNp": {
+    "id": "COuwCoNp",
+    "date": "18.02. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "INN4UgwC": {
+    "id": "INN4UgwC",
+    "date": "18.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "Obo2aIW8": {
+    "id": "Obo2aIW8",
+    "date": "18.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "dhgGyFv2": {
+    "id": "dhgGyFv2",
+    "date": "18.02. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "4ISOZlFi": {
+    "id": "4ISOZlFi",
+    "date": "18.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "6sPuW6EG": {
+    "id": "6sPuW6EG",
+    "date": "19.02. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "0pMXXSq4": {
+    "id": "0pMXXSq4",
+    "date": "19.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "hEFFrpbM": {
+    "id": "hEFFrpbM",
+    "date": "20.02. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "n1pFp6T9": {
+    "id": "n1pFp6T9",
+    "date": "20.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "SdDlUpqT": {
+    "id": "SdDlUpqT",
+    "date": "20.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "Emn7nSbc": {
+    "id": "Emn7nSbc",
+    "date": "20.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "rmbzsAGs": {
+    "id": "rmbzsAGs",
+    "date": "20.02. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "bu4KOO6j": {
+    "id": "bu4KOO6j",
+    "date": "20.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "jD1rulof": {
+    "id": "jD1rulof",
+    "date": "21.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "Od6owOLq": {
+    "id": "Od6owOLq",
+    "date": "21.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "pCffy2jd": {
+    "id": "pCffy2jd",
+    "date": "21.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "bFKTk15k": {
+    "id": "bFKTk15k",
+    "date": "22.02. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "vVwceNsS": {
+    "id": "vVwceNsS",
+    "date": "22.02. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "CInta5r3": {
+    "id": "CInta5r3",
+    "date": "22.02. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "IPhay6pJ": {
+    "id": "IPhay6pJ",
+    "date": "22.02. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "pCfiwSF6": {
+    "id": "pCfiwSF6",
+    "date": "22.02. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "6HukcqDF": {
+    "id": "6HukcqDF",
+    "date": "22.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "6uOyluz2": {
+    "id": "6uOyluz2",
+    "date": "23.02. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "YXzna9xQ": {
+    "id": "YXzna9xQ",
+    "date": "23.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "ny1OBrS8": {
+    "id": "ny1OBrS8",
+    "date": "23.02. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "hxt340Kr": {
+    "id": "hxt340Kr",
+    "date": "24.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "MHXJ0IJ7": {
+    "id": "MHXJ0IJ7",
+    "date": "24.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "Y5v5OLBE": {
+    "id": "Y5v5OLBE",
+    "date": "24.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "YiaW9MdL": {
+    "id": "YiaW9MdL",
+    "date": "24.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "QkvB2vke": {
+    "id": "QkvB2vke",
+    "date": "24.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "0Kfo4iQa": {
+    "id": "0Kfo4iQa",
+    "date": "25.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Lada"
+    }
+  },
+  "hfiw6Dem": {
+    "id": "hfiw6Dem",
+    "date": "25.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "4GRHgm0m": {
+    "id": "4GRHgm0m",
+    "date": "25.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "Uan209PO": {
+    "id": "Uan209PO",
+    "date": "26.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "W0v5KCAt": {
+    "id": "W0v5KCAt",
+    "date": "26.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "dnlf2VfC": {
+    "id": "dnlf2VfC",
+    "date": "26.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "0tWLGU95": {
+    "id": "0tWLGU95",
+    "date": "27.02. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "86ZTE8vI": {
+    "id": "86ZTE8vI",
+    "date": "27.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "vRsDIjug": {
+    "id": "vRsDIjug",
+    "date": "27.02. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "CnEYk5aC": {
+    "id": "CnEYk5aC",
+    "date": "27.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "QVFQiRUa": {
+    "id": "QVFQiRUa",
+    "date": "27.02. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "25SxDn9U": {
+    "id": "25SxDn9U",
+    "date": "28.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "8E7slqUO": {
+    "id": "8E7slqUO",
+    "date": "28.02. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "rPmCRoON": {
+    "id": "rPmCRoON",
+    "date": "01.03. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "v9lsMPoo": {
+    "id": "v9lsMPoo",
+    "date": "01.03. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "M9a3T7gB": {
+    "id": "M9a3T7gB",
+    "date": "01.03. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "OQsi8nFt": {
+    "id": "OQsi8nFt",
+    "date": "01.03. 16:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "EqdeVTOb": {
+    "id": "EqdeVTOb",
+    "date": "01.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "IH2nXkfn": {
+    "id": "IH2nXkfn",
+    "date": "01.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "fHWTqTwh": {
+    "id": "fHWTqTwh",
+    "date": "02.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "SUUyr784": {
+    "id": "SUUyr784",
+    "date": "02.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "Khy06Qqg": {
+    "id": "Khy06Qqg",
+    "date": "02.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "OdOptowH": {
+    "id": "OdOptowH",
+    "date": "02.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "tYfBd6Nc": {
+    "id": "tYfBd6Nc",
+    "date": "03.03. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "UgRhvP7T": {
+    "id": "UgRhvP7T",
+    "date": "03.03. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "ER2PY2Vj": {
+    "id": "ER2PY2Vj",
+    "date": "03.03. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "C0g744E5": {
+    "id": "C0g744E5",
+    "date": "03.03. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "SlRhzG6e": {
+    "id": "SlRhzG6e",
+    "date": "04.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "8nBixxxq": {
+    "id": "8nBixxxq",
+    "date": "04.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "zFU0Ygy8": {
+    "id": "zFU0Ygy8",
+    "date": "04.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "x0lKfphA": {
+    "id": "x0lKfphA",
+    "date": "04.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "Q3cgvpPQ": {
+    "id": "Q3cgvpPQ",
+    "date": "05.03. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "Iwfot6fE": {
+    "id": "Iwfot6fE",
+    "date": "05.03. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "ttoO0MDU": {
+    "id": "ttoO0MDU",
+    "date": "05.03. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "YFsG2rqI": {
+    "id": "YFsG2rqI",
+    "date": "05.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "QHxShqvK": {
+    "id": "QHxShqvK",
+    "date": "06.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "2qiXW1H0": {
+    "id": "2qiXW1H0",
+    "date": "06.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "UVhPYNnl": {
+    "id": "UVhPYNnl",
+    "date": "06.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "Qo4NsJVI": {
+    "id": "Qo4NsJVI",
+    "date": "07.03. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Salavat Ufa"
+    }
+  },
+  "d6C6o1Wg": {
+    "id": "d6C6o1Wg",
+    "date": "07.03. 10:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "hY5Fqu16": {
+    "id": "hY5Fqu16",
+    "date": "07.03. 16:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "tfnA5MNP": {
+    "id": "tfnA5MNP",
+    "date": "07.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "AkEbmN1s": {
+    "id": "AkEbmN1s",
+    "date": "07.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "WOQlbvGa": {
+    "id": "WOQlbvGa",
+    "date": "08.03. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "vkUddIpC": {
+    "id": "vkUddIpC",
+    "date": "08.03. 16:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "A9xt00om": {
+    "id": "A9xt00om",
+    "date": "08.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "K6GYKPbn": {
+    "id": "K6GYKPbn",
+    "date": "08.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "zHN5fdFO": {
+    "id": "zHN5fdFO",
+    "date": "09.03. 14:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    }
+  },
+  "hKEtJ3Tb": {
+    "id": "hKEtJ3Tb",
+    "date": "09.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "jTcFEa0t": {
+    "id": "jTcFEa0t",
+    "date": "09.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "CMUsHsbB": {
+    "id": "CMUsHsbB",
+    "date": "10.03. 12:15",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "QLKW8eUH": {
+    "id": "QLKW8eUH",
+    "date": "10.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Spartak Moscow"
+    }
+  },
+  "46WNAHa5": {
+    "id": "46WNAHa5",
+    "date": "10.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Niznekamsk"
+    },
+    "away": {
+      "name": "Tractor Chelyabinsk"
+    }
+  },
+  "dtTFCwVh": {
+    "id": "dtTFCwVh",
+    "date": "10.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "CSKA Moscow"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "WKn4jmEj": {
+    "id": "WKn4jmEj",
+    "date": "11.03. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "IDSbCUzA": {
+    "id": "IDSbCUzA",
+    "date": "11.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "EuM7A85M": {
+    "id": "EuM7A85M",
+    "date": "11.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "p0UjEj6c": {
+    "id": "p0UjEj6c",
+    "date": "11.03. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "KnYkFLSN": {
+    "id": "KnYkFLSN",
+    "date": "11.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "4K9M9ajo": {
+    "id": "4K9M9ajo",
+    "date": "11.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Dinamo Minsk"
+    }
+  },
+  "WQ18X2rh": {
+    "id": "WQ18X2rh",
+    "date": "12.03. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "pOCw5nTq": {
+    "id": "pOCw5nTq",
+    "date": "12.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Bars Kazan"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "bwgPTKsH": {
+    "id": "bwgPTKsH",
+    "date": "13.03. 12:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "82ssP7KF": {
+    "id": "82ssP7KF",
+    "date": "13.03. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "QPfHVtD4": {
+    "id": "QPfHVtD4",
+    "date": "13.03. 16:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Avangard Omsk"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "tGukNokS": {
+    "id": "tGukNokS",
+    "date": "13.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "CzlYQTk3": {
+    "id": "CzlYQTk3",
+    "date": "13.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Nizhny Novgorod"
+    }
+  },
+  "00MLHPCk": {
+    "id": "00MLHPCk",
+    "date": "13.03. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "h8vTF3s2": {
+    "id": "h8vTF3s2",
+    "date": "13.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Cherepovets"
+    }
+  },
+  "6w1n3Qcd": {
+    "id": "6w1n3Qcd",
+    "date": "13.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "Y3HFw7Z8": {
+    "id": "Y3HFw7Z8",
+    "date": "14.03. 15:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Yekaterinburg"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "04E59jd2": {
+    "id": "04E59jd2",
+    "date": "15.03. 14:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "tUKNyo4L": {
+    "id": "tUKNyo4L",
+    "date": "15.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "hvBcBCRk": {
+    "id": "hvBcBCRk",
+    "date": "15.03. 17:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Lokomotiv Yaroslavl"
+    }
+  },
+  "hUF3StR7": {
+    "id": "hUF3StR7",
+    "date": "16.03. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "0E1fWORr": {
+    "id": "0E1fWORr",
+    "date": "16.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Magnitogorsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "CYnUr2Bl": {
+    "id": "CYnUr2Bl",
+    "date": "16.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "rTwjH2F8": {
+    "id": "rTwjH2F8",
+    "date": "16.03. 17:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Barys Astana"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "tjdblOmR": {
+    "id": "tjdblOmR",
+    "date": "16.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "Kz8kjpJE": {
+    "id": "Kz8kjpJE",
+    "date": "16.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "YRa2U2de": {
+    "id": "YRa2U2de",
+    "date": "16.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Dynamo Moscow"
+    }
+  },
+  "6Xuwstt1": {
+    "id": "6Xuwstt1",
+    "date": "17.03. 18:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lada"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "GficFtpL": {
+    "id": "GficFtpL",
+    "date": "17.03. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "j1qUvBGU": {
+    "id": "j1qUvBGU",
+    "date": "18.03. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "SKA St. Petersburg"
+    }
+  },
+  "vovouKAD": {
+    "id": "vovouKAD",
+    "date": "18.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  },
+  "hSpcnyIt": {
+    "id": "hSpcnyIt",
+    "date": "18.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "fZkLtXoI": {
+    "id": "fZkLtXoI",
+    "date": "18.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "zuYT9K7r": {
+    "id": "zuYT9K7r",
+    "date": "18.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Shanghai"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "0hl5pFng": {
+    "id": "0hl5pFng",
+    "date": "18.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Sochi"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "M7xErgH5": {
+    "id": "M7xErgH5",
+    "date": "18.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "CSKA Moscow"
+    }
+  },
+  "2uDnchWb": {
+    "id": "2uDnchWb",
+    "date": "19.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Cherepovets"
+    },
+    "away": {
+      "name": "Avangard Omsk"
+    }
+  },
+  "6DJwaE1n": {
+    "id": "6DJwaE1n",
+    "date": "19.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Nizhny Novgorod"
+    },
+    "away": {
+      "name": "Khabarovsk"
+    }
+  },
+  "8hWy8bxe": {
+    "id": "8hWy8bxe",
+    "date": "20.03. 15:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Novosibirsk"
+    },
+    "away": {
+      "name": "Barys Astana"
+    }
+  },
+  "0zeZmlgo": {
+    "id": "0zeZmlgo",
+    "date": "20.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Salavat Ufa"
+    },
+    "away": {
+      "name": "Sochi"
+    }
+  },
+  "Ui43gAVN": {
+    "id": "Ui43gAVN",
+    "date": "20.03. 17:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Tractor Chelyabinsk"
+    },
+    "away": {
+      "name": "Vladivostok"
+    }
+  },
+  "ARwTiIBG": {
+    "id": "ARwTiIBG",
+    "date": "20.03. 19:00",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Lokomotiv Yaroslavl"
+    },
+    "away": {
+      "name": "Magnitogorsk"
+    }
+  },
+  "4KPp6x77": {
+    "id": "4KPp6x77",
+    "date": "20.03. 19:10",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dinamo Minsk"
+    },
+    "away": {
+      "name": "Yekaterinburg"
+    }
+  },
+  "8xGfeW0B": {
+    "id": "8xGfeW0B",
+    "date": "20.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Dynamo Moscow"
+    },
+    "away": {
+      "name": "Bars Kazan"
+    }
+  },
+  "8GzKSxuC": {
+    "id": "8GzKSxuC",
+    "date": "20.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "SKA St. Petersburg"
+    },
+    "away": {
+      "name": "Shanghai"
+    }
+  },
+  "IBPJe0Ci": {
+    "id": "IBPJe0Ci",
+    "date": "20.03. 19:30",
+    "status": "SCHEDULED",
+    "home": {
+      "name": "Spartak Moscow"
+    },
+    "away": {
+      "name": "Niznekamsk"
+    }
+  }
+}

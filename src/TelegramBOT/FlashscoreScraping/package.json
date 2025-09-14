@@ -1,0 +1,22 @@
+{
+  "name": "flashscore-scraping",
+  "version": "1.3.0",
+  "description": "A scraping tool for retrieving hockey data.",
+  "type": "module",
+  "scripts": {
+    "start": "node src/scraper/scraperRunner.js",
+    "results": "node src/scraper/scraperRunner.js --results",
+    "calendar": "node src/scraper/scraperRunner.js --calendar"
+  },
+  "dependencies": {
+    "cli-loading-animation": "^1.0.6",
+    "cli-progress": "^3.12.0",
+    "dayjs": "^1.11.18",
+    "inquirer": "^12.4.1",
+    "jsonexport": "^3.2.0",
+    "msnodesqlv8": "^5.1.1",
+    "mssql": "^11.0.1",
+    "puppeteer": "^24.19.0"
+  },
+  "license": "UNLICENSED"
+}
