@@ -96,9 +96,43 @@ namespace TelegramBOT.Handlers
                     await _messageService.SendCalendarAsync(chatId, tomorrowMatches, DateTime.Today.AddDays(1));
                     break;
 
-                case "Следующие 5 дней":
-                    var nextMatches = await _matchService.GetMatchesNextDaysAsync(5);
-                    await _messageService.SendCalendarAsync(chatId, nextMatches, DateTime.Today, DateTime.Today.AddDays(5));
+                // Переход в подменю
+                case "Следующие N дней":
+                    await _messageService.SendKeyboardAsync(
+                        chatId,
+                        "Выберите количество следующих дней:",
+                        _menuService.GetNextDaysMenu()
+                    );
+                    break;
+
+                // Обработка подменю
+                case "2 дня":
+                    var next2 = await _matchService.GetMatchesNextDaysAsync(2);
+                    await _messageService.SendCalendarAsync(chatId, next2, DateTime.Today, DateTime.Today.AddDays(2));
+                    break;
+
+                case "3 дня":
+                    var next3 = await _matchService.GetMatchesNextDaysAsync(3);
+                    await _messageService.SendCalendarAsync(chatId, next3, DateTime.Today, DateTime.Today.AddDays(3));
+                    break;
+
+                case "4 дня":
+                    var next4 = await _matchService.GetMatchesNextDaysAsync(4);
+                    await _messageService.SendCalendarAsync(chatId, next4, DateTime.Today, DateTime.Today.AddDays(4));
+                    break;
+
+                case "5 дней":
+                    var next5 = await _matchService.GetMatchesNextDaysAsync(5);
+                    await _messageService.SendCalendarAsync(chatId, next5, DateTime.Today, DateTime.Today.AddDays(5));
+                    break;
+
+                // Возврат в календарь
+                case "⬅️ Назад":
+                    await _messageService.SendKeyboardAsync(
+                        chatId,
+                        "Возврат к календарю",
+                        _menuService.GetCalendarMenu()
+                    );
                     break;
 
                 // -------------------------------
