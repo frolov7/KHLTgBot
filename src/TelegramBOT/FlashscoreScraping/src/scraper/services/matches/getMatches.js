@@ -1,4 +1,5 @@
 ﻿import fs from "fs";
+import dayjs from "dayjs";
 import { BASE_URL, OUTPUT_PATH } from "../../../constants/constants.js";
 import { openPageAndNavigate, waitForSelectorSafe } from "../utils/pageUtils.js";
 import { formatDateWithYear, parseDate } from "../utils/dateUtils.js";
@@ -121,16 +122,12 @@ export const updateRecentMatches = async (browser) => {
     }
     const matches = JSON.parse(fs.readFileSync(path, "utf-8"));
 
-    const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
+    const today = dayjs();
+    const yesterday = dayjs().subtract(1, "day");
 
     const isRecent = (dateStr) => {
-        const d = parseDate(dateStr);
-        return (
-            d.toDateString() === today.toDateString() ||
-            d.toDateString() === yesterday.toDateString()
-        );
+        const d = dayjs(parseDate(dateStr));
+        return d.isSame(today, "day") || d.isSame(yesterday, "day");
     };
 
     const idsToUpdate = Object.entries(matches)

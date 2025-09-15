@@ -2,12 +2,25 @@
 import fs from "fs";
 import sql from "mssql/msnodesqlv8.js";
 import dayjs from "dayjs";
+import path from "path";
+import { fileURLToPath } from "url";
 import customParseFormat from "dayjs/plugin/customParseFormat.js";
+import utc from "dayjs/plugin/utc.js";
+import timezone from "dayjs/plugin/timezone.js";
 
 dayjs.extend(customParseFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
-const raw = fs.readFileSync("src/data/russia_khl_all.json", "utf-8");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const raw = fs.readFileSync(
+    path.join(__dirname, "../../data/russia_khl_all.json"),
+    "utf-8"
+);
 const matches = JSON.parse(raw);
+
 
 const pool = new sql.ConnectionPool({
     server: "LAPTOP-34F82EN1",
@@ -46,21 +59,25 @@ async function importMatches() {
                     continue;
                 }
 
-                // дата
-                let dateStr = match.date;
-                if (dateStr && dateStr.match(/^\d{2}\.\d{2}\.\s/)) {
-                    const year = new Date().getFullYear();
-                    dateStr = dateStr.replace(/(\d{2}\.\d{2}\.)/, `$1${year} `);
+                // --- Дата в МСК ---
+                let dateObj = null;
+                if (match.date) {
+                    // если в строке нет года → добавляем текущий
+                    let dateStr = match.date;
+                    if (dateStr.match(/^\d{2}\.\d{2}\.\s/)) {
+                        const year = new Date().getFullYear();
+                        dateStr = dateStr.replace(/(\d{2}\.\d{2}\.)/, `$1${year} `);
+                    }
+
+                    // парсим с таймзоной Europe/Moscow
+                    dateObj = dayjs.tz(dateStr, "DD.MM.YYYY HH:mm", "Europe/Moscow").toDate();
                 }
-                const dateObj = dateStr
-                    ? dayjs(dateStr, "DD.MM.YYYY HH:mm").toDate()
-                    : null;
 
                 // UPSERT
                 await pool
                     .request()
                     .input("id", sql.VarChar, key)
-                    .input("date", sql.DateTime, dateObj)
+                    .input("date", sql.DateTime, dayjs(dateObj).add(3, "hour").toDate())
                     .input("status", sql.VarChar, match.status || "SCHEDULED")
                     .input("homeName", sql.VarChar, match.home.name)
                     .input("homeId", sql.Int, homeTeamRes.recordset[0].team_id)

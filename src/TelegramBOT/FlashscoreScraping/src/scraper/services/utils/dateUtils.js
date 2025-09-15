@@ -1,16 +1,14 @@
-// src/scraper/services/utils/dateUtils.js
+п»ї// src/scraper/services/utils/dateUtils.js
 export function parseDate(dateStr) {
     const parts = dateStr.replace(/\s+/g, " ").trim().split(" ");
     let [day, month] = parts[0].split(".");
     let year;
     let time = parts[1] || "00:00";
 
-    // Если указан год прямо в дате
     if (parts[0].split(".").length === 3) {
         [day, month, year] = parts[0].split(".");
     } else {
         const m = parseInt(month, 10);
-
         if (m >= 9 && m <= 12) {
             year = 2025;
         } else if (m >= 1 && m <= 3) {
@@ -20,9 +18,8 @@ export function parseDate(dateStr) {
         }
     }
 
-    return new Date(`${year}-${month}-${day}T${time}:00`);
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")} ${time}:00`;
 }
-
 export function formatDateWithYear(dateStr) {
     const parts = dateStr.replace(/\s+/g, " ").trim().split(" ");
     let [day, month] = parts[0].split(".");
