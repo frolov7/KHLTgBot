@@ -167,16 +167,17 @@ namespace TelegramBOT.Services
                 var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
 
                 string statusText;
-                if (teamName != null && match.Status != "SCHEDULED")
+
+                if (teamName != null && match.Status != "SCHEDULED" &&
+                    !(match.Status.Contains("PERIOD") || match.Status == "OVERTIME" || match.Status == "PENALTIES"))
                 {
-                    // определяем победителя
+                    // показываем Победа/Поражение только для завершённых матчей
                     bool isHome = match.HomeTeamName == teamName;
                     int homeScore = match.HomeScore ?? 0;
                     int awayScore = match.AwayScore ?? 0;
 
                     bool isWin = (isHome && homeScore > awayScore) || (!isHome && awayScore > homeScore);
 
-                    // берём укороченный статус без "Завершён"
                     var shortStatus = _mappingService.Map("MatchStatusesShort", match.Status);
 
                     statusText = isWin
@@ -184,7 +185,7 @@ namespace TelegramBOT.Services
                         : $"❌ Поражение ({shortStatus})";
                 }
                 else
-                    statusText = $"✅ {_mappingService.Map("MatchStatuses", match.Status)}";
+                    statusText = _mappingService.Map("MatchStatuses", match.Status);
 
                 // дата или время
                 if (date != null)
