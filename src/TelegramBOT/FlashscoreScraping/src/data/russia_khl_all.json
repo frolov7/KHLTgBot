@@ -1,4 +1,18 @@
 {
+  "Aa1YSQHc": {
+    "date": "15.09.2025 12:15",
+    "home": {
+      "name": "Khabarovsk"
+    },
+    "away": {
+      "name": "Shanghai"
+    },
+    "status": "FINISHED",
+    "result": {
+      "home": "5",
+      "away": "4"
+    }
+  },
   "AP2xKhCU": {
     "date": "14.09.2025 17:00",
     "home": {
@@ -543,6 +557,20 @@
     "result": {
       "home": "2",
       "away": "1"
+    }
+  },
+  "8C6zI5tp": {
+    "date": "15.09.2025 12:30",
+    "home": {
+      "name": "Vladivostok"
+    },
+    "away": {
+      "name": "Novosibirsk"
+    },
+    "status": "FINISHED",
+    "result": {
+      "home": "2",
+      "away": "0"
     }
   }
 }
