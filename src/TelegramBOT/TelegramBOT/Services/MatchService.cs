@@ -41,11 +41,11 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Получить матчи на 5 дней вперед
+        /// Получить матчи на N дней вперед
         /// </summary>
         public async Task<List<Match>> GetMatchesNextDaysAsync(int days)
         {
-            var fromDate = DateTime.Today;
+            var fromDate = DateTime.Today.AddDays(1);
             var toDate = DateTime.Today.AddDays(days);
 
             return await _db.Matches

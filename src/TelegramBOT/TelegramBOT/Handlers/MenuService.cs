@@ -28,14 +28,30 @@ namespace TelegramBOT.Handlers
         /// <summary>
         /// Меню календаря матчей.
         /// </summary>
+        // Меню календаря матчей
         public ReplyKeyboardMarkup GetCalendarMenu()
         {
             return new ReplyKeyboardMarkup(new[]
             {
                 new KeyboardButton[] { "Сегодня" },
                 new KeyboardButton[] { "Завтра" },
-                new KeyboardButton[] { "Следующие 5 дней" },
+                new KeyboardButton[] { "Следующие N дней" },
                 new KeyboardButton[] { "🏠 В главное меню" }
+            })
+            {
+                ResizeKeyboard = true,
+                OneTimeKeyboard = false
+            };
+        }
+
+        // Подменю для выбора диапазона "следующие N дней"
+        public ReplyKeyboardMarkup GetNextDaysMenu()
+        {
+            return new ReplyKeyboardMarkup(new[]
+            {
+                new KeyboardButton[] { "2 дня", "3 дня" },
+                new KeyboardButton[] { "4 дня", "5 дней" },
+                new KeyboardButton[] { "⬅️ Назад", "🏠 В главное меню" }
             })
             {
                 ResizeKeyboard = true,
