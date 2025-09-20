@@ -1,4 +1,3 @@
-// src/db/import/import_matches.js
 import fs from "fs";
 import sql from "mssql/msnodesqlv8.js";
 import dayjs from "dayjs";
@@ -21,7 +20,6 @@ const raw = fs.readFileSync(
 );
 const matches = JSON.parse(raw);
 
-
 const pool = new sql.ConnectionPool({
     server: "LAPTOP-34F82EN1",
     database: "TelegramBOT",
@@ -32,10 +30,15 @@ const pool = new sql.ConnectionPool({
 async function importMatches() {
     try {
         await pool.connect();
-        console.log("✅ Connected to DB");
+        console.log("Connected to DB");
+
+        // 1. Чистим таблицу
+        await pool.request().query("DELETE FROM Matches");
+        console.log("Все старые матчи удалены");
 
         let count = 0;
 
+        // 2. Вставляем все матчи из JSON
         for (const [key, match] of Object.entries(matches)) {
             try {
                 // ищем ID команд
@@ -54,26 +57,22 @@ async function importMatches() {
                     awayTeamRes.recordset.length === 0
                 ) {
                     console.warn(
-                        `⚠️ Пропущен матч ${key} (${match.home.name} vs ${match.away.name}) — команда не найдена`
+                        `Пропущен матч ${key} (${match.home.name} vs ${match.away.name}) — команда не найдена`
                     );
                     continue;
                 }
 
-                // --- Дата в МСК ---
+                // дата по МСК
                 let dateObj = null;
                 if (match.date) {
-                    // если в строке нет года → добавляем текущий
                     let dateStr = match.date;
                     if (dateStr.match(/^\d{2}\.\d{2}\.\s/)) {
                         const year = new Date().getFullYear();
                         dateStr = dateStr.replace(/(\d{2}\.\d{2}\.)/, `$1${year} `);
                     }
-
-                    // парсим с таймзоной Europe/Moscow
                     dateObj = dayjs.tz(dateStr, "DD.MM.YYYY HH:mm", "Europe/Moscow").toDate();
                 }
 
-                // UPSERT
                 await pool
                     .request()
                     .input("id", sql.VarChar, key)
@@ -94,34 +93,30 @@ async function importMatches() {
                         match.result?.away ? parseInt(match.result.away, 10) : null
                     )
                     .query(`
-                        MERGE Matches AS target
-                        USING (SELECT @id AS match_id) AS source
-                        ON target.match_id = source.match_id
-                        WHEN MATCHED THEN 
-                            UPDATE SET 
-                                match_date = @date,
-                                status = @status,
-                                home_team_name = @homeName,
-                                home_team_id = @homeId,
-                                away_team_name = @awayName,
-                                away_team_id = @awayId,
-                                home_score = @homeScore,
-                                away_score = @awayScore
-                        WHEN NOT MATCHED THEN
-                            INSERT (match_id, match_date, status, home_team_name, home_team_id, away_team_name, away_team_id, home_score, away_score)
-                            VALUES (@id, @date, @status, @homeName, @homeId, @awayName, @awayId, @homeScore, @awayScore);
+                        INSERT INTO Matches (
+                            match_id, match_date, status, 
+                            home_team_name, home_team_id, 
+                            away_team_name, away_team_id, 
+                            home_score, away_score
+                        )
+                        VALUES (
+                            @id, @date, @status, 
+                            @homeName, @homeId, 
+                            @awayName, @awayId, 
+                            @homeScore, @awayScore
+                        );
                     `);
 
                 count++;
             } catch (err) {
-                console.error(`❌ Ошибка при вставке/обновлении матча ${key}:`, err.message);
+                console.error(`Ошибка при вставке матча ${key}:`, err.message);
             }
         }
 
-        console.log(`✅ Imported/Updated ${count}/${Object.keys(matches).length} matches into DB`);
+        console.log(`Загружено ${count}/${Object.keys(matches).length} матчей в БД`);
         await pool.close();
     } catch (err) {
-        console.error("❌ Error:", err);
+        console.error("Error:", err);
         await pool.close();
     }
 }

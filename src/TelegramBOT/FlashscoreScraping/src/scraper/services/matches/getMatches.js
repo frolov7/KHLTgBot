@@ -2,152 +2,132 @@
 import dayjs from "dayjs";
 import { BASE_URL, OUTPUT_PATH } from "../../../constants/constants.js";
 import { openPageAndNavigate, waitForSelectorSafe } from "../utils/pageUtils.js";
-import { formatDateWithYear, parseDate } from "../utils/dateUtils.js";
+import { parseDate } from "../utils/dateUtils.js";
 
-//
-// 👉 Получаем результат матча (один матч)
-//
-export const getMatchResult = async (browser, matchId) => {
-    const page = await browser.newPage();
-    await page.goto(`${BASE_URL}/match/${matchId}/`, {
-        waitUntil: "domcontentloaded",
-    });
+function normalizeStatus(rawStatus, homeScore, awayScore) {
+    const status = (rawStatus || "").toUpperCase();
 
-    await waitForSelectorSafe(page, ".duelParticipant__startTime");
+    if (status.includes("PEN") || status.includes("БУЛ")) return "AFTER PENALTIES";
+    if (status.includes("OT") || status.includes("ОВЕР")) return "AFTER OVERTIME";
+    if (status.includes("FINISHED") || status.includes("ЗАВЕРШ")) return "FINISHED";
 
-    // статус
-    let status = null;
-    try {
-        status = await page.$eval(".fixedHeaderDuel__detailStatus", el => el.innerText.trim());
-    } catch {
-        status = null;
-    }
-    if (!status) {
-        status = "SCHEDULED"; // пустая строка или null → матч ещё не начался
+    // если статус пустой, но счёт есть → матч завершён
+    if (!rawStatus && homeScore !== null && awayScore !== null) {
+        return "FINISHED";
     }
 
-    // счёт
-    let homeScore = null;
-    let awayScore = null;
-    try {
-        const scoreSpans = await page.$$eval(".detailScore__wrapper span", els =>
-            els.map(e => e.innerText.trim())
-        );
-        if (scoreSpans.length >= 3) {
-            homeScore = scoreSpans[0] || null;
-            awayScore = scoreSpans[2] || null;
-        }
-    } catch {
-        // счёта нет — матч не начался
-    }
+    return status || "SCHEDULED";
+}
 
-    const matchData = await page.evaluate(() => {
-        return {
-            date: document.querySelector(".duelParticipant__startTime")?.innerText.trim() || null,
-            home: {
-                name: document.querySelector(
-                    ".duelParticipant__home .participant__participantName.participant__overflow"
-                )?.innerText.trim() || null,
-            },
-            away: {
-                name: document.querySelector(
-                    ".duelParticipant__away .participant__participantName.participant__overflow"
-                )?.innerText.trim() || null,
-            },
-        };
-    });
-
-    await page.close();
-
-    return {
-        ...matchData,
-        status,
-        result: { home: homeScore, away: awayScore },
-    };
-};
-
-
-
-//
-// 👉 Полный парсинг (результаты + календарь)
-//
-export const getAllMatches = async (browser, leagueSeasonUrl) => {
-    const page = await openPageAndNavigate(browser, `${leagueSeasonUrl}/results`);
-
-    // жмем "Показать ещё", пока есть
-    while (true) {
-        try {
-            const moreBtn = await page.$("a.event__more");
-            if (!moreBtn) break;
-            await moreBtn.click();
-            await new Promise((res) => setTimeout(res, 2000));
-        } catch {
-            break;
-        }
-    }
-
-    await waitForSelectorSafe(page, ".event__match");
-
-    const matchIds = await page.evaluate(() =>
-        Array.from(document.querySelectorAll(".event__match"))
-            .map((el) => el.id?.replace("g_4_", ""))
-            .filter(Boolean)
-    );
-
-    const matches = {};
-    for (const id of matchIds) {
-        try {
-            const result = await getMatchResult(browser, id);
-            matches[id] = {
-                ...result,
-                date: formatDateWithYear(result.date),
-            };
-        } catch (err) {
-            console.warn(`⚠️ Ошибка загрузки матча ${id}:`, err.message);
-        }
-    }
-
-    await page.close();
-    return matches;
-};
-
-//
-// 👉 Быстрое обновление: только вчера и сегодня
-//
 export const updateRecentMatches = async (browser) => {
-    // читаем уже сохранённый календарь
     const path = `${OUTPUT_PATH}/russia_khl_all.json`;
     if (!fs.existsSync(path)) {
-        throw new Error("❌ Файл russia_khl_all.json не найден. Сначала нужно сделать --all");
+        throw new Error("Файл russia_khl_all.json не найден. Сначала нужно сделать --all");
     }
     const matches = JSON.parse(fs.readFileSync(path, "utf-8"));
 
     const today = dayjs();
     const yesterday = dayjs().subtract(1, "day");
 
-    const isRecent = (dateStr) => {
-        const d = dayjs(parseDate(dateStr));
-        return d.isSame(today, "day") || d.isSame(yesterday, "day");
-    };
+    // 1. Парсим завершённые (results)
+    const resultsUrl = `${BASE_URL}/hockey/russia/khl/results`;
+    const resultsPage = await openPageAndNavigate(browser, resultsUrl);
+    await waitForSelectorSafe(resultsPage, ".event__match");
 
-    const idsToUpdate = Object.entries(matches)
-        .filter(([_, match]) => isRecent(match.date))
+    const scrapedResults = await resultsPage.evaluate(() => {
+        return Array.from(document.querySelectorAll(".event__match")).map((el) => {
+            const id = el.id?.replace("g_4_", "");
+            const homeScore = el.querySelector(".event__score--home")?.innerText.trim() || null;
+            const awayScore = el.querySelector(".event__score--away")?.innerText.trim() || null;
+            const rawStatus = el.querySelector(".event__stage")?.innerText.trim() || "";
+            return { id, rawStatus, homeScore, awayScore };
+        });
+    });
+
+    await resultsPage.close();
+
+    // 2. Парсим LIVE (overview)
+    const liveUrl = `${BASE_URL}/hockey/russia/khl/`;
+    const livePage = await openPageAndNavigate(browser, liveUrl);
+    await waitForSelectorSafe(livePage, ".event__match");
+
+    const scrapedLive = await livePage.evaluate(() => {
+        return Array.from(document.querySelectorAll(".event__match")).map((el) => {
+            const id = el.id?.replace("g_4_", "");
+            const homeScore = el.querySelector(".event__score--home")?.innerText.trim() || null;
+            const awayScore = el.querySelector(".event__score--away")?.innerText.trim() || null;
+            const rawStatus = el.querySelector(".event__stage")?.innerText.trim() || "";
+            return { id, rawStatus, homeScore, awayScore };
+        });
+    });
+
+    await livePage.close();
+
+    // 3. Объединяем
+    const scrapedMatches = [...scrapedResults, ...scrapedLive];
+
+    // 4. Нормализуем
+    const normalizedMatches = scrapedMatches.map((m) => {
+        const status = normalizeStatus(m.rawStatus, m.homeScore, m.awayScore);
+        return {
+            id: m.id,
+            status,
+            result: {
+                home: status === "SCHEDULED" ? null : m.homeScore,
+                away: status === "SCHEDULED" ? null : m.awayScore,
+            },
+        };
+    });
+
+    // 5. Фильтруем вчера + сегодня
+    const recentIds = Object.entries(matches)
+        .filter(([_, match]) => {
+            const d = dayjs(parseDate(match.date));
+            return d.isSame(today, "day") || d.isSame(yesterday, "day");
+        })
         .map(([id]) => id);
 
-    for (const id of idsToUpdate) {
-        try {
-            const result = await getMatchResult(browser, id);
-            matches[id] = {
-                ...matches[id],
-                ...result,
-                date: formatDateWithYear(result.date),
+    const recent = normalizedMatches.filter(
+        (m) => recentIds.includes(m.id) || m.status === "LIVE"
+    );
+
+    console.log("Матчи за вчера и сегодня:");
+    recent.forEach((m) => {
+        const prev = matches[m.id];
+        if (m.status === "LIVE") {
+            console.log(`${prev?.date || "???"} | ${prev?.home?.name} vs ${prev?.away?.name} | LIVE ${m.result.home}:${m.result.away}`);
+        } else {
+            console.log(`${prev?.date || "???"} | ${prev?.home?.name} vs ${prev?.away?.name} | ${m.status} | ${m.result.home}:${m.result.away}`);
+        }
+    });
+
+    // 6. Обновляем JSON
+    const updatedIds = [];
+    for (const match of recent) {
+        if (matches[match.id]) {
+            const prev = matches[match.id];
+            const homeScore = match.result.home ?? prev.result.home;
+            const awayScore = match.result.away ?? prev.result.away;
+            const status = match.status !== "SCHEDULED" ? match.status : prev.status;
+
+            matches[match.id] = {
+                ...prev,
+                status,
+                result: { home: homeScore, away: awayScore },
             };
-        } catch (err) {
-            console.warn(`⚠️ Ошибка обновления матча ${id}:`, err.message);
+
+            updatedIds.push(match.id);
         }
     }
 
-    // сохраняем обратно
     fs.writeFileSync(path, JSON.stringify(matches, null, 2), "utf-8");
+
+    if (updatedIds.length > 0) {
+        console.log("Обновлены матчи:", updatedIds.join(", "));
+    } else {
+        console.log("Нет матчей для обновления за вчера/сегодня");
+    }
+
     return matches;
 };
+
