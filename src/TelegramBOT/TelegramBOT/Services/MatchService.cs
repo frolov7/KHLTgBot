@@ -24,7 +24,7 @@ namespace TelegramBOT.Services
         {
             var today = DateTime.Today;
             return await _db.Matches
-                .Where(m => m.MatchDate.Date == today && m.Status == "SCHEDULED")
+                .Where(m => m.MatchDate.Date == today)
                 .OrderBy(m => m.MatchDate)
                 .ToListAsync();
         }
@@ -95,6 +95,27 @@ namespace TelegramBOT.Services
                             && m.Status != "SCHEDULED")
                 .OrderBy(m => m.MatchDate)
                 .ToListAsync();
+        }
+
+        public async Task<Match> GetMatchByIdAsync(string matchId)
+        {
+            return await _db.Matches
+                .FirstOrDefaultAsync(m => m.MatchId == matchId);
+        }
+
+        public async Task<string> GetMatchStatsAsync(string matchId)
+        {
+            return await Task.FromResult("Заглушка");
+        }
+
+        public async Task<string> GetMatchHistoryAsync(string matchId)
+        {
+            return await Task.FromResult("Заглушка");
+        }
+
+        public async Task<string> GetMatchResultAsync(string matchId)
+        {
+            return await Task.FromResult("Заглушка");
         }
 
     }

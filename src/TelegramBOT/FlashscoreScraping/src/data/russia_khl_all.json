@@ -932,7 +932,7 @@
   "KUKGu413": {
     "id": "KUKGu413",
     "date": "20.09.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Cherepovets"
     },
@@ -940,14 +940,14 @@
       "name": "Barys Astana"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "pd4Ana1s": {
     "id": "pd4Ana1s",
     "date": "21.09.2025 14:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Tractor Chelyabinsk"
     },
@@ -955,14 +955,14 @@
       "name": "Spartak Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "5"
     }
   },
   "I92IpwWg": {
     "id": "I92IpwWg",
     "date": "21.09.2025 14:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Magnitogorsk"
     },
@@ -970,14 +970,14 @@
       "name": "CSKA Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "4"
     }
   },
   "pxMRteVI": {
     "id": "pxMRteVI",
     "date": "21.09.2025 15:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Yekaterinburg"
     },
@@ -985,14 +985,14 @@
       "name": "Niznekamsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "4"
     }
   },
   "QBNwhLwK": {
     "id": "QBNwhLwK",
     "date": "21.09.2025 16:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Lada"
     },
@@ -1000,14 +1000,14 @@
       "name": "SKA St. Petersburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "0",
+      "away": "3"
     }
   },
   "xCIJrH06": {
     "id": "xCIJrH06",
     "date": "21.09.2025 16:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Bars Kazan"
     },
@@ -1015,14 +1015,14 @@
       "name": "Avangard Omsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "6"
     }
   },
   "O6NwlCxn": {
     "id": "O6NwlCxn",
     "date": "22.09.2025 12:15",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Khabarovsk"
     },
@@ -1030,8 +1030,8 @@
       "name": "Dynamo Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "3"
     }
   },
   "CtZgpUyB": {

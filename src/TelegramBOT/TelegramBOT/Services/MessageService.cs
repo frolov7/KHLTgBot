@@ -110,7 +110,7 @@ namespace TelegramBOT.Services
         /// <summary>
         /// Отправить календарь матчей одним сообщением
         /// </summary>
-        public async Task SendCalendarAsync(long chatId, List<Match> matches, DateTime? fromDate = null, DateTime? toDate = null)
+        public async Task SendCalendarAsync(long chatId, List<Match> matches, DateTime? fromDate = null, DateTime? toDate = null, bool withButtons = false)
         {
             if (matches == null || matches.Count == 0)
             {
@@ -121,37 +121,58 @@ namespace TelegramBOT.Services
             var sb = new StringBuilder();
 
             if (fromDate != null && toDate != null && fromDate != toDate)
-                sb.AppendLine($"📅 Матчи с {fromDate:dd.MM.yyyy} по {toDate:dd.MM.yyyy}\n");
-            else if (fromDate != null)
-                sb.AppendLine($"📅 Матчи начиная с {fromDate:dd.MM.yyyy}\n");
+                sb.AppendLine($"🗓 Матчи с {fromDate:dd.MM.yyyy} по {toDate:dd.MM.yyyy}");
             else
-                sb.AppendLine("📅 Список матчей:\n");
+                sb.AppendLine($"🗓 Матчи на {fromDate ?? DateTime.Today:dd.MM.yyyy}");
 
-            // сортируем матчи по дате
-            var orderedMatches = matches.OrderBy(m => m.MatchDate).ToList();
+            sb.AppendLine("----------------------");
 
-            DateTime? currentDate = null;
+            // список кнопок
+            var buttons = new List<InlineKeyboardButton[]>();
 
-            foreach (var match in orderedMatches)
+            foreach (var match in matches.OrderBy(m => m.MatchDate))
             {
-                if (currentDate == null || match.MatchDate.Date != currentDate.Value.Date)
-                {
-                    currentDate = match.MatchDate.Date;
-                    sb.AppendLine($"🗓 {currentDate:dd.MM.yyyy}");
-                    sb.AppendLine("----------------------");
-                }
-
                 var homeName = _mappingService.Map("TeamNames", match.HomeTeamName);
                 var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
                 var status = _mappingService.Map("MatchStatuses", match.Status);
 
                 sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
                 sb.AppendLine($"{homeName} vs {awayName}");
-                sb.AppendLine($"📌 {status}");
+                sb.AppendLine(status);
                 sb.AppendLine();
+
+                if (withButtons)
+                {
+                    buttons.Add(new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(
+                            $"{homeName} vs {awayName}",
+                            $"match_{match.MatchId}"
+                        )
+                    });
+                }
             }
 
-            await SendTextAsync(chatId, sb.ToString());
+            if (withButtons)
+            {
+                var keyboard = new InlineKeyboardMarkup(buttons);
+                await _client.SendMessage(
+                    chatId: chatId,
+                    text: sb.ToString(),
+                    parseMode: ParseMode.Html,
+                    replyMarkup: keyboard,
+                    cancellationToken: CancellationToken.None
+                );
+            }
+            else
+            {
+                await _client.SendMessage(
+                    chatId: chatId,
+                    text: sb.ToString(),
+                    parseMode: ParseMode.Html,
+                    cancellationToken: CancellationToken.None
+                );
+            }
         }
 
 
@@ -217,5 +238,17 @@ namespace TelegramBOT.Services
 
             await SendTextAsync(chatId, sb.ToString());
         }
+
+        public async Task SendTextWithKeyboardAsync(long chatId, string text, InlineKeyboardMarkup keyboard)
+        {
+            await _client.SendMessage(
+                chatId: chatId,
+                text: text,
+                parseMode: ParseMode.Html,
+                replyMarkup: keyboard,
+                cancellationToken: CancellationToken.None
+            );
+        }
+
     }
 }
