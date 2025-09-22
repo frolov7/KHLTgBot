@@ -3,6 +3,10 @@ using TelegramBOT.UI;
 
 namespace TelegramBOT.Handlers
 {
+    /// <summary>
+    /// Обработчик навигации по боту.
+    /// Отвечает за переходы в главное меню и отображение базовых навигационных экранов.
+    /// </summary>
     public class NavigationHandler
     {
         private readonly MessageService _messageService;
@@ -14,9 +18,17 @@ namespace TelegramBOT.Handlers
             _menuService = menuService;
         }
 
+        /// <summary>
+        /// Отображает главное меню с приветственным сообщением.
+        /// </summary>
+        /// <param name="chatId">ID чата, куда будет отправлено меню.</param>
         public async Task ShowMainMenu(long chatId)
         {
-            await _messageService.SendKeyboardAsync(chatId, "Добро пожаловать! Выберите действие.", _menuService.GetMainMenu());
+            await _messageService.SendKeyboardAsync(
+                chatId,
+                "Добро пожаловать! Выберите действие.",
+                _menuService.GetMainMenu()
+            );
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using TelegramBOT.Models;
-using Telegram.Bot.Types.ReplyMarkups;
+﻿using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBOT.Models;
 using TelegramBOT.UI.Menus;
 
 namespace TelegramBOT.UI

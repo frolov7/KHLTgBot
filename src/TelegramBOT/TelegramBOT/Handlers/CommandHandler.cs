@@ -1,9 +1,12 @@
 ﻿using Serilog;
 using Telegram.Bot.Types;
-using TelegramBOT.Services;
 
 namespace TelegramBOT.Handlers
 {
+    /// <summary>
+    /// Главный обработчик входящих сообщений и callback-запросов.
+    /// Делегирует обработку специализированным handler-классам.
+    /// </summary>
     public class CommandHandler
     {
         private readonly CalendarHandler _calendarHandler;
@@ -27,6 +30,11 @@ namespace TelegramBOT.Handlers
             _teamsHandler = teamsHandler;
         }
 
+        /// <summary>
+        /// Основной метод обработки обновлений от Telegram.
+        /// Определяет, является ли входящее сообщение callback-запросом или текстом.
+        /// </summary>
+        /// <param name="update">Объект обновления от Telegram.</param>
         public async Task HandleAsync(Update update)
         {
             if (update.CallbackQuery != null)
@@ -41,6 +49,10 @@ namespace TelegramBOT.Handlers
             }
         }
 
+        /// <summary>
+        /// Обрабатывает нажатия на inline-кнопки (callback-запросы).
+        /// </summary>
+        /// <param name="query">Объект callback-запроса.</param>
         private async Task HandleCallbackQueryAsync(CallbackQuery query)
         {
             var callback = query.Data ?? "";
@@ -58,6 +70,10 @@ namespace TelegramBOT.Handlers
                 await _calendarHandler.ShowToday(chatId);
         }
 
+        /// <summary>
+        /// Обрабатывает входящие текстовые сообщения пользователя.
+        /// </summary>
+        /// <param name="message">Объект сообщения Telegram.</param>
         private async Task HandleMessageAsync(Message message)
         {
             var chatId = message.Chat.Id;

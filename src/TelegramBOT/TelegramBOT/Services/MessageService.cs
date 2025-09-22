@@ -9,26 +9,29 @@ using TelegramBOT.Utils;
 namespace TelegramBOT.Services
 {
     /// <summary>
-    /// Сервис для удобной работы с сообщениями Telegram.
-    /// Содержит методы отправки текста, фото, клавиатур и матчей.
+    /// Сервис для работы с сообщениями Telegram.
+    /// Содержит методы отправки текста, фото, клавиатур и вывода матчей.
     /// </summary>
     public class MessageService
     {
         private readonly ITelegramBotClient _client;
         private readonly MappingService _mappingService;
 
-        /// <summary>
-        /// Конструктор получает клиент через TelegramClientService
-        /// </summary>
         public MessageService(ITelegramBotClient client, MappingService mappingService)
         {
             _client = client;
             _mappingService = mappingService;
         }
 
+        // ================================
+        // Базовые методы
+        // ================================
+
         /// <summary>
-        /// Отправить текстовое сообщение
+        /// Отправить текстовое сообщение.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст сообщения.</param>
         public async Task SendTextAsync(long chatId, string text)
         {
             await _client.SendMessage(
@@ -40,8 +43,11 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Отправить текст и вернуть объект сообщения (для редактирования потом)
+        /// Отправить текстовое сообщение и вернуть объект сообщения для дальнейшего редактирования.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст сообщения.</param>
+        /// <returns>Объект <see cref="Message"/>.</returns>
         public async Task<Message> SendTextWithResponseAsync(long chatId, string text)
         {
             return await _client.SendMessage(
@@ -53,22 +59,28 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Редактировать текст сообщения
+        /// Отредактировать существующее сообщение.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="messageId">ID редактируемого сообщения.</param>
+        /// <param name="newText">Новый текст.</param>
         public async Task EditMessageAsync(long chatId, int messageId, string newText)
         {
             await _client.EditMessageText(
                 chatId,
                 messageId,
                 newText,
-                parseMode: ParseMode.Html,             
+                parseMode: ParseMode.Html,
                 cancellationToken: CancellationToken.None
             );
         }
 
         /// <summary>
-        /// Отправить фото по ссылке с подписью
+        /// Отправить фото по ссылке.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="url">Ссылка на изображение.</param>
+        /// <param name="caption">Подпись (необязательно).</param>
         public async Task SendPhotoAsync(long chatId, string url, string caption = "")
         {
             await _client.SendPhoto(
@@ -79,9 +91,16 @@ namespace TelegramBOT.Services
             );
         }
 
+        // ================================
+        // Методы для клавиатур
+        // ================================
+
         /// <summary>
-        /// Отправить клавиатуру (ReplyKeyboard или InlineKeyboard)
+        /// Отправить сообщение с клавиатурой (ReplyKeyboard или InlineKeyboard).
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст сообщения.</param>
+        /// <param name="keyboard">Клавиатура.</param>
         public async Task SendKeyboardAsync(long chatId, string text, ReplyMarkup? keyboard)
         {
             await _client.SendMessage(
@@ -94,8 +113,10 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Удалить кастомную клавиатуру и вернуть стандартную
+        /// Удалить кастомную клавиатуру и вернуть стандартную.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст (по умолчанию "Клавиатура убрана").</param>
         public async Task RemoveKeyboardAsync(long chatId, string text = "Клавиатура убрана")
         {
             await _client.SendMessage(
@@ -108,8 +129,34 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Отправить календарь матчей одним сообщением
+        /// Отправить сообщение с inline-клавиатурой.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст сообщения.</param>
+        /// <param name="keyboard">Inline-клавиатура.</param>
+        public async Task SendTextWithKeyboardAsync(long chatId, string text, InlineKeyboardMarkup keyboard)
+        {
+            await _client.SendMessage(
+                chatId: chatId,
+                text: text,
+                parseMode: ParseMode.Html,
+                replyMarkup: keyboard,
+                cancellationToken: CancellationToken.None
+            );
+        }
+
+        // ================================
+        // Методы для матчей
+        // ================================
+
+        /// <summary>
+        /// Отправить календарь матчей одним сообщением.
+        /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="matches">Список матчей.</param>
+        /// <param name="fromDate">Начальная дата (необязательно).</param>
+        /// <param name="toDate">Конечная дата (необязательно).</param>
+        /// <param name="withButtons">Показать ли кнопки для выбора матчей.</param>
         public async Task SendCalendarAsync(long chatId, List<Match> matches, DateTime? fromDate = null, DateTime? toDate = null, bool withButtons = false)
         {
             if (matches == null || matches.Count == 0)
@@ -127,7 +174,6 @@ namespace TelegramBOT.Services
 
             sb.AppendLine("----------------------");
 
-            // список кнопок
             var buttons = new List<InlineKeyboardButton[]>();
 
             foreach (var match in matches.OrderBy(m => m.MatchDate))
@@ -175,11 +221,14 @@ namespace TelegramBOT.Services
             }
         }
 
-
         /// <summary>
-        /// Отправить результаты матчей одним сообщением
+        /// Отправить результаты матчей одним сообщением.
         /// </summary>
-        public async Task SendResultsAsync(long chatId, List<Match> matches, DateTime? date = null, string teamName = null)
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="matches">Список матчей.</param>
+        /// <param name="date">Дата (необязательно).</param>
+        /// <param name="teamName">Название команды (если нужны персонализированные результаты).</param>
+        public async Task SendResultsAsync(long chatId, List<Match> matches, DateTime? date = null, string? teamName = null)
         {
             if (matches == null || matches.Count == 0)
             {
@@ -204,7 +253,7 @@ namespace TelegramBOT.Services
                 if (teamName != null && match.Status != "SCHEDULED" &&
                     !(match.Status.Contains("PERIOD") || match.Status == "OVERTIME" || match.Status == "PENALTIES"))
                 {
-                    // показываем Победа/Поражение только для завершённых матчей
+                    // Победа/поражение только для завершённых матчей
                     bool isHome = match.HomeTeamName == teamName;
                     int homeScore = match.HomeScore ?? 0;
                     int awayScore = match.AwayScore ?? 0;
@@ -218,15 +267,17 @@ namespace TelegramBOT.Services
                         : $"❌ Поражение ({shortStatus})";
                 }
                 else
+                {
                     statusText = _mappingService.Map("MatchStatuses", match.Status);
+                }
 
-                // дата или время
+                // Дата или время
                 if (date != null)
                     sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
                 else
                     sb.AppendLine($"📅 {match.MatchDate:dd.MM.yyyy}");
 
-                // счёт или анонс
+                // Счет или анонс
                 if (match.Status != "SCHEDULED")
                     sb.AppendLine($"{homeName} <b>{match.HomeScore ?? 0} : {match.AwayScore ?? 0}</b> {awayName}");
                 else
@@ -238,17 +289,5 @@ namespace TelegramBOT.Services
 
             await SendTextAsync(chatId, sb.ToString());
         }
-
-        public async Task SendTextWithKeyboardAsync(long chatId, string text, InlineKeyboardMarkup keyboard)
-        {
-            await _client.SendMessage(
-                chatId: chatId,
-                text: text,
-                parseMode: ParseMode.Html,
-                replyMarkup: keyboard,
-                cancellationToken: CancellationToken.None
-            );
-        }
-
     }
 }
