@@ -136,16 +136,6 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Получить историю встреч команд (заглушка).
-        /// </summary>
-        /// <param name="matchId">ID матча.</param>
-        /// <returns>Строка с историей встреч.</returns>
-        public async Task<string> GetMatchHistoryAsync(string matchId)
-        {
-            return await Task.FromResult("История встреч (заглушка)");
-        }
-
-        /// <summary>
         /// Получить результат матча (заглушка).
         /// </summary>
         /// <param name="matchId">ID матча.</param>
@@ -153,6 +143,58 @@ namespace TelegramBOT.Services
         public async Task<string> GetMatchResultAsync(string matchId)
         {
             return await Task.FromResult("Результат матча (заглушка)");
+        }
+
+        /// <summary>
+        /// Получить очные встречи двух команд.
+        /// </summary>
+        /// <param name="homeTeam">Название домашней команды.</param>
+        /// <param name="awayTeam">Название гостевой команды.</param>
+        /// <returns>Список сыгранных матчей между командами.</returns>
+        public async Task<List<Match>> GetHeadToHeadMatchesAsync(string homeTeam, string awayTeam)
+        {
+            return await _db.Matches
+                .Where(m =>
+                    ((m.HomeTeamName == homeTeam && m.AwayTeamName == awayTeam) ||
+                     (m.HomeTeamName == awayTeam && m.AwayTeamName == homeTeam))
+                    && m.Status != "SCHEDULED")
+                .OrderByDescending(m => m.MatchDate)
+                .Take(10) // последние 10 встреч
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Получить матч и последние игры обеих команд.
+        /// </summary>
+        /// <param name="matchId">ID матча.</param>
+        /// <returns>
+        /// Кортеж:
+        /// - Match – сам матч;
+        /// - List&lt;Match&gt; – последние игры домашней команды;
+        /// - List&lt;Match&gt; – последние игры гостевой команды.
+        /// </returns>
+        public async Task<(Match? match, List<Match> homeResults, List<Match> awayResults)> GetTeamsHistoryAsync(string matchId)
+        {
+            var match = await GetMatchByIdAsync(matchId);
+
+            if (match == null)
+                return (null, new List<Match>(), new List<Match>());
+
+            var homeResults = await GetAllResultsByTeamAsync(match.HomeTeamName);
+            var awayResults = await GetAllResultsByTeamAsync(match.AwayTeamName);
+
+            // Берем последние 10 по дате
+            var lastHome = homeResults
+                .OrderByDescending(m => m.MatchDate)
+                .Take(10)
+                .ToList();
+
+            var lastAway = awayResults
+                .OrderByDescending(m => m.MatchDate)
+                .Take(10)
+                .ToList();
+
+            return (match, lastHome, lastAway);
         }
     }
 }

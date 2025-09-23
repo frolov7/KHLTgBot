@@ -289,5 +289,111 @@ namespace TelegramBOT.Services
 
             await SendTextAsync(chatId, sb.ToString());
         }
+
+        /// <summary>
+        /// Отправить историю последних матчей для двух команд.
+        /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="match">Матч (объект Match).</param>
+        /// <param name="homeResults">Список последних игр домашней команды.</param>
+        /// <param name="awayResults">Список последних игр гостевой команды.</param>
+        public async Task SendHistoryAsync(long chatId, Match match, List<Match> homeResults, List<Match> awayResults)
+        {
+            string GetMatchSuffix(string status)
+            {
+                if (string.IsNullOrEmpty(status)) return "";
+                if (status.Contains("OVERTIME")) return " (ОТ)";
+                if (status.Contains("PENALTIES")) return " (Б)";
+                return "";
+            }
+
+            string GetResultEmoji(Match m, string teamName)
+            {
+                if (m.HomeScore == null || m.AwayScore == null) return "";
+
+                bool isHome = m.HomeTeamName == teamName;
+                int homeScore = m.HomeScore.Value;
+                int awayScore = m.AwayScore.Value;
+
+                bool isWin = (isHome && homeScore > awayScore) || (!isHome && awayScore > homeScore);
+                return isWin ? "🏆" : "❌";
+            }
+
+            var homeName = _mappingService.Map("TeamNames", match.HomeTeamName);
+            var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
+
+            var sb = new StringBuilder();
+            sb.AppendLine("⚔️ Прошлые игры:\n");
+
+            // Домашняя команда
+            sb.AppendLine($"{homeName} (последние 10):");
+            foreach (var m in homeResults)
+            {
+                sb.AppendLine(
+                    $"{GetResultEmoji(m, match.HomeTeamName)} " +
+                    $"({m.MatchDate:dd.MM}) " +
+                    $"{_mappingService.Map("TeamNames", m.HomeTeamName)} " +
+                    $"{m.HomeScore}:{m.AwayScore}{GetMatchSuffix(m.Status)} " +
+                    $"{_mappingService.Map("TeamNames", m.AwayTeamName)}"
+                );
+            }
+
+            // Гостевая команда
+            sb.AppendLine($"\n{awayName} (последние 10):");
+            foreach (var m in awayResults)
+            {
+                sb.AppendLine(
+                    $"{GetResultEmoji(m, match.AwayTeamName)} " +
+                    $"({m.MatchDate:dd.MM}) " +
+                    $"{_mappingService.Map("TeamNames", m.HomeTeamName)} " +
+                    $"{m.HomeScore}:{m.AwayScore}{GetMatchSuffix(m.Status)} " +
+                    $"{_mappingService.Map("TeamNames", m.AwayTeamName)}"
+                );
+            }
+
+            await SendTextAsync(chatId, sb.ToString());
+        }
+
+        /// <summary>
+        /// Отправить историю очных встреч двух команд.
+        /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="homeTeam">Название домашней команды (EN).</param>
+        /// <param name="awayTeam">Название гостевой команды (EN).</param>
+        /// <param name="matches">Список очных матчей.</param>
+        public async Task SendHeadToHeadAsync(long chatId, string homeTeam, string awayTeam, List<Match> matches)
+        {
+            if (matches == null || matches.Count == 0)
+            {
+                await SendTextAsync(chatId, "Эти команды ещё не встречались.");
+                return;
+            }
+
+            string GetMatchSuffix(string status)
+            {
+                if (string.IsNullOrEmpty(status)) return "";
+                if (status.Contains("OVERTIME")) return " (ОТ)";
+                if (status.Contains("PENALTIES")) return " (Б)";
+                return "";
+            }
+
+            var homeName = _mappingService.Map("TeamNames", homeTeam);
+            var awayName = _mappingService.Map("TeamNames", awayTeam);
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"Очные встречи команд (последние {matches.Count}):\n");
+
+            foreach (var m in matches)
+            {
+                sb.AppendLine(
+                    $"📅 {m.MatchDate:dd.MM.yyyy} " +
+                    $"{_mappingService.Map("TeamNames", m.HomeTeamName)} " +
+                    $"{m.HomeScore}:{m.AwayScore}{GetMatchSuffix(m.Status)} " +
+                    $"{_mappingService.Map("TeamNames", m.AwayTeamName)}"
+                );
+            }
+
+            await SendTextAsync(chatId, sb.ToString());
+        }
     }
 }

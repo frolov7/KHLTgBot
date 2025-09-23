@@ -8,12 +8,12 @@ namespace TelegramBOT.UI.Menus
         {
             return new ReplyKeyboardMarkup(new[]
             {
-                new[] { new KeyboardButton("🦌 Торпедо Нижний Новгород"), new KeyboardButton("🐉 Куньлунь Ред Стар") },
-                new[] { new KeyboardButton("🐃 Динамо Минск"), new KeyboardButton("⚒️ Северсталь Череповец") },
-                new[] { new KeyboardButton("★ ЦСКА Москва"), new KeyboardButton("🐆 ХК Сочи") },
-                new[] { new KeyboardButton("🚂 Локомотив Ярославль"), new KeyboardButton("⭐ СКА Санкт-Петербург") },
-                new[] { new KeyboardButton("🔵 Динамо Москва"), new KeyboardButton("🚗 Лада Тольятти") },
-                new[] { new KeyboardButton("♦️ Спартак Москва") },
+                new[] { new KeyboardButton("🦌 Торпедо"), new KeyboardButton("🐉 Шанхай Дрэгонс") },
+                new[] { new KeyboardButton("🐃 Динамо Минск"), new KeyboardButton("⚒️ Северсталь") },
+                new[] { new KeyboardButton("★ ЦСКА"), new KeyboardButton("🐆 ХК Сочи") },
+                new[] { new KeyboardButton("🚂 Локомотив"), new KeyboardButton("⭐ СКА") },
+                new[] { new KeyboardButton("🔵 Динамо Москва"), new KeyboardButton("🚗 Лада") },
+                new[] { new KeyboardButton("♦️ Спартак") },
                 new[] { new KeyboardButton("⬅️ Назад (Результаты)"), new KeyboardButton("🏠 В главное меню") }
             })
             {
@@ -25,12 +25,12 @@ namespace TelegramBOT.UI.Menus
         {
             return new ReplyKeyboardMarkup(new[]
             {
-                new[] { new KeyboardButton("🚘 Автомобилист Екатеринбург"), new KeyboardButton("🦅 Авангард Омск") },
-                new[] { new KeyboardButton("🚜 Трактор Челябинск"), new KeyboardButton("🐆 Барыс Астана") },
-                new[] { new KeyboardButton("⛏️ Металлург Магнитогорск"), new KeyboardButton("🐅 Амур Хабаровск") },
-                new[] { new KeyboardButton("🐯 Ак Барс Казань"), new KeyboardButton("⚓ Адмирал Владивосток") },
-                new[] { new KeyboardButton("🐺 Нефтехимик Нижнекамск"), new KeyboardButton("🕌 Салават Юлаев Уфа") },
-                new[] { new KeyboardButton("❄️ Сибирь Новосибирск") },
+                new[] { new KeyboardButton("🚘 Автомобилист"), new KeyboardButton("🦅 Авангард") },
+                new[] { new KeyboardButton("🚜 Трактор"), new KeyboardButton("🐆 Барыс") },
+                new[] { new KeyboardButton("⛏️ Металлург"), new KeyboardButton("🐅 Амур") },
+                new[] { new KeyboardButton("🐯 Ак Барс"), new KeyboardButton("⚓ Адмирал") },
+                new[] { new KeyboardButton("🐺 Нефтехимик"), new KeyboardButton("🕌 Салават Юлаев") },
+                new[] { new KeyboardButton("❄️ Сибирь") },
                 new[] { new KeyboardButton("⬅️ Назад (Результаты)"), new KeyboardButton("🏠 В главное меню") }
             })
             {

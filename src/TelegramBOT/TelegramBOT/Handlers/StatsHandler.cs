@@ -1,5 +1,6 @@
 ﻿using TelegramBOT.Services;
 using TelegramBOT.UI;
+using TelegramBOT.Utils;
 
 namespace TelegramBOT.Handlers
 {
@@ -12,12 +13,14 @@ namespace TelegramBOT.Handlers
         private readonly MessageService _messageService;
         private readonly MatchService _matchService;
         private readonly MenuService _menuService;
+        private readonly MappingService _mappingService;
 
-        public StatsHandler(MessageService messageService, MatchService matchService, MenuService menuService)
+        public StatsHandler(MessageService messageService, MatchService matchService, MenuService menuService, MappingService mappingService)
         {
             _messageService = messageService;
             _matchService = matchService;
             _menuService = menuService;
+            _mappingService = mappingService;
         }
 
         /// <summary>
@@ -40,21 +43,44 @@ namespace TelegramBOT.Handlers
         public async Task HandleStats(long chatId, string callback)
         {
             var matchId = callback.Replace("stats_", "");
-            // Заглушка: показать статистику игр между командами
-            await _messageService.SendTextAsync(chatId, $"📊 Игры между собой (заглушка) для матча {matchId}");
+            var match = await _matchService.GetMatchByIdAsync(matchId);
+
+            if (match == null)
+            {
+                await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
+                return;
+            }
+
+            var matches = await _matchService.GetHeadToHeadMatchesAsync(match.HomeTeamName, match.AwayTeamName);
+
+            await _messageService.SendHeadToHeadAsync(chatId, match.HomeTeamName, match.AwayTeamName, matches);
         }
 
         /// <summary>
         /// Обрабатывает кнопку «Прошлые игры».
-        /// Отображает список последних матчей выбранных команд.
+        /// Загружает историю матчей и передает её в MessageService.
         /// </summary>
         /// <param name="chatId">ID чата.</param>
         /// <param name="callback">Callback-данные с matchId.</param>
         public async Task HandleHistory(long chatId, string callback)
         {
             var matchId = callback.Replace("history_", "");
-            // Заглушка: показать прошлые игры
-            await _messageService.SendTextAsync(chatId, $"⚔️ Прошлые игры (заглушка) для матча {matchId}");
+
+            var (match, homeResults, awayResults) = await _matchService.GetTeamsHistoryAsync(matchId);
+
+            if (match == null)
+            {
+                await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
+                return;
+            }
+
+            if (!homeResults.Any() && !awayResults.Any())
+            {
+                await _messageService.SendTextAsync(chatId, "Нет прошлых игр для этих команд.");
+                return;
+            }
+
+            await _messageService.SendHistoryAsync(chatId, match, homeResults, awayResults);
         }
 
         /// <summary>

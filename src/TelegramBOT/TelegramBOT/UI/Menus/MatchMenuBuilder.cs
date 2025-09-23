@@ -3,20 +3,36 @@ using TelegramBOT.Models;
 
 namespace TelegramBOT.UI.Menus
 {
+    /// <summary>
+    /// Строитель меню для выбранного матча.
+    /// </summary>
     public class MatchMenuBuilder
     {
-        public ReplyKeyboardMarkup Build(Match match)
+        /// <summary>
+        /// Формирует inline-меню для матча.
+        /// </summary>
+        /// <param name="match">Матч</param>
+        public InlineKeyboardMarkup Build(Match match)
         {
-            return new ReplyKeyboardMarkup(new[]
+            return new InlineKeyboardMarkup(new[]
             {
-                new[] { new KeyboardButton("📊 Игры между собой") },
-                new[] { new KeyboardButton("⚔️ Прошлые игры") },
-                new[] { new KeyboardButton("🔮 Прогнозы") },
-                new[] { new KeyboardButton("⬅️ Назад (Календарь)") }
-            })
-            {
-                ResizeKeyboard = true
-            };
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("📊 Игры между собой", $"stats_{match.MatchId}")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("⚔️ Прошлые игры", $"history_{match.MatchId}")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("🔮 Прогнозы", $"predict_{match.MatchId}")
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("⬅️ Назад (Календарь)", "back_to_today")
+                }
+            });
         }
     }
 }
