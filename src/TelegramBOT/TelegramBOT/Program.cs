@@ -4,6 +4,7 @@ using Telegram.Bot;
 using TelegramBOT.Data;
 using TelegramBOT.Handlers;
 using TelegramBOT.Services;
+using TelegramBOT.UI;
 using TelegramBOT.Utils;
 
 // -----------------------------
@@ -58,7 +59,16 @@ builder.ConfigureServices((context, services) =>
     // -----------------------------
     // Обработчики приложения
     // -----------------------------
+    services.AddScoped<CalendarHandler>();
     services.AddScoped<CommandHandler>();
+    services.AddScoped<NavigationHandler>();
+    services.AddScoped<ResultsHandler>();
+    services.AddScoped<StatsHandler>();
+    services.AddScoped<TeamsHandler>();
+
+    // -----------------------------
+    // UI
+    // -----------------------------
     services.AddScoped<MenuService>();
 
     // -----------------------------

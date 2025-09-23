@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace TelegramBOT.Utils
+﻿namespace TelegramBOT.Utils
 {
     /// <summary>
     /// Универсальный сервис для преобразования "сырых" данных 

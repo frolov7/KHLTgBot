@@ -9,26 +9,29 @@ using TelegramBOT.Utils;
 namespace TelegramBOT.Services
 {
     /// <summary>
-    /// Сервис для удобной работы с сообщениями Telegram.
-    /// Содержит методы отправки текста, фото, клавиатур и матчей.
+    /// Сервис для работы с сообщениями Telegram.
+    /// Содержит методы отправки текста, фото, клавиатур и вывода матчей.
     /// </summary>
     public class MessageService
     {
         private readonly ITelegramBotClient _client;
         private readonly MappingService _mappingService;
 
-        /// <summary>
-        /// Конструктор получает клиент через TelegramClientService
-        /// </summary>
         public MessageService(ITelegramBotClient client, MappingService mappingService)
         {
             _client = client;
             _mappingService = mappingService;
         }
 
+        // ================================
+        // Базовые методы
+        // ================================
+
         /// <summary>
-        /// Отправить текстовое сообщение
+        /// Отправить текстовое сообщение.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст сообщения.</param>
         public async Task SendTextAsync(long chatId, string text)
         {
             await _client.SendMessage(
@@ -40,8 +43,11 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Отправить текст и вернуть объект сообщения (для редактирования потом)
+        /// Отправить текстовое сообщение и вернуть объект сообщения для дальнейшего редактирования.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст сообщения.</param>
+        /// <returns>Объект <see cref="Message"/>.</returns>
         public async Task<Message> SendTextWithResponseAsync(long chatId, string text)
         {
             return await _client.SendMessage(
@@ -53,22 +59,28 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Редактировать текст сообщения
+        /// Отредактировать существующее сообщение.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="messageId">ID редактируемого сообщения.</param>
+        /// <param name="newText">Новый текст.</param>
         public async Task EditMessageAsync(long chatId, int messageId, string newText)
         {
             await _client.EditMessageText(
                 chatId,
                 messageId,
                 newText,
-                parseMode: ParseMode.Html,             
+                parseMode: ParseMode.Html,
                 cancellationToken: CancellationToken.None
             );
         }
 
         /// <summary>
-        /// Отправить фото по ссылке с подписью
+        /// Отправить фото по ссылке.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="url">Ссылка на изображение.</param>
+        /// <param name="caption">Подпись (необязательно).</param>
         public async Task SendPhotoAsync(long chatId, string url, string caption = "")
         {
             await _client.SendPhoto(
@@ -79,9 +91,16 @@ namespace TelegramBOT.Services
             );
         }
 
+        // ================================
+        // Методы для клавиатур
+        // ================================
+
         /// <summary>
-        /// Отправить клавиатуру (ReplyKeyboard или InlineKeyboard)
+        /// Отправить сообщение с клавиатурой (ReplyKeyboard или InlineKeyboard).
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст сообщения.</param>
+        /// <param name="keyboard">Клавиатура.</param>
         public async Task SendKeyboardAsync(long chatId, string text, ReplyMarkup? keyboard)
         {
             await _client.SendMessage(
@@ -94,8 +113,10 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Удалить кастомную клавиатуру и вернуть стандартную
+        /// Удалить кастомную клавиатуру и вернуть стандартную.
         /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст (по умолчанию "Клавиатура убрана").</param>
         public async Task RemoveKeyboardAsync(long chatId, string text = "Клавиатура убрана")
         {
             await _client.SendMessage(
@@ -108,9 +129,35 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Отправить календарь матчей одним сообщением
+        /// Отправить сообщение с inline-клавиатурой.
         /// </summary>
-        public async Task SendCalendarAsync(long chatId, List<Match> matches, DateTime? fromDate = null, DateTime? toDate = null)
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="text">Текст сообщения.</param>
+        /// <param name="keyboard">Inline-клавиатура.</param>
+        public async Task SendTextWithKeyboardAsync(long chatId, string text, InlineKeyboardMarkup keyboard)
+        {
+            await _client.SendMessage(
+                chatId: chatId,
+                text: text,
+                parseMode: ParseMode.Html,
+                replyMarkup: keyboard,
+                cancellationToken: CancellationToken.None
+            );
+        }
+
+        // ================================
+        // Методы для матчей
+        // ================================
+
+        /// <summary>
+        /// Отправить календарь матчей одним сообщением.
+        /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="matches">Список матчей.</param>
+        /// <param name="fromDate">Начальная дата (необязательно).</param>
+        /// <param name="toDate">Конечная дата (необязательно).</param>
+        /// <param name="withButtons">Показать ли кнопки для выбора матчей.</param>
+        public async Task SendCalendarAsync(long chatId, List<Match> matches, DateTime? fromDate = null, DateTime? toDate = null, bool withButtons = false)
         {
             if (matches == null || matches.Count == 0)
             {
@@ -121,44 +168,67 @@ namespace TelegramBOT.Services
             var sb = new StringBuilder();
 
             if (fromDate != null && toDate != null && fromDate != toDate)
-                sb.AppendLine($"📅 Матчи с {fromDate:dd.MM.yyyy} по {toDate:dd.MM.yyyy}\n");
-            else if (fromDate != null)
-                sb.AppendLine($"📅 Матчи начиная с {fromDate:dd.MM.yyyy}\n");
+                sb.AppendLine($"🗓 Матчи с {fromDate:dd.MM.yyyy} по {toDate:dd.MM.yyyy}");
             else
-                sb.AppendLine("📅 Список матчей:\n");
+                sb.AppendLine($"🗓 Матчи на {fromDate ?? DateTime.Today:dd.MM.yyyy}");
 
-            // сортируем матчи по дате
-            var orderedMatches = matches.OrderBy(m => m.MatchDate).ToList();
+            sb.AppendLine("----------------------");
 
-            DateTime? currentDate = null;
+            var buttons = new List<InlineKeyboardButton[]>();
 
-            foreach (var match in orderedMatches)
+            foreach (var match in matches.OrderBy(m => m.MatchDate))
             {
-                if (currentDate == null || match.MatchDate.Date != currentDate.Value.Date)
-                {
-                    currentDate = match.MatchDate.Date;
-                    sb.AppendLine($"🗓 {currentDate:dd.MM.yyyy}");
-                    sb.AppendLine("----------------------");
-                }
-
                 var homeName = _mappingService.Map("TeamNames", match.HomeTeamName);
                 var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
                 var status = _mappingService.Map("MatchStatuses", match.Status);
 
                 sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
                 sb.AppendLine($"{homeName} vs {awayName}");
-                sb.AppendLine($"📌 {status}");
+                sb.AppendLine(status);
                 sb.AppendLine();
+
+                if (withButtons)
+                {
+                    buttons.Add(new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(
+                            $"{homeName} vs {awayName}",
+                            $"match_{match.MatchId}"
+                        )
+                    });
+                }
             }
 
-            await SendTextAsync(chatId, sb.ToString());
+            if (withButtons)
+            {
+                var keyboard = new InlineKeyboardMarkup(buttons);
+                await _client.SendMessage(
+                    chatId: chatId,
+                    text: sb.ToString(),
+                    parseMode: ParseMode.Html,
+                    replyMarkup: keyboard,
+                    cancellationToken: CancellationToken.None
+                );
+            }
+            else
+            {
+                await _client.SendMessage(
+                    chatId: chatId,
+                    text: sb.ToString(),
+                    parseMode: ParseMode.Html,
+                    cancellationToken: CancellationToken.None
+                );
+            }
         }
 
-
         /// <summary>
-        /// Отправить результаты матчей одним сообщением
+        /// Отправить результаты матчей одним сообщением.
         /// </summary>
-        public async Task SendResultsAsync(long chatId, List<Match> matches, DateTime? date = null, string teamName = null)
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="matches">Список матчей.</param>
+        /// <param name="date">Дата (необязательно).</param>
+        /// <param name="teamName">Название команды (если нужны персонализированные результаты).</param>
+        public async Task SendResultsAsync(long chatId, List<Match> matches, DateTime? date = null, string? teamName = null)
         {
             if (matches == null || matches.Count == 0)
             {
@@ -183,7 +253,7 @@ namespace TelegramBOT.Services
                 if (teamName != null && match.Status != "SCHEDULED" &&
                     !(match.Status.Contains("PERIOD") || match.Status == "OVERTIME" || match.Status == "PENALTIES"))
                 {
-                    // показываем Победа/Поражение только для завершённых матчей
+                    // Победа/поражение только для завершённых матчей
                     bool isHome = match.HomeTeamName == teamName;
                     int homeScore = match.HomeScore ?? 0;
                     int awayScore = match.AwayScore ?? 0;
@@ -197,15 +267,17 @@ namespace TelegramBOT.Services
                         : $"❌ Поражение ({shortStatus})";
                 }
                 else
+                {
                     statusText = _mappingService.Map("MatchStatuses", match.Status);
+                }
 
-                // дата или время
+                // Дата или время
                 if (date != null)
                     sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
                 else
                     sb.AppendLine($"📅 {match.MatchDate:dd.MM.yyyy}");
 
-                // счёт или анонс
+                // Счет или анонс
                 if (match.Status != "SCHEDULED")
                     sb.AppendLine($"{homeName} <b>{match.HomeScore ?? 0} : {match.AwayScore ?? 0}</b> {awayName}");
                 else
@@ -213,6 +285,112 @@ namespace TelegramBOT.Services
 
                 sb.AppendLine(statusText);
                 sb.AppendLine();
+            }
+
+            await SendTextAsync(chatId, sb.ToString());
+        }
+
+        /// <summary>
+        /// Отправить историю последних матчей для двух команд.
+        /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="match">Матч (объект Match).</param>
+        /// <param name="homeResults">Список последних игр домашней команды.</param>
+        /// <param name="awayResults">Список последних игр гостевой команды.</param>
+        public async Task SendHistoryAsync(long chatId, Match match, List<Match> homeResults, List<Match> awayResults)
+        {
+            string GetMatchSuffix(string status)
+            {
+                if (string.IsNullOrEmpty(status)) return "";
+                if (status.Contains("OVERTIME")) return " (ОТ)";
+                if (status.Contains("PENALTIES")) return " (Б)";
+                return "";
+            }
+
+            string GetResultEmoji(Match m, string teamName)
+            {
+                if (m.HomeScore == null || m.AwayScore == null) return "";
+
+                bool isHome = m.HomeTeamName == teamName;
+                int homeScore = m.HomeScore.Value;
+                int awayScore = m.AwayScore.Value;
+
+                bool isWin = (isHome && homeScore > awayScore) || (!isHome && awayScore > homeScore);
+                return isWin ? "🏆" : "❌";
+            }
+
+            var homeName = _mappingService.Map("TeamNames", match.HomeTeamName);
+            var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
+
+            var sb = new StringBuilder();
+            sb.AppendLine("⚔️ Прошлые игры:\n");
+
+            // Домашняя команда
+            sb.AppendLine($"{homeName} (последние 10):");
+            foreach (var m in homeResults)
+            {
+                sb.AppendLine(
+                    $"{GetResultEmoji(m, match.HomeTeamName)} " +
+                    $"({m.MatchDate:dd.MM}) " +
+                    $"{_mappingService.Map("TeamNames", m.HomeTeamName)} " +
+                    $"{m.HomeScore}:{m.AwayScore}{GetMatchSuffix(m.Status)} " +
+                    $"{_mappingService.Map("TeamNames", m.AwayTeamName)}"
+                );
+            }
+
+            // Гостевая команда
+            sb.AppendLine($"\n{awayName} (последние 10):");
+            foreach (var m in awayResults)
+            {
+                sb.AppendLine(
+                    $"{GetResultEmoji(m, match.AwayTeamName)} " +
+                    $"({m.MatchDate:dd.MM}) " +
+                    $"{_mappingService.Map("TeamNames", m.HomeTeamName)} " +
+                    $"{m.HomeScore}:{m.AwayScore}{GetMatchSuffix(m.Status)} " +
+                    $"{_mappingService.Map("TeamNames", m.AwayTeamName)}"
+                );
+            }
+
+            await SendTextAsync(chatId, sb.ToString());
+        }
+
+        /// <summary>
+        /// Отправить историю очных встреч двух команд.
+        /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="homeTeam">Название домашней команды (EN).</param>
+        /// <param name="awayTeam">Название гостевой команды (EN).</param>
+        /// <param name="matches">Список очных матчей.</param>
+        public async Task SendHeadToHeadAsync(long chatId, string homeTeam, string awayTeam, List<Match> matches)
+        {
+            if (matches == null || matches.Count == 0)
+            {
+                await SendTextAsync(chatId, "Эти команды ещё не встречались.");
+                return;
+            }
+
+            string GetMatchSuffix(string status)
+            {
+                if (string.IsNullOrEmpty(status)) return "";
+                if (status.Contains("OVERTIME")) return " (ОТ)";
+                if (status.Contains("PENALTIES")) return " (Б)";
+                return "";
+            }
+
+            var homeName = _mappingService.Map("TeamNames", homeTeam);
+            var awayName = _mappingService.Map("TeamNames", awayTeam);
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"Очные встречи команд (последние {matches.Count}):\n");
+
+            foreach (var m in matches)
+            {
+                sb.AppendLine(
+                    $"📅 {m.MatchDate:dd.MM.yyyy} " +
+                    $"{_mappingService.Map("TeamNames", m.HomeTeamName)} " +
+                    $"{m.HomeScore}:{m.AwayScore}{GetMatchSuffix(m.Status)} " +
+                    $"{_mappingService.Map("TeamNames", m.AwayTeamName)}"
+                );
             }
 
             await SendTextAsync(chatId, sb.ToString());
