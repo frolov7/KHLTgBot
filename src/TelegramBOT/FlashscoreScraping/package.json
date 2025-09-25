@@ -9,6 +9,7 @@
     "calendar": "node src/scraper/scraperRunner.js --calendar"
   },
   "dependencies": {
+    "cheerio": "^1.1.2",
     "cli-loading-animation": "^1.0.6",
     "cli-progress": "^3.12.0",
     "dayjs": "^1.11.18",

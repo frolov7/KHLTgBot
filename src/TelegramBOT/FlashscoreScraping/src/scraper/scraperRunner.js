@@ -6,6 +6,14 @@ import { OUTPUT_PATH } from "../constants/constants.js";
 import { updateRecentMatches } from "./services/matches/getMatches.js";
 import { start as startLoading, stop as stopLoading } from "../cli/loader/loader.js";
 
+import { scrapePredictions as scrapeBetzona } from "./services/predictions/betzonaParse.js";
+import { scrapePredictions as scrapeLegalbet } from "./services/predictions/legalbetParse.js";
+import { scrapePredictions as scrapeLivesport } from "./services/predictions/livesportParse.js";
+import { scrapePredictions as scrapeMetaRatings } from "./services/predictions/metaRatingsParse.js";
+import { scrapePredictions as scrapeStavkatv } from "./services/predictions/stavkatvParse.js";
+import { scrapePredictions as scrapeVprognoze } from "./services/predictions/vprognozeParse.js";
+import { scrapePredictions as scrapeVseprosport } from "./services/predictions/vseprosportParse.js";
+
 import fs from "fs";
 import path from "path";
 
@@ -18,11 +26,9 @@ const VALIDATE_SCRIPT = path.join(
     "src/scraper/services/matches/validateJson.js"
 );
 
-// путь к import_matches.js
-const IMPORT_SCRIPT = path.join(
-    process.cwd(),
-    "src/db/import/import_matches.js"
-);
+const IMPORT_MATCHES_SCRIPT = path.join(process.cwd(), "src/db/import/import_matches.js");
+const IMPORT_PREDICTIONS_SCRIPT = path.join(process.cwd(), "src/db/import/import_predictions.js");
+
 
 // Проверка и обновление статуса матчей на LIVE
 async function updateLiveStatuses(browser) {
@@ -125,14 +131,7 @@ export default async function main(args) {
     }
 
     if (args.includes("--import")) {
-        exec(`node "${IMPORT_SCRIPT}"`, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Ошибка запуска import: ${error.message}`);
-                return;
-            }
-            if (stderr) console.error(stderr);
-            console.log(stdout);
-        });
+        runImport(IMPORT_MATCHES_SCRIPT, "импорт матчей");
         return;
     }
 
@@ -158,18 +157,45 @@ export default async function main(args) {
         console.info(`\nОбновили только вчерашние и сегодняшние матчи`);
         console.info(`Сохранили в: ${OUTPUT_PATH}/russia_khl_all.json\n`);
 
-        runImport();
+        runImport(IMPORT_MATCHES_SCRIPT, "импорт матчей");
     }
+
+    if (args.includes("--predictions")) {
+        console.log("Запускаем сбор прогнозов...");
+
+        const scrapers = [
+            { name: "betzona", fn: scrapeBetzona },
+            { name: "legalbet", fn: scrapeLegalbet },
+            { name: "livesport", fn: scrapeLivesport },
+            { name: "metaratings", fn: scrapeMetaRatings },
+            { name: "stavkatv", fn: scrapeStavkatv },
+            { name: "vprognoze", fn: scrapeVprognoze },
+            { name: "vseprosport", fn: scrapeVseprosport },
+        ];
+
+        for (const scraper of scrapers) {
+            try {
+                await scraper.fn();
+            } catch (err) {
+                console.error(`Ошибка в парсере ${scraper.name}:`, err.message);
+            }
+        }
+
+        console.log("Все прогнозы загружены и сохранены.");
+
+        runImport(IMPORT_PREDICTIONS_SCRIPT, "импорт прогнозов");
+    }
+
 
     await browser.close();
     console.log("Браузер закрыт");
 }
 
-function runImport() {
-    console.log("Запускаем импорт в базу...");
-    exec(`node "${IMPORT_SCRIPT}"`, (error, stdout, stderr) => {
+function runImport(scriptPath, label = "импорт") {
+    console.log(`Запускаем ${label}...`);
+    exec(`node "${scriptPath}"`, (error, stdout, stderr) => {
         if (error) {
-            console.error(`Ошибка запуска импорта: ${error.message}`);
+            console.error(`Ошибка запуска ${label}: ${error.message}`);
             return;
         }
         if (stderr) {
@@ -178,6 +204,7 @@ function runImport() {
         console.log(stdout);
     });
 }
+
 
 if (process.argv[1] && process.argv[1].endsWith("scraperRunner.js")) {
     const args = process.argv.slice(2);

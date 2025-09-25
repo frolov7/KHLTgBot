@@ -32,13 +32,8 @@ async function importMatches() {
         await pool.connect();
         console.log("Connected to DB");
 
-        // 1. Чистим таблицу
-        await pool.request().query("DELETE FROM Matches");
-        console.log("Все старые матчи удалены");
-
         let count = 0;
 
-        // 2. Вставляем все матчи из JSON
         for (const [key, match] of Object.entries(matches)) {
             try {
                 // ищем ID команд
@@ -73,10 +68,11 @@ async function importMatches() {
                     dateObj = dayjs.tz(dateStr, "DD.MM.YYYY HH:mm", "Europe/Moscow").toDate();
                 }
 
+                // UPSERT (если матч уже есть → UPDATE, если нет → INSERT)
                 await pool
                     .request()
                     .input("id", sql.VarChar, key)
-                    .input("date", sql.DateTime, dayjs(dateObj).add(3, "hour").toDate())
+                    .input("date", sql.DateTime, dateObj ? dayjs(dateObj).add(3, "hour").toDate() : null)
                     .input("status", sql.VarChar, match.status || "SCHEDULED")
                     .input("homeName", sql.VarChar, match.home.name)
                     .input("homeId", sql.Int, homeTeamRes.recordset[0].team_id)
@@ -93,27 +89,51 @@ async function importMatches() {
                         match.result?.away ? parseInt(match.result.away, 10) : null
                     )
                     .query(`
-                        INSERT INTO Matches (
-                            match_id, match_date, status, 
-                            home_team_name, home_team_id, 
-                            away_team_name, away_team_id, 
-                            home_score, away_score
-                        )
-                        VALUES (
-                            @id, @date, @status, 
-                            @homeName, @homeId, 
-                            @awayName, @awayId, 
-                            @homeScore, @awayScore
-                        );
+                        MERGE Matches AS target
+                        USING (SELECT 
+                            @id AS match_id, 
+                            @date AS match_date, 
+                            @status AS status,
+                            @homeName AS home_team_name, 
+                            @homeId AS home_team_id,
+                            @awayName AS away_team_name, 
+                            @awayId AS away_team_id,
+                            @homeScore AS home_score,
+                            @awayScore AS away_score
+                        ) AS source
+                        ON (target.match_id = source.match_id)
+                        WHEN MATCHED THEN
+                            UPDATE SET 
+                                match_date = source.match_date,
+                                status = source.status,
+                                home_team_name = source.home_team_name,
+                                home_team_id = source.home_team_id,
+                                away_team_name = source.away_team_name,
+                                away_team_id = source.away_team_id,
+                                home_score = source.home_score,
+                                away_score = source.away_score
+                        WHEN NOT MATCHED THEN
+                            INSERT (
+                                match_id, match_date, status,
+                                home_team_name, home_team_id,
+                                away_team_name, away_team_id,
+                                home_score, away_score
+                            )
+                            VALUES (
+                                source.match_id, source.match_date, source.status,
+                                source.home_team_name, source.home_team_id,
+                                source.away_team_name, source.away_team_id,
+                                source.home_score, source.away_score
+                            );
                     `);
 
                 count++;
             } catch (err) {
-                console.error(`Ошибка при вставке матча ${key}:`, err.message);
+                console.error(`Ошибка при вставке/обновлении матча ${key}:`, err.message);
             }
         }
 
-        console.log(`Загружено ${count}/${Object.keys(matches).length} матчей в БД`);
+        console.log(`Обновлено/вставлено ${count}/${Object.keys(matches).length} матчей в БД`);
         await pool.close();
     } catch (err) {
         console.error("Error:", err);
