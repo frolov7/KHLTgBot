@@ -1,8 +1,20 @@
 ﻿import fs from "fs";
 import dayjs from "dayjs";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import { BASE_URL, OUTPUT_PATH } from "../../../constants/constants.js";
 import { openPageAndNavigate, waitForSelectorSafe } from "../utils/pageUtils.js";
 import { parseDate } from "../utils/dateUtils.js";
+
+import { exec } from "child_process";
+
+// добавляем поддержку __dirname в ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const CHECK_PREDICTIONS_SCRIPT = path.join(__dirname, "../../../db/import/check_predictions.js");
+
 
 function normalizeStatus(rawStatus, homeScore, awayScore) {
     const status = (rawStatus || "").toUpperCase();
@@ -121,6 +133,12 @@ export const updateRecentMatches = async (browser) => {
     }
 
     fs.writeFileSync(path, JSON.stringify(matches, null, 2), "utf-8");
+
+    exec(`node "${CHECK_PREDICTIONS_SCRIPT}"`, (error, stdout, stderr) => {
+        if (error) console.error("Ошибка проверки прогнозов:", error.message);
+        if (stderr) console.error(stderr);
+        console.log(stdout);
+    });
 
     if (updatedIds.length > 0) {
         console.log("Обновлены матчи:", updatedIds.join(", "));

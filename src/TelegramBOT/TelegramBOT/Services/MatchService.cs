@@ -196,5 +196,16 @@ namespace TelegramBOT.Services
 
             return (match, lastHome, lastAway);
         }
+
+        public async Task<List<Prediction>> GetPredictionsByMatchIdAsync(string matchId)
+        {
+            // тут уже зависит от твоей БД
+            // например если используешь EF:
+            return await _db.Predictions
+                .Where(p => p.MatchId == matchId)
+                .OrderByDescending(p => p.Source) // или по дате
+                .ToListAsync();
+        }
+
     }
 }

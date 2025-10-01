@@ -13,6 +13,8 @@ namespace TelegramBOT.Data
         public DbSet<Match> Matches { get; set; }
         public DbSet<Team> Teams { get; set; }
 
+        public DbSet<Prediction> Predictions { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +24,7 @@ namespace TelegramBOT.Data
 
             modelBuilder.Entity<Match>().ToTable("Matches");
             modelBuilder.Entity<Team>().ToTable("Teams");
+            modelBuilder.Entity<Prediction>().ToTable("Predictions");
         }
     }
 }

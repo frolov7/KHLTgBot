@@ -58,17 +58,24 @@ namespace TelegramBOT.Handlers
             var callback = query.Data ?? "";
             var chatId = query.Message.Chat.Id;
 
-            if (callback.StartsWith("match_"))
-                await _calendarHandler.HandleMatchSelected(chatId, callback);
+            // 👇 Логируем нажатую кнопку
+            Log.Information("CallbackQuery получен: {Callback}", callback);
+
+            if (callback.StartsWith("predict_"))
+                await _statsHandler.HandlePredictions(chatId, callback);
             else if (callback.StartsWith("stats_"))
                 await _statsHandler.HandleStats(chatId, callback);
             else if (callback.StartsWith("history_"))
                 await _statsHandler.HandleHistory(chatId, callback);
             else if (callback.StartsWith("result_"))
                 await _resultsHandler.HandleResult(chatId, callback);
+            else if (callback.StartsWith("match_"))
+                await _calendarHandler.HandleMatchSelected(chatId, callback);
             else if (callback == "back_to_today")
                 await _calendarHandler.ShowToday(chatId);
         }
+
+
 
         /// <summary>
         /// Обрабатывает входящие текстовые сообщения пользователя.
