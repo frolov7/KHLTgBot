@@ -2,8 +2,8 @@
 import fs from "fs";
 import path from "path";
 import { OUTPUT_PATH } from "../../../constants/constants.js";
-import { normalizeTeamName, findMatchId } from "../utils/teamMapUtils.js";
 import { appendUniqueJson } from "../utils/fileUtils.js";
+import { normalizeTeamName, findMatchId, parseRuDate } from "../utils/teamMapUtils.js";
 
 export { scrapePredictionsBetzona as scrapePredictions };
 
@@ -76,15 +76,20 @@ async function parseMatchPage(url, calendar, matchInfo) {
     const home = normalizeTeamName(matchInfo.home);
     const away = normalizeTeamName(matchInfo.away);
 
-    let mainBet = $(".bet_name").first().text().trim() || null;
+    // ✅ дата матча
+    const dateRaw = $(".match-review-head-date").first().text().trim() || null;
+    const matchDate = parseRuDate(dateRaw);
+    console.log(`Дата матча для ${home} – ${away}: ${dateRaw} → ${matchDate}`);
 
+    let mainBet = $(".bet_name").first().text().trim() || null;
     const { homeText, awayText, commonText } = extractTeamAndPredictionTexts($, home, away);
 
-    const matchId = home && away ? findMatchId(home, away, calendar) : null;
+    const matchId = findMatchId(home, away, calendar, matchDate);
 
     return {
-        source: "betzona.ru",
+        source: url,
         match: `${home} – ${away}`,
+        date: dateRaw, // можно сохранить и "сырую" строку
         teams: {
             home: { name: home, text: homeText },
             away: { name: away, text: awayText },
@@ -99,6 +104,7 @@ async function parseMatchPage(url, calendar, matchInfo) {
         id: matchId,
     };
 }
+
 
 /// <summary>
 /// Основная функция: собирает прогнозы КХЛ с betzona.ru,
@@ -118,10 +124,11 @@ export async function scrapePredictionsBetzona() {
         const href = $(el).attr("href");
         const tournament = $(el).attr("data-tournament") || "";
         const matchTitle = $(el).attr("data-match-name") || "";
+        const matchDate = $(el).attr("data-date") || null;
 
         if (href && tournament.includes("КХЛ") && matchTitle) {
             const [home, away] = matchTitle.split(/[-–]/).map((s) => s.trim());
-            links.push({ url: BASE_URL + href, home, away });
+            links.push({ url: BASE_URL + href, home, away, date: matchDate });
         }
     });
 

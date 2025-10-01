@@ -395,5 +395,54 @@ namespace TelegramBOT.Services
 
             await SendTextAsync(chatId, sb.ToString());
         }
+
+        /// <summary>
+        /// Отправить список прогнозов на матч.
+        /// </summary>
+        /// <param name="chatId">ID чата.</param>
+        /// <param name="match">Матч.</param>
+        /// <param name="predictions">Список прогнозов.</param>
+        public async Task SendPredictionsAsync(long chatId, Match match, List<Prediction> predictions)
+        {
+            if (predictions == null || predictions.Count == 0)
+            {
+                await SendTextAsync(chatId, "❌ Прогнозов на этот матч пока нет.");
+                return;
+            }
+
+            var homeName = _mappingService.Map("TeamNames", match.HomeTeamName);
+            var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"🔮 Прогнозы на матч:");
+            sb.AppendLine($"<b>{homeName} vs {awayName}</b>");
+            sb.AppendLine();
+
+            foreach (var p in predictions)
+            {
+                string resultEmoji = p.Result switch
+                {
+                    "WIN" => "✅",
+                    "LOSE" => "❌",
+                    "DRAW" => "➖",
+                    _ => "❓"
+                };
+
+                // Собираем строку прогноза
+                sb.AppendLine($"<b>{p.Source}</b>: {p.MainPrediction ?? p.GeneralText}");
+            }
+
+            // ⚡ Разбиваем длинное сообщение на куски до 4096 символов
+            var text = sb.ToString();
+            const int maxLength = 4096;
+
+            for (int i = 0; i < text.Length; i += maxLength)
+            {
+                var chunk = text.Substring(i, Math.Min(maxLength, text.Length - i));
+                await SendTextAsync(chatId, chunk);
+            }
+        }
+
+
     }
 }

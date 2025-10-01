@@ -13,9 +13,6 @@ const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
 
 /**
  * Проверяет прогноз на основе фактического результата матча.
- * @param {Object} prediction Объект прогноза
- * @param {Object} match Данные матча из календаря
- * @returns {boolean|null} Результат проверки (true/false) или null, если проверить нельзя
  */
 function checkPrediction(prediction, match) {
     if (!match || match.status !== "FINISHED") return null;
@@ -27,7 +24,6 @@ function checkPrediction(prediction, match) {
     const main = prediction.main;
     if (!main) return null;
 
-    // Общие тоталы
     if (main.startsWith("ТБ")) {
         const num = parseFloat(main.replace(/[^\d.]/g, ""));
         return total > num;
@@ -37,11 +33,9 @@ function checkPrediction(prediction, match) {
         return total < num;
     }
 
-    // Победы
     if (main === "П1") return home > away;
     if (main === "П2") return away > home;
 
-    // Индивидуальные тоталы
     if (main.startsWith("ИТБ1")) {
         const num = parseFloat(main.replace(/[^\d.]/g, ""));
         return home > num;
@@ -64,43 +58,26 @@ function checkPrediction(prediction, match) {
 
 /**
  * Загружает HTML по указанному URL.
- * @param {string} url Адрес страницы
- * @returns {Promise<string>} HTML содержимое
  */
 async function fetchHtml(url) {
     const res = await fetch(url, {
-        headers: {
-            "User-Agent":
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
-        },
+        headers: { "User-Agent": "Mozilla/5.0" },
     });
     return await res.text();
 }
 
 /**
  * Парсит страницу отдельного матча с meta-ratings.kz.
- * @param {string} url URL страницы матча
- * @returns {Promise<Object>} Объект прогноза
  */
-async function parseMatchPage(url) {
+async function parseMatchPage(url, meta) {
     const html = await fetchHtml(url);
     const $ = cheerio.load(html);
 
-    const h2 = $("h2").filter((_, el) => $(el).text().includes("Прогноз на матч")).first().text().trim();
-    let match = h2.replace("Прогноз на матч", "").trim();
-    match = match.replace(/\d{1,2}\s[а-я]+\s?\d{0,4}\s?(года)?/gi, "").trim();
-    const [home, away] = match.split("–").map(s => s.trim());
-
-    let prediction = {
-        main: null,
-        alt: null,
-        score: null,
-        text: "",
-        result: null,
-    };
+    let prediction = { main: null, alt: null, score: null, text: "", result: null };
 
     const paras = [];
-    $("h2").filter((_, el) => $(el).text().includes("Прогноз на матч"))
+    $("h2")
+        .filter((_, el) => $(el).text().includes("Прогноз на матч"))
         .first()
         .nextAll("p")
         .each((_, el) => {
@@ -117,62 +94,83 @@ async function parseMatchPage(url) {
         }
     }
     if (altBets.length) prediction.alt = altBets.join(", ");
-
     prediction.text = paras.join("\n\n");
 
-    const matchId = findMatchId(home, away, calendar);
+    const dateLog = meta.matchDate ? meta.matchDate.toISOString() : "дата не найдена";
+    console.log(`Дата матча для ${meta.home} – ${meta.away}: ${dateLog}`);
+
+    const matchId = findMatchId(meta.home, meta.away, calendar, meta.matchDate);
     if (matchId) {
         prediction.result = checkPrediction(prediction, calendar[matchId]);
     }
 
     return {
-        source: "meta-ratings.kz",
-        match: `${home} – ${away}`,
+        source: url,   // ✅ теперь здесь ссылка на страницу прогноза
+        match: `${meta.home} – ${meta.away}`,
         teams: {
-            home: { name: home },
-            away: { name: away },
+            home: { name: meta.home },
+            away: { name: meta.away },
         },
         prediction,
         id: matchId || null,
     };
 }
 
-/**
- * Основной запуск парсинга прогнозов с meta-ratings.kz
- * @returns {Promise<Array>} Массив прогнозов
- */
 export async function scrapePredictions() {
     const listUrl = `${BASE_URL}/prognozy/hokkey/khl/`;
     const html = await fetchHtml(listUrl);
     const $ = cheerio.load(html);
 
-    const links = [];
-    $("a.TipsList_TipsBoxTitle__c8YUz").each((_, el) => {
-        const href = $(el).attr("href");
-        if (href && href.includes("/prognozy/hokkey/")) {
-            links.push(BASE_URL + href);
+    const matches = [];
+
+    $(".TipsList_TipsBox___jUgx").each((_, el) => {
+        const linkEl = $(el).find("a.TipsList_TipsBoxTitle__c8YUz");
+        const href = linkEl.attr("href");
+        if (!href) return;
+
+        const url = BASE_URL + href;
+
+        // дата и время
+        const dateStr = $(el).find(".TipsList_TipsBoxDate__ZW4Q5").text().trim();
+        const timeStr = $(el).find(".TipsList_TipsBoxClock__qCJyW").text().trim();
+        let matchDate = null;
+        if (dateStr && timeStr) {
+            const [day, month, year] = dateStr.split(".").map(Number);
+            const [hours, minutes] = timeStr.split(":").map(Number);
+            matchDate = new Date(year, month - 1, day, hours, minutes);
         }
+
+        // команды из заголовка
+        const title = linkEl.text().trim();
+        const cleanTitle = title.replace("Прогноз на матч", "").trim();
+        const [homeRaw, awayRaw] = cleanTitle.split("–").map(s => s.trim());
+
+        const home = homeRaw.split(".")[0].trim();
+        const away = awayRaw.split(".")[0].trim();
+
+        matches.push({ url, home, away, matchDate });
     });
 
     const results = [];
-    for (const link of links.slice(0, 10)) {
+    for (const m of matches.slice(0, 10)) {
         try {
-            const data = await parseMatchPage(link);
+            const data = await parseMatchPage(m.url, m);
             results.push(data);
         } catch (err) {
-            console.error(`Ошибка при парсинге ${link}:`, err.message);
+            console.error(`Ошибка при парсинге ${m.url}:`, err.message);
         }
     }
 
     const savePath = path.join(OUTPUT_PATH, "metaratings.json");
-
     const { merged, added } = appendUniqueJson(
         savePath,
         results,
-        item => `${item.source}_${item.id || item.match}`
+        (item) => `${item.source}_${item.id || item.match}`
     );
     console.log(`Добавлено новых прогнозов: ${added}`);
     console.log(`Прогнозы с meta-ratings.kz сохранены в ${savePath}`);
 
     return merged;
 }
+
+

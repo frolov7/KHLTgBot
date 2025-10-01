@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { OUTPUT_PATH } from "../../../constants/constants.js";
 import { findMatchId, cleanText } from "../utils/teamMapUtils.js";
-import { loadJsonArray, appendUniqueJson } from "../utils/fileUtils.js";
+import { appendUniqueJson } from "../utils/fileUtils.js";
 
 /**
  * Загружает HTML-страницу по указанному URL.
@@ -11,15 +11,22 @@ import { loadJsonArray, appendUniqueJson } from "../utils/fileUtils.js";
  * @returns {Promise<string>} HTML содержимое страницы
  */
 async function fetchHtml(url) {
-    const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
-    return await res.text();
+    try {
+        const res = await fetch(url, {
+            headers: { "User-Agent": "Mozilla/5.0" },
+            signal: AbortSignal.timeout(15000)
+        });
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+        }
+        return await res.text();
+    } catch (err) {
+        throw new Error(`Ошибка загрузки ${url}: ${err.message}`);
+    }
 }
 
 /**
  * Парсит страницу конкретного матча и извлекает прогноз.
- * @param {string} url URL страницы матча
- * @param {Object} calendar Календарь матчей для поиска ID
- * @returns {Promise<Object>} Объект с прогнозом и информацией о матче
  */
 async function parseMatchPage(url, calendar) {
     const html = await fetchHtml(url);
@@ -32,7 +39,7 @@ async function parseMatchPage(url, calendar) {
     title = title.replace(/КХЛ/gi, "").trim();
     title = title.replace(/ставка за.*$/gi, "").trim();
 
-    const [home, away] = title.split(/[-–—]/).map(s => s.trim());
+    const [home, away] = title.split(/[-–—]/).map((s) => s.trim());
 
     const section = $("h2").filter((_, el) => $(el).text().includes("Прогноз и ставка")).first();
     const paras = [];
@@ -50,13 +57,13 @@ async function parseMatchPage(url, calendar) {
     }
     prediction.text = cleanText(textBlock);
 
-    const bets = paras.filter(p => p.startsWith("Ставка"));
+    const bets = paras.filter((p) => p.startsWith("Ставка"));
     if (bets.length > 0) {
         prediction.main = cleanText(bets[0].replace("Ставка:", "").trim());
         if (bets.length > 1) {
             prediction.alt = bets
                 .slice(1)
-                .map(b => cleanText(b.replace("Ставка:", "").trim()))
+                .map((b) => cleanText(b.replace("Ставка:", "").trim()))
                 .filter(Boolean)
                 .join(", ");
         }
@@ -72,18 +79,19 @@ async function parseMatchPage(url, calendar) {
 }
 
 /**
- * Основной метод: парсит список прогнозов с livesport.ru, сохраняет их в JSON
- * и добавляет к уже существующим прогнозам, исключая дубли.
- * @returns {Promise<Array>} Итоговый список всех прогнозов
- */
-/**
- * Основной метод: парсит список прогнозов с livesport.ru, сохраняет их в JSON
- * и добавляет к уже существующим прогнозам, исключая дубли.
- * @returns {Promise<Array>} Итоговый список всех прогнозов
+ * Основной метод: парсит список прогнозов с livesport.ru
  */
 export async function scrapePredictions() {
     const listUrl = "https://www.livesport.ru/tips/hockey/";
-    const html = await fetchHtml(listUrl);
+
+    let html;
+    try {
+        html = await fetchHtml(listUrl);
+    } catch (err) {
+        console.error(`Livesport недоступен: ${err.message}`);
+        return [];
+    }
+
     const $ = cheerio.load(html);
 
     const calendarPath = path.join(OUTPUT_PATH, "russia_khl_all.json");
@@ -112,11 +120,10 @@ export async function scrapePredictions() {
     const { merged, added } = appendUniqueJson(
         savePath,
         results,
-        item => `${item.source}_${item.id || item.match}`
+        (item) => `${item.source}_${item.id || item.match}`
     );
     console.log(`Добавлено новых прогнозов: ${added}`);
     console.log(`Прогнозы с livesport.ru сохранены в ${savePath}`);
 
     return merged;
 }
-

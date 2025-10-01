@@ -85,15 +85,22 @@ namespace TelegramBOT.Handlers
 
         /// <summary>
         /// Обрабатывает кнопку «Прогнозы».
-        /// Отображение прогнозов
         /// </summary>
-        /// <param name="chatId">ID чата.</param>
-        /// <param name="callback">Callback-данные с matchId.</param>
         public async Task HandlePredictions(long chatId, string callback)
         {
             var matchId = callback.Replace("predict_", "");
-            // Заглушка: показать прогнозы
-            await _messageService.SendTextAsync(chatId, $"🔮 Прогнозы (заглушка) для матча {matchId}");
+            var match = await _matchService.GetMatchByIdAsync(matchId);
+
+            if (match == null)
+            {
+                await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
+                return;
+            }
+
+            // Загружаем прогнозы из базы/сервиса
+            var predictions = await _matchService.GetPredictionsByMatchIdAsync(matchId);
+
+            await _messageService.SendPredictionsAsync(chatId, match, predictions);
         }
     }
 }

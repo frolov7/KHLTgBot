@@ -49,6 +49,7 @@
 
     "СКА Санкт-Петербург": "SKA St. Petersburg",
     "СКА": "SKA St. Petersburg",
+    "СКА СПб": "SKA St. Petersburg",
 
     "Спартак Москва": "Spartak Moscow",
     "Спартак": "Spartak Moscow",
@@ -80,17 +81,24 @@ export function normalizeTeamName(name) {
 
 
 // Хелпер для поиска matchId
-export function findMatchId(home, away, calendar) {
+export function findMatchId(home, away, calendar, targetDate) {
     const homeEng = TEAM_MAP[home];
     const awayEng = TEAM_MAP[away];
+    if (!homeEng || !awayEng || !targetDate) return null;
 
-    if (!homeEng || !awayEng)
-        return null;
+    const targetDay = targetDate.toISOString().slice(0, 10); // YYYY-MM-DD
 
     for (const id in calendar) {
         const m = calendar[id];
-        if (m.home.name === homeEng && m.away.name === awayEng) return id;
-        if (m.home.name === awayEng && m.away.name === homeEng) return id;
+        const calDate = parseRuDate(m.date);
+        if (!calDate) continue;
+
+        const calDay = calDate.toISOString().slice(0, 10);
+
+        if (calDay === targetDay) {
+            if (m.home.name === homeEng && m.away.name === awayEng) return id;
+            if (m.home.name === awayEng && m.away.name === homeEng) return id;
+        }
     }
     return null;
 }
@@ -103,4 +111,35 @@ export function cleanText(text) {
         .replace(/\s*за\s*[\d.,]+/gi, "")
         .replace(/([.!?])\s{2,}/g, "$1 ")
         .trim();
+}
+
+export function parseRuDate(dateStr) {
+    if (!dateStr) return null;
+    const parts = dateStr.split(" ");
+    if (parts.length < 2) return null;
+
+    const [day, month, year] = parts[0].split(".").map(Number);
+    const [hours, minutes] = parts[1].split(":").map(Number);
+
+    return new Date(year, month - 1, day, hours, minutes);
+}
+
+export function parseRuDateLegalbet(dateStr, timeStr) {
+    if (!dateStr || !timeStr) return null;
+
+    const months = {
+        "января": 0, "февраля": 1, "марта": 2, "апреля": 3,
+        "мая": 4, "июня": 5, "июля": 6, "августа": 7,
+        "сентября": 8, "октября": 9, "ноября": 10, "декабря": 11,
+    };
+
+    const [dayStr, monthStr] = dateStr.trim().split(" ");
+    const day = parseInt(dayStr, 10);
+    const month = months[monthStr.toLowerCase()];
+    if (isNaN(day) || month === undefined) return null;
+
+    const [hours, minutes] = timeStr.trim().split(":").map(Number);
+
+    const year = new Date().getFullYear();
+    return new Date(year, month, day, hours, minutes);
 }
