@@ -2,8 +2,8 @@
 import fs from "fs";
 import path from "path";
 import { OUTPUT_PATH } from "../../../constants/constants.js";
-import { findMatchId } from "../utils/teamMapUtils.js";   // ✅ словарь и поиск матчей из utils
-import { appendUniqueJson } from "../utils/fileUtils.js"; // ✅ добавление без перезаписи
+import { findMatchId } from "../utils/teamMapUtils.js";
+import { appendUniqueJson } from "../utils/fileUtils.js";
 
 const BASE_URL = "https://stavka.tv";
 
@@ -14,8 +14,8 @@ const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
 function replaceQuotes(text) {
     if (!text) return text;
     return text
-        .replace(/"([^"]+)"/g, "«$1»")   // "..." → «...»
-        .replace(/“([^”]+)”/g, "«$1»")   // англ. кавычки тоже
+        .replace(/"([^"]+)"/g, "«$1»") // "..." → «...»
+        .replace(/“([^”]+)”/g, "«$1»") // англ. кавычки
         .replace(/”/g, "»")
         .replace(/“/g, "«");
 }
@@ -98,27 +98,22 @@ async function parseMatchPage(url) {
         prediction.main = replaceQuotes(outcome);
     }
 
-    // собираем прогнозы
+    // собираем текст прогнозов
     const texts = [];
     $("li, p, h2, h3").each((_, el) => {
         const t = $(el).text().trim();
 
-        // оставляем только абзацы с прогнозами
         if (/^(Основной прогноз|Прогноз на|Прогноз с)/i.test(t)) {
             texts.push(t);
 
-            // если есть счёт
             const scoreMatch = t.match(/(\d+:\d+)/);
             if (scoreMatch) {
                 prediction.score = scoreMatch[1];
             }
 
-            // если это блок "Прогноз на тотал"
             if (/^Прогноз на тотал/i.test(t)) {
-                // ищем жирный текст внутри блока
                 const boldText = $(el).find("strong, b").last().text().trim();
                 if (boldText) {
-                    // убираем "за ..." в конце (коэффициенты)
                     const cleanAlt = boldText.replace(/\s+за\s+[0-9.,]+$/, "").trim();
                     prediction.alt = replaceQuotes(cleanAlt);
                 }
@@ -132,6 +127,23 @@ async function parseMatchPage(url) {
 }
 
 /**
+ * Преобразует дату из блока на сайте в объект Date
+ */
+function parseStavkaDate(dateStr, timeStr) {
+    const months = {
+        "янв": 0, "фев": 1, "мар": 2, "апр": 3, "май": 4, "июн": 5,
+        "июл": 6, "авг": 7, "сен": 8, "окт": 9, "ноя": 10, "дек": 11,
+    };
+    const [dayStr, monStr] = dateStr.split(" ");
+    const day = parseInt(dayStr, 10);
+    const month = months[monStr.toLowerCase()];
+    const year = new Date().getFullYear();
+    const [h, m] = timeStr.split(":").map(Number);
+
+    return new Date(year, month, day, h, m);
+}
+
+/**
  * Основная функция: парсинг прогнозов stavka.tv
  */
 export async function scrapePredictions() {
@@ -141,7 +153,22 @@ export async function scrapePredictions() {
     const $ = cheerio.load(html);
 
     const results = [];
-    const rows = $(".MatchesRow");
+
+    // 1️⃣ Находим секцию с заголовком "КХЛ"
+    const khlSection = $("section.MatchesTable")
+        .filter((_, el) => {
+            const titleLink = $(el).find(".MatchesTableHeader .title a.title-link").attr("href");
+            return titleLink && titleLink.includes("russia-khl");
+        })
+        .first();
+
+    if (!khlSection.length) {
+        console.error("❌ Не найдена секция КХЛ на странице!");
+        return [];
+    }
+
+    // 2️⃣ Берём только матчи из КХЛ
+    const rows = khlSection.find(".MatchesRow");
 
     for (const el of rows.toArray()) {
         const link = $(el).find("a.match-link").attr("href");
@@ -152,14 +179,25 @@ export async function scrapePredictions() {
         const home = $(teams[0]).text().trim();
         const away = $(teams[1]).text().trim();
 
-        const matchId = findMatchId(home, away, calendar);
-        if (!matchId) continue;
+        // дата и время матча
+        const dateStr = $(el).find(".event-date").text().trim();
+        const timeStr = $(el).find(".event-status").text().trim();
+        let matchDate = null;
+        if (dateStr && timeStr) {
+            matchDate = parseStavkaDate(dateStr, timeStr);
+        }
+
+        const matchId = findMatchId(home, away, calendar, matchDate);
+        if (!matchId) {
+            console.log(`⚠️ Не найден матч для ${home} – ${away} (${dateStr} ${timeStr})`);
+            continue;
+        }
 
         const prediction = await parseMatchPage(fullUrl);
         prediction.result = checkPrediction(prediction, calendar[matchId]);
 
         results.push({
-            source: "stavka.tv",
+            source: fullUrl,
             match: `${home} – ${away}`,
             teams: {
                 home: { name: home },
@@ -181,6 +219,6 @@ export async function scrapePredictions() {
     console.log(`Добавлено новых прогнозов: ${added}`);
     console.log(`Прогнозы КХЛ со stavka.tv сохранены в ${savePath}`);
 
-
     return merged;
 }
+
