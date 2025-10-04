@@ -1,5 +1,7 @@
 ﻿using Serilog;
 using Telegram.Bot.Types;
+using TelegramBOT.Services;
+using TelegramBOT.UI.Menus;
 
 namespace TelegramBOT.Handlers
 {
@@ -14,13 +16,15 @@ namespace TelegramBOT.Handlers
         private readonly StatsHandler _statsHandler;
         private readonly NavigationHandler _navigationHandler;
         private readonly TeamsHandler _teamsHandler;
+        private readonly PredictionHandler _predictionHandler;
 
         public CommandHandler(
             CalendarHandler calendarHandler,
             ResultsHandler resultsHandler,
             StatsHandler statsHandler,
             NavigationHandler navigationHandler,
-            TeamsHandler teamsHandler
+            TeamsHandler teamsHandler,
+            PredictionHandler predictionHandler
         )
         {
             _calendarHandler = calendarHandler;
@@ -28,7 +32,9 @@ namespace TelegramBOT.Handlers
             _statsHandler = statsHandler;
             _navigationHandler = navigationHandler;
             _teamsHandler = teamsHandler;
+            _predictionHandler = predictionHandler;
         }
+
 
         /// <summary>
         /// Основной метод обработки обновлений от Telegram.
@@ -69,6 +75,10 @@ namespace TelegramBOT.Handlers
                 await _statsHandler.HandleHistory(chatId, callback);
             else if (callback.StartsWith("result_"))
                 await _resultsHandler.HandleResult(chatId, callback);
+            else if (callback.StartsWith("predict_"))
+                await _predictionHandler.ShowSourcesMenu(chatId, callback.Replace("predict_", ""));
+            else if (callback.StartsWith("prediction_"))
+                await _predictionHandler.ShowPrediction(chatId, callback);
             else if (callback.StartsWith("match_"))
                 await _calendarHandler.HandleMatchSelected(chatId, callback);
             else if (callback == "back_to_today")
