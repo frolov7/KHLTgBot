@@ -65,6 +65,7 @@ builder.ConfigureServices((context, services) =>
     services.AddScoped<ResultsHandler>();
     services.AddScoped<StatsHandler>();
     services.AddScoped<TeamsHandler>();
+    services.AddScoped<PredictionHandler>();
 
     // -----------------------------
     // UI
@@ -76,6 +77,7 @@ builder.ConfigureServices((context, services) =>
     // -----------------------------
     services.AddSingleton<MessageService>();              // сервис для отправки сообщений
     services.AddScoped<MatchService>();                   // сервис для матчей
+    services.AddScoped<PredictionService>();              // сервис для прогнозов
     services.AddScoped<ScriptService>();                  // сервис для запуска Node-скриптов
     services.AddHostedService<BotBackgroundService>();    // запуск фонового слушателя бота
 
