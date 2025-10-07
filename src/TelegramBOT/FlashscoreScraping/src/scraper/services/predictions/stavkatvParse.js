@@ -197,7 +197,8 @@ export async function scrapePredictions() {
         prediction.result = checkPrediction(prediction, calendar[matchId]);
 
         results.push({
-            source: fullUrl,
+            source: "stavka",
+            url: fullUrl,
             match: `${home} – ${away}`,
             teams: {
                 home: { name: home },

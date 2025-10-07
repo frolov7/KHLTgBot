@@ -105,7 +105,8 @@ async function parseMatchPage(url, meta) {
     }
 
     return {
-        source: url,   // ✅ теперь здесь ссылка на страницу прогноза
+        source: "meta-ratings",
+        url: url,
         match: `${meta.home} – ${meta.away}`,
         teams: {
             home: { name: meta.home },

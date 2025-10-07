@@ -212,7 +212,8 @@ export async function scrapePredictions() {
                 console.warn(`⚠️ Не нашли ID для матча: ${data.match}`);
 
             predictions.push({
-                source: href,
+                source: "vprognoze",
+                url: href,
                 match: data.match,
                 teams: data.teams,
                 prediction: data.prediction,

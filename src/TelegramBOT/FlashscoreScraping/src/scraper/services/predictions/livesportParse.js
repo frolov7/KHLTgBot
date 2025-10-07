@@ -70,7 +70,8 @@ async function parseMatchPage(url, calendar) {
     }
 
     return {
-        source: "livesport.ru",
+        source: "livesport",
+        url: url,
         match: `${home} – ${away}`,
         teams: { home: { name: home }, away: { name: away } },
         prediction,

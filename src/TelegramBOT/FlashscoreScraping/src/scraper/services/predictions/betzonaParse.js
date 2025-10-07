@@ -87,9 +87,9 @@ async function parseMatchPage(url, calendar, matchInfo) {
     const matchId = findMatchId(home, away, calendar, matchDate);
 
     return {
-        source: url,
+        source: "betzona",
+        url: url,
         match: `${home} – ${away}`,
-        date: dateRaw, // можно сохранить и "сырую" строку
         teams: {
             home: { name: home, text: homeText },
             away: { name: away, text: awayText },
