@@ -111,7 +111,8 @@ async function parseMatchPage(url, calendar, matchInfo) {
     const matchId = home && away ? findMatchId(home, away, calendar, matchDate) : null;
 
     return {
-        source: url,
+        source: "legalbet",
+        url: url,
         match: `${home} – ${away}`,
         teams: {
             home: { name: home, analysis: homeText.trim() },

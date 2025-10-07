@@ -92,7 +92,8 @@ async function parseMatchPage(url, calendar) {
     const matchId = findMatchId(home, away, calendar, matchDate);
 
     return {
-        source: url,
+        source: "vseprosport",
+        url: href,
         match: `${home} – ${away}`,
         teams,
         prediction,
