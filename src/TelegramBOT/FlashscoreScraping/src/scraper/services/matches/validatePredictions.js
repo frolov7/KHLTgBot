@@ -43,18 +43,18 @@ for (const file of files) {
 
             // проверка text
             if (pred.prediction && (!pred.prediction.text || pred.prediction.text.trim() === "")) {
-                console.warn(`⚠️ Пустой text в файле ${file}, матч: ${pred.match}`);
+                console.warn(`⚠️ Пустой text в файле ${file}, id: "${pred.id}"`);
                 emptyTexts++;
             }
 
             // проверка analysis
             if (pred.teams) {
                 if (pred.teams.home && "analysis" in pred.teams.home && !pred.teams.home.analysis?.trim()) {
-                    console.warn(`⚠️ Пустой home.analysis в файле ${file}, матч: ${pred.match}`);
+                    console.warn(`⚠️ Пустой home.analysis в файле ${file}, id: "${pred.id}"`);
                     emptyAnalysis++;
                 }
                 if (pred.teams.away && "analysis" in pred.teams.away && !pred.teams.away.analysis?.trim()) {
-                    console.warn(`⚠️ Пустой away.analysis в файле ${file}, матч: ${pred.match}`);
+                    console.warn(`⚠️ Пустой away.analysis в файле ${file}, id: "${pred.id}"`);
                     emptyAnalysis++;
                 }
             }

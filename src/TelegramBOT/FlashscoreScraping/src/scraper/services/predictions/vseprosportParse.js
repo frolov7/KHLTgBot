@@ -52,14 +52,6 @@ async function parseMatchPage(url, calendar) {
     let mainBet = $(".bonus-item-bet span.fw-medium").first().text().trim();
     mainBet = cleanText(mainBet);
 
-    // 🔹 Альтернативный прогноз (например "Тотал больше пяти шайб")
-    let altBet = $(".expert-predictions .item .d-flex.align-items-center.gap-6.pb-2 span.fw-semibold.lh-1")
-        .last()
-        .text()
-        .trim();
-    altBet = cleanText(altBet);
-
-
     // 🔹 Полный текст прогноза (берём из блока <section id="prediction-section">)
     let textBlock = $("#prediction-section .default-content").first().find("p")
         .map((_, el) => $(el).text())
@@ -76,7 +68,7 @@ async function parseMatchPage(url, calendar) {
 
     const prediction = {
         main: mainBet || null,
-        alt: altBet || null,   // теперь будет "Тотал больше пяти шайб"
+        alt: null,
         score: null,
         text: textBlock || null,
         result: null,
@@ -93,7 +85,7 @@ async function parseMatchPage(url, calendar) {
 
     return {
         source: "vseprosport",
-        url: href,
+        url,
         match: `${home} – ${away}`,
         teams,
         prediction,
