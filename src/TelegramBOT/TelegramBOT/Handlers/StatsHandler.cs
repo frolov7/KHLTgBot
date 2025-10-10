@@ -1,5 +1,6 @@
 ﻿using TelegramBOT.Services;
 using TelegramBOT.UI;
+using TelegramBOT.UI.Menus;
 using TelegramBOT.Utils;
 
 namespace TelegramBOT.Handlers
@@ -97,10 +98,18 @@ namespace TelegramBOT.Handlers
                 return;
             }
 
-            // Загружаем прогнозы из базы/сервиса
             var predictions = await _matchService.GetPredictionsByMatchIdAsync(matchId);
+            if (!predictions.Any())
+            {
+                await _messageService.SendTextAsync(chatId, "❌ Прогнозов на этот матч пока нет.");
+                return;
+            }
 
-            await _messageService.SendPredictionsAsync(chatId, match, predictions);
+            // построение меню через билдер
+            var menuBuilder = new PredictionsMenuBuilder();
+            var menu = menuBuilder.Build(matchId);
+
+            await _messageService.SendPredictionsMenuAsync(chatId, match, menu);
         }
     }
 }

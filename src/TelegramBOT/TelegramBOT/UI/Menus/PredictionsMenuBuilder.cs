@@ -4,35 +4,33 @@ namespace TelegramBOT.UI.Menus
 {
     public class PredictionsMenuBuilder
     {
+        private static readonly string[] Sources =
+        {
+            "vseprosport",
+            "vprognoze",
+            "stavkatv",
+            "betzona",
+            "legalbet",
+            "metaratings",
+            "livesport"
+        };
+
         public InlineKeyboardMarkup Build(string matchId)
         {
-            return new InlineKeyboardMarkup(new[]
+            var rows = Sources
+                .Select(src => new[]
+                {
+                    InlineKeyboardButton.WithCallbackData(src, $"prediction_{src.ToLower()}_{matchId}")
+                })
+                .ToList();
+
+            // Кнопка Назад
+            rows.Add(new[]
             {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Legalbet", $"prediction_legalbet_{matchId}")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Metaratings", $"prediction_metaratings_{matchId}")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Vseprosport", $"prediction_vseprosport_{matchId}")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("StavkaTV", $"prediction_stavkatv_{matchId}")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Vprognoze", $"prediction_vprognoze_{matchId}")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("⬅️ Назад", $"match_{matchId}")
-                }
+                InlineKeyboardButton.WithCallbackData("⬅️ Назад", $"match_{matchId}")
             });
+
+            return new InlineKeyboardMarkup(rows);
         }
     }
 }

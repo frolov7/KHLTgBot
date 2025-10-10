@@ -2,6 +2,7 @@
 using System.Text;
 using TelegramBOT.Data;
 using TelegramBOT.Models;
+using TelegramBOT.Utils;
 
 namespace TelegramBOT.Services
 {
@@ -12,11 +13,13 @@ namespace TelegramBOT.Services
     {
         private readonly AppDbContext _db;
         private readonly MessageService _messageService;
+        private readonly MappingService _mappingService;
 
-        public PredictionService(AppDbContext db, MessageService messageService)
+        public PredictionService(AppDbContext db, MessageService messageService, MappingService mappingService)
         {
             _db = db;
             _messageService = messageService;
+            _mappingService = mappingService;
         }
 
         /// <summary>
@@ -40,10 +43,12 @@ namespace TelegramBOT.Services
                 return;
             }
 
-            var source = parts[1];   // legalbet / metaratings и т.д.
+            var source = parts[1];
             var matchId = parts[2];
 
-            var prediction = await GetPredictionAsync(matchId, source);
+            var prediction = await _db.Predictions
+                .Include(p => p.Match)   // грузим связанный матч
+                .FirstOrDefaultAsync(p => p.MatchId == matchId && p.Source == source);
 
             if (prediction == null)
             {
@@ -51,20 +56,66 @@ namespace TelegramBOT.Services
                 return;
             }
 
-            var msg = new StringBuilder()
-                .AppendLine($"📌 <b>{prediction.Match?.HomeTeamName} vs {prediction.Match?.AwayTeamName}</b>")
-                .AppendLine()
-                .AppendLine($"🏠 Анализ домашней: {prediction.HomeTeamText}")
-                .AppendLine()
-                .AppendLine($"🚌 Анализ гостевой: {prediction.AwayTeamText}")
-                .AppendLine()
-                .AppendLine($"🔮 Основной прогноз: {prediction.MainPrediction}")
-                .AppendLine($"💡 Альтернатива: {prediction.AltPrediction}")
-                .AppendLine($"📊 Примерный счёт: {prediction.Score}")
-                .AppendLine($"📝 {prediction.GeneralText}")
-                .ToString();
+            // Мапим названия команд через MappingService
+            var homeName = prediction.Match != null
+                ? _mappingService.Map("TeamNames", prediction.Match.HomeTeamName)
+                : "Хозяева";
 
-            await _messageService.SendTextAsync(chatId, msg);
+            var awayName = prediction.Match != null
+                ? _mappingService.Map("TeamNames", prediction.Match.AwayTeamName)
+                : "Гости";
+
+            var msg = new StringBuilder();
+
+            // Название матча
+            msg.AppendLine($"<b>{homeName} vs {awayName}</b>");
+            msg.AppendLine();
+
+            // Анализ хозяев (если есть)
+            if (!string.IsNullOrWhiteSpace(prediction.HomeTeamText))
+            {
+                msg.AppendLine($"📌 <b>Анализ команды {homeName}:</b>");
+                msg.AppendLine(prediction.HomeTeamText.Trim());
+                msg.AppendLine();
+            }
+
+            // Анализ гостей (если есть)
+            if (!string.IsNullOrWhiteSpace(prediction.AwayTeamText))
+            {
+                msg.AppendLine($"📌 <b>Анализ команды {awayName}:</b>");
+                msg.AppendLine(prediction.AwayTeamText.Trim());
+                msg.AppendLine();
+            }
+
+            // Общий прогнозный текст (если есть)
+            if (!string.IsNullOrWhiteSpace(prediction.GeneralText))
+            {
+                msg.AppendLine($"📝 {prediction.GeneralText.Trim()}");
+                msg.AppendLine();
+            }
+
+            // Основной прогноз
+            msg.AppendLine($"🔮 <b>Основной прогноз:</b> {prediction.MainPrediction ?? "-"}");
+
+            // Альтернативный прогноз
+            if (!string.IsNullOrWhiteSpace(prediction.AltPrediction))
+                msg.AppendLine($"💡 <b>Альтернативный прогноз:</b> {prediction.AltPrediction}");
+
+            // Примерный счёт
+            if (!string.IsNullOrWhiteSpace(prediction.Score))
+                msg.AppendLine($"📊 <b>Примерный счёт:</b> {prediction.Score}");
+            
+            msg.AppendLine();
+            msg.AppendLine($"<b>Ссылка:</b> <a href=\"{prediction.Url}\">{prediction.Source}</a>");
+            var text = msg.ToString();
+
+            // Разбивка на куски (ограничение Telegram — 4096 символов)
+            const int maxLength = 4000;
+            for (int i = 0; i < text.Length; i += maxLength)
+            {
+                var chunk = text.Substring(i, Math.Min(maxLength, text.Length - i));
+                await _messageService.SendTextAsync(chatId, chunk);
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ namespace TelegramBOT.Handlers
         private readonly NavigationHandler _navigationHandler;
         private readonly TeamsHandler _teamsHandler;
         private readonly PredictionHandler _predictionHandler;
+        private readonly PredictionService _predictionService;
 
         public CommandHandler(
             CalendarHandler calendarHandler,
@@ -24,7 +25,8 @@ namespace TelegramBOT.Handlers
             StatsHandler statsHandler,
             NavigationHandler navigationHandler,
             TeamsHandler teamsHandler,
-            PredictionHandler predictionHandler
+            PredictionHandler predictionHandler,
+            PredictionService predictionService
         )
         {
             _calendarHandler = calendarHandler;
@@ -33,6 +35,7 @@ namespace TelegramBOT.Handlers
             _navigationHandler = navigationHandler;
             _teamsHandler = teamsHandler;
             _predictionHandler = predictionHandler;
+            _predictionService = predictionService;
         }
 
 
@@ -69,20 +72,19 @@ namespace TelegramBOT.Handlers
 
             if (callback.StartsWith("predict_"))
                 await _statsHandler.HandlePredictions(chatId, callback);
+            else if (callback.StartsWith("prediction_"))
+                await _predictionService.ShowPredictionAsync(chatId, callback);
             else if (callback.StartsWith("stats_"))
                 await _statsHandler.HandleStats(chatId, callback);
             else if (callback.StartsWith("history_"))
                 await _statsHandler.HandleHistory(chatId, callback);
             else if (callback.StartsWith("result_"))
                 await _resultsHandler.HandleResult(chatId, callback);
-            else if (callback.StartsWith("predict_"))
-                await _predictionHandler.ShowSourcesMenu(chatId, callback.Replace("predict_", ""));
-            else if (callback.StartsWith("prediction_"))
-                await _predictionHandler.ShowPrediction(chatId, callback);
             else if (callback.StartsWith("match_"))
                 await _calendarHandler.HandleMatchSelected(chatId, callback);
             else if (callback == "back_to_today")
                 await _calendarHandler.ShowToday(chatId);
+
         }
 
 

@@ -5,16 +5,12 @@ namespace TelegramBOT.Models
 {
     /// <summary>
     /// Прогноз по матчу
-    /// Прогноз на матч
     /// </summary>
     [Table("Predictions")]
     public class Prediction
     {
         /// <summary>
-        /// Идентификатор прогноза (PRIMARY KEY, автоинкремент)
-        /// </summary>
-        [Key]
-        /// Уникальный идентификатор прогноза (PRIMARY KEY, автогенерация)
+        /// Идентификатор прогноза
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -30,20 +26,19 @@ namespace TelegramBOT.Models
         public string MatchId { get; set; } = string.Empty;
 
         /// <summary>
-        /// Источник прогноза (Legalbet, Metaratings, Vseprosport и т.д.)
-        /// ID матча (связь с Matches)
-        /// </summary>
-        [Required]
-        [Column("match_id")]
-        public string MatchId { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Источник прогноза (например: legalbet.kz, stavka.tv)
+        /// Источник прогноза
         /// </summary>
         [Required]
         [MaxLength(255)]
         [Column("source")]
         public string Source { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Ссылка на страницу прогноза
+        /// </summary>
+        [MaxLength(500)]
+        [Column("url")]
+        public string? Url { get; set; }
 
         /// <summary>
         /// Основной прогноз
@@ -53,14 +48,12 @@ namespace TelegramBOT.Models
 
         /// <summary>
         /// Альтернативный прогноз
-        /// Альтернативный прогноз (если есть)
         /// </summary>
         [Column("alt_prediction")]
         public string? AltPrediction { get; set; }
 
         /// <summary>
         /// Примерный счёт
-        /// Прогнозируемый счет
         /// </summary>
         [MaxLength(50)]
         [Column("score")]
@@ -73,34 +66,28 @@ namespace TelegramBOT.Models
         public string? GeneralText { get; set; }
 
         /// <summary>
-        /// Результат прогноза (например, «Выиграл», «Не зашёл»)
-        /// Результат прогноза (WIN, LOSE, DRAW, UNKNOWN)
+        /// Результат прогноза
         /// </summary>
         [MaxLength(255)]
         [Column("result")]
         public string? Result { get; set; }
 
         /// <summary>
-        /// Текст анализа для домашней команды
-        /// Текст прогноза, связанный с домашней командой
+        /// Анализ домашней команды
         /// </summary>
         [Column("home_team_text")]
         public string? HomeTeamText { get; set; }
 
         /// <summary>
-        /// Текст анализа для гостевой команды
+        /// Анализ гостевой команды
         /// </summary>
         [Column("away_team_text")]
         public string? AwayTeamText { get; set; }
 
-        // ================================
-        // Навигационное свойство (связь с матчем)
-        // ================================
+        /// <summary>
+        /// Связанный матч
+        /// </summary>
         [ForeignKey("MatchId")]
         public Match? Match { get; set; }
-        /// Текст прогноза, связанный с гостевой командой
-        /// </summary>
-        [Column("away_team_text")]
-        public string? AwayTeamText { get; set; }
     }
 }

@@ -14,10 +14,6 @@ namespace TelegramBOT.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<Prediction> Predictions { get; set; }
 
-
-        public DbSet<Prediction> Predictions { get; set; }
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
