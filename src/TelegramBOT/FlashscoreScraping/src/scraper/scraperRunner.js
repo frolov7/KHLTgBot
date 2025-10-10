@@ -166,7 +166,7 @@ export default async function main(args) {
         const scrapers = [
             { name: "betzona", fn: scrapeBetzona },
             { name: "legalbet", fn: scrapeLegalbet },
-            //{ name: "livesport", fn: scrapeLivesport },
+            { name: "livesport", fn: scrapeLivesport },
             { name: "metaratings", fn: scrapeMetaRatings },
             { name: "stavkatv", fn: scrapeStavkatv },
             { name: "vprognoze", fn: scrapeVprognoze },

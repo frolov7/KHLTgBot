@@ -66,6 +66,15 @@ async function fetchHtml(url) {
     return await res.text();
 }
 
+function cleanText(text) {
+    if (!text) return "";
+    return text
+        .replace(/\s+/g, " ")   // убираем лишние пробелы и переносы
+        .replace(/ /g, " ")     // убираем неразрывные пробелы
+        .trim();
+}
+
+
 /**
  * Парсит страницу отдельного матча с meta-ratings.kz.
  */
@@ -94,7 +103,7 @@ async function parseMatchPage(url, meta) {
         }
     }
     if (altBets.length) prediction.alt = altBets.join(", ");
-    prediction.text = paras.join("\n\n");
+    prediction.text = cleanText(paras.join(" "));
 
     const dateLog = meta.matchDate ? meta.matchDate.toISOString() : "дата не найдена";
     console.log(`Дата матча для ${meta.home} – ${meta.away}: ${dateLog}`);
@@ -105,7 +114,8 @@ async function parseMatchPage(url, meta) {
     }
 
     return {
-        source: url,   // ✅ теперь здесь ссылка на страницу прогноза
+        source: "metaratings",
+        url: url,
         match: `${meta.home} – ${meta.away}`,
         teams: {
             home: { name: meta.home },

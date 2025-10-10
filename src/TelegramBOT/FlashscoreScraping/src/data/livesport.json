@@ -1,6 +1,6 @@
 [
   {
-    "source": "livesport.ru",
+    "source": "livesport",
     "match": "Локомотив – Северсталь",
     "teams": {
       "home": {
@@ -20,7 +20,7 @@
     "id": "mL9aTq3X"
   },
   {
-    "source": "livesport.ru",
+    "source": "livesport",
     "match": "Сибирь – Салават Юлаев",
     "teams": {
       "home": {
@@ -40,7 +40,7 @@
     "id": "zqnpeojT"
   },
   {
-    "source": "livesport.ru",
+    "source": "livesport",
     "match": "Лада – Сочи",
     "teams": {
       "home": {
@@ -60,7 +60,7 @@
     "id": "WEXFkPDj"
   },
   {
-    "source": "livesport.ru",
+    "source": "livesport",
     "match": "Нефтехимик – Автомобилист",
     "teams": {
       "home": {
@@ -80,7 +80,7 @@
     "id": "pxMRteVI"
   },
   {
-    "source": "livesport.ru",
+    "source": "livesport",
     "match": "Динамо Минск – Торпедо",
     "teams": {
       "home": {
@@ -100,7 +100,7 @@
     "id": "UwueWaOk"
   },
   {
-    "source": "livesport.ru",
+    "source": "livesport",
     "match": "Амур – ЦСКА",
     "teams": {
       "home": {
@@ -120,7 +120,7 @@
     "id": "hKIAB6zA"
   },
   {
-    "source": "livesport.ru",
+    "source": "livesport",
     "match": "Трактор – Авангард",
     "teams": {
       "home": {
@@ -140,7 +140,7 @@
     "id": "nNF2DS5c"
   },
   {
-    "source": "livesport.ru",
+    "source": "livesport",
     "match": "Барыс – Ак Барс",
     "teams": {
       "home": {
@@ -158,8 +158,6 @@
       "result": "LOSE"
     },
     "id": "IaLkhso9"
-<<<<<<< Updated upstream
-=======
   },
   {
     "source": "livesport",
@@ -252,6 +250,5 @@
       "result": null
     },
     "id": "vBaCccvn"
->>>>>>> Stashed changes
   }
 ]
