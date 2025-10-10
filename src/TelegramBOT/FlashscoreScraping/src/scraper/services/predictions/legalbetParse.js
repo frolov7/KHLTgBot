@@ -46,58 +46,111 @@ async function parseMatchPage(url, calendar, matchInfo) {
     const home = normalizeTeamName(matchInfo.home);
     const away = normalizeTeamName(matchInfo.away);
 
-    // Дата матча
+    // дата матча
     const dateStr = $(".match-head__info-date").first().text().trim();
     const timeStr = $(".match-head__info-time").first().text().trim();
     const matchDate = parseRuDateLegalbet(dateStr, timeStr);
-
-    if (!matchDate)
-        return null; // завершает выполнение без ошибки
+    if (!matchDate) return null;
 
     console.log(`Дата матча для ${home} – ${away}: ${dateStr} ${timeStr} → ${matchDate}`);
-
 
     let homeText = "";
     let awayText = "";
     let commonText = "";
     let mainBet = null;
 
-    $("h2, h3").each((_, el) => {
-        const title = $(el).text().trim();
+    // очистка текста от лишнего
+    function cleanNodeText(node) {
+        const $node = $(node);
 
-        // Анализ хозяев
-        if (matchesTeam(title, home)) {
-            let sibling = $(el).next();
-            while (sibling.length && !sibling.is("h2, h3")) {
-                homeText += sibling.text().trim() + "\n\n";
-                sibling = sibling.next();
+        // убираем ненужные блоки
+        $node.find("style, script, .match-odds, .odds-tabs, .custom-link-widget").remove();
+
+        // оставляем коэффициенты числом
+        $node.find("a.bk-tag-link span").each((_, el) => {
+            const coef = $(el).text().trim();
+            $(el).replaceWith(coef ? " " + coef : "");
+        });
+
+        let text = $node.text().replace(/\s+/g, " ").trim();
+
+        if (!text) return "";
+        if (/Автор:/i.test(text)) return "";
+        if (/Все ставки/i.test(text)) return "";
+
+        return text;
+    }
+
+    // вытаскиваем текст между заголовками
+    function collectBlockText(startHeader) {
+        let text = "";
+        let sibling = startHeader.next();
+        while (sibling.length && !sibling.is("h2, h3")) {
+            if (sibling.is("p") || sibling.is("ul") || sibling.is("ol")) {
+                const clean = cleanNodeText(sibling);
+                if (clean) text += clean + " ";
             }
+            if (
+                sibling.is("style") ||
+                sibling.hasClass("match-odds") ||
+                sibling.hasClass("odds-tabs")
+            ) break;
+            sibling = sibling.next();
+        }
+        return text.trim();
+    }
+
+    // Анализ хозяев
+    const homeHeader = $("h2, h3").filter((_, el) =>
+        matchesTeam($(el).text().trim(), home)
+    );
+    if (homeHeader.length) {
+        homeText = collectBlockText(homeHeader.first());
+    }
+
+    // Анализ гостей
+    const awayHeader = $("h2, h3").filter((_, el) =>
+        matchesTeam($(el).text().trim(), away)
+    );
+    if (awayHeader.length) {
+        awayText = collectBlockText(awayHeader.first());
+    }
+
+    // Общий прогноз
+    const forecastHeader = $("h2, h3").filter((_, el) =>
+        /прогноз/i.test($(el).text().trim())
+    );
+    if (forecastHeader.length) {
+        let sibling = forecastHeader.first().next();
+        while (sibling.length && !sibling.is("h2, h3")) {
+            if ((sibling.is("p") || sibling.is("ul") || sibling.is("ol"))) {
+                const clean = cleanNodeText(sibling);
+                // убираем абзацы, начинающиеся с "Прогноз:"
+                if (clean && !/^Прогноз:/i.test(clean)) {
+                    commonText += clean + " ";
+                }
+            }
+            if (
+                sibling.is("style") ||
+                sibling.hasClass("match-odds") ||
+                sibling.hasClass("odds-tabs")
+            ) break;
+            sibling = sibling.next();
         }
 
-        // Анализ гостей
-        if (matchesTeam(title, away)) {
-            let sibling = $(el).next();
-            while (sibling.length && !sibling.is("h2, h3")) {
-                awayText += sibling.text().trim() + "\n\n";
-                sibling = sibling.next();
-            }
+        // ищем основную ставку в <strong>
+        const betLine = forecastHeader
+            .nextAll("p")
+            .find("strong")
+            .first()
+            .text()
+            .trim();
+        if (betLine) {
+            mainBet = betLine;
         }
+    }
 
-        // Общий прогноз
-        if (/прогноз/i.test(title)) {
-            let sibling = $(el).next();
-            while (sibling.length && !sibling.is("p:has(strong)")) {
-                commonText += sibling.text().trim() + "\n\n";
-                sibling = sibling.next();
-            }
-            const betLine = sibling.find("strong").text().trim();
-            if (betLine) {
-                mainBet = betLine;
-            }
-        }
-    });
-
-    // Поиск "Мой прогноз"
+    // fallback: "Мой прогноз"
     $("p").each((_, el) => {
         const text = $(el).text().trim();
         if (/Мой прогноз:/i.test(text)) {
@@ -108,26 +161,28 @@ async function parseMatchPage(url, calendar, matchInfo) {
         }
     });
 
-    const matchId = home && away ? findMatchId(home, away, calendar, matchDate) : null;
+    const matchId =
+        home && away ? findMatchId(home, away, calendar, matchDate) : null;
 
     return {
         source: "legalbet",
         url: url,
         match: `${home} – ${away}`,
         teams: {
-            home: { name: home, analysis: homeText.trim() },
-            away: { name: away, analysis: awayText.trim() },
+            home: { name: home, analysis: homeText },
+            away: { name: away, analysis: awayText },
         },
         prediction: {
             main: mainBet,
             alt: null,
             score: null,
-            text: commonText.trim(),
+            text: commonText,
             result: null,
         },
         id: matchId,
     };
 }
+
 
 /**
  * Основная функция: парсит список матчей КХЛ на legalbet.kz

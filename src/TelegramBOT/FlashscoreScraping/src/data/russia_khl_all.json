@@ -2012,7 +2012,7 @@
   "jin6fTH8": {
     "id": "jin6fTH8",
     "date": "08.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Yekaterinburg"
     },
@@ -2020,14 +2020,14 @@
       "name": "SKA St. Petersburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "1"
     }
   },
   "nJuFh7nL": {
     "id": "nJuFh7nL",
     "date": "08.10.2025 19:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Dynamo Moscow"
     },
@@ -2035,8 +2035,8 @@
       "name": "Salavat Ufa"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "4",
+      "away": "1"
     }
   },
   "ny3Key9b": {
