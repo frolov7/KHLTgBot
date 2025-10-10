@@ -2042,7 +2042,7 @@
   "ny3Key9b": {
     "id": "ny3Key9b",
     "date": "09.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Tractor Chelyabinsk"
     },
@@ -2050,8 +2050,8 @@
       "name": "Barys Astana"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "xlKgoPve": {
