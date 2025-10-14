@@ -17,27 +17,28 @@ namespace TelegramBOT.Handlers
         /// </summary>
         private readonly Dictionary<string, string> _teams = new()
         {
-            { "⭐ СКА Санкт-Петербург", "SKA St. Petersburg" },
-            { "★ ЦСКА Москва", "CSKA Moscow" },
+            { "⭐ СКА", "SKA St. Petersburg" },
+            { "★ ЦСКА", "CSKA Moscow" },
             { "🔵 Динамо Москва", "Dynamo Moscow" },
-            { "♦️ Спартак Москва", "Spartak Moscow" },
-            { "🚂 Локомотив Ярославль", "Lokomotiv Yaroslavl" },
-            { "🦌 Торпедо Нижний Новгород", "Nizhny Novgorod" },
-            { "⚒️ Северсталь Череповец", "Cherepovets" },
+            { "♦️ Спартак", "Spartak Moscow" },
+            { "🚂 Локомотив", "Lokomotiv Yaroslavl" },
+            { "🦌 Торпедо", "Nizhny Novgorod" },
+            { "⚒️ Северсталь", "Cherepovets" },
             { "🐆 ХК Сочи", "Sochi" },
             { "🐃 Динамо Минск", "Dinamo Minsk" },
-            { "🚗 Лада Тольятти", "Lada" },
-            { "🐉 Куньлунь Ред Стар", "Shanghai" },
-            { "🦅 Авангард Омск", "Avangard Omsk" },
-            { "🐯 Ак Барс Казань", "Bars Kazan" },
-            { "⛏️ Металлург Магнитогорск", "Magnitogorsk" },
-            { "🕌 Салават Юлаев Уфа", "Salavat Ufa" },
-            { "🚘 Автомобилист Екатеринбург", "Yekaterinburg" },
-            { "🚜 Трактор Челябинск", "Tractor Chelyabinsk" },
-            { "⚓ Адмирал Владивосток", "Vladivostok" },
-            { "❄️ Сибирь Новосибирск", "Novosibirsk" },
-            { "🐺 Нефтехимик Нижнекамск", "Niznekamsk" },
-            { "🐅 Амур Хабаровск", "Khabarovsk" }
+            { "🚗 Лада", "Lada" },
+            { "🐉 Шанхай Дрэгонс", "Shanghai" },
+            { "🦅 Авангард", "Avangard Omsk" },
+            { "🐯 Ак Барс", "Bars Kazan" },
+            { "⛏️ Металлург", "Magnitogorsk" },
+            { "🕌 Салават Юлаев", "Salavat Ufa" },
+            { "🚘 Автомобилист", "Yekaterinburg" },
+            { "🚜 Трактор", "Tractor Chelyabinsk" },
+            { "⚓ Адмирал", "Vladivostok" },
+            { "❄️ Сибирь", "Novosibirsk" },
+            { "🐺 Нефтехимик", "Niznekamsk" },
+            { "🐆 Барыс", "Barys Astana" },
+            { "🐅 Амур", "Khabarovsk" }
         };
 
         public TeamsHandler(MessageService messageService, MatchService matchService)
