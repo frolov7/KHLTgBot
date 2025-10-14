@@ -11,7 +11,8 @@ namespace TelegramBOT.UI.Menus
                 new KeyboardButton[] { "📅 Календарь" },
                 new KeyboardButton[] { "📊 Статистика" },
                 new KeyboardButton[] { "🏒 Команды" },
-                new KeyboardButton[] { "⚡ Результаты" }
+                new KeyboardButton[] { "⚡ Результаты" },
+                new KeyboardButton[] { "🔄 Обновить данные" }
             })
             {
                 ResizeKeyboard = true,
