@@ -325,9 +325,13 @@ namespace TelegramBOT.Services
             var sb = new StringBuilder();
             sb.AppendLine("⚔️ Прошлые игры:\n");
 
+            // Сортировка по возрастанию даты
+            var homeSorted = homeResults.OrderBy(m => m.MatchDate).ToList();
+            var awaySorted = awayResults.OrderBy(m => m.MatchDate).ToList();
+
             // Домашняя команда
             sb.AppendLine($"{homeName} (последние 10):");
-            foreach (var m in homeResults)
+            foreach (var m in homeSorted)
             {
                 sb.AppendLine(
                     $"{GetResultEmoji(m, match.HomeTeamName)} " +
@@ -340,7 +344,7 @@ namespace TelegramBOT.Services
 
             // Гостевая команда
             sb.AppendLine($"\n{awayName} (последние 10):");
-            foreach (var m in awayResults)
+            foreach (var m in awaySorted)
             {
                 sb.AppendLine(
                     $"{GetResultEmoji(m, match.AwayTeamName)} " +
@@ -410,6 +414,20 @@ namespace TelegramBOT.Services
             var text = $"🔮 Прогнозы на матч:\n<b>{homeName} vs {awayName}</b>";
 
             await SendTextWithKeyboardAsync(chatId, text, menu);
+        }
+
+        /// <summary>
+        /// Удалить сообщение в чате Telegram по его идентификатору.
+        /// </summary>
+        /// <param name="chatId">ID чата, из которого нужно удалить сообщение.</param>
+        /// <param name="messageId">ID удаляемого сообщения.</param>
+        public async Task DeleteMessageAsync(long chatId, int messageId)
+        {
+            await _client.DeleteMessage(
+                chatId,
+                messageId,
+                cancellationToken: CancellationToken.None
+            );
         }
     }
 }

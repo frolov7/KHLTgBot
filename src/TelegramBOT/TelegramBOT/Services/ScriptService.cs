@@ -16,13 +16,21 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Запускает скрипт парсера для обновления последних данных.
+        /// Запускает скрипт парсера для обновления последних результатов.
         /// </summary>
-        public async Task RunScraperUpdateAsync()
+        public async Task RunScraperResultsAsync()
         {
             await RunNodeScriptAsync("src/scraper/scraperRunner.js --update");
         }
 
+        /// <summary>
+        /// Запускает скрипт парсера для обновления последних прогнозов.
+        /// </summary>
+        public async Task RunScraperPredictionsAsync()
+        {
+            await RunNodeScriptAsync("src/scraper/scraperRunner.js --predictions");
+        }
+        
         /// <summary>
         /// Запускает скрипт парсера для полной загрузки всех данных.
         /// </summary>
