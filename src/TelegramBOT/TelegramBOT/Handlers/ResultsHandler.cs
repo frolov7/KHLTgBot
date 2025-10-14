@@ -50,12 +50,16 @@ namespace TelegramBOT.Handlers
             }
 
             _isUpdatingResults = true;
-            await _messageService.RemoveKeyboardAsync(chatId, "⏳ Обновляем результаты, подождите...");
+            await _messageService.RemoveKeyboardAsync(chatId, "⏳ Обновляем данные, подождите...");
 
             try
             {
-                await _scriptService.RunScraperUpdateAsync();
-                await _messageService.SendKeyboardAsync(chatId, "✅ Результаты обновлены!", _menuService.GetMainMenu());
+                var updateResultsTask = _scriptService.RunScraperResultsAsync();
+                var updatePredictionsTask = _scriptService.RunScraperPredictionsAsync();
+
+                await Task.WhenAll(updateResultsTask, updatePredictionsTask);
+
+                await _messageService.SendKeyboardAsync(chatId, "✅ Данные обновлены!", _menuService.GetMainMenu());
             }
             catch (Exception ex)
             {

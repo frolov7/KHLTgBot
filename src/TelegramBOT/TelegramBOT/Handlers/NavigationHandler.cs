@@ -26,7 +26,7 @@ namespace TelegramBOT.Handlers
         {
             await _messageService.SendKeyboardAsync(
                 chatId,
-                "Добро пожаловать! Выберите действие.",
+                "Выберите действие.",
                 _menuService.GetMainMenu()
             );
         }
