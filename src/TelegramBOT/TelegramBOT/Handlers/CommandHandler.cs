@@ -1,5 +1,7 @@
 ﻿using Serilog;
 using Telegram.Bot.Types;
+using TelegramBOT.Services;
+using TelegramBOT.UI.Menus;
 
 namespace TelegramBOT.Handlers
 {
@@ -14,13 +16,17 @@ namespace TelegramBOT.Handlers
         private readonly StatsHandler _statsHandler;
         private readonly NavigationHandler _navigationHandler;
         private readonly TeamsHandler _teamsHandler;
+        private readonly PredictionHandler _predictionHandler;
+        private readonly PredictionService _predictionService;
 
         public CommandHandler(
             CalendarHandler calendarHandler,
             ResultsHandler resultsHandler,
             StatsHandler statsHandler,
             NavigationHandler navigationHandler,
-            TeamsHandler teamsHandler
+            TeamsHandler teamsHandler,
+            PredictionHandler predictionHandler,
+            PredictionService predictionService
         )
         {
             _calendarHandler = calendarHandler;
@@ -28,7 +34,10 @@ namespace TelegramBOT.Handlers
             _statsHandler = statsHandler;
             _navigationHandler = navigationHandler;
             _teamsHandler = teamsHandler;
+            _predictionHandler = predictionHandler;
+            _predictionService = predictionService;
         }
+
 
         /// <summary>
         /// Основной метод обработки обновлений от Telegram.
@@ -63,6 +72,8 @@ namespace TelegramBOT.Handlers
 
             if (callback.StartsWith("predict_"))
                 await _statsHandler.HandlePredictions(chatId, callback);
+            else if (callback.StartsWith("prediction_"))
+                await _predictionService.ShowPredictionAsync(chatId, callback);
             else if (callback.StartsWith("stats_"))
                 await _statsHandler.HandleStats(chatId, callback);
             else if (callback.StartsWith("history_"))
@@ -73,6 +84,7 @@ namespace TelegramBOT.Handlers
                 await _calendarHandler.HandleMatchSelected(chatId, callback);
             else if (callback == "back_to_today")
                 await _calendarHandler.ShowToday(chatId);
+
         }
 
 

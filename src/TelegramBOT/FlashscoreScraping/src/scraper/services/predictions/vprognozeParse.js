@@ -5,6 +5,32 @@ import { OUTPUT_PATH } from "../../../constants/constants.js";
 import { findMatchId, normalizeTeamName, TEAM_MAP } from "../utils/teamMapUtils.js";
 import { appendUniqueJson } from "../utils/fileUtils.js";
 
+
+
+function cleanText(text) {
+    if (!text) return "";
+    return text
+        .replace(/\s+/g, " ")        // убираем лишние пробелы и переносы
+        .replace(/\n+/g, " ")        // переносы строк → пробел
+        .replace(/ +/g, " ")         // несколько пробелов → один
+        .replace(/Другие матчи КХЛ.*$/i, "") // вырезаем мусор про другие матчи
+        .trim();
+}
+
+function removeGarbage(text) {
+    if (!text) return "";
+
+    return text
+        // убираем статистику, очные встречи и прочее
+        .replace(/📊.*?(?=Magnitogorsk|Nizhny|Lada|Sochi|Bars|Barys|Spartak|SKA|$)/gis, "")
+        .replace(/🤝 Очные встречи.*?(?=Magnitogorsk|Nizhny|Lada|Sochi|Bars|Barys|Spartak|SKA|$)/gis, "")
+        .replace(/Другие матчи КХЛ.*$/gis, "")
+        // нормализуем пробелы и переносы
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+
 /// <summary>
 /// Загружает HTML страницу по указанному URL.
 /// Используется для получения страниц прогнозов с сайта.
@@ -112,56 +138,74 @@ async function parseMatchPage(url) {
     const dateStr = spans.last().text().trim();
     result.matchDate = parseMatchDate(dateStr, timeStr, result.match);
 
-    if (!result.matchDate) return null; 
+    if (!result.matchDate) return null;
 
-    // полный текст прогноза
-    let fullText = $(".v3-forecast-card-description__text").text().trim();
+    // прогноз: ищем блок начиная с "Прогноз на матч"
+    const forecastHeader = $("h3").filter((_, el) =>
+        $(el).text().trim().startsWith("Прогноз на матч")
+    );
 
-    // приводим текст к нормализованным названиям команд
-    fullText = replaceTeamAliases(fullText);
-    result.prediction.text = fullText;
+    if (forecastHeader.length) {
+        let paragraphs = [];
+        let next = forecastHeader.next();
 
-    // разбиваем текст на анализ по командам
-    if (result.teams.home.name && result.teams.away.name) {
-        const homeName = TEAM_MAP[result.teams.home.name] || result.teams.home.name;
-        const awayName = TEAM_MAP[result.teams.away.name] || result.teams.away.name;
+        while (next.length && next.is("p")) {
+            const txt = next.text().trim();
 
-        const homeIdx = fullText.indexOf(homeName);
-        const awayIdx = fullText.indexOf(awayName);
-
-        if (homeIdx !== -1 && awayIdx !== -1) {
-            if (homeIdx < awayIdx) {
-                result.teams.home.analysis = fullText
-                    .slice(homeIdx + homeName.length, awayIdx)
-                    .split("📊")[0]
-                    .trim();
-
-                result.teams.away.analysis = fullText
-                    .slice(awayIdx + awayName.length)
-                    .split("📊")[0]
-                    .trim();
-            } else {
-                result.teams.away.analysis = fullText
-                    .slice(awayIdx + awayName.length, homeIdx)
-                    .split("📊")[0]
-                    .trim();
-
-                result.teams.home.analysis = fullText
-                    .slice(homeIdx + homeName.length)
-                    .split("📊")[0]
-                    .trim();
+            // стоп, если встретили секцию с основным/альтернативным прогнозом или счётом
+            if (/^(✅|💡|📊)/.test(txt)) {
+                break;
             }
+
+            paragraphs.push(txt);
+            next = next.next();
+        }
+
+        result.prediction.text = paragraphs.join("\n\n");
+    }
+
+    // разбор анализа по командам
+    // разбор анализа по командам
+    if (result.teams.home.name && result.teams.away.name) {
+        // Ищем <h3>, содержащий именно то, что на сайте, без нормализации
+        const homeHeader = $('h3').filter((_, el) =>
+            $(el).text().trim().toLowerCase().includes(result.teams.home.name.toLowerCase())
+        );
+        const awayHeader = $('h3').filter((_, el) =>
+            $(el).text().trim().toLowerCase().includes(result.teams.away.name.toLowerCase())
+        );
+
+        if (homeHeader.length) {
+            let homeText = [];
+            homeHeader.nextUntil("h3").each((_, el) => {
+                if ($(el).is("p")) {
+                    homeText.push($(el).text().trim());
+                }
+            });
+            result.teams.home.analysis = removeGarbage(cleanText(homeText.join(" ")));
+        }
+
+        if (awayHeader.length) {
+            let awayText = [];
+            awayHeader.nextUntil("h3").each((_, el) => {
+                if ($(el).is("p")) {
+                    awayText.push($(el).text().trim());
+                }
+            });
+            result.teams.away.analysis = removeGarbage(cleanText(awayText.join(" ")));
         }
     }
 
+
+    // прогнозы
     $(".v3-forecast-card-description__text p").each((_, el) => {
         const txt = $(el).text().trim();
         if (txt.startsWith("✅ Основной прогноз")) {
-            result.prediction.main = txt.replace("✅ Основной прогноз:", "").trim();
+            result.prediction.main = cleanText(txt.replace("✅ Основной прогноз:", ""));
         } else if (txt.startsWith("💡 Альтернатива")) {
-            result.prediction.alt = txt.replace("💡 Альтернатива:", "").trim();
+            result.prediction.alt = cleanText(txt.replace("💡 Альтернатива:", ""));
         } else if (txt.startsWith("📊 Примерный счёт")) {
-            result.prediction.score = txt.replace("📊 Примерный счёт:", "").trim();
+            result.prediction.score = cleanText(txt.replace("📊 Примерный счёт:", ""));
         }
     });
 
@@ -212,7 +256,8 @@ export async function scrapePredictions() {
                 console.warn(`⚠️ Не нашли ID для матча: ${data.match}`);
 
             predictions.push({
-                source: href,
+                source: "vprognoze",
+                url: href,
                 match: data.match,
                 teams: data.teams,
                 prediction: data.prediction,

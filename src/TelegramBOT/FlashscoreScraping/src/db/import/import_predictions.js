@@ -65,6 +65,7 @@ async function importPredictions() {
                         .request()
                         .input("match_id", sql.VarChar, pred.id || pred.match)
                         .input("source", sql.NVarChar, pred.source)
+                        .input("url", sql.NVarChar, pred.url || null)
                         .input("main_prediction", sql.NVarChar, pred.prediction.main || null)
                         .input("alt_prediction", sql.NVarChar, pred.prediction.alt || null)
                         .input("score", sql.NVarChar, pred.prediction.score || null)
@@ -74,12 +75,12 @@ async function importPredictions() {
                         .input("away_team_text", sql.NVarChar, pred.teams.away.text || pred.teams.away.analysis || null)
                         .query(`
                             INSERT INTO Predictions (
-                                match_id, source,
+                                match_id, source, url,
                                 main_prediction, alt_prediction, score, general_text, result,
                                 home_team_text, away_team_text
                             )
                             VALUES (
-                                @match_id, @source,
+                                @match_id, @source, @url,
                                 @main_prediction, @alt_prediction, @score, @general_text, @result,
                                 @home_team_text, @away_team_text
                             );

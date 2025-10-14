@@ -9,6 +9,15 @@ export { scrapePredictionsBetzona as scrapePredictions };
 
 const BASE_URL = "https://betzona.ru";
 
+
+function normalizeQuotes(str) {
+    if (!str) return str;
+    return str
+        .replace(/"([^"]+)"/g, "«$1»")  // заменяет "текст" → «текст»
+        .replace(/««/g, "«")            // на всякий случай чистим двойные
+        .replace(/»»/g, "»");
+}
+
 /// <summary>
 /// Загружает HTML-страницу по указанному URL.
 /// </summary>
@@ -20,51 +29,65 @@ async function fetchHtml(url) {
 }
 
 /// <summary>
-/// Извлекает тексты анализа для home/away и общий прогноз.
+/// Очищает текст узла: убирает табы/переносы, рекламу, таблицы.
 /// </summary>
+function cleanNodeText($, node) {
+    const $node = $(node);
+
+    // выкидываем таблицы, блоки статистики, рекламу
+    if ($node.is(".scores, .standing, .row, .white-block, .position-table")) return "";
+    if (/Личные встречи/i.test($node.text())) return "";
+    if (/Реклама/i.test($node.text())) return "";
+
+    // нормализация текста
+    let text = $node.text().replace(/\s+/g, " ").trim();
+    return text;
+}
+
 function extractTeamAndPredictionTexts($, home, away) {
-    // Тексты команд
-    const teamBlocks = $(".head-team");
     let homeText = null;
     let awayText = null;
 
-    teamBlocks.each((_, el) => {
+    // Анализ команд
+    $(".head-team").each((_, el) => {
         const teamName = $(el).find("h2").text().trim();
-        const infoBlock = $(el).next(".team-info").find(".info").text().trim();
-
-        if (teamName && infoBlock) {
+        const infoBlock = $(el).next(".team-info").find(".info");
+        let clean = cleanNodeText($, infoBlock);
+        if (teamName && clean) {
             if (teamName.toLowerCase() === home.toLowerCase()) {
-                homeText = infoBlock;
+                homeText = clean;
             } else if (teamName.toLowerCase() === away.toLowerCase()) {
-                awayText = infoBlock;
+                awayText = clean;
             }
         }
     });
 
     // Общий прогноз
-    let commonText = "";
+    let commonParts = [];
     const forecastHeader = $("h2").filter((_, el) => $(el).text().trim() === "Прогноз");
     if (forecastHeader.length) {
-        const forecastBlock = forecastHeader.next(".forecast-info");
-        if (forecastBlock.length) {
-            commonText = forecastBlock.text().trim();
-        } else {
-            let sibling = forecastHeader.next();
-            const texts = [];
-            while (sibling.length) {
-                if (sibling.is("h2") || sibling.is("h3")) break;
-                if (sibling.is("p") || sibling.is("div")) {
-                    const t = sibling.text().trim();
-                    if (t) texts.push(t);
-                }
-                sibling = sibling.next();
+        let sibling = forecastHeader.next();
+        while (sibling.length) {
+            if (sibling.is("h2") || sibling.is("h3")) break;
+
+            // берём только <p>
+            if (sibling.is("p")) {
+                const clean = cleanNodeText($, sibling);
+                if (clean) commonParts.push(clean);
             }
-            commonText = texts.join("\n\n");
+
+            sibling = sibling.next();
         }
     }
 
-    return { homeText, awayText, commonText };
+    return {
+        homeText,
+        awayText,
+        commonText: commonParts.join(" ")
+    };
 }
+
+
 
 /// <summary>
 /// Парсит страницу конкретного матча и извлекает прогноз.
@@ -76,20 +99,82 @@ async function parseMatchPage(url, calendar, matchInfo) {
     const home = normalizeTeamName(matchInfo.home);
     const away = normalizeTeamName(matchInfo.away);
 
-    // ✅ дата матча
-    const dateRaw = $(".match-review-head-date").first().text().trim() || null;
-    const matchDate = parseRuDate(dateRaw);
-    console.log(`Дата матча для ${home} – ${away}: ${dateRaw} → ${matchDate}`);
+    let matchDate = null;
 
-    let mainBet = $(".bet_name").first().text().trim() || null;
-    const { homeText, awayText, commonText } = extractTeamAndPredictionTexts($, home, away);
+    if (url.includes("betzona")) {
+        // --- формат Betzona: "09.10.2025 19:00"
+        const dateBlock = $(".match-review-head-date").first().text().trim();
+        if (dateBlock) {
+            const [dateStr, timeStr] = dateBlock.split(" ");
+            if (dateStr && timeStr) {
+                const [day, month, year] = dateStr.split(".").map(Number);
+                const [hours, minutes] = timeStr.split(":").map(Number);
+                matchDate = new Date(year, month - 1, day, hours, minutes);
+            }
+        }
+    } else {
+        // --- формат Legalbet: отдельно дата и время
+        const dateStr = $(".match-head__info-date").first().text().trim();
+        const timeStr = $(".match-head__info-time").first().text().trim();
+        if (dateStr && timeStr) {
+            const [day, month, year] = dateStr.split(".").map(Number);
+            const [hours, minutes] = timeStr.split(":").map(Number);
+            matchDate = new Date(year, month - 1, day, hours, minutes);
+        }
+    }
 
-    const matchId = findMatchId(home, away, calendar, matchDate);
+    if (!matchDate) return null;
+
+    console.log(`Дата матча для ${home} – ${away}: ${matchDate}`);
+
+    // --- Тексты по командам ---
+    let homeText = "";
+    let awayText = "";
+
+    $(".head-team").each((_, el) => {
+        const teamName = $(el).find("h2").text().trim();
+        const infoBlock = $(el).next(".team-info").find(".info p");
+        let teamText = infoBlock.map((_, p) => $(p).text().trim()).get().join(" ");
+
+        if (teamName && teamText) {
+            if (normalizeTeamName(teamName) === home) {
+                homeText = teamText;
+            } else if (normalizeTeamName(teamName) === away) {
+                awayText = teamText;
+            }
+        }
+    });
+
+    // --- Общий прогноз ---
+    let commonText = $(".forecast-info > p")
+        .map((_, el) => $(el).text().replace(/\s+/g, " ").trim())
+        .get()
+        .filter(Boolean)
+        .join(" ");
+
+    // --- Основная ставка ---
+    let mainBet = $(".forecast-info .bet_name").first().text().trim() || null;
+
+    // Подстраховка — берём последние абзацы, если прогноз не нашёлся
+    if (!commonText) {
+        const allParas = $("p").map((_, el) => $(el).text().trim()).get().filter(Boolean);
+        if (allParas.length > 0) {
+            commonText = allParas.slice(-2).join(" ");
+        }
+    }
+
+    // --- Заменяем кавычки на ёлочки ---
+    homeText = normalizeQuotes(homeText);
+    awayText = normalizeQuotes(awayText);
+    commonText = normalizeQuotes(commonText);
+    if (mainBet) mainBet = normalizeQuotes(mainBet);
+
+    const matchId = home && away ? findMatchId(home, away, calendar, matchDate) : null;
 
     return {
-        source: url,
+        source: "betzona",
+        url: url,
         match: `${home} – ${away}`,
-        date: dateRaw, // можно сохранить и "сырую" строку
         teams: {
             home: { name: home, text: homeText },
             away: { name: away, text: awayText },
@@ -104,7 +189,6 @@ async function parseMatchPage(url, calendar, matchInfo) {
         id: matchId,
     };
 }
-
 
 /// <summary>
 /// Основная функция: собирает прогнозы КХЛ с betzona.ru,

@@ -14,17 +14,20 @@ namespace TelegramBOT.Handlers
         private readonly MatchService _matchService;
         private readonly MenuService _menuService;
         private readonly MappingService _mappingService;
+        private readonly PredictionService _predictionService;
 
         public CalendarHandler(
             MessageService messageService,
             MatchService matchService,
             MenuService menuService,
-            MappingService mappingService)
+            MappingService mappingService,
+            PredictionService predictionService)
         {
             _messageService = messageService;
             _matchService = matchService;
             _menuService = menuService;
             _mappingService = mappingService;
+            _predictionService = predictionService;
         }
 
         /// <summary>
@@ -109,6 +112,14 @@ namespace TelegramBOT.Handlers
                 $"{homeName} vs {awayName}",
                 _menuService.GetMatchMenu(match)
             );
+        }
+
+        /// <summary>
+        /// Обрабатывает выбор источника прогноза пользователем.
+        /// </summary>
+        public async Task HandlePredictionSelected(long chatId, string callback)
+        {
+            await _predictionService.ShowPredictionAsync(chatId, callback);
         }
     }
 }
