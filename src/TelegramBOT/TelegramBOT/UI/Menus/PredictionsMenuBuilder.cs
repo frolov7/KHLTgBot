@@ -6,6 +6,7 @@ namespace TelegramBOT.UI.Menus
     {
         private static readonly string[] Sources =
         {
+            "Общий прогноз",
             "vseprosport",
             "vprognoze",
             "stavkatv",

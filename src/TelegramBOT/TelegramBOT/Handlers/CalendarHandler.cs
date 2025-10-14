@@ -119,7 +119,21 @@ namespace TelegramBOT.Handlers
         /// </summary>
         public async Task HandlePredictionSelected(long chatId, string callback)
         {
-            await _predictionService.ShowPredictionAsync(chatId, callback);
+            var parts = callback.Split('_');
+            if (parts.Length < 3)
+            {
+                await _messageService.SendTextAsync(chatId, "❌ Неверный формат callback-запроса.");
+                return;
+            }
+
+            var source = parts[1];
+            var matchId = parts[2];
+
+            if (source.Equals("общий прогноз", StringComparison.OrdinalIgnoreCase))
+                await _predictionService.ShowSummaryAsync(chatId, matchId);
+            else
+                await _predictionService.ShowPredictionAsync(chatId, source, matchId);
         }
+
     }
 }
