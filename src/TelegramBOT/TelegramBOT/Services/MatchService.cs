@@ -168,11 +168,6 @@ namespace TelegramBOT.Services
         /// </summary>
         /// <param name="matchId">ID матча.</param>
         /// <returns>
-        /// Кортеж:
-        /// - Match – сам матч;
-        /// - List&lt;Match&gt; – последние игры домашней команды;
-        /// - List&lt;Match&gt; – последние игры гостевой команды.
-        /// </returns>
         public async Task<(Match? match, List<Match> homeResults, List<Match> awayResults)> GetTeamsHistoryAsync(string matchId)
         {
             var match = await GetMatchByIdAsync(matchId);
@@ -199,13 +194,23 @@ namespace TelegramBOT.Services
 
         public async Task<List<Prediction>> GetPredictionsByMatchIdAsync(string matchId)
         {
-            // тут уже зависит от твоей БД
-            // например если используешь EF:
             return await _db.Predictions
                 .Where(p => p.MatchId == matchId)
-                .OrderByDescending(p => p.Source) // или по дате
+                .OrderByDescending(p => p.Source)
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Получить список матчей на указанную дату.
+        /// </summary>
+        /// <param name="date">Дата, для которой нужно получить матчи (без учёта времени).</param>
+        /// <returns>
+        public async Task<List<Match>> GetMatchesByDateAsync(DateTime date)
+        {
+            return await _db.Matches
+                .Where(m => m.MatchDate.Date == date.Date)
+                .OrderBy(m => m.MatchDate)
+                .ToListAsync();
+        }
     }
 }

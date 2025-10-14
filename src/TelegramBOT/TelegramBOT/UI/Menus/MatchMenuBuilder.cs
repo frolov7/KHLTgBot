@@ -30,7 +30,7 @@ namespace TelegramBOT.UI.Menus
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("⬅️ Назад (Календарь)", "back_to_today")
+                    InlineKeyboardButton.WithCallbackData("⬅️ Назад (Календарь)", $"back_to_calendar_{match.MatchDate:yyyyMMdd}")
                 }
             });
         }

@@ -28,7 +28,7 @@ namespace TelegramBOT.UI.Menus
             // Кнопка Назад
             rows.Add(new[]
             {
-                InlineKeyboardButton.WithCallbackData("⬅️ Назад", $"match_{matchId}")
+                InlineKeyboardButton.WithCallbackData("⬅️ Назад (К матчу)", $"back_to_match_{matchId}")
             });
 
             return new InlineKeyboardMarkup(rows);
