@@ -3,6 +3,7 @@ using System.Text;
 using TelegramBOT.Data;
 using TelegramBOT.Models;
 using TelegramBOT.Utils;
+using System.Linq;
 
 namespace TelegramBOT.Services
 {
@@ -32,22 +33,12 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Показать прогноз пользователю.
+        /// Показать прогноз от конкретного источника.
         /// </summary>
-        public async Task ShowPredictionAsync(long chatId, string callback)
+        public async Task ShowPredictionAsync(long chatId, string source, string matchId)
         {
-            var parts = callback.Split('_');
-            if (parts.Length < 3)
-            {
-                await _messageService.SendTextAsync(chatId, "❌ Неверный формат запроса прогноза.");
-                return;
-            }
-
-            var source = parts[1];
-            var matchId = parts[2];
-
             var prediction = await _db.Predictions
-                .Include(p => p.Match)   // грузим связанный матч
+                .Include(p => p.Match)
                 .FirstOrDefaultAsync(p => p.MatchId == matchId && p.Source == source);
 
             if (prediction == null)
@@ -56,7 +47,6 @@ namespace TelegramBOT.Services
                 return;
             }
 
-            // Мапим названия команд через MappingService
             var homeName = prediction.Match != null
                 ? _mappingService.Map("TeamNames", prediction.Match.HomeTeamName)
                 : "Хозяева";
@@ -67,11 +57,9 @@ namespace TelegramBOT.Services
 
             var msg = new StringBuilder();
 
-            // Название матча
             msg.AppendLine($"<b>{homeName} vs {awayName}</b>");
             msg.AppendLine();
 
-            // Анализ хозяев (если есть)
             if (!string.IsNullOrWhiteSpace(prediction.HomeTeamText))
             {
                 msg.AppendLine($"📌 <b>Анализ команды {homeName}:</b>");
@@ -79,7 +67,6 @@ namespace TelegramBOT.Services
                 msg.AppendLine();
             }
 
-            // Анализ гостей (если есть)
             if (!string.IsNullOrWhiteSpace(prediction.AwayTeamText))
             {
                 msg.AppendLine($"📌 <b>Анализ команды {awayName}:</b>");
@@ -87,29 +74,73 @@ namespace TelegramBOT.Services
                 msg.AppendLine();
             }
 
-            // Общий прогнозный текст (если есть)
             if (!string.IsNullOrWhiteSpace(prediction.GeneralText))
             {
                 msg.AppendLine($"📝 {prediction.GeneralText.Trim()}");
                 msg.AppendLine();
             }
 
-            // Основной прогноз
             msg.AppendLine($"🔮 <b>Основной прогноз:</b> {prediction.MainPrediction ?? "-"}");
 
-            // Альтернативный прогноз
             if (!string.IsNullOrWhiteSpace(prediction.AltPrediction))
                 msg.AppendLine($"💡 <b>Альтернативный прогноз:</b> {prediction.AltPrediction}");
 
-            // Примерный счёт
             if (!string.IsNullOrWhiteSpace(prediction.Score))
                 msg.AppendLine($"📊 <b>Примерный счёт:</b> {prediction.Score}");
-            
+
             msg.AppendLine();
             msg.AppendLine($"<b>Ссылка:</b> <a href=\"{prediction.Url}\">{prediction.Source}</a>");
-            var text = msg.ToString();
 
-            // Разбивка на куски (ограничение Telegram — 4096 символов)
+            await SendInChunksAsync(chatId, msg.ToString());
+        }
+
+        /// <summary>
+        /// Показать общий прогноз по всем сайтам.
+        /// </summary>
+        public async Task ShowSummaryAsync(long chatId, string matchId)
+        {
+            var predictions = await _db.Predictions
+                .Include(p => p.Match)
+                .Where(p => p.MatchId == matchId)
+                .ToListAsync();
+
+            if (predictions.Count == 0)
+            {
+                await _messageService.SendTextAsync(chatId, "Прогнозы по этому матчу не найдены.");
+                return;
+            }
+
+            var match = predictions.First().Match;
+            var homeName = match != null
+                ? _mappingService.Map("TeamNames", match.HomeTeamName)
+                : "Хозяева";
+
+            var awayName = match != null
+                ? _mappingService.Map("TeamNames", match.AwayTeamName)
+                : "Гости";
+
+            var msg = new StringBuilder();
+            msg.AppendLine($"📊 <b>Общий прогноз</b>");
+            msg.AppendLine($"<b>{homeName} vs {awayName}</b>");
+            msg.AppendLine();
+
+            // Сортируем источники по алфавиту — так аккуратнее
+            foreach (var p in predictions.OrderBy(p => p.Source))
+            {
+                var main = string.IsNullOrWhiteSpace(p.MainPrediction) ? "-" : p.MainPrediction.Trim();
+                var alt = string.IsNullOrWhiteSpace(p.AltPrediction) ? "" : $", {p.AltPrediction.Trim()}";
+
+                msg.AppendLine($"<b>{p.Source}</b>: {main}{alt}");
+            }
+
+            await SendInChunksAsync(chatId, msg.ToString());
+        }
+
+        /// <summary>
+        /// Вспомогательный метод: отправляет длинный текст частями.
+        /// </summary>
+        private async Task SendInChunksAsync(long chatId, string text)
+        {
             const int maxLength = 4000;
             for (int i = 0; i < text.Length; i += maxLength)
             {

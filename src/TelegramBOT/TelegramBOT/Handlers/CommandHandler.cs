@@ -17,7 +17,6 @@ namespace TelegramBOT.Handlers
         private readonly NavigationHandler _navigationHandler;
         private readonly TeamsHandler _teamsHandler;
         private readonly PredictionHandler _predictionHandler;
-        private readonly PredictionService _predictionService;
 
         public CommandHandler(
             CalendarHandler calendarHandler,
@@ -25,8 +24,7 @@ namespace TelegramBOT.Handlers
             StatsHandler statsHandler,
             NavigationHandler navigationHandler,
             TeamsHandler teamsHandler,
-            PredictionHandler predictionHandler,
-            PredictionService predictionService
+            PredictionHandler predictionHandler
         )
         {
             _calendarHandler = calendarHandler;
@@ -35,7 +33,6 @@ namespace TelegramBOT.Handlers
             _navigationHandler = navigationHandler;
             _teamsHandler = teamsHandler;
             _predictionHandler = predictionHandler;
-            _predictionService = predictionService;
         }
 
 
@@ -73,7 +70,7 @@ namespace TelegramBOT.Handlers
             if (callback.StartsWith("predict_"))
                 await _statsHandler.HandlePredictions(chatId, callback);
             else if (callback.StartsWith("prediction_"))
-                await _predictionService.ShowPredictionAsync(chatId, callback);
+                await _predictionHandler.HandlePredictionSelected(chatId, callback);
             else if (callback.StartsWith("stats_"))
                 await _statsHandler.HandleStats(chatId, callback);
             else if (callback.StartsWith("history_"))
