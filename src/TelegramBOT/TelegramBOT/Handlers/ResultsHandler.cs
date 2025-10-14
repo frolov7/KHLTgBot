@@ -55,7 +55,7 @@ namespace TelegramBOT.Handlers
             try
             {
                 await _scriptService.RunScraperUpdateAsync();
-                await _messageService.SendKeyboardAsync(chatId, "✅ Результаты обновлены!", _menuService.GetResultsMenu());
+                await _messageService.SendKeyboardAsync(chatId, "✅ Результаты обновлены!", _menuService.GetMainMenu());
             }
             catch (Exception ex)
             {
