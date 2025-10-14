@@ -104,9 +104,30 @@ namespace TelegramBOT.Services
                 .Where(p => p.MatchId == matchId)
                 .ToListAsync();
 
+            // Список источников
+            var allSources = new[]
+            {
+                "vseprosport",
+                "vprognoze",
+                "stavkatv",
+                "betzona",
+                "legalbet",
+                "metaratings",
+                "livesport"
+            };
+
+            // Если вообще нет прогнозов, просто выводим "-" по всем сайтам
             if (predictions.Count == 0)
             {
-                await _messageService.SendTextAsync(chatId, "Прогнозы по этому матчу не найдены.");
+                var msgEmpty = new StringBuilder();
+                msgEmpty.AppendLine("📊 <b>Общий прогноз</b>");
+                msgEmpty.AppendLine("❌ Прогнозы по этому матчу пока отсутствуют.");
+                msgEmpty.AppendLine();
+
+                foreach (var src in allSources)
+                    msgEmpty.AppendLine($"<b>{src}</b>: -");
+
+                await SendInChunksAsync(chatId, msgEmpty.ToString());
                 return;
             }
 
@@ -124,9 +145,17 @@ namespace TelegramBOT.Services
             msg.AppendLine($"<b>{homeName} vs {awayName}</b>");
             msg.AppendLine();
 
-            // Сортируем источники по алфавиту — так аккуратнее
-            foreach (var p in predictions.OrderBy(p => p.Source))
+            // Для каждого сайта — либо прогноз из БД, либо прочерк
+            foreach (var src in allSources)
             {
+                var p = predictions.FirstOrDefault(x => x.Source.Equals(src, StringComparison.OrdinalIgnoreCase));
+
+                if (p == null)
+                {
+                    msg.AppendLine($"<b>{src}</b>: -");
+                    continue;
+                }
+
                 var main = string.IsNullOrWhiteSpace(p.MainPrediction) ? "-" : p.MainPrediction.Trim();
                 var alt = string.IsNullOrWhiteSpace(p.AltPrediction) ? "" : $", {p.AltPrediction.Trim()}";
 

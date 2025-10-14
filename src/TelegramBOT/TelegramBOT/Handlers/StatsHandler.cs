@@ -55,6 +55,9 @@ namespace TelegramBOT.Handlers
             var matches = await _matchService.GetHeadToHeadMatchesAsync(match.HomeTeamName, match.AwayTeamName);
 
             await _messageService.SendHeadToHeadAsync(chatId, match.HomeTeamName, match.AwayTeamName, matches);
+
+            var menu = new MatchMenuBuilder().Build(match);
+            await _messageService.SendTextWithKeyboardAsync(chatId, $"{_mappingService.Map("TeamNames", match.HomeTeamName)} vs {_mappingService.Map("TeamNames", match.AwayTeamName)}", menu);
         }
 
         /// <summary>
@@ -66,7 +69,6 @@ namespace TelegramBOT.Handlers
         public async Task HandleHistory(long chatId, string callback)
         {
             var matchId = callback.Replace("history_", "");
-
             var (match, homeResults, awayResults) = await _matchService.GetTeamsHistoryAsync(matchId);
 
             if (match == null)
@@ -82,6 +84,9 @@ namespace TelegramBOT.Handlers
             }
 
             await _messageService.SendHistoryAsync(chatId, match, homeResults, awayResults);
+
+            var menu = new MatchMenuBuilder().Build(match);
+            await _messageService.SendTextWithKeyboardAsync(chatId, $"{_mappingService.Map("TeamNames", match.HomeTeamName)} vs {_mappingService.Map("TeamNames", match.AwayTeamName)}", menu);
         }
 
         /// <summary>

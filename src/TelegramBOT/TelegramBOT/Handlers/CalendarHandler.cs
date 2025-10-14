@@ -31,6 +31,62 @@ namespace TelegramBOT.Handlers
         }
 
         /// <summary>
+        /// Показать меню выбранного матча с кнопками:
+        /// «Игры между собой», «Прошлые игры», «Прогнозы» и т.д.
+        /// </summary>
+        /// <param name="chatId">ID чата, куда отправляется сообщение.</param>
+        /// <param name="matchId">Уникальный идентификатор матча.</param>
+        public async Task ShowMatchMenu(long chatId, string matchId)
+        {
+            var match = await _matchService.GetMatchByIdAsync(matchId);
+
+            if (match == null)
+            {
+                await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
+                return;
+            }
+
+            var homeName = _mappingService.Map("TeamNames", match.HomeTeamName);
+            var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
+
+            await _messageService.SendKeyboardAsync(
+                chatId,
+                $"{homeName} vs {awayName}",
+                _menuService.GetMatchMenu(match)
+            );
+        }
+
+        /// <summary>
+        /// Обработать действие «Назад (Календарь)»
+        /// и вернуть пользователя к списку матчей за выбранную дату.
+        /// </summary>
+        /// <param name="chatId">ID чата Telegram.</param>
+        /// <param name="messageId">ID сообщения, которое нужно удалить (если есть).</param>
+        /// <param name="callback"> Callback-строка, содержащая дату в формате <c>yyyyMMdd</c></param>
+        public async Task HandleBackToCalendar(long chatId, int? messageId, string callback)
+        {
+            // Удаляем сообщение с меню матча
+            if (messageId.HasValue)
+                await _messageService.DeleteMessageAsync(chatId, messageId.Value);
+
+            // Получаем дату из callback
+            var dateStr = callback.Replace("back_to_calendar_", "");
+            if (!DateTime.TryParseExact(dateStr, "yyyyMMdd", null, System.Globalization.DateTimeStyles.None, out var date))
+                date = DateTime.Today;
+
+            // Загружаем матчи на нужную дату
+            var matches = await _matchService.GetMatchesByDateAsync(date);
+
+            // Отправляем календарь с кнопками
+            await _messageService.SendCalendarAsync(
+                chatId,
+                matches,
+                date,
+                withButtons: true
+            );
+        }
+
+        /// <summary>
         /// Показывает меню выбора даты (сегодня, завтра, следующие N дней).
         /// </summary>
         /// <param name="chatId">ID чата, куда отправлять сообщение.</param>
@@ -65,7 +121,7 @@ namespace TelegramBOT.Handlers
         /// <param name="chatId">ID чата, куда отправлять сообщение.</param>
         public async Task ShowNextDaysMenu(long chatId)
         {
-            await _messageService.SendKeyboardAsync(chatId, "Выберите количество следующих дней:", _menuService.GetNextDaysMenu());
+            await _messageService.SendKeyboardAsync(chatId, "Выберите количество следующих дней", _menuService.GetNextDaysMenu());
         }
 
         /// <summary>
@@ -113,27 +169,5 @@ namespace TelegramBOT.Handlers
                 _menuService.GetMatchMenu(match)
             );
         }
-
-        /// <summary>
-        /// Обрабатывает выбор источника прогноза пользователем.
-        /// </summary>
-        public async Task HandlePredictionSelected(long chatId, string callback)
-        {
-            var parts = callback.Split('_');
-            if (parts.Length < 3)
-            {
-                await _messageService.SendTextAsync(chatId, "❌ Неверный формат callback-запроса.");
-                return;
-            }
-
-            var source = parts[1];
-            var matchId = parts[2];
-
-            if (source.Equals("общий прогноз", StringComparison.OrdinalIgnoreCase))
-                await _predictionService.ShowSummaryAsync(chatId, matchId);
-            else
-                await _predictionService.ShowPredictionAsync(chatId, source, matchId);
-        }
-
     }
 }
