@@ -20,7 +20,7 @@ namespace TelegramBOT.Services
         /// </summary>
         public async Task RunScraperResultsAsync()
         {
-            await RunNodeScriptAsync("src/scraper/scraperRunner.js --update");
+            await RunNodeScriptAsync("src/scraper/scraperRunner.js --updateResults");
         }
 
         /// <summary>
@@ -30,11 +30,11 @@ namespace TelegramBOT.Services
         {
             await RunNodeScriptAsync("src/scraper/scraperRunner.js --predictions");
         }
-        
+
         /// <summary>
-        /// Запускает скрипт парсера для полной загрузки всех данных.
+        /// Запускает скрипт парсера ссылок на видео с обзором матчей.
         /// </summary>
-        public async Task RunScraperAllAsync()
+        public async Task RunScraperVideoAsync()
         {
             await RunNodeScriptAsync("src/scraper/scraperRunner.js --all");
         }
