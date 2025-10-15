@@ -14,6 +14,9 @@ import { scrapePredictions as scrapeStavkatv } from "./services/predictions/stav
 import { scrapePredictions as scrapeVprognoze } from "./services/predictions/vprognozeParse.js";
 import { scrapePredictions as scrapeVseprosport } from "./services/predictions/vseprosportParse.js";
 
+
+import { scrapeKhlYoutubeVideos as scrapeKhlVideos } from "./services/matches/ResultVideoParse.js";
+
 import fs from "fs";
 import path from "path";
 
@@ -147,7 +150,7 @@ export default async function main(args) {
         ],
     });
 
-    if (args.includes("--update")) {
+    if (args.includes("--updateResults")) {
         startLoading();
 
         await updateRecentMatches(browser);
@@ -173,19 +176,39 @@ export default async function main(args) {
             { name: "vseprosport", fn: scrapeVseprosport },
         ];
 
-        for (const scraper of scrapers) {
-            try {
-                await scraper.fn();
-            } catch (err) {
-                console.error(`Ошибка в парсере ${scraper.name}:`, err.message);
+        // Запускаем все парсеры одновременно
+        const results = await Promise.allSettled(
+            scrapers.map(async (scraper) => {
+                try {
+                    console.log(`▶Запуск парсера ${scraper.name}...`);
+                    await scraper.fn();
+                    console.log(`Парсер ${scraper.name} завершён`);
+                } catch (err) {
+                    console.error(`Ошибка в парсере ${scraper.name}:`, err.message);
+                    throw err;
+                }
+            })
+        );
+
+        // Выводим статус по каждому парсеру
+        console.log("\nРезультаты выполнения парсеров:");
+        for (const [i, res] of results.entries()) {
+            const { name } = scrapers[i];
+            if (res.status === "fulfilled") {
+                console.log(`  ${name}: успешно`);
+            } else {
+                console.log(`  ${name}: ошибка (${res.reason?.message || "неизвестная ошибка"})`);
             }
         }
 
-        console.log("Все прогнозы загружены и сохранены.");
-
+        console.log("\nВсе парсеры завершили выполнение.");
         runImport(IMPORT_PREDICTIONS_SCRIPT, "импорт прогнозов");
     }
 
+    if (args.includes("--resultvideos")) {
+        console.log("Запускаем парсинг видеообзоров КХЛ...");
+        await scrapeKhlVideos();
+    }
 
     await browser.close();
     console.log("Браузер закрыт");
