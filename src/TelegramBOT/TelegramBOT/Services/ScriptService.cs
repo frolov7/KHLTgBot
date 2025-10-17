@@ -36,7 +36,7 @@ namespace TelegramBOT.Services
         /// </summary>
         public async Task RunScraperVideoAsync()
         {
-            await RunNodeScriptAsync("src/scraper/scraperRunner.js --all");
+            await RunNodeScriptAsync("src/scraper/scraperRunner.js --resultvideos");
         }
 
         /// <summary>

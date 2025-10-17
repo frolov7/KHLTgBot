@@ -91,7 +91,6 @@ export async function scrapeKhlYoutubeVideos(limit = 20) {
             title: video.title,
             url: normalizeYoutubeUrl(video.url),
             id: foundId || "NOT_FOUND",
-            match: matchTitle,
         });
     }
 

@@ -222,13 +222,14 @@ namespace TelegramBOT.Services
         }
 
         /// <summary>
-        /// Отправить результаты матчей одним сообщением.
+        /// Отправить результаты матчей одним сообщением (в формате календаря).
         /// </summary>
         /// <param name="chatId">ID чата.</param>
         /// <param name="matches">Список матчей.</param>
         /// <param name="date">Дата (необязательно).</param>
         /// <param name="teamName">Название команды (если нужны персонализированные результаты).</param>
-        public async Task SendResultsAsync(long chatId, List<Match> matches, DateTime? date = null, string? teamName = null)
+        /// <param name="withButtons">Показать ли кнопки для выбора матчей.</param>
+        public async Task SendResultsAsync(long chatId, List<Match> matches, DateTime? date = null, string? teamName = null, bool withButtons = false)
         {
             if (matches == null || matches.Count == 0)
             {
@@ -239,11 +240,15 @@ namespace TelegramBOT.Services
             var sb = new StringBuilder();
 
             if (date != null)
-                sb.AppendLine($"⚡ Результаты матчей за {date:dd.MM.yyyy}\n");
+                sb.AppendLine($"⚡ Результаты матчей за {date:dd.MM.yyyy}");
             else
-                sb.AppendLine("⚡ Результаты матчей:\n");
+                sb.AppendLine("⚡ Результаты матчей");
 
-            foreach (var match in matches)
+            sb.AppendLine("----------------------");
+
+            var buttons = new List<InlineKeyboardButton[]>();
+
+            foreach (var match in matches.OrderBy(m => m.MatchDate))
             {
                 var homeName = _mappingService.Map("TeamNames", match.HomeTeamName);
                 var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
@@ -271,13 +276,9 @@ namespace TelegramBOT.Services
                     statusText = _mappingService.Map("MatchStatuses", match.Status);
                 }
 
-                // Дата или время
-                if (date != null)
-                    sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
-                else
-                    sb.AppendLine($"📅 {match.MatchDate:dd.MM.yyyy}");
+                // Добавляем строку в сообщение
+                sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
 
-                // Счет или анонс
                 if (match.Status != "SCHEDULED")
                     sb.AppendLine($"{homeName} <b>{match.HomeScore ?? 0} : {match.AwayScore ?? 0}</b> {awayName}");
                 else
@@ -285,9 +286,40 @@ namespace TelegramBOT.Services
 
                 sb.AppendLine(statusText);
                 sb.AppendLine();
+
+                // Добавляем inline-кнопку, если нужно
+                if (withButtons)
+                {
+                    buttons.Add(new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(
+                            $"{homeName} vs {awayName}",
+                            $"result_{match.MatchId}"
+                        )
+                    });
+                }
             }
 
-            await SendTextAsync(chatId, sb.ToString());
+            if (withButtons)
+            {
+                var keyboard = new InlineKeyboardMarkup(buttons);
+                await _client.SendMessage(
+                    chatId: chatId,
+                    text: sb.ToString(),
+                    parseMode: ParseMode.Html,
+                    replyMarkup: keyboard,
+                    cancellationToken: CancellationToken.None
+                );
+            }
+            else
+            {
+                await _client.SendMessage(
+                    chatId: chatId,
+                    text: sb.ToString(),
+                    parseMode: ParseMode.Html,
+                    cancellationToken: CancellationToken.None
+                );
+            }
         }
 
         /// <summary>

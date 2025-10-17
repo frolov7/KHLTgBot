@@ -76,6 +76,8 @@ namespace TelegramBOT.Handlers
                 await _statsHandler.HandleHistory(chatId, callback);
             else if (callback.StartsWith("result_"))
                 await _resultsHandler.HandleResult(chatId, callback);
+            else if (callback == "back_to_results")
+                await _resultsHandler.BackToResults(chatId);
             else if (callback.StartsWith("match_"))
                 await _calendarHandler.HandleMatchSelected(chatId, callback);
             else if (callback == "back_to_today")
@@ -154,7 +156,7 @@ namespace TelegramBOT.Handlers
                     break;
 
                 case "🔄 Обновить данные":
-                    await _resultsHandler.UpdateResults(chatId);
+                    await _resultsHandler.UpdateData(chatId);
                     break;
 
                 case "📅 Сегодня":
