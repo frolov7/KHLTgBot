@@ -34,5 +34,7 @@ namespace TelegramBOT.UI
         public ReplyKeyboardMarkup GetWesternTeamsMenu() => _teams.BuildWestern();
         public ReplyKeyboardMarkup GetEasternTeamsMenu() => _teams.BuildEastern();
         public InlineKeyboardMarkup GetMatchMenu(Match match) => _match.Build(match);
+        public InlineKeyboardMarkup GetResultMatchMenu(string matchId, string? videoUrl)
+            => _results.BuildMatchResultMenu(matchId, videoUrl);
     }
 }

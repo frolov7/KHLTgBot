@@ -31,6 +31,7 @@ const VALIDATE_SCRIPT = path.join(
 
 const IMPORT_MATCHES_SCRIPT = path.join(process.cwd(), "src/db/import/import_matches.js");
 const IMPORT_PREDICTIONS_SCRIPT = path.join(process.cwd(), "src/db/import/import_predictions.js");
+const IMPORT_VIDEOS_SCRIPT = path.join(process.cwd(), "src/db/import/import_videos.js");
 
 
 // Проверка и обновление статуса матчей на LIVE
@@ -208,6 +209,9 @@ export default async function main(args) {
     if (args.includes("--resultvideos")) {
         console.log("Запускаем парсинг видеообзоров КХЛ...");
         await scrapeKhlVideos();
+
+        console.log("Импортируем результаты в БД...");
+        runImport(IMPORT_VIDEOS_SCRIPT, "импорт видеообзоров");
     }
 
     await browser.close();

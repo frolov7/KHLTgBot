@@ -1,5 +1,9 @@
 ﻿using TelegramBOT.Services;
 using TelegramBOT.UI;
+using TelegramBOT.UI.Menus;
+using Microsoft.EntityFrameworkCore;
+using TelegramBOT.Data;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBOT.Handlers
 {
@@ -16,16 +20,20 @@ namespace TelegramBOT.Handlers
 
         private bool _isUpdatingResults = false;
 
+        private readonly AppDbContext _db;
+
         public ResultsHandler(
             MessageService messageService,
             MatchService matchService,
             MenuService menuService,
-            ScriptService scriptService)
+            ScriptService scriptService,
+            AppDbContext db)
         {
             _messageService = messageService;
             _matchService = matchService;
             _menuService = menuService;
             _scriptService = scriptService;
+            _db = db;
         }
 
         /// <summary>
@@ -41,7 +49,7 @@ namespace TelegramBOT.Handlers
         /// Запускает обновление данных о результатах матчей.
         /// </summary>
         /// <param name="chatId">ID чата.</param>
-        public async Task UpdateResults(long chatId)
+        public async Task UpdateData(long chatId)
         {
             if (_isUpdatingResults)
             {
@@ -56,8 +64,9 @@ namespace TelegramBOT.Handlers
             {
                 var updateResultsTask = _scriptService.RunScraperResultsAsync();
                 var updatePredictionsTask = _scriptService.RunScraperPredictionsAsync();
+                var updateVideoTask = _scriptService.RunScraperVideoAsync();
 
-                await Task.WhenAll(updateResultsTask, updatePredictionsTask);
+                await Task.WhenAll(updateResultsTask, updatePredictionsTask, updateVideoTask);
 
                 await _messageService.SendKeyboardAsync(chatId, "✅ Данные обновлены!", _menuService.GetMainMenu());
             }
@@ -78,7 +87,7 @@ namespace TelegramBOT.Handlers
         public async Task ShowTodayResults(long chatId)
         {
             var results = await _matchService.GetResultsTodayAsync();
-            await _messageService.SendResultsAsync(chatId, results, DateTime.Today);
+            await _messageService.SendResultsAsync(chatId, results, DateTime.Today, null, true);
         }
 
         /// <summary>
@@ -88,7 +97,7 @@ namespace TelegramBOT.Handlers
         public async Task ShowYesterdayResults(long chatId)
         {
             var results = await _matchService.GetResultsYesterdayAsync();
-            await _messageService.SendResultsAsync(chatId, results, DateTime.Today.AddDays(-1));
+            await _messageService.SendResultsAsync(chatId, results, DateTime.Today.AddDays(-1), null, true);
         }
 
         /// <summary>
@@ -121,13 +130,62 @@ namespace TelegramBOT.Handlers
         /// <summary>
         /// Обрабатывает нажатие на кнопку результата конкретного матча.
         /// </summary>
-        /// <param name="chatId">ID чата.</param>
-        /// <param name="callback">Callback-данные с идентификатором матча.</param>
         public async Task HandleResult(long chatId, string callback)
         {
             var matchId = callback.Replace("result_", "");
-            var result = await _matchService.GetMatchResultAsync(matchId);
-            await _messageService.SendTextAsync(chatId, $"🏆 Результат:\n{result}");
+            var match = await _matchService.GetMatchByIdAsync(matchId);
+
+            if (match == null)
+            {
+                await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
+                return;
+            }
+
+            // Проверяем статус
+            bool isFinished = match.Status is "FINISHED" or "AFTER OVERTIME" or "AFTER PENALTIES";
+            if (!isFinished)
+            {
+                await _messageService.SendTextAsync(chatId, "Матч ещё не завершён 🕒");
+                return;
+            }
+
+            // Ищем видео
+            var video = await _db.MatchVideos.FirstOrDefaultAsync(v => v.MatchId == matchId);
+
+            // Получаем клавиатуру через MenuService (аналог ShowSourcesMenu)
+            var keyboard = _menuService.GetResultMatchMenu(matchId, video?.Url);
+
+            // Отправляем сообщение с кнопками
+            await _messageService.SendKeyboardAsync(
+                chatId,
+                $"🏒 <b>{match.HomeTeamName}</b> vs <b>{match.AwayTeamName}</b>\n" +
+                $"📊 Счёт: <b>{match.HomeScore}:{match.AwayScore}</b>\n" +
+                $"📅 {match.MatchDate:dd.MM.yyyy HH:mm} (МСК)" +
+                (video == null ? "\n\n🎥 Видеообзор пока недоступен." : ""),
+                keyboard
+            );
+        }
+
+
+        /// <summary>
+        /// Отображает ссылку на видеообзор матча.
+        /// </summary>
+        public async Task HandleVideoOverview(long chatId, string callback)
+        {
+            var matchId = callback.Replace("video_", "");
+            var video = await _db.MatchVideos.FirstOrDefaultAsync(v => v.MatchId == matchId);
+
+            if (video == null)
+            {
+                await _messageService.SendTextAsync(chatId, "🎥 Видеообзор для этого матча пока недоступен.");
+                return;
+            }
+
+            var message =
+                $"🎥 <b>{video.Title}</b>\n\n" +
+                $"👉 <a href=\"{video.Url}\">Смотреть на YouTube</a>";
+
+            await _messageService.SendTextAsync(chatId, message);
         }
     }
 }
