@@ -8,7 +8,7 @@ namespace TelegramBOT.Data.Repositories
     /// Репозиторий для доступа к матчам (работа с БД).
     /// Содержит только CRUD и запросы без бизнес-логики.
     /// </summary>
-    public class CalendarRepository
+    public class CalendarRepository : ICalendarRepository
     {
         private readonly AppDbContext _db;
 

@@ -2,6 +2,7 @@
 using Serilog;
 using Telegram.Bot;
 using TelegramBOT.Data;
+using TelegramBOT.Data.Repositories;
 using TelegramBOT.Handlers;
 using TelegramBOT.Handlers.Calendar;
 using TelegramBOT.Handlers.Navigation;
@@ -100,6 +101,7 @@ builder.ConfigureServices((context, services) =>
     // -----------------------------
     // Repositories (доступ к данным)
     // -----------------------------
+    services.AddScoped<ICalendarRepository, CalendarRepository>();
     services.AddScoped<IPredictionRepository, PredictionRepository>();
     services.AddScoped<IResultsRepository, ResultsRepository>();
     services.AddScoped<ITeamsRepository, TeamsRepository>();
