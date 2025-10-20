@@ -2642,7 +2642,7 @@
   "0IFxj8RF": {
     "id": "0IFxj8RF",
     "date": "19.10.2025 14:00",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Avangard Omsk"
     },
@@ -2650,8 +2650,8 @@
       "name": "Yekaterinburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "4jMTiUd3": {
