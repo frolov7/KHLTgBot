@@ -1217,7 +1217,7 @@
   "jgT3Uwg2": {
     "id": "jgT3Uwg2",
     "date": "24.09.2025 19:30",
-    "status": "LIVE",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Dynamo Moscow"
     },
@@ -1292,7 +1292,7 @@
   "EZ6J9p5M": {
     "id": "EZ6J9p5M",
     "date": "26.09.2025 19:00",
-    "status": "LIVE",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Lokomotiv Yaroslavl"
     },
@@ -2507,7 +2507,7 @@
   "htv8HmLj": {
     "id": "htv8HmLj",
     "date": "17.10.2025 12:15",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Khabarovsk"
     },
@@ -2515,8 +2515,8 @@
       "name": "Lada"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "0"
     }
   },
   "Qa1fwVsA": {
@@ -2530,14 +2530,14 @@
       "name": "Spartak Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "4"
     }
   },
   "nFk3y9CM": {
     "id": "nFk3y9CM",
     "date": "17.10.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Nizhny Novgorod"
     },
@@ -2545,14 +2545,14 @@
       "name": "CSKA Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "0",
+      "away": "1"
     }
   },
   "l8Xrlp7k": {
     "id": "l8Xrlp7k",
     "date": "17.10.2025 19:10",
-    "status": "SCHEDULED",
+    "status": "LIVE",
     "home": {
       "name": "Dinamo Minsk"
     },
@@ -2560,14 +2560,14 @@
       "name": "Niznekamsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "4"
     }
   },
   "IZcnuiDc": {
     "id": "IZcnuiDc",
     "date": "17.10.2025 19:30",
-    "status": "SCHEDULED",
+    "status": "LIVE",
     "home": {
       "name": "Sochi"
     },
@@ -2575,14 +2575,14 @@
       "name": "Yekaterinburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "3"
     }
   },
   "IctZVnzp": {
     "id": "IctZVnzp",
     "date": "18.10.2025 14:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Tractor Chelyabinsk"
     },
@@ -2590,8 +2590,8 @@
       "name": "Salavat Ufa"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "1"
     }
   },
   "xrTxART8": {
@@ -2605,14 +2605,14 @@
       "name": "Bars Kazan"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "3"
     }
   },
   "CdZsUQ4d": {
     "id": "CdZsUQ4d",
     "date": "18.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Lokomotiv Yaroslavl"
     },
@@ -2620,14 +2620,14 @@
       "name": "SKA St. Petersburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "3"
     }
   },
   "8rJplndS": {
     "id": "8rJplndS",
     "date": "19.10.2025 10:00",
-    "status": "SCHEDULED",
+    "status": "AFTER PENALTIES",
     "home": {
       "name": "Khabarovsk"
     },
@@ -2635,14 +2635,14 @@
       "name": "Cherepovets"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "3"
     }
   },
   "0IFxj8RF": {
     "id": "0IFxj8RF",
     "date": "19.10.2025 14:00",
-    "status": "SCHEDULED",
+    "status": "LIVE",
     "home": {
       "name": "Avangard Omsk"
     },
@@ -2650,14 +2650,14 @@
       "name": "Yekaterinburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "4jMTiUd3": {
     "id": "4jMTiUd3",
     "date": "19.10.2025 14:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Magnitogorsk"
     },
@@ -2665,14 +2665,14 @@
       "name": "Niznekamsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "9",
+      "away": "6"
     }
   },
   "hGfHrQJk": {
     "id": "hGfHrQJk",
     "date": "19.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Nizhny Novgorod"
     },
@@ -2680,8 +2680,8 @@
       "name": "Lada"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "3"
     }
   },
   "vXhPt4l2": {
