@@ -47,7 +47,5 @@ namespace TelegramBOT.UI
 
         // ---------- Матчи ----------
         public InlineKeyboardMarkup GetMatchMenu(Match match) => _match.Build(match);
-        public InlineKeyboardMarkup GetResultMatchMenu(string matchId, string? videoUrl)
-            => _results.BuildMatchResultMenu(matchId, videoUrl);
     }
 }
