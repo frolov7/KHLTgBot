@@ -3,9 +3,21 @@ using Serilog;
 using Telegram.Bot;
 using TelegramBOT.Data;
 using TelegramBOT.Handlers;
-using TelegramBOT.Services;
+using TelegramBOT.Handlers.Calendar;
+using TelegramBOT.Handlers.Navigation;
+using TelegramBOT.Handlers.Predictions;
+using TelegramBOT.Handlers.Results;
+using TelegramBOT.Handlers.Stats;
+using TelegramBOT.Handlers.System;
+using TelegramBOT.Handlers.Teams;
+using TelegramBOT.Services.Calendar;
+using TelegramBOT.Services.Core;
+using TelegramBOT.Services.Predictions;
+using TelegramBOT.Services.Results;
+using TelegramBOT.Services.Stats;
+using TelegramBOT.Services.Teams;
+using TelegramBOT.Services.Utils;
 using TelegramBOT.UI;
-using TelegramBOT.Utils;
 
 // -----------------------------
 // Создание builder
@@ -16,14 +28,14 @@ var builder = Host.CreateDefaultBuilder(args);
 // Логирование через Serilog
 // -----------------------------
 Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning) // лишние логи от Microsoft
-    .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)    // лишние логи от System
-    .MinimumLevel.Information()                                               // по умолчанию Info+
+    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+    .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
+    .MinimumLevel.Information()
     .WriteTo.File(
-        $"Log/log-{DateTime.Now:yyyyMMdd_HHmmss}.txt",  // лог в файл с датой
-        rollingInterval: RollingInterval.Infinite,      // один файл на запуск
-        retainedFileCountLimit: 5,                      // храним только 5 файлов
-        shared: true                                    // доступен для параллельного чтения
+        $"Log/log-{DateTime.Now:yyyyMMdd_HHmmss}.txt",
+        rollingInterval: RollingInterval.Infinite,
+        retainedFileCountLimit: 5,
+        shared: true
     )
     .CreateLogger();
 
@@ -37,7 +49,7 @@ builder.ConfigureServices((context, services) =>
     var configuration = context.Configuration;
 
     // -----------------------------
-    // DbContext (работа с БД)
+    // DbContext
     // -----------------------------
     services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -57,32 +69,44 @@ builder.ConfigureServices((context, services) =>
     });
 
     // -----------------------------
-    // Обработчики приложения
+    // Handlers (обработчики Telegram)
     // -----------------------------
     services.AddScoped<CalendarHandler>();
     services.AddScoped<CommandHandler>();
     services.AddScoped<NavigationHandler>();
     services.AddScoped<ResultsHandler>();
-    services.AddScoped<StatsHandler>();
+    services.AddScoped<MatchStatsHandler>();
     services.AddScoped<TeamsHandler>();
     services.AddScoped<PredictionHandler>();
+    services.AddScoped<UpdateHandler>();
 
     // -----------------------------
-    // UI
+    // Core Services (Telegram инфраструктура)
     // -----------------------------
+    services.AddSingleton<MessageService>();
     services.AddScoped<MenuService>();
+    services.AddScoped<ScriptService>();
+    services.AddHostedService<BotBackgroundService>();
 
     // -----------------------------
-    // Сервисы приложения
+    // Business Services (бизнес-логика)
     // -----------------------------
-    services.AddSingleton<MessageService>();              // сервис для отправки сообщений
-    services.AddScoped<MatchService>();                   // сервис для матчей
-    services.AddScoped<PredictionService>();              // сервис для прогнозов
-    services.AddScoped<ScriptService>();                  // сервис для запуска Node-скриптов
-    services.AddHostedService<BotBackgroundService>();    // запуск фонового слушателя бота
+    services.AddScoped<CalendarService>();
+    services.AddScoped<ResultsService>();
+    services.AddScoped<MatchStatsService>();
+    services.AddScoped<TeamsService>();
+    services.AddScoped<PredictionService>();
 
     // -----------------------------
-    // Утилиты приложения
+    // Repositories (доступ к данным)
+    // -----------------------------
+    services.AddScoped<IPredictionRepository, PredictionRepository>();
+    services.AddScoped<IResultsRepository, ResultsRepository>();
+    services.AddScoped<ITeamsRepository, TeamsRepository>();
+    services.AddScoped<IMatchStatsServiceRepository, MatchStatsServiceRepository>();
+
+    // -----------------------------
+    // Утилиты
     // -----------------------------
     services.AddSingleton<MappingService>();
 });
