@@ -8,7 +8,6 @@ namespace TelegramBOT.Services.Stats
     public interface IMatchStatsServiceRepository
     {
         Task<IEnumerable<Match>> GetHeadToHeadMatchesAsync(string home, string away);
-        Task<IEnumerable<Match>> GetRecentMatchesByTeamAsync(string teamName);
         Task<IEnumerable<Prediction>> GetPredictionsByMatchIdAsync(string matchId);
         Task<Match?> GetMatchByIdAsync(string matchId);
     }

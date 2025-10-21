@@ -44,23 +44,6 @@ namespace TelegramBOT.Services.Stats
         }
 
         // ==========================================================
-        // ============      ПРОШЛЫЕ ИГРЫ КОМАНД         ============
-        // ==========================================================
-
-        /// <summary>
-        /// Возвращает последние сыгранные матчи указанной команды.
-        /// </summary>
-        public async Task<IEnumerable<Match>> GetRecentMatchesByTeamAsync(string teamName)
-        {
-            return await _db.Matches
-                .Where(m => (m.HomeTeamName == teamName || m.AwayTeamName == teamName) &&
-                            m.HomeScore != null && m.AwayScore != null)
-                .OrderBy(m => m.MatchDate)
-                .Take(7)
-                .ToListAsync();
-        }
-
-        // ==========================================================
         // ============      ПРОГНОЗЫ НА МАТЧИ           ============
         // ==========================================================
 

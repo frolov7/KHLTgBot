@@ -56,6 +56,7 @@ namespace TelegramBOT.Services.Results
                     m.HomeScore != null &&
                     m.AwayScore != null)
                 .OrderBy(m => m.MatchDate)
+                .Take(7)
                 .ToListAsync();
         }
     }

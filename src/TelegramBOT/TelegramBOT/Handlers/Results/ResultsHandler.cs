@@ -1,5 +1,6 @@
 ﻿using TelegramBOT.Services.Core;
 using TelegramBOT.Services.Results;
+using TelegramBOT.Services.Utils;
 using TelegramBOT.UI;
 
 namespace TelegramBOT.Handlers.Results
@@ -9,15 +10,18 @@ namespace TelegramBOT.Handlers.Results
         private readonly MessageService _messageService;
         private readonly ResultsService _resultsService;
         private readonly MenuService _menuService;
+        private readonly MappingService _mappingService;
 
         public ResultsHandler(
             MessageService messageService,
             ResultsService resultsService,
-            MenuService menuService)
+            MenuService menuService,
+            MappingService mappingService)
         {
             _messageService = messageService;
             _resultsService = resultsService;
             _menuService = menuService;
+            _mappingService = mappingService;
         }
 
         // ==========================================================
@@ -92,6 +96,35 @@ namespace TelegramBOT.Handlers.Results
             var message = _resultsService.BuildResultsMessage(new[] { result });
             await _messageService.SendTextAsync(chatId, message);
         }
+
+        /// <summary>
+        /// Обрабатывает выбор команды и отображает её последние результаты.
+        /// </summary>
+        /// <param name="chatId">ID Telegram-чата.</param>
+        /// <param name="callback">Callback-строка (например: "team_Северсталь").</param>
+        public async Task HandleTeamSelection(long chatId, string callback)
+        {
+            // Получаем название команды из callback
+            var teamName = callback.Replace("team_", "");
+
+            // Преобразуем локализованное имя обратно в англ
+            var englishName = _mappingService.ReverseMap("TeamNames", teamName);
+            var results = await _resultsService.GetResultsByTeamAsync(englishName);
+
+
+            if (results == null || !results.Any())
+            {
+                await _messageService.SendTextAsync(chatId, $"❌ Результаты команды <b>{teamName}</b> не найдены.");
+                return;
+            }
+
+            // Формируем сообщение
+            var message = _resultsService.BuildResultsMessage(results, null, teamName);
+
+            // Отправляем пользователю
+            await _messageService.SendTextAsync(chatId, message);
+        }
+
 
         // ==========================================================
         // ============      БЛОК МЕНЮ КОМАНД          =============

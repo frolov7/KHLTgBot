@@ -246,19 +246,48 @@ namespace TelegramBOT.Handlers
                 case "📆 Сегодня":
                     await _resultsHandler.ShowTodayResults(chatId);
                     return true;
+
                 case "📅 Вчера":
                     await _resultsHandler.ShowYesterdayResults(chatId);
                     return true;
+
                 case "⬅️ Запад (Результаты)":
                     await _resultsHandler.ShowWesternTeams(chatId);
                     return true;
+
                 case "➡️ Восток (Результаты)":
                     await _resultsHandler.ShowEasternTeams(chatId);
                     return true;
+
                 case "⬅️ Назад (Результаты)":
                     await _resultsHandler.BackToResults(chatId);
                     return true;
+
                 default:
+                    // Если пользователь нажал на команду из меню
+                    var teamNames = new[]
+                    {
+                        "🦌 Торпедо", "🐉 Шанхай Дрэгонс", "🐃 Динамо Минск", "⚒️ Северсталь",
+                        "★ ЦСКА", "🐆 ХК Сочи", "🚂 Локомотив", "⭐ СКА",
+                        "🔵 Динамо Москва", "🚗 Лада", "♦️ Спартак",
+                        "🚘 Автомобилист", "🦅 Авангард", "🚜 Трактор", "🐆 Барыс",
+                        "⛏️ Металлург", "🐅 Амур", "🐯 Ак Барс", "⚓ Адмирал",
+                        "🐺 Нефтехимик", "🕌 Салават Юлаев", "❄️ Сибирь"
+                    };
+
+                    // Проверяем, есть ли совпадение
+                    if (teamNames.Contains(text))
+                    {
+                        // Убираем эмодзи (чтобы получить чистое имя для поиска в БД)
+                        var teamName = text;
+                        var firstSpaceIndex = teamName.IndexOf(' ');
+                        if (firstSpaceIndex > 0)
+                            teamName = teamName.Substring(firstSpaceIndex + 1);
+
+                        await _resultsHandler.HandleTeamSelection(chatId, $"team_{teamName}");
+                        return true;
+                    }
+
                     return false;
             }
         }
