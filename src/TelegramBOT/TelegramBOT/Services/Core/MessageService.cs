@@ -30,6 +30,7 @@ namespace TelegramBOT.Services.Core
             return await _client.SendMessage(
                 chatId: chatId,
                 text: text,
+                parseMode: ParseMode.Html,
                 replyMarkup: markup,
                 cancellationToken: CancellationToken.None
             );

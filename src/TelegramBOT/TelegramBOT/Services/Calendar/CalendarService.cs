@@ -15,16 +15,16 @@ namespace TelegramBOT.Services.Calendar
     /// </summary>
     public class CalendarService
     {
-        private readonly CalendarRepository _repository;
+        private readonly ICalendarRepository _calendarRepository;
         private readonly MessageService _messageService;
         private readonly MappingService _mappingService;
 
         public CalendarService(
-            CalendarRepository repository,
+            ICalendarRepository calendarRepository,
             MessageService messageService,
             MappingService mappingService)
         {
-            _repository = repository;
+            _calendarRepository = calendarRepository;
             _messageService = messageService;
             _mappingService = mappingService;
         }
@@ -69,7 +69,7 @@ namespace TelegramBOT.Services.Calendar
         /// <param name="to">Конечная дата диапазона.</param>
         public async Task SendMatchesAsync(long chatId, DateTime from, DateTime to)
         {
-            var matches = await _repository.GetMatchesByDateRangeAsync(from, to);
+            var matches = await _calendarRepository.GetMatchesByDateRangeAsync(from, to);
 
             if (matches.Count == 0)
             {
@@ -112,7 +112,7 @@ namespace TelegramBOT.Services.Calendar
         /// <param name="menuService">Сервис для построения контекстного меню.</param>
         public async Task SendMatchMenuAsync(long chatId, string matchId, MenuService menuService)
         {
-            var match = await _repository.GetMatchAsync(matchId);
+            var match = await _calendarRepository.GetMatchAsync(matchId);
             if (match == null)
             {
                 await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");

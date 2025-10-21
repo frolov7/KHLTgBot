@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using TelegramBOT.Models;
 using TelegramBOT.Services.Core;
+using TelegramBOT.Services.Results;
 using TelegramBOT.Services.Utils;
 using TelegramBOT.UI;
 using TelegramBOT.UI.Menus.Calendar;
@@ -10,16 +11,19 @@ namespace TelegramBOT.Services.Stats
 {
     public class MatchStatsService
     {
-        private readonly IMatchStatsServiceRepository _statsRepository;
+        private readonly IMatchStatsServiceRepository _matchStatsRepository;
+        private readonly IResultsRepository _resultsRepository;
         private readonly MappingService _mappingService;
         private readonly MessageService _messageService;
 
         public MatchStatsService(
-            IMatchStatsServiceRepository statsRepository,
+            IMatchStatsServiceRepository matchStatsRepository,
+            IResultsRepository resultsRepository,
             MappingService mappingService,
             MessageService messageService)
         {
-            _statsRepository = statsRepository;
+            _matchStatsRepository = matchStatsRepository;
+            _resultsRepository = resultsRepository;
             _mappingService = mappingService;
             _messageService = messageService;
         }
@@ -33,7 +37,7 @@ namespace TelegramBOT.Services.Stats
         /// </summary>
         public async Task SendHeadToHeadAsync(long chatId, string matchId)
         {
-            var match = await _statsRepository.GetMatchByIdAsync(matchId);
+            var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
             {
                 await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
@@ -41,7 +45,7 @@ namespace TelegramBOT.Services.Stats
             }
 
             // Получаем очные встречи через репозиторий
-            var matches = await _statsRepository.GetHeadToHeadMatchesAsync(match.HomeTeamName, match.AwayTeamName);
+            var matches = await _matchStatsRepository.GetHeadToHeadMatchesAsync(match.HomeTeamName, match.AwayTeamName);
             if (!matches.Any())
             {
                 await _messageService.SendTextAsync(chatId, "❌ Эти команды ещё не встречались.");
@@ -77,15 +81,15 @@ namespace TelegramBOT.Services.Stats
         /// </summary>
         public async Task SendTeamsHistoryAsync(long chatId, string matchId)
         {
-            var match = await _statsRepository.GetMatchByIdAsync(matchId);
+            var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
             {
                 await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
                 return;
             }
 
-            var homeResults = (await _statsRepository.GetRecentMatchesByTeamAsync(match.HomeTeamName)).ToList();
-            var awayResults = (await _statsRepository.GetRecentMatchesByTeamAsync(match.AwayTeamName)).ToList();
+            var homeResults = (await _resultsRepository.GetResultsByTeamAsync(match.HomeTeamName)).ToList();
+            var awayResults = (await _resultsRepository.GetResultsByTeamAsync(match.AwayTeamName)).ToList();
 
             if (!homeResults.Any() && !awayResults.Any())
             {
@@ -164,14 +168,14 @@ namespace TelegramBOT.Services.Stats
         /// </summary>
         public async Task SendPredictionsAsync(long chatId, string matchId)
         {
-            var match = await _statsRepository.GetMatchByIdAsync(matchId);
+            var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
             {
                 await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
                 return;
             }
 
-            var predictions = await _statsRepository.GetPredictionsByMatchIdAsync(matchId);
+            var predictions = await _matchStatsRepository.GetPredictionsByMatchIdAsync(matchId);
             if (!predictions.Any())
             {
                 await _messageService.SendTextAsync(chatId, "❌ Прогнозов пока нет.");

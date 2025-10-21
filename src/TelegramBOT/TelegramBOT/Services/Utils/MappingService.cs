@@ -27,5 +27,30 @@
 
             return map.TryGetValue(rawValue, out var pretty) ? pretty : rawValue;
         }
+
+        /// <summary>
+        /// Выполняет обратное отображение локализованного значения (например, с эмодзи и русским названием)
+        /// в исходное «сырье» из конфигурации (например, английское имя команды).
+        /// </summary>
+        /// <param name="section">Название секции в файле <c>appsettings.json</c>, из которой берётся словарь отображений 
+        /// <param name="localizedValue">Локализованное значение, которое нужно преобразовать обратно в исходное. 
+        /// <returns>
+        /// Исходное (английское) значение из конфигурации, соответствующее переданному локализованному.  
+        /// Если соответствие не найдено — возвращает исходный параметр <paramref name="localizedValue"/> без изменений.
+        /// </returns>
+        public string ReverseMap(string section, string localizedValue)
+        {
+            var map = _config.GetSection(section).Get<Dictionary<string, string>>()
+                      ?? new Dictionary<string, string>();
+
+            // Пытаемся найти точное совпадение
+            var exact = map.FirstOrDefault(x => x.Value == localizedValue);
+            if (!string.IsNullOrEmpty(exact.Key))
+                return exact.Key;
+
+            // Если не нашли — ищем частичное 
+            var partial = map.FirstOrDefault(x => x.Value.Contains(localizedValue, StringComparison.OrdinalIgnoreCase));
+            return !string.IsNullOrEmpty(partial.Key) ? partial.Key : localizedValue;
+        }
     }
 }
