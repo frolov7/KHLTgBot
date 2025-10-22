@@ -55,7 +55,7 @@ export function appendUniqueJson(filePath, newItems, keyFn) {
 
             if (shouldUpdate) {
                 map.set(key, { ...old, ...item });
-                console.log(`♻️ Обновили прогноз для ${item.match}`);
+                console.log(`Обновили прогноз для ${item.match}`);
             }
         }
     }

@@ -1,121 +1,81 @@
-﻿import * as cheerio from "cheerio";
+﻿// src/scraper/services/predictions/betzonaParse.js
+import * as cheerio from "cheerio";
 import fs from "fs";
 import path from "path";
 import { OUTPUT_PATH } from "../../../constants/constants.js";
 import { appendUniqueJson } from "../utils/fileUtils.js";
-import { normalizeTeamName, findMatchId, parseRuDate } from "../utils/teamMapUtils.js";
+import { normalizeTeamName, findMatchId } from "../utils/teamMapUtils.js";
 
-export { scrapePredictionsBetzona as scrapePredictions };
+// Убрали import { createLogger } ... — логгер теперь приходит извне
 
 const BASE_URL = "https://betzona.ru";
 
-
-function normalizeQuotes(str) {
-    if (!str) return str;
-    return str
-        .replace(/"([^"]+)"/g, "«$1»")  // заменяет "текст" → «текст»
-        .replace(/««/g, "«")            // на всякий случай чистим двойные
-        .replace(/»»/g, "»");
-}
+export { scrapePredictionsBetzona as scrapePredictions };
 
 /// <summary>
 /// Загружает HTML-страницу по указанному URL.
 /// </summary>
 async function fetchHtml(url) {
-    const res = await fetch(url, {
-        headers: { "User-Agent": "Mozilla/5.0" },
-    });
+    const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     return await res.text();
 }
 
-/// <summary>
-/// Очищает текст узла: убирает табы/переносы, рекламу, таблицы.
-/// </summary>
+function normalizeQuotes(str) {
+    if (!str) return str;
+    return str
+        .replace(/"([^"]+)"/g, "«$1»")
+        .replace(/««/g, "«")
+        .replace(/»»/g, "»");
+}
+
 function cleanNodeText($, node) {
     const $node = $(node);
-
-    // выкидываем таблицы, блоки статистики, рекламу
     if ($node.is(".scores, .standing, .row, .white-block, .position-table")) return "";
-    if (/Личные встречи/i.test($node.text())) return "";
-    if (/Реклама/i.test($node.text())) return "";
-
-    // нормализация текста
-    let text = $node.text().replace(/\s+/g, " ").trim();
-    return text;
+    if (/Личные встречи/i.test($node.text()) || /Реклама/i.test($node.text())) return "";
+    return $node.text().replace(/\s+/g, " ").trim();
 }
 
 function extractTeamAndPredictionTexts($, home, away) {
     let homeText = null;
     let awayText = null;
 
-    // Анализ команд
     $(".head-team").each((_, el) => {
         const teamName = $(el).find("h2").text().trim();
         const infoBlock = $(el).next(".team-info").find(".info");
         let clean = cleanNodeText($, infoBlock);
         if (teamName && clean) {
-            if (teamName.toLowerCase() === home.toLowerCase()) {
-                homeText = clean;
-            } else if (teamName.toLowerCase() === away.toLowerCase()) {
-                awayText = clean;
-            }
+            if (teamName.toLowerCase() === home.toLowerCase()) homeText = clean;
+            else if (teamName.toLowerCase() === away.toLowerCase()) awayText = clean;
         }
     });
 
-    // Общий прогноз
-    let commonParts = [];
+    const commonParts = [];
     const forecastHeader = $("h2").filter((_, el) => $(el).text().trim() === "Прогноз");
     if (forecastHeader.length) {
         let sibling = forecastHeader.next();
         while (sibling.length) {
             if (sibling.is("h2") || sibling.is("h3")) break;
-
-            // берём только <p>
             if (sibling.is("p")) {
                 const clean = cleanNodeText($, sibling);
                 if (clean) commonParts.push(clean);
             }
-
             sibling = sibling.next();
         }
     }
 
-    return {
-        homeText,
-        awayText,
-        commonText: commonParts.join(" ")
-    };
+    return { homeText, awayText, commonText: commonParts.join(" ") };
 }
 
-
-
-/// <summary>
-/// Парсит страницу конкретного матча и извлекает прогноз.
-/// </summary>
-async function parseMatchPage(url, calendar, matchInfo) {
+async function parseData(url, calendar, matchInfo, logger) {
     const html = await fetchHtml(url);
     const $ = cheerio.load(html);
-
     const home = normalizeTeamName(matchInfo.home);
     const away = normalizeTeamName(matchInfo.away);
-
     let matchDate = null;
 
-    if (url.includes("betzona")) {
-        // --- формат Betzona: "09.10.2025 19:00"
-        const dateBlock = $(".match-review-head-date").first().text().trim();
-        if (dateBlock) {
-            const [dateStr, timeStr] = dateBlock.split(" ");
-            if (dateStr && timeStr) {
-                const [day, month, year] = dateStr.split(".").map(Number);
-                const [hours, minutes] = timeStr.split(":").map(Number);
-                matchDate = new Date(year, month - 1, day, hours, minutes);
-            }
-        }
-    } else {
-        // --- формат Legalbet: отдельно дата и время
-        const dateStr = $(".match-head__info-date").first().text().trim();
-        const timeStr = $(".match-head__info-time").first().text().trim();
+    const dateBlock = $(".match-review-head-date").first().text().trim();
+    if (dateBlock) {
+        const [dateStr, timeStr] = dateBlock.split(" ");
         if (dateStr && timeStr) {
             const [day, month, year] = dateStr.split(".").map(Number);
             const [hours, minutes] = timeStr.split(":").map(Number);
@@ -125,78 +85,39 @@ async function parseMatchPage(url, calendar, matchInfo) {
 
     if (!matchDate) return null;
 
-    console.log(`Дата матча для ${home} – ${away}: ${matchDate}`);
+    const matchId = findMatchId(home, away, calendar, matchDate);
+    logger.info(`Матч: ${home} – ${away} | matchID: ${matchId || "не найден"} | Дата: ${matchDate.toISOString()}`);
 
-    // --- Тексты по командам ---
-    let homeText = "";
-    let awayText = "";
-
-    $(".head-team").each((_, el) => {
-        const teamName = $(el).find("h2").text().trim();
-        const infoBlock = $(el).next(".team-info").find(".info p");
-        let teamText = infoBlock.map((_, p) => $(p).text().trim()).get().join(" ");
-
-        if (teamName && teamText) {
-            if (normalizeTeamName(teamName) === home) {
-                homeText = teamText;
-            } else if (normalizeTeamName(teamName) === away) {
-                awayText = teamText;
-            }
-        }
-    });
-
-    // --- Общий прогноз ---
-    let commonText = $(".forecast-info > p")
-        .map((_, el) => $(el).text().replace(/\s+/g, " ").trim())
-        .get()
-        .filter(Boolean)
-        .join(" ");
-
-    // --- Основная ставка ---
-    let mainBet = $(".forecast-info .bet_name").first().text().trim() || null;
-
-    // Подстраховка — берём последние абзацы, если прогноз не нашёлся
-    if (!commonText) {
-        const allParas = $("p").map((_, el) => $(el).text().trim()).get().filter(Boolean);
-        if (allParas.length > 0) {
-            commonText = allParas.slice(-2).join(" ");
-        }
-    }
-
-    // --- Заменяем кавычки на ёлочки ---
-    homeText = normalizeQuotes(homeText);
-    awayText = normalizeQuotes(awayText);
-    commonText = normalizeQuotes(commonText);
-    if (mainBet) mainBet = normalizeQuotes(mainBet);
-
-    const matchId = home && away ? findMatchId(home, away, calendar, matchDate) : null;
+    const texts = extractTeamAndPredictionTexts($, home, away);
+    const mainBet = $(".forecast-info .bet_name").first().text().trim() || null;
 
     return {
         source: "betzona",
-        url: url,
+        url,
         match: `${home} – ${away}`,
+        date: matchDate,
         teams: {
-            home: { name: home, text: homeText },
-            away: { name: away, text: awayText },
+            home: { name: home, text: normalizeQuotes(texts.homeText || "") },
+            away: { name: away, text: normalizeQuotes(texts.awayText || "") },
         },
         prediction: {
-            main: mainBet,
-            alt: null,
-            score: null,
-            text: commonText,
+            main: normalizeQuotes(mainBet),
+            text: normalizeQuotes(texts.commonText || ""),
             result: null,
         },
         id: matchId,
     };
 }
 
-/// <summary>
-/// Основная функция: собирает прогнозы КХЛ с betzona.ru,
-/// группирует дублирующиеся прогнозы и сохраняет в JSON.
-/// </summary>
-export async function scrapePredictionsBetzona() {
-    const listUrl = `${BASE_URL}/prognozy-khl.html`;
+function saveResults(results, fileName, logger) {
+    const savePath = path.join(OUTPUT_PATH, fileName);
+    const { merged, added } = appendUniqueJson(savePath, results, i => `${i.source}_${i.id || i.match}`);
+    logger.info(`Прогнозы сохранены в ${savePath}`);
+    return added;
+}
 
+export async function scrapePredictionsBetzona({ logger = console } = {}) {
+    const listUrl = `${BASE_URL}/prognozy-khl.html`;
     const html = await fetchHtml(listUrl);
     const $ = cheerio.load(html);
 
@@ -204,55 +125,49 @@ export async function scrapePredictionsBetzona() {
     const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
 
     const links = [];
+    const seen = new Set();
+
     $(".bets-description-card").each((_, el) => {
         const href = $(el).attr("href");
         const tournament = $(el).attr("data-tournament") || "";
         const matchTitle = $(el).attr("data-match-name") || "";
         const matchDate = $(el).attr("data-date") || null;
 
-        if (href && tournament.includes("КХЛ") && matchTitle) {
-            const [home, away] = matchTitle.split(/[-–]/).map((s) => s.trim());
-            links.push({ url: BASE_URL + href, home, away, date: matchDate });
-        }
+        if (!href || !matchTitle || !tournament.includes("КХЛ")) return;
+
+        const key = `${href}_${matchTitle}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+
+        const [home, away] = matchTitle.split(/[-–]/).map(s => s.trim());
+        links.push({ url: BASE_URL + href, home, away, date: matchDate });
     });
+
+    logger.info(`Найдено ${links.length} матчей.`);
 
     const rawResults = [];
     for (const { url, home, away } of links) {
         try {
-            const data = await parseMatchPage(url, calendar, { home, away });
+            const data = await parseData(url, calendar, { home, away }, logger);
             if (data) rawResults.push(data);
         } catch (err) {
-            console.error(`Ошибка при парсинге ${url}:`, err.message);
+            logger.error(`Ошибка при парсинге ${url}`, err);
         }
     }
 
-    const grouped = {};
-    for (const item of rawResults) {
+    const results = Object.values(rawResults.reduce((acc, item) => {
         const key = `${item.source}_${item.id || item.match}`;
-        if (!grouped[key]) {
-            grouped[key] = { ...item };
-        } else {
-            const existing = grouped[key];
-            if (!existing.prediction.alt) {
-                existing.prediction.alt = item.prediction.main;
-            } else {
-                existing.prediction.alt += `, ${item.prediction.main}`;
-            }
+        if (!acc[key]) acc[key] = { ...item };
+        else {
+            const ex = acc[key];
+            if (ex.prediction.alt) ex.prediction.alt += `, ${item.prediction.main}`;
+            else ex.prediction.alt = item.prediction.main;
         }
-    }
+        return acc;
+    }, {}));
 
-    const results = Object.values(grouped);
+    const added = saveResults(results, "betzona.json", logger);
+    logger.info(`Итог: добавлено новых прогнозов ${added}/${results.length}`);
 
-    const savePath = path.join(OUTPUT_PATH, "betzona.json");
-
-    const { merged, added } = appendUniqueJson(
-        savePath,
-        results,
-        (item) => `${item.source}_${item.id || item.match}`
-    );
-
-    console.log(`Добавлено новых прогнозов: ${added}`);
-    console.log(`Прогнозы с betzona.ru сохранены в ${savePath}`);
-
-    return merged;
+    return results;
 }
