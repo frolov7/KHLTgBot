@@ -1,75 +1,61 @@
-﻿import fs from "fs";
-import path from "path";
+﻿// src/scraper/services/predictions/vprognozeParse.js
 import * as cheerio from "cheerio";
+import fs from "fs";
+import path from "path";
 import { OUTPUT_PATH } from "../../../constants/constants.js";
-import { findMatchId, normalizeTeamName, TEAM_MAP } from "../utils/teamMapUtils.js";
+import {
+    TEAM_MAP,
+    normalizeTeamName,
+    findMatchId
+} from "../utils/teamMapUtils.js";
 import { appendUniqueJson } from "../utils/fileUtils.js";
+import { createLogger } from "../utils/logger.js";
 
+const logger = createLogger("vprognoze");
+const BASE_URL = "https://vprognoze.kz/user/Андрей+Шарафутдинов/";
 
-
-function cleanText(text) {
-    if (!text) return "";
-    return text
-        .replace(/\s+/g, " ")        // убираем лишние пробелы и переносы
-        .replace(/\n+/g, " ")        // переносы строк → пробел
-        .replace(/ +/g, " ")         // несколько пробелов → один
-        .replace(/Другие матчи КХЛ.*$/i, "") // вырезаем мусор про другие матчи
-        .trim();
-}
-
-function removeGarbage(text) {
-    if (!text) return "";
-
-    return text
-        // убираем статистику, очные встречи и прочее
-        .replace(/📊.*?(?=Magnitogorsk|Nizhny|Lada|Sochi|Bars|Barys|Spartak|SKA|$)/gis, "")
-        .replace(/🤝 Очные встречи.*?(?=Magnitogorsk|Nizhny|Lada|Sochi|Bars|Barys|Spartak|SKA|$)/gis, "")
-        .replace(/Другие матчи КХЛ.*$/gis, "")
-        // нормализуем пробелы и переносы
-        .replace(/\s+/g, " ")
-        .trim();
-}
-
+export { scrapePredictionsVprognoze as scrapePredictions };
 
 /// <summary>
-/// Загружает HTML страницу по указанному URL.
-/// Используется для получения страниц прогнозов с сайта.
+/// Загружает HTML-страницу по указанному URL.
 /// </summary>
-/// <param name="url">URL страницы</param>
-/// <returns>HTML в виде строки</returns>
 async function fetchHtml(url) {
-    const res = await fetch(url, {
-        headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" }
-    });
+    const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     return await res.text();
 }
 
 /// <summary>
-/// Заменяет все алиасы команд на нормализованные имена из TEAM_MAP.
-/// Например: "Шанхай Дрэгонс" → "Shanghai".
+/// Очищает текст от лишних пробелов и мусорных фраз.
 /// </summary>
-/// <param name="text">Исходный текст прогноза</param>
-/// <returns>Текст с нормализованными названиями команд</returns>
-function replaceTeamAliases(text) {
-    for (const [alias, normalized] of Object.entries(TEAM_MAP)) {
-        const regex = new RegExp(alias, "gi");
-        text = text.replace(regex, normalized);
-    }
-    return text;
+function cleanText(text) {
+    if (!text) return "";
+    return text
+        .replace(/\s+/g, " ")
+        .replace(/\n+/g, " ")
+        .replace(/ +/g, " ")
+        .replace(/Другие матчи КХЛ.*$/i, "")
+        .trim();
 }
 
 /// <summary>
-/// Разбирает строку даты и времени матча в объект Date.
-/// Поддерживает форматы "dd mon" и "dd-mm-yyyy".
+/// Удаляет лишние блоки (статистика, очные встречи и т.д.).
 /// </summary>
-/// <param name="dateStr">Строка с датой</param>
-/// <param name="timeStr">Строка с временем</param>
-/// <param name="matchTitle">Название матча (для логов)</param>
-/// <returns>Объект Date или строка "FINISHED"</returns>
-function parseMatchDate(dateStr, timeStr, matchTitle) {
-    if (!dateStr) return null;
+function removeGarbage(text) {
+    if (!text) return "";
+    return text
+        .replace(/📊.*?(?=Magnitogorsk|Nizhny|Lada|Sochi|Bars|Barys|Spartak|SKA|$)/gis, "")
+        .replace(/🤝 Очные встречи.*?(?=Magnitogorsk|Nizhny|Lada|Sochi|Bars|Barys|Spartak|SKA|$)/gis, "")
+        .replace(/Другие матчи КХЛ.*$/gis, "")
+        .replace(/\s+/g, " ")
+        .trim();
+}
 
-    if (dateStr.includes("Завершен")) return null; 
+/// <summary>
+/// Парсит русскую дату формата "22 окт 19:00".
+/// Возвращает объект Date или null, если матч завершён.
+/// </summary>
+function parseRuDateVprognoze(dateStr, timeStr) {
+    if (!dateStr || dateStr.includes("Завершен")) return null;
 
     const months = {
         янв: 0, фев: 1, мар: 2, апр: 3, май: 4, июн: 5,
@@ -80,204 +66,210 @@ function parseMatchDate(dateStr, timeStr, matchTitle) {
     if (parts.length === 2) {
         const [dayStr, monthStr] = parts;
         const day = parseInt(dayStr, 10);
-        const month = months[monthStr.toLowerCase()];
-        const [hours, minutes] = timeStr.split(":").map(Number);
+        const month = months[monthStr?.toLowerCase?.()];
+        const [hours, minutes] = (timeStr || "00:00").split(":").map(Number);
         const year = new Date().getFullYear();
 
         if (!isNaN(day) && month !== undefined) {
             const d = new Date(year, month, day, hours, minutes);
-            console.log(`📅 Parsed date (dd mon hh:mm): ${d.toISOString()} | raw: "${dateStr} ${timeStr}" для ${matchTitle}`);
-            return d;
+            if (!isNaN(d.getTime())) return d;
         }
     }
-
-    if (dateStr.includes("-")) {
-        const [d, m, y] = dateStr.split("-").map(Number);
-        const [h, min] = (timeStr || "00:00").split(":").map(Number);
-        const dt = new Date(y, m - 1, d, h, min);
-        console.log(`📅 Parsed date (dd-mm-yyyy): ${dt.toISOString()} | raw: "${dateStr} ${timeStr}" для ${matchTitle}`);
-        return dt;
-    }
-
-    console.warn(`⚠️ Не удалось разобрать дату: ${dateStr} ${timeStr} для ${matchTitle}`);
     return null;
 }
 
 /// <summary>
-/// Парсит страницу прогноза.
-/// Извлекает названия команд, дату матча, полный текст прогноза,
-/// анализ по командам и прогнозы (основной, альтернатива, счёт).
+/// Парсит страницу отдельного прогноза на vprognoze.kz.
 /// </summary>
-/// <param name="url">URL страницы прогноза</param>
-/// <returns>Объект с данными прогноза</returns>
-async function parseMatchPage(url) {
+async function parseMatchPage(url, calendar) {
     const html = await fetchHtml(url);
     const $ = cheerio.load(html);
 
-    const result = {
-        match: null,
-        teams: { home: { name: null, analysis: "" }, away: { name: null, analysis: "" } },
-        prediction: { main: null, alt: null, score: null, text: "" },
-        matchDate: null,
-    };
-
-    // названия команд
     const names = $(".v3-top-forecast-header__match-name span")
         .map((_, el) => normalizeTeamName($(el).text()))
         .get();
 
-    if (names.length === 2) {
-        result.teams.home.name = names[0];
-        result.teams.away.name = names[1];
-        result.match = `${names[0]} – ${names[1]}`;
-    }
+    if (names.length !== 2) return null;
 
-    // дата и время
+    const home = names[0];
+    const away = names[1];
+    const match = `${home} – ${away}`;
+
     const spans = $(".v3-top-forecast-header__match-timer span");
     const timeStr = spans.first().text().trim();
     const dateStr = spans.last().text().trim();
-    result.matchDate = parseMatchDate(dateStr, timeStr, result.match);
+    const matchDate = parseRuDateVprognoze(dateStr, timeStr);
+    if (!matchDate) return null;
 
-    if (!result.matchDate) return null;
+    const matchId = findMatchId(home, away, calendar, matchDate);
+    logger.info(`Матч: ${home} – ${away} | matchID: ${matchId || "не найден"} | Дата: ${matchDate.toISOString()}`);
 
-    // прогноз: ищем блок начиная с "Прогноз на матч"
+    let homeText = "";
+    let awayText = "";
+    let commonText = "";
+    let mainBet = null;
+    let altBet = null;
+    let score = null;
+
+    // анализ по командам
+    const homeHeader = $("h3").filter((_, el) =>
+        $(el).text().trim().toLowerCase().includes(home.toLowerCase())
+    );
+    const awayHeader = $("h3").filter((_, el) =>
+        $(el).text().trim().toLowerCase().includes(away.toLowerCase())
+    );
+
+    if (homeHeader.length) {
+        const textParts = [];
+        homeHeader.nextUntil("h3").each((_, el) => {
+            if ($(el).is("p")) textParts.push($(el).text().trim());
+        });
+        homeText = removeGarbage(cleanText(textParts.join(" ")));
+    }
+
+    if (awayHeader.length) {
+        const textParts = [];
+        awayHeader.nextUntil("h3").each((_, el) => {
+            if ($(el).is("p")) textParts.push($(el).text().trim());
+        });
+        awayText = removeGarbage(cleanText(textParts.join(" ")));
+    }
+
+    // общий прогноз (текст)
     const forecastHeader = $("h3").filter((_, el) =>
         $(el).text().trim().startsWith("Прогноз на матч")
     );
 
     if (forecastHeader.length) {
-        let paragraphs = [];
-        let next = forecastHeader.next();
-
-        while (next.length && next.is("p")) {
-            const txt = next.text().trim();
-
-            // стоп, если встретили секцию с основным/альтернативным прогнозом или счётом
-            if (/^(✅|💡|📊)/.test(txt)) {
-                break;
-            }
-
-            paragraphs.push(txt);
-            next = next.next();
-        }
-
-        result.prediction.text = paragraphs.join("\n\n");
-    }
-
-    // разбор анализа по командам
-    // разбор анализа по командам
-    if (result.teams.home.name && result.teams.away.name) {
-        // Ищем <h3>, содержащий именно то, что на сайте, без нормализации
-        const homeHeader = $('h3').filter((_, el) =>
-            $(el).text().trim().toLowerCase().includes(result.teams.home.name.toLowerCase())
-        );
-        const awayHeader = $('h3').filter((_, el) =>
-            $(el).text().trim().toLowerCase().includes(result.teams.away.name.toLowerCase())
-        );
-
-        if (homeHeader.length) {
-            let homeText = [];
-            homeHeader.nextUntil("h3").each((_, el) => {
-                if ($(el).is("p")) {
-                    homeText.push($(el).text().trim());
-                }
-            });
-            result.teams.home.analysis = removeGarbage(cleanText(homeText.join(" ")));
-        }
-
-        if (awayHeader.length) {
-            let awayText = [];
-            awayHeader.nextUntil("h3").each((_, el) => {
-                if ($(el).is("p")) {
-                    awayText.push($(el).text().trim());
-                }
-            });
-            result.teams.away.analysis = removeGarbage(cleanText(awayText.join(" ")));
+        let sibling = forecastHeader.next();
+        while (sibling.length && sibling.is("p")) {
+            const txt = sibling.text().trim();
+            if (/^(✅|💡|📊)/.test(txt)) break;
+            commonText += txt + " ";
+            sibling = sibling.next();
         }
     }
-
 
     // прогнозы
     $(".v3-forecast-card-description__text p").each((_, el) => {
         const txt = $(el).text().trim();
         if (txt.startsWith("✅ Основной прогноз")) {
-            result.prediction.main = cleanText(txt.replace("✅ Основной прогноз:", ""));
+            mainBet = cleanText(txt.replace("✅ Основной прогноз:", ""));
         } else if (txt.startsWith("💡 Альтернатива")) {
-            result.prediction.alt = cleanText(txt.replace("💡 Альтернатива:", ""));
+            altBet = cleanText(txt.replace("💡 Альтернатива:", ""));
         } else if (txt.startsWith("📊 Примерный счёт")) {
-            result.prediction.score = cleanText(txt.replace("📊 Примерный счёт:", ""));
+            score = cleanText(txt.replace("📊 Примерный счёт:", ""));
         }
     });
 
-    return result;
+    return {
+        source: "vprognoze",
+        url,
+        match,
+        date: matchDate,
+        teams: {
+            home: { name: home, text: homeText },
+            away: { name: away, text: awayText },
+        },
+        prediction: {
+            main: mainBet,
+            text: commonText.trim(),
+            alt: altBet,
+            result: score,
+        },
+        id: matchId,
+    };
 }
 
-/// Основная функция для сбора прогнозов.
-/// Загружает список прогнозов пользователя, парсит каждую страницу,
-/// ищет ID матча в календаре и сохраняет результаты в JSON.
+/// <summary>
+/// Сохраняет результаты парсинга в JSON.
 /// </summary>
-/// <returns>Массив объединённых прогнозов</returns>
-export async function scrapePredictions() {
-    const url = "https://vprognoze.kz/user/Андрей+Шарафутдинов/";
-    const html = await fetchHtml(url);
+function saveResults(results, fileName) {
+    const cleanedResults = results.map(r => {
+        const { date, ...rest } = r;
+        return rest;
+    });
+
+    const savePath = path.join(OUTPUT_PATH, fileName);
+    const { merged, added } = appendUniqueJson(
+        savePath,
+        cleanedResults,
+        i => `${i.source}_${i.id || i.match}`
+    );
+
+    logger.info(`Прогнозы сохранены в ${savePath}`);
+    return added;
+}
+
+/// <summary>
+/// Главная функция парсера Vprognoze.
+/// </summary>
+export async function scrapePredictionsVprognoze() {
+    const html = await fetchHtml(BASE_URL);
     const $ = cheerio.load(html);
 
     const calendarPath = path.join(OUTPUT_PATH, "russia_khl_all.json");
     const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
 
-    const predictions = [];
+    const links = [];
+    const seen = new Set();
+    let duplicates = 0;
 
-    // список прогнозов
-    const links = $(".mini-tip-list .mini-tip .mini-tip__teams")
-        .map((_, el) => $(el).attr("href"))
-        .get();
+    $(".mini-tip-list .mini-tip").each((_, el) => {
+        const league = $(el).find(".mini-tip__league").text().trim();
+        if (!/КХЛ/i.test(league)) return; // берём только КХЛ
 
+        const href = $(el).find(".mini-tip__teams").attr("href");
+        const dayStr = $(el).find(".ui-date__day").text().trim(); 
+        const timeStr = $(el).find(".ui-date__hour").text().trim();
+        if (!href || !dayStr) return;
+
+        // преобразуем "22-10" → дата текущего года
+        const [day, month] = dayStr.split("-").map(Number);
+        const now = new Date();
+        const matchDate = new Date(now.getFullYear(), month - 1, day);
+        matchDate.setHours(...(timeStr.split(":").map(Number)));
+
+        // фильтр — только сегодня и завтра
+        const tomorrow = new Date(now);
+        tomorrow.setDate(now.getDate() + 1);
+        if (matchDate < new Date(now.setHours(0, 0, 0, 0)) || matchDate > new Date(tomorrow.setHours(23, 59, 59, 999))) return;
+
+        if (seen.has(href)) return;
+        seen.add(href);
+
+        // добавляем именно строку, не объект
+        links.push(href);
+    });
+
+    logger.info(`Найдено ${links.length} матчей.`);
+
+    // дальше всё как было:
+    const rawResults = [];
     for (const href of links) {
         try {
-            const data = await parseMatchPage(href);
-
-            if (data === null) {
-                break;
-            }
-
-            if (!data.match) {
-                console.warn(`⚠️ Пропускаем матч без названия: ${href}`);
-                continue;
-            }
-
-            if (!data.matchDate)
-                continue;
-
-            const { home, away } = data.teams;
-            const matchId = findMatchId(home.name, away.name, calendar, data.matchDate);
-            if (matchId)
-                data.id = matchId;
-            else 
-                console.warn(`⚠️ Не нашли ID для матча: ${data.match}`);
-
-            predictions.push({
-                source: "vprognoze",
-                url: href,
-                match: data.match,
-                teams: data.teams,
-                prediction: data.prediction,
-                id: data.id
-            });
+            const data = await parseMatchPage(href, calendar);
+            if (data) rawResults.push(data);
         } catch (err) {
-            console.error(`Ошибка при обработке ${href}:`, err.message);
+            logger.error(`Ошибка при парсинге ${href}`, err);
         }
     }
 
-    const savePath = path.join(OUTPUT_PATH, "vprognoze.json");
-    const { merged, added } = appendUniqueJson(
-        savePath,
-        predictions,
-        (item) =>
-            `${item.source}_${item.id || (item.match + "_" + (item.matchDate ? item.matchDate.toISOString() : ""))}`
+    const results = Object.values(
+        rawResults.reduce((acc, item) => {
+            const key = `${item.source}_${item.id || item.match}`;
+            if (!acc[key]) acc[key] = { ...item };
+            else {
+                const ex = acc[key];
+                if (ex.prediction.alt) ex.prediction.alt += `, ${item.prediction.main}`;
+                else ex.prediction.alt = item.prediction.main;
+            }
+            return acc;
+        }, {})
     );
 
-    console.log(`Добавлено новых прогнозов: ${added}`);
-    console.log(`Прогнозы сохранены в ${savePath}`);
+    const added = saveResults(results, "vprognoze.json");
+    logger.info(`Итог: добавлено новых прогнозов ${added}/${results.length}`);
 
-    return merged;
+    return results;
 }

@@ -165,8 +165,6 @@ export default async function main(args) {
     }
 
     if (args.includes("--predictions")) {
-        console.log("Запускаем сбор прогнозов...");
-
         const scrapers = [
             { name: "betzona", fn: scrapeBetzona },
             { name: "legalbet", fn: scrapeLegalbet },
@@ -177,39 +175,67 @@ export default async function main(args) {
             { name: "vseprosport", fn: scrapeVseprosport },
         ];
 
-        // Запускаем все парсеры одновременно
-        const results = await Promise.allSettled(
-            scrapers.map(async (scraper) => {
-                try {
-                    console.log(`▶Запуск парсера ${scraper.name}...`);
-                    await scraper.fn();
-                    console.log(`Парсер ${scraper.name} завершён`);
-                } catch (err) {
-                    console.error(`Ошибка в парсере ${scraper.name}:`, err.message);
-                    throw err;
-                }
-            })
-        );
+        const logsMap = {};
+        const resultsMap = {};
 
-        // Выводим статус по каждому парсеру
-        console.log("\nРезультаты выполнения парсеров:");
-        for (const [i, res] of results.entries()) {
-            const { name } = scrapers[i];
-            if (res.status === "fulfilled") {
-                console.log(`  ${name}: успешно`);
-            } else {
-                console.log(`  ${name}: ошибка (${res.reason?.message || "неизвестная ошибка"})`);
+        const runWithLogger = async (name, fn) => {
+            const prefix = `[${name}]`;
+            logsMap[name] = [];
+            const buffer = logsMap[name];
+
+            const pushLog = (msg, isError = false) => {
+                buffer.push(msg);
+                if (isError) console.error(msg);
+                else console.log(msg);
+            };
+
+            pushLog(`\n--- Начало парсинга: ${name} ---`);
+
+            const localLogger = {
+                log: (...args) => pushLog(`${prefix} ${args.join(" ")}`),
+                info: (...args) => pushLog(`${prefix} ${args.join(" ")}`),
+                warn: (...args) => pushLog(`${prefix} ⚠️ ${args.join(" ")}`),
+                error: (...args) => pushLog(`${prefix} ❌ ${args.join(" ")}`, true),
+                start: () => pushLog(`--- Начало парсинга: ${name} ---`),
+                end: () => pushLog(`--- Завершён парсинг: ${name} ---`),
+            };
+
+            const start = Date.now();
+
+            try {
+                await fn({ logger: localLogger });
+                const duration = ((Date.now() - start) / 1000).toFixed(2);
+                pushLog(`✅ Завершён парсинг ${name} (${duration} сек.)`);
+                resultsMap[name] = { status: "ok" };
+            } catch (err) {
+                pushLog(`❌ Ошибка в ${name}: ${err.message}`, true);
+                resultsMap[name] = { status: "error", error: err };
             }
+
+            //pushLog(`--- Завершён парсинг: ${name} ---\n`);
+        };
+
+        // ================== Запуск парсеров ==================
+
+        console.log("\nЗапускаем парсеры по очереди...");
+        const totalStart = Date.now();
+
+        for (const { name, fn } of scrapers) {
+            console.log(`\n=== ▶ Запуск парсера: ${name} ===`);
+            await runWithLogger(name, fn);
         }
 
-        console.log("\nВсе парсеры завершили выполнение.");
+        const totalDuration = ((Date.now() - totalStart) / 1000).toFixed(2);
+        console.log(`\n✅ Парсеры завершили работу за ${totalDuration} сек.\n`);
+
+        // ================== Итоговый отчёт ==================
+
         runImport(IMPORT_PREDICTIONS_SCRIPT, "импорт прогнозов");
     }
 
     if (args.includes("--resultvideos")) {
         console.log("Запускаем парсинг видеообзоров КХЛ...");
         await scrapeKhlVideos();
-
         console.log("Импортируем результаты в БД...");
         runImport(IMPORT_VIDEOS_SCRIPT, "импорт видеообзоров");
     }
