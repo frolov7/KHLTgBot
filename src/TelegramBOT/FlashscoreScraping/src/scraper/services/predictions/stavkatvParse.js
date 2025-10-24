@@ -1,11 +1,10 @@
 ﻿// src/scraper/services/predictions/stavkatvParse.js
 import * as cheerio from "cheerio";
 import fs from "fs";
-import path from "path";
-import { OUTPUT_PATH } from "../../../constants/constants.js";
-import { findMatchId, normalizeTeamName } from "../utils/teamMapUtils.js";
-import { appendUniqueJson } from "../utils/fileUtils.js";
-import { createLogger } from "../utils/logger.js";
+import { FILES } from "../../../constants/constants.js";
+import { findMatchId, normalizeTeamName } from "../utils/matches/teamMapUtils.js";
+import { appendUniqueJson } from "../utils/core/jsonUtils.js";
+import { createLogger } from "../utils/core/logger.js";
 
 const logger = createLogger("stavkatv");
 const BASE_URL = "https://stavka.tv";
@@ -15,6 +14,8 @@ export { scrapePredictionsStavka as scrapePredictions };
 /// <summary>
 /// Загружает HTML-страницу по указанному URL.
 /// </summary>
+/// <param name="url">Адрес страницы для загрузки.</param>
+/// <returns>HTML-код страницы в виде строки.</returns>
 async function fetchHtml(url) {
     const res = await fetch(url, {
         headers: {
@@ -29,6 +30,8 @@ async function fetchHtml(url) {
 /// <summary>
 /// Заменяет кавычки на русские «ёлочки».
 /// </summary>
+/// <param name="text">Исходная строка.</param>
+/// <returns>Строка с заменёнными кавычками.</returns>
 function replaceQuotes(text) {
     if (!text) return text;
     return text
@@ -39,8 +42,15 @@ function replaceQuotes(text) {
 }
 
 /// <summary>
-/// Проверяет исход прогноза на основе результата из календаря.
+/// Проверяет исход прогноза на основе результата матча.
 /// </summary>
+/// <param name="prediction">Объект с прогнозом (основная ставка и т.д.).</param>
+/// <param name="match">Данные матча из календаря (результат, статус).</param>
+/// <returns>
+/// true — прогноз верен,  
+/// false — неверен,  
+/// null — невозможно определить.
+/// </returns>
 function checkPrediction(prediction, match) {
     if (!match || match.status !== "FINISHED") return null;
 
@@ -62,8 +72,11 @@ function checkPrediction(prediction, match) {
 }
 
 /// <summary>
-/// Преобразует дату из блоков сайта в объект Date.
+/// Преобразует дату со страницы StavkaTV в объект Date.
 /// </summary>
+/// <param name="dateStr">Дата в формате "21 окт".</param>
+/// <param name="timeStr">Время в формате "19:30".</param>
+/// <returns>Объект Date или null, если не удалось преобразовать.</returns>
 function parseStavkaDate(dateStr, timeStr) {
     const months = {
         янв: 0, фев: 1, мар: 2, апр: 3, май: 4, июн: 5,
@@ -71,13 +84,11 @@ function parseStavkaDate(dateStr, timeStr) {
     };
 
     if (!dateStr) return null;
-
     const [dayStr, monStr] = dateStr.split(" ");
     const day = parseInt(dayStr, 10);
     const month = months[monStr?.toLowerCase?.()] ?? null;
     const year = new Date().getFullYear();
 
-    // если нет времени или месяц неизвестен — возвращаем null
     if (!month || !timeStr || !timeStr.includes(":")) return null;
 
     const [h, m] = timeStr.split(":").map(Number);
@@ -86,8 +97,10 @@ function parseStavkaDate(dateStr, timeStr) {
 }
 
 /// <summary>
-/// Парсит страницу конкретного матча со stavka.tv.
+/// Парсит страницу конкретного матча со stavka.tv и извлекает прогноз.
 /// </summary>
+/// <param name="url">Ссылка на страницу матча.</param>
+/// <returns>Объект с информацией о прогнозе.</returns>
 async function parseMatchPage(url) {
     const html = await fetchHtml(url);
     const $ = cheerio.load(html);
@@ -104,7 +117,7 @@ async function parseMatchPage(url) {
     const outcome = $(".EditorsChoice .choice .outcome").first().text().trim();
     if (outcome) prediction.main = replaceQuotes(outcome);
 
-    // Извлечение текстов прогнозов
+    // Извлекаем текст прогнозов
     const texts = [];
     $("li, p, h2, h3").each((_, el) => {
         const t = $(el).text().trim();
@@ -128,15 +141,17 @@ async function parseMatchPage(url) {
 }
 
 /// <summary>
-/// Сохраняет результаты парсинга в JSON.
+/// Сохраняет результаты парсинга в JSON без дубликатов.
 /// </summary>
-function saveResults(results, fileName) {
+/// <param name="results">Массив прогнозов.</param>
+/// <returns>Количество добавленных новых прогнозов.</returns>
+function saveResults(results) {
     const cleanedResults = results.map(r => {
         const { date, ...rest } = r;
         return rest;
     });
 
-    const savePath = path.join(OUTPUT_PATH, fileName);
+    const savePath = FILES.STAVKATV;
     const { merged, added } = appendUniqueJson(savePath, cleanedResults, i => `${i.source}_${i.id || i.match}`);
 
     logger.info(`Прогнозы сохранены в ${savePath}`);
@@ -144,19 +159,18 @@ function saveResults(results, fileName) {
 }
 
 /// <summary>
-/// Главная функция: парсит КХЛ прогнозы со stavka.tv.
+/// Главная функция: парсит КХЛ-прогнозы со stavka.tv.
 /// </summary>
+/// <returns>Массив объектов прогнозов.</returns>
 export async function scrapePredictionsStavka() {
     const listUrl = `${BASE_URL}/matches/ice-hockey`;
     const html = await fetchHtml(listUrl);
     const $ = cheerio.load(html);
 
-    const calendarPath = path.join(OUTPUT_PATH, "russia_khl_all.json");
-    const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
+    const calendar = JSON.parse(fs.readFileSync(FILES.KHL_MATCHES, "utf-8"));
 
     const results = [];
     const seen = new Set();
-    let duplicates = 0;
 
     const khlSection = $("section.MatchesTable")
         .filter((_, el) => {
@@ -171,8 +185,7 @@ export async function scrapePredictionsStavka() {
     }
 
     const rows = khlSection.find(".MatchesRow");
-    const totalRows = rows.length;
-    logger.info(`Найдено ${totalRows} матчей КХЛ.`);
+    logger.info(`Найдено ${rows.length} матчей КХЛ.`);
 
     for (const el of rows.toArray()) {
         const link = $(el).find("a.match-link").attr("href");
@@ -185,15 +198,10 @@ export async function scrapePredictionsStavka() {
 
         const dateStr = $(el).find(".event-date").text().trim();
         const timeStr = $(el).find(".event-status").text().trim();
-
-        let matchDate = null;
-        if (dateStr && timeStr) matchDate = parseStavkaDate(dateStr, timeStr);
+        const matchDate = dateStr && timeStr ? parseStavkaDate(dateStr, timeStr) : null;
 
         const key = `${fullUrl}_${home}_${away}`;
-        if (seen.has(key)) {
-            duplicates++;
-            continue;
-        }
+        if (seen.has(key)) continue;
         seen.add(key);
 
         const matchId = findMatchId(home, away, calendar, matchDate);
@@ -225,7 +233,7 @@ export async function scrapePredictionsStavka() {
         }
     }
 
-    const added = saveResults(results, "stavkatv.json");
+    const added = saveResults(results);
     logger.info(`Итог: добавлено новых прогнозов ${added}/${results.length}`);
 
     return results;

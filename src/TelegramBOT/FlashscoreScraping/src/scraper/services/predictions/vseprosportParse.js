@@ -1,14 +1,10 @@
 ﻿// src/scraper/services/predictions/vseprosportParse.js
 import * as cheerio from "cheerio";
 import fs from "fs";
-import path from "path";
-import { OUTPUT_PATH } from "../../../constants/constants.js";
-import {
-    normalizeTeamName,
-    findMatchId
-} from "../utils/teamMapUtils.js";
-import { appendUniqueJson } from "../utils/fileUtils.js";
-import { createLogger } from "../utils/logger.js";
+import { FILES } from "../../../constants/constants.js";
+import { normalizeTeamName, findMatchId } from "../utils/matches/teamMapUtils.js";
+import { appendUniqueJson } from "../utils/core/jsonUtils.js";
+import { createLogger } from "../utils/core/logger.js";
 
 const logger = createLogger("vseprosport");
 const BASE_URL = "https://www.vseprosport.kz";
@@ -18,14 +14,18 @@ export { scrapePredictionsVseprosport as scrapePredictions };
 /// <summary>
 /// Загружает HTML-страницу по указанному URL.
 /// </summary>
+/// <param name="url">Адрес страницы для загрузки.</param>
+/// <returns>HTML-код страницы в виде строки.</returns>
 async function fetchHtml(url) {
     const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     return await res.text();
 }
 
 /// <summary>
-/// Очищает текст от лишних слов и коэффициентов.
+/// Очищает текст от лишних слов, коэффициентов и пробелов.
 /// </summary>
+/// <param name="text">Исходный текст.</param>
+/// <returns>Очищенный текст.</returns>
 function cleanText(text) {
     if (!text) return "";
     return text
@@ -37,22 +37,24 @@ function cleanText(text) {
 }
 
 /// <summary>
-/// Парсит страницу конкретного прогноза vseprosport.kz.
+/// Парсит страницу конкретного прогноза с сайта vseprosport.kz.
 /// </summary>
+/// <param name="url">Ссылка на страницу прогноза.</param>
+/// <param name="calendar">JSON-календарь матчей.</param>
+/// <returns>Объект прогноза с данными матча.</returns>
 async function parseMatchPage(url, calendar) {
     const html = await fetchHtml(url);
     const $ = cheerio.load(html);
 
-    // названия команд
+    // Извлечение названий команд
     let home = $("#prediction-teams-1 p.h3").first().text().trim();
     let away = $("#prediction-teams-2 p.h3").first().text().trim();
 
     home = normalizeTeamName(home);
     away = normalizeTeamName(away);
-
     const match = `${home} – ${away}`;
 
-    // дата
+    // Дата матча
     const matchDateStr = $("time.matchdate").attr("datetime");
     const matchDate = matchDateStr ? new Date(matchDateStr) : null;
     if (!matchDate || isNaN(matchDate.getTime())) return null;
@@ -60,18 +62,19 @@ async function parseMatchPage(url, calendar) {
     const matchId = findMatchId(home, away, calendar, matchDate);
     logger.info(`Матч: ${home} – ${away} | matchID: ${matchId || "не найден"} | Дата: ${matchDate.toISOString()}`);
 
-    // основной прогноз
+    // Основной прогноз
     let mainBet = $(".bonus-item-bet span.fw-medium").first().text().trim();
     mainBet = cleanText(mainBet);
 
-    // полный текст прогноза
-    let textBlock = $("#prediction-section .default-content").first().find("p")
+    // Основной текст прогноза
+    let textBlock = $("#prediction-section .default-content").first()
+        .find("p")
         .map((_, el) => $(el).text())
         .get()
         .join(" ");
     textBlock = cleanText(textBlock);
 
-    // текущая форма (анализ)
+    // Анализ по командам (текущая форма)
     let homeForm = $("#prediction-teams-1").next(".default-content").text().replace("Текущая форма", "").trim();
     let awayForm = $("#prediction-teams-2").next(".default-content").text().replace("Текущая форма", "").trim();
 
@@ -98,40 +101,69 @@ async function parseMatchPage(url, calendar) {
 }
 
 /// <summary>
-/// Сохраняет результаты парсинга в JSON.
-/// Удаляет поле date перед записью.
+/// Сохраняет результаты парсинга в JSON без дубликатов.
 /// </summary>
-function saveResults(results, fileName) {
-    const cleanedResults = results.map(r => {
-        const { date, ...rest } = r;
-        return rest;
+/// <param name="results">Массив прогнозов.</param>
+/// <returns>Количество добавленных новых прогнозов.</returns>
+function saveResults(results) {
+    const savePath = FILES.VSEPROSPORT;
+
+    // Читаем уже сохранённые прогнозы
+    let existing = [];
+    if (fs.existsSync(savePath)) {
+        try {
+            existing = JSON.parse(fs.readFileSync(savePath, "utf-8"));
+        } catch (err) {
+            logger.error(`Ошибка чтения ${savePath}:`, err);
+        }
+    }
+
+    // Убираем старые прогнозы без id, если пришёл новый с тем же матчем
+    const updatedExisting = existing.filter(old => {
+        if (!old.id && old.match) {
+            const newer = results.find(r => r.match === old.match && r.id);
+            return !newer; // если появился новый с id — старый отбрасываем
+        }
+        return true;
     });
 
-    const savePath = path.join(OUTPUT_PATH, fileName);
-    const { merged, added } = appendUniqueJson(
-        savePath,
-        cleanedResults,
-        i => `${i.source}_${i.id || i.match}`
-    );
+    // Очищаем новые данные
+    const cleanedResults = results
+        .filter(r => r.id || r.match)
+        .map(r => {
+            const { date, ...rest } = r;
+            return rest;
+        });
 
+    // Склеиваем всё и удаляем дубликаты по source + match
+    const uniqueMap = {};
+    for (const r of [...cleanedResults, ...updatedExisting]) {
+        const key = `${r.source}_${r.match}`;
+        if (r.id) uniqueMap[key] = r; // заменяем версию без id
+        else if (!uniqueMap[key]) uniqueMap[key] = r;
+    }
+
+    const final = Object.values(uniqueMap);
+
+    fs.writeFileSync(savePath, JSON.stringify(final, null, 2), "utf-8");
     logger.info(`Прогнозы сохранены в ${savePath}`);
-    return added;
+    return final.length - existing.length;
 }
 
 /// <summary>
-/// Главная функция парсера Vseprosport.
+/// Главная функция парсера Vseprosport.  
+/// Собирает список КХЛ-прогнозов, парсит каждую страницу и сохраняет результаты.
 /// </summary>
+/// <returns>Массив объектов прогнозов.</returns>
 export async function scrapePredictionsVseprosport() {
     const listUrl = `${BASE_URL}/news/hockey`;
     const html = await fetchHtml(listUrl);
     const $ = cheerio.load(html);
 
-    const calendarPath = path.join(OUTPUT_PATH, "russia_khl_all.json");
-    const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
+    const calendar = JSON.parse(fs.readFileSync(FILES.KHL_MATCHES, "utf-8"));
 
     const links = [];
     const seen = new Set();
-    let duplicates = 0;
 
     $("#forecast-list-ajax .forecast").each((_, el) => {
         const type = $(el).find(".forecast-body .headgrey").first().text();
@@ -139,10 +171,7 @@ export async function scrapePredictionsVseprosport() {
             const href = $(el).find("a").attr("href");
             if (!href) return;
             const full = BASE_URL + href;
-            if (seen.has(full)) {
-                duplicates++;
-                return;
-            }
+            if (seen.has(full)) return;
             seen.add(full);
             links.push(full);
         }
@@ -173,7 +202,7 @@ export async function scrapePredictionsVseprosport() {
         }, {})
     );
 
-    const added = saveResults(results, "vseprosport.json");
+    const added = saveResults(results);
     logger.info(`Итог: добавлено новых прогнозов ${added}/${results.length}`);
 
     return results;

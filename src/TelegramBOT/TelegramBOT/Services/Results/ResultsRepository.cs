@@ -50,14 +50,16 @@ namespace TelegramBOT.Services.Results
         /// <returns>Коллекция матчей с завершёнными результатами.</returns>
         public async Task<IEnumerable<Match>> GetResultsByTeamAsync(string teamName)
         {
-            return await _db.Matches
+            var matches = await _db.Matches
                 .Where(m =>
                     (m.HomeTeamName == teamName || m.AwayTeamName == teamName) &&
                     m.HomeScore != null &&
                     m.AwayScore != null)
-                .OrderBy(m => m.MatchDate)
+                .OrderByDescending(m => m.MatchDate)
                 .Take(7)
                 .ToListAsync();
+
+            return matches.OrderBy(m => m.MatchDate);
         }
     }
 }

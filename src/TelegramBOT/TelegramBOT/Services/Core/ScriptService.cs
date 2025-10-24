@@ -50,7 +50,7 @@ namespace TelegramBOT.Services.Core
         {
             var args = mode switch
             {
-                ScraperMode.Results => "--update",
+                ScraperMode.Results => "--updateResults",
                 ScraperMode.Predictions => "--predictions",
                 ScraperMode.All => "--all",
                 _ => throw new ArgumentOutOfRangeException(nameof(mode))
@@ -95,7 +95,7 @@ namespace TelegramBOT.Services.Core
                 await process.WaitForExitAsync();
 
                 if (!string.IsNullOrWhiteSpace(output))
-                    Log.Information("📤 Скрипт вывел: {Output}", output.Trim());
+                    Log.Information("📤 Скрипт вывел: \n{Output}", output.Trim());
 
                 if (!string.IsNullOrWhiteSpace(error))
                     Log.Warning("⚠️ Ошибка скрипта: {Error}", error.Trim());

@@ -1,16 +1,15 @@
 ﻿// src/scraper/services/predictions/legalbetParse.js
 import * as cheerio from "cheerio";
 import fs from "fs";
-import path from "path";
-import { OUTPUT_PATH } from "../../../constants/constants.js";
+import { FILES } from "../../../constants/constants.js";
 import {
     TEAM_MAP,
     normalizeTeamName,
     findMatchId,
     parseRuDateLegalbet
-} from "../utils/teamMapUtils.js";
-import { appendUniqueJson } from "../utils/fileUtils.js";
-import { createLogger } from "../utils/logger.js";
+} from "../utils/matches/teamMapUtils.js";
+import { appendUniqueJson } from "../utils/core/jsonUtils.js";
+import { createLogger } from "../utils/core/logger.js";
 
 const logger = createLogger("legalbet");
 const BASE_URL = "https://legalbet.kz";
@@ -20,6 +19,8 @@ export { scrapePredictionsLegalbet as scrapePredictions };
 /// <summary>
 /// Загружает HTML-страницу по указанному URL.
 /// </summary>
+/// <param name="url">Ссылка на страницу для загрузки.</param>
+/// <returns>HTML-код страницы в виде строки.</returns>
 async function fetchHtml(url) {
     const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     return await res.text();
@@ -28,6 +29,9 @@ async function fetchHtml(url) {
 /// <summary>
 /// Проверяет, соответствует ли заголовок названию команды (с учётом TEAM_MAP).
 /// </summary>
+/// <param name="title">Текст заголовка из HTML.</param>
+/// <param name="teamName">Название команды для проверки.</param>
+/// <returns>True, если заголовок относится к указанной команде.</returns>
 function matchesTeam(title, teamName) {
     const clean = (s) => (s || "").toLowerCase().replace(/[«»"']/g, "").trim();
     const normalizedTitle = clean(title);
@@ -42,8 +46,11 @@ function matchesTeam(title, teamName) {
 }
 
 /// <summary>
-/// Очищает текст HTML-узла от ненужных блоков, рекламы и мусора.
+/// Очищает текст HTML-узла от ненужных блоков, рекламы и лишних символов.
 /// </summary>
+/// <param name="$">Объект cheerio для анализа HTML.</param>
+/// <param name="node">DOM-узел, из которого нужно извлечь текст.</param>
+/// <returns>Очищенный текст узла.</returns>
 function cleanNodeText($, node) {
     const $node = $(node);
     $node.find("style, script, .match-odds, .odds-tabs, .custom-link-widget").remove();
@@ -58,8 +65,11 @@ function cleanNodeText($, node) {
 }
 
 /// <summary>
-/// Собирает текстовый блок между заголовками.
+/// Собирает текстовый блок, расположенный между заголовками (h2/h3).
 /// </summary>
+/// <param name="$">Объект cheerio.</param>
+/// <param name="startHeader">Элемент-заголовок, от которого начинается сбор текста.</param>
+/// <returns>Объединённый текстовый блок.</returns>
 function collectBlockText($, startHeader) {
     let text = "";
     let sibling = startHeader.next();
@@ -75,8 +85,12 @@ function collectBlockText($, startHeader) {
 }
 
 /// <summary>
-/// Парсит страницу отдельного матча Legalbet.
+/// Парсит страницу конкретного матча Legalbet и извлекает прогноз.
 /// </summary>
+/// <param name="url">Ссылка на страницу матча.</param>
+/// <param name="calendar">JSON-объект с календарём матчей.</param>
+/// <param name="matchInfo">Информация о матче (home, away).</param>
+/// <returns>Объект с прогнозом или null, если данных нет.</returns>
 async function parseMatchPage(url, calendar, matchInfo) {
     const html = await fetchHtml(url);
     const $ = cheerio.load(html);
@@ -91,7 +105,6 @@ async function parseMatchPage(url, calendar, matchInfo) {
 
     const matchId = findMatchId(home, away, calendar, matchDate);
     logger.info(`Матч: ${home} – ${away} | matchID: ${matchId || "не найден"} | Дата: ${matchDate.toISOString()}`);
-
 
     let homeText = "";
     let awayText = "";
@@ -151,15 +164,17 @@ async function parseMatchPage(url, calendar, matchInfo) {
 }
 
 /// <summary>
-/// Сохраняет результаты парсинга в JSON.
+/// Сохраняет результаты парсинга в JSON-файл без дубликатов.
 /// </summary>
-function saveResults(results, fileName) {
+/// <param name="results">Массив результатов прогнозов.</param>
+/// <returns>Количество добавленных новых прогнозов.</returns>
+function saveResults(results) {
     const cleanedResults = results.map(r => {
         const { date, ...rest } = r;
         return rest;
     });
 
-    const savePath = path.join(OUTPUT_PATH, fileName);
+    const savePath = FILES.LEGALBET;
     const { merged, added } = appendUniqueJson(
         savePath,
         cleanedResults,
@@ -171,15 +186,17 @@ function saveResults(results, fileName) {
 }
 
 /// <summary>
-/// Главная функция парсера Legalbet.
+/// Главная функция парсера Legalbet.  
+/// Извлекает список матчей КХЛ, парсит страницы и сохраняет результаты.
 /// </summary>
+/// <returns>Массив объектов с прогнозами матчей.</returns>
 export async function scrapePredictionsLegalbet() {
     const listUrl = `${BASE_URL}/hockey/tournaments/khl/`;
     const html = await fetchHtml(listUrl);
     const $ = cheerio.load(html);
 
-    const calendarPath = path.join(OUTPUT_PATH, "russia_khl_all.json");
-    const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
+    // календарь матчей КХЛ
+    const calendar = JSON.parse(fs.readFileSync(FILES.KHL_MATCHES, "utf-8"));
 
     const links = [];
     const seen = new Set();
@@ -204,7 +221,10 @@ export async function scrapePredictionsLegalbet() {
         if (matchDate > tomorrow) return;
 
         const key = `${href}_${home}_${away}`;
-        if (seen.has(key)) return;
+        if (seen.has(key)) {
+            duplicates++;
+            return;
+        }
         seen.add(key);
 
         links.push({
@@ -232,10 +252,8 @@ export async function scrapePredictionsLegalbet() {
                 emptyCount++;
             }
 
-            // если подряд много матчей без прогнозов — прекращаем
-            if (emptyCount >= MAX_EMPTY) {
-                break;
-            }
+            // если подряд несколько матчей без прогнозов — прекращаем
+            if (emptyCount >= MAX_EMPTY) break;
 
         } catch (err) {
             logger.error(`[legalbet] Ошибка при парсинге ${url}`, err);
@@ -255,7 +273,7 @@ export async function scrapePredictionsLegalbet() {
         }, {})
     );
 
-    const added = saveResults(results, "legalbet.json");
+    const added = saveResults(results);
     logger.info(`Итог: добавлено новых прогнозов ${added}/${results.length}`);
 
     return results;

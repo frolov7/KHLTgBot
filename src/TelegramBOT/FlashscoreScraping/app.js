@@ -1,4 +1,8 @@
 ﻿// app.js
+import { createLogger } from "src/scraper/services/utils/core/logger.js";
+
+const logger = createLogger("app");
+
 import('./src/scraper/scraperRunner.js')
     .then((main) => {
         // Аргументы из командной строки
@@ -9,7 +13,7 @@ import('./src/scraper/scraperRunner.js')
             args = ['--results'];
         }
 
-        console.log("Запущено с аргументами:", args);
+        logger.info("Запущено с аргументами:", args);
 
         // Запускаем основную функцию из index.js
         if (typeof main.default === 'function') {
@@ -17,6 +21,6 @@ import('./src/scraper/scraperRunner.js')
         }
     })
     .catch((err) => {
-        console.error(err);
+        logger.error(err);
         process.exit(1);
     });
