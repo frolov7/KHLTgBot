@@ -1,13 +1,12 @@
 ﻿// src/scraper/services/predictions/metaratingsParse.js
 import * as cheerio from "cheerio";
 import fs from "fs";
-import path from "path";
-import { OUTPUT_PATH } from "../../../constants/constants.js";
-import { findMatchId, normalizeTeamName } from "../utils/teamMapUtils.js";
-import { appendUniqueJson } from "../utils/fileUtils.js";
-import { createLogger } from "../utils/logger.js";
+import { FILES } from "../../../constants/constants.js";
+import { findMatchId, normalizeTeamName } from "../utils/matches/teamMapUtils.js";
+import { appendUniqueJson } from "../utils/core/jsonUtils.js";
+import { createLogger } from "../utils/core/logger.js";
 
-const logger = createLogger("meta-ratings");
+const logger = createLogger("metaratings");
 const BASE_URL = "https://meta-ratings.kz";
 
 export { scrapePredictionsMetaratings as scrapePredictions };
@@ -15,6 +14,8 @@ export { scrapePredictionsMetaratings as scrapePredictions };
 /// <summary>
 /// Загружает HTML-страницу по указанному URL.
 /// </summary>
+/// <param name="url">Адрес страницы для загрузки.</param>
+/// <returns>HTML-код страницы в виде строки.</returns>
 async function fetchHtml(url) {
     const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     if (!res.ok) throw new Error(`Ошибка загрузки ${url}: ${res.status}`);
@@ -22,16 +23,25 @@ async function fetchHtml(url) {
 }
 
 /// <summary>
-/// Очищает текст от лишних пробелов и символов.
+/// Очищает текст от лишних пробелов, неразрывных пробелов и HTML-сущностей.
 /// </summary>
+/// <param name="text">Исходная строка.</param>
+/// <returns>Очищенный текст.</returns>
 function cleanText(text) {
     if (!text) return "";
     return text.replace(/\s+/g, " ").replace(/&nbsp;/g, " ").trim();
 }
 
 /// <summary>
-/// Проверяет исход прогноза на основе календаря и результата матча.
+/// Проверяет, прошёл ли прогноз на основе результата матча.
 /// </summary>
+/// <param name="prediction">Объект с прогнозом (основная ставка и т.п.).</param>
+/// <param name="match">Объект матча из календаря, содержащий результат.</param>
+/// <returns>
+/// true — прогноз угадал,  
+/// false — не угадал,  
+/// null — невозможно определить.
+/// </returns>
 function checkPrediction(prediction, match) {
     if (!match || match.status !== "FINISHED") return null;
 
@@ -72,8 +82,12 @@ function checkPrediction(prediction, match) {
 }
 
 /// <summary>
-/// Парсит страницу отдельного матча на meta-ratings.kz.
+/// Парсит страницу отдельного матча на meta-ratings.kz и извлекает прогноз.
 /// </summary>
+/// <param name="url">Ссылка на страницу прогноза.</param>
+/// <param name="calendar">JSON-календарь матчей.</param>
+/// <param name="matchInfo">Информация о матче (home, away, matchDate).</param>
+/// <returns>Объект прогноза или null, если матч не найден.</returns>
 async function parseMatchPage(url, calendar, matchInfo) {
     const html = await fetchHtml(url);
     const $ = cheerio.load(html);
@@ -97,7 +111,7 @@ async function parseMatchPage(url, calendar, matchInfo) {
         result: null,
     };
 
-    // Извлечение текста прогноза
+    // Извлекаем параграфы с текстом прогноза
     const paras = [];
     $("h2")
         .filter((_, el) => $(el).text().includes("Прогноз на матч"))
@@ -108,6 +122,7 @@ async function parseMatchPage(url, calendar, matchInfo) {
             if (txt) paras.push(txt);
         });
 
+    // Основной и альтернативные прогнозы
     const altBets = [];
     for (const p of paras) {
         if (p.startsWith("Прогноз —")) {
@@ -119,6 +134,7 @@ async function parseMatchPage(url, calendar, matchInfo) {
     if (altBets.length) prediction.alt = altBets.join(", ");
     prediction.text = cleanText(paras.join(" "));
 
+    // Проверяем исход прогноза
     if (matchId) prediction.result = checkPrediction(prediction, calendar[matchId]);
 
     return {
@@ -136,31 +152,57 @@ async function parseMatchPage(url, calendar, matchInfo) {
 }
 
 /// <summary>
-/// Сохраняет результаты парсинга в JSON.
+/// Сохраняет результаты парсинга в JSON-файл без дубликатов.
 /// </summary>
-function saveResults(results, fileName) {
-    const cleanedResults = results.map(r => {
-        const { date, ...rest } = r;
-        return rest;
-    });
+/// <param name="results">Массив объектов прогнозов.</param>
+/// <returns>Количество добавленных новых прогнозов.</returns>
+function saveResults(results) {
+    const cleanedResults = results
+        .filter(r => r.id || r.match) // защита от полностью пустых
+        .map(r => {
+            const { date, ...rest } = r;
+            return rest;
+        });
 
-    const savePath = path.join(OUTPUT_PATH, fileName);
-    const { merged, added } = appendUniqueJson(savePath, cleanedResults, i => `${i.source}_${i.id || i.match}`);
+    const savePath = FILES.METARATINGS;
+
+    // 🔧 устраняем дубликаты с null-id
+    const uniqueMap = {};
+    for (const r of cleanedResults) {
+        const key = `${r.source}_${r.match}`;
+        if (r.id) {
+            // если пришёл прогноз с id — перезаписываем версию без id
+            uniqueMap[key] = r;
+        } else if (!uniqueMap[key]) {
+            // если раньше не было — добавляем
+            uniqueMap[key] = r;
+        }
+    }
+
+    const dedupedResults = Object.values(uniqueMap);
+
+    const { merged, added } = appendUniqueJson(
+        savePath,
+        dedupedResults,
+        i => `${i.source}_${i.id || i.match}`
+    );
 
     logger.info(`Прогнозы сохранены в ${savePath}`);
     return added;
 }
 
 /// <summary>
-/// Главная функция Metaratings: парсит список прогнозов, обрабатывает и сохраняет.
+/// Главная функция парсера Metaratings.  
+/// Собирает список матчей КХЛ, парсит каждую страницу и сохраняет результаты.
 /// </summary>
+/// <returns>Массив объектов с прогнозами матчей.</returns>
 export async function scrapePredictionsMetaratings() {
     const listUrl = `${BASE_URL}/prognozy/hokkey/khl/`;
     const html = await fetchHtml(listUrl);
     const $ = cheerio.load(html);
 
-    const calendarPath = path.join(OUTPUT_PATH, "russia_khl_all.json");
-    const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
+    // Календарь матчей КХЛ
+    const calendar = JSON.parse(fs.readFileSync(FILES.KHL_MATCHES, "utf-8"));
 
     const links = [];
     const seen = new Set();
@@ -173,7 +215,7 @@ export async function scrapePredictionsMetaratings() {
 
         const url = BASE_URL + href;
 
-        // дата и время
+        // Дата и время матча
         const dateStr = $(el).find(".TipsList_TipsBoxDate__ZW4Q5").text().trim();
         const timeStr = $(el).find(".TipsList_TipsBoxClock__qCJyW").text().trim();
         let matchDate = null;
@@ -183,7 +225,7 @@ export async function scrapePredictionsMetaratings() {
             matchDate = new Date(year, month - 1, day, hours, minutes);
         }
 
-        // команды
+        // Названия команд
         const title = linkEl.text().trim().replace("Прогноз на матч", "").trim();
         const [homeRaw, awayRaw] = title.split("–").map(s => s.trim());
         const home = normalizeTeamName(homeRaw.split(".")[0].trim());
@@ -207,22 +249,24 @@ export async function scrapePredictionsMetaratings() {
             const data = await parseMatchPage(url, calendar, { home, away, matchDate });
             if (data) rawResults.push(data);
         } catch (err) {
-            logger.error(`Ошибка при парсинге ${url}`, err);
+            logger.error(`[metaratings] Ошибка при парсинге ${url}`, err);
         }
     }
 
-    const results = Object.values(rawResults.reduce((acc, item) => {
-        const key = `${item.source}_${item.id || item.match}`;
-        if (!acc[key]) acc[key] = { ...item };
-        else {
-            const ex = acc[key];
-            if (ex.prediction.alt) ex.prediction.alt += `, ${item.prediction.main}`;
-            else ex.prediction.alt = item.prediction.main;
-        }
-        return acc;
-    }, {}));
+    const results = Object.values(
+        rawResults.reduce((acc, item) => {
+            const key = `${item.source}_${item.id || item.match}`;
+            if (!acc[key]) acc[key] = { ...item };
+            else {
+                const ex = acc[key];
+                if (ex.prediction.alt) ex.prediction.alt += `, ${item.prediction.main}`;
+                else ex.prediction.alt = item.prediction.main;
+            }
+            return acc;
+        }, {})
+    );
 
-    const added = saveResults(results, "metaratings.json");
+    const added = saveResults(results);
     logger.info(`Итог: добавлено новых прогнозов ${added}/${results.length}`);
 
     return results;

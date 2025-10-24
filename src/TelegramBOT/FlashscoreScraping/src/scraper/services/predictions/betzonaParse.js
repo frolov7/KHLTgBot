@@ -1,12 +1,8 @@
-﻿// src/scraper/services/predictions/betzonaParse.js
-import * as cheerio from "cheerio";
+﻿import * as cheerio from "cheerio";
 import fs from "fs";
-import path from "path";
-import { OUTPUT_PATH } from "../../../constants/constants.js";
-import { appendUniqueJson } from "../utils/fileUtils.js";
-import { normalizeTeamName, findMatchId } from "../utils/teamMapUtils.js";
-
-// Убрали import { createLogger } ... — логгер теперь приходит извне
+import { FILES } from "../../../constants/constants.js";
+import { appendUniqueJson } from "../utils/core/jsonUtils.js";
+import { normalizeTeamName, findMatchId } from "../utils/matches/teamMapUtils.js";
 
 const BASE_URL = "https://betzona.ru";
 
@@ -15,11 +11,18 @@ export { scrapePredictionsBetzona as scrapePredictions };
 /// <summary>
 /// Загружает HTML-страницу по указанному URL.
 /// </summary>
+/// <param name="url">Адрес страницы для загрузки.</param>
+/// <returns>HTML-код страницы в виде строки.</returns>
 async function fetchHtml(url) {
     const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     return await res.text();
 }
 
+/// <summary>
+/// Заменяет обычные кавычки на типографские («»).
+/// </summary>
+/// <param name="str">Исходная строка с текстом.</param>
+/// <returns>Строка с заменёнными кавычками.</returns>
 function normalizeQuotes(str) {
     if (!str) return str;
     return str
@@ -28,6 +31,12 @@ function normalizeQuotes(str) {
         .replace(/»»/g, "»");
 }
 
+/// <summary>
+/// Очищает текст HTML-узла от лишних элементов и пробелов.
+/// </summary>
+/// <param name="$">Объект cheerio для работы с DOM.</param>
+/// <param name="node">HTML-узел, текст которого нужно извлечь.</param>
+/// <returns>Очищенный текст узла.</returns>
 function cleanNodeText($, node) {
     const $node = $(node);
     if ($node.is(".scores, .standing, .row, .white-block, .position-table")) return "";
@@ -35,6 +44,13 @@ function cleanNodeText($, node) {
     return $node.text().replace(/\s+/g, " ").trim();
 }
 
+/// <summary>
+/// Извлекает текст прогнозов для домашней и гостевой команд, а также общий текст прогнозов.
+/// </summary>
+/// <param name="$">Объект cheerio для анализа HTML.</param>
+/// <param name="home">Название домашней команды.</param>
+/// <param name="away">Название гостевой команды.</param>
+/// <returns>Объект с текстами: homeText, awayText и commonText.</returns>
 function extractTeamAndPredictionTexts($, home, away) {
     let homeText = null;
     let awayText = null;
@@ -66,6 +82,14 @@ function extractTeamAndPredictionTexts($, home, away) {
     return { homeText, awayText, commonText: commonParts.join(" ") };
 }
 
+/// <summary>
+/// Парсит данные конкретного матча и возвращает структурированный объект с прогнозом.
+/// </summary>
+/// <param name="url">Ссылка на страницу матча.</param>
+/// <param name="calendar">JSON-объект с календарём КХЛ.</param>
+/// <param name="matchInfo">Информация о командах матча (home, away).</param>
+/// <param name="logger">Логгер для вывода информации и ошибок.</param>
+/// <returns>Объект с данными прогноза или null, если матч не найден.</returns>
 async function parseData(url, calendar, matchInfo, logger) {
     const html = await fetchHtml(url);
     const $ = cheerio.load(html);
@@ -95,7 +119,6 @@ async function parseData(url, calendar, matchInfo, logger) {
         source: "betzona",
         url,
         match: `${home} – ${away}`,
-        date: matchDate,
         teams: {
             home: { name: home, text: normalizeQuotes(texts.homeText || "") },
             away: { name: away, text: normalizeQuotes(texts.awayText || "") },
@@ -109,20 +132,33 @@ async function parseData(url, calendar, matchInfo, logger) {
     };
 }
 
-function saveResults(results, fileName, logger) {
-    const savePath = path.join(OUTPUT_PATH, fileName);
+
+/// <summary>
+/// Сохраняет результаты прогнозов в JSON-файл, исключая дубликаты.
+/// </summary>
+/// <param name="results">Массив объектов прогнозов для сохранения.</param>
+/// <param name="logger">Логгер для вывода информации о сохранении.</param>
+/// <returns>Количество добавленных новых прогнозов.</returns>
+function saveResults(results, logger) {
+    const savePath = FILES.BETZONA;
     const { merged, added } = appendUniqueJson(savePath, results, i => `${i.source}_${i.id || i.match}`);
     logger.info(`Прогнозы сохранены в ${savePath}`);
     return added;
 }
 
+
+/// <summary>
+/// Основная функция парсера Betzona — извлекает все прогнозы КХЛ и сохраняет их в JSON.
+/// </summary>
+/// <param name="logger">Логгер для вывода информации (по умолчанию console).</param>
+/// <returns>Массив объектов с прогнозами матчей.</returns>
 export async function scrapePredictionsBetzona({ logger = console } = {}) {
     const listUrl = `${BASE_URL}/prognozy-khl.html`;
     const html = await fetchHtml(listUrl);
     const $ = cheerio.load(html);
 
-    const calendarPath = path.join(OUTPUT_PATH, "russia_khl_all.json");
-    const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
+    // путь к календарю теперь из FILES
+    const calendar = JSON.parse(fs.readFileSync(FILES.KHL_MATCHES, "utf-8"));
 
     const links = [];
     const seen = new Set();
@@ -166,7 +202,7 @@ export async function scrapePredictionsBetzona({ logger = console } = {}) {
         return acc;
     }, {}));
 
-    const added = saveResults(results, "betzona.json", logger);
+    const added = saveResults(results, logger);
     logger.info(`Итог: добавлено новых прогнозов ${added}/${results.length}`);
 
     return results;

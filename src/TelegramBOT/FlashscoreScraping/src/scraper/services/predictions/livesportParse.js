@@ -1,11 +1,10 @@
 ﻿// src/scraper/services/predictions/livesportParse.js
 import * as cheerio from "cheerio";
 import fs from "fs";
-import path from "path";
-import { OUTPUT_PATH } from "../../../constants/constants.js";
-import { findMatchId, cleanText, normalizeTeamName } from "../utils/teamMapUtils.js";
-import { appendUniqueJson } from "../utils/fileUtils.js";
-import { createLogger } from "../utils/logger.js";
+import { FILES } from "../../../constants/constants.js";
+import { findMatchId, cleanText, normalizeTeamName } from "../utils/matches/teamMapUtils.js";
+import { appendUniqueJson } from "../utils/core/jsonUtils.js";
+import { createLogger } from "../utils/core/logger.js";
 
 const logger = createLogger("livesport");
 const BASE_URL = "https://www.livesport.ru";
@@ -15,6 +14,8 @@ export { scrapePredictionsLivesport as scrapePredictions };
 /// <summary>
 /// Загружает HTML-страницу по указанному URL.
 /// </summary>
+/// <param name="url">Ссылка на страницу.</param>
+/// <returns>HTML-код страницы в виде строки.</returns>
 async function fetchHtml(url) {
     const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     if (!res.ok) throw new Error(`Ошибка загрузки ${url}: ${res.status}`);
@@ -22,13 +23,16 @@ async function fetchHtml(url) {
 }
 
 /// <summary>
-/// Парсит страницу конкретного матча и извлекает прогноз.
+/// Парсит страницу конкретного матча Livesport и извлекает прогноз.
 /// </summary>
+/// <param name="url">Ссылка на страницу прогноза.</param>
+/// <param name="calendar">JSON с расписанием матчей для сопоставления ID.</param>
+/// <returns>Объект прогноза или null, если матч не подходит.</returns>
 async function parseMatchPage(url, calendar) {
     const html = await fetchHtml(url);
     const $ = cheerio.load(html);
 
-    // Проверяем, что это прогноз по КХЛ
+    // Проверяем, что это КХЛ
     const league = $(".article-match-tour").first().text().trim();
     if (!league.includes("КХЛ")) return null;
 
@@ -36,12 +40,11 @@ async function parseMatchPage(url, calendar) {
     const home = normalizeTeamName($(".article-match-info a").first().find("b").text().trim());
     const away = normalizeTeamName($(".article-match-info a").last().find("b").text().trim());
 
-    // Дата и время
+    // Время и дата матча
     const timeStr = $(".article-match-info u").first().text().trim();
     const leadText = $(".article-lead.article-lead-tips").text();
     const dateMatch = leadText.match(/(\d{1,2})\s([а-я]+)(?:\s(\d{4}))?/i);
 
-    // статус матча (например: "Перерыв", "Завершен", "3-й период")
     const matchStatus = $(".article-match-info span, .article-match-info b.status, .event-status")
         .first()
         .text()
@@ -49,6 +52,7 @@ async function parseMatchPage(url, calendar) {
 
     let matchDate = null;
     let rawDateLabel = "";
+
     if (dateMatch && timeStr) {
         const day = parseInt(dateMatch[1], 10);
         const monthName = dateMatch[2].toLowerCase();
@@ -64,17 +68,17 @@ async function parseMatchPage(url, calendar) {
         rawDateLabel = dateMatch?.[0] || timeStr || "Неизвестно";
     }
 
-    // если не удалось получить дату или матч уже идёт
+    // Если не удалось определить дату или матч уже завершён
     if (!matchDate || isNaN(matchDate)) {
         const statusLabel = matchStatus ? `, ${matchStatus}` : "";
-        logger.warn(`Пропуск: ${home} – ${away} (${rawDateLabel} Завршен)`);
+        logger.warn(`Пропуск: ${home} – ${away} (${rawDateLabel}${statusLabel})`);
         return null;
     }
 
     const matchId = findMatchId(home, away, calendar, matchDate);
     logger.info(`Матч: ${home} – ${away} | matchID: ${matchId || "не найден"} | Дата: ${matchDate.toISOString()}`);
 
-    // Анализ по командам
+    // Тексты команд
     let homeText = "";
     let awayText = "";
 
@@ -131,31 +135,35 @@ async function parseMatchPage(url, calendar) {
 }
 
 /// <summary>
-/// Сохраняет результаты парсинга в JSON.
+/// Сохраняет результаты парсинга в JSON-файл без дубликатов.
 /// </summary>
-function saveResults(results, fileName) {
+/// <param name="results">Массив объектов прогнозов.</param>
+/// <returns>Количество добавленных новых записей.</returns>
+function saveResults(results) {
     const cleanedResults = results.map(r => {
         const { date, ...rest } = r;
         return rest;
     });
 
-    const savePath = path.join(OUTPUT_PATH, fileName);
+    const savePath = FILES.LIVESPORT;
     const { merged, added } = appendUniqueJson(savePath, cleanedResults, i => `${i.source}_${i.id || i.match}`);
-    
+
     logger.info(`Прогнозы сохранены в ${savePath}`);
     return added;
 }
 
 /// <summary>
-/// Главная функция Livesport: парсит список прогнозов и сохраняет их.
+/// Главная функция парсера Livesport.  
+/// Собирает список прогнозов, парсит каждую страницу и сохраняет результаты.
 /// </summary>
+/// <returns>Массив объектов с прогнозами матчей.</returns>
 export async function scrapePredictionsLivesport() {
     const listUrl = `${BASE_URL}/tips/hockey/`;
     const html = await fetchHtml(listUrl);
     const $ = cheerio.load(html);
 
-    const calendarPath = path.join(OUTPUT_PATH, "russia_khl_all.json");
-    const calendar = JSON.parse(fs.readFileSync(calendarPath, "utf-8"));
+    // Календарь КХЛ
+    const calendar = JSON.parse(fs.readFileSync(FILES.KHL_MATCHES, "utf-8"));
 
     const links = [];
     const seen = new Set();
@@ -167,17 +175,23 @@ export async function scrapePredictionsLivesport() {
         if (href && href.includes("/tips/hockey/")) {
             const full = BASE_URL + href;
             if (seen.has(full)) duplicates++;
-            else { seen.add(full); links.push(full); }
+            else {
+                seen.add(full);
+                links.push(full);
+            }
         }
     });
 
-    // Основные прогнозы
+    // Основной список прогнозов
     $("div.r_tips_l_one a, div.r_tips_l a").each((_, el) => {
         const href = $(el).attr("href");
         if (href && href.includes("/tips/hockey/") && !href.includes("/express/")) {
             const full = BASE_URL + href;
             if (seen.has(full)) duplicates++;
-            else { seen.add(full); links.push(full); }
+            else {
+                seen.add(full);
+                links.push(full);
+            }
         }
     });
 
@@ -189,7 +203,7 @@ export async function scrapePredictionsLivesport() {
             const data = await parseMatchPage(url, calendar);
             if (data) rawResults.push(data);
         } catch (err) {
-            logger.error(`Ошибка при парсинге ${url}`, err);
+            logger.error(`[livesport] Ошибка при парсинге ${url}`, err);
         }
     }
 
@@ -204,7 +218,7 @@ export async function scrapePredictionsLivesport() {
         return acc;
     }, {}));
 
-    const added = saveResults(results, "livesport.json");
+    const added = saveResults(results);
     logger.info(`Итог: добавлено новых прогнозов ${added}/${results.length}`);
 
     return results;
