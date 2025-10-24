@@ -135,10 +135,10 @@ async function importMatches() {
 
                 const action = result.recordset?.[0]?.Action;
                 if (action === "INSERT") {
-                    logger.info(`🟢 Добавлен новый матч: ${match.home.name} vs ${match.away.name} (${match.status})`);
+                    logger.info(`Добавлен новый матч: ${match.home.name} vs ${match.away.name} (${match.status})`);
                     added++;
                 } else if (action === "UPDATE") {
-                    logger.info(`🟡 Обновлён матч: ${match.home.name} vs ${match.away.name} (${match.status})`);
+                    logger.info(`Обновлён матч: ${match.home.name} vs ${match.away.name} (${match.status})`);
                     updated++;
                 }
 

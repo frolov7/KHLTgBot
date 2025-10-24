@@ -141,7 +141,7 @@ export const updateRecentMatches = async (browser) => {
     fs.writeFileSync(filePath, JSON.stringify(matches, null, 2), "utf-8");
 
     // === 7. Проверка прогнозов ===
-    logger.info("\nПроверка прогнозов...");
+    logger.info("Проверка прогнозов...");
     exec(`node "${CHECK_PREDICTIONS_SCRIPT}"`, (error, stdout, stderr) => {
         if (error) logger.error("Ошибка при проверке прогнозов:", error.message);
         if (stderr) logger.error(stderr);
@@ -150,7 +150,7 @@ export const updateRecentMatches = async (browser) => {
 
     // === 8. Итог ===
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
-    logger.info(`\nОбновлено матчей: ${updatedIds.length}`);
+    logger.info(`Обновлено матчей: ${updatedIds.length}`);
     logger.info(`✅ Обновление завершено за ${duration} сек.\n`);
 
     return matches;
