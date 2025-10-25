@@ -2972,7 +2972,7 @@
   "27eFitKH": {
     "id": "27eFitKH",
     "date": "25.10.2025 13:30",
-    "status": "SCHEDULED",
+    "status": "AFTER PENALTIES",
     "home": {
       "name": "Novosibirsk"
     },
@@ -2980,14 +2980,14 @@
       "name": "Tractor Chelyabinsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "4"
     }
   },
   "bZlOkKlU": {
     "id": "bZlOkKlU",
     "date": "25.10.2025 14:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Niznekamsk"
     },
@@ -2995,8 +2995,8 @@
       "name": "Salavat Ufa"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "2"
     }
   },
   "lbUX9NZo": {
