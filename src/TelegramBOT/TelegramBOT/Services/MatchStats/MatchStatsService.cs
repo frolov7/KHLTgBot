@@ -54,15 +54,9 @@ namespace TelegramBOT.Services.Stats
 
             var (home, away) = MapTeamNames(match);
             var sb = new StringBuilder();
-            sb.AppendLine($"Игры между собой <b>{home}</b> и <b>{away}</b>:\n");
+            sb.AppendLine($"<b>Игры между собой {home} и {away}:</b>\n");
 
-            foreach (var m in matches)
-            {
-                var homeTeam = _mappingService.Map("TeamNames", m.HomeTeamName);
-                var awayTeam = _mappingService.Map("TeamNames", m.AwayTeamName);
-
-                sb.AppendLine($"📅 {m.MatchDate:dd.MM.yyyy} — {homeTeam} <b>{m.HomeScore}:{m.AwayScore}</b> {awayTeam}");
-            }
+            BuildMatchList(sb, matches, match.HomeTeamName, home, includeOutcome: false);
 
             await _messageService.SendTextAsync(chatId, sb.ToString());
 
@@ -99,16 +93,16 @@ namespace TelegramBOT.Services.Stats
 
             var (home, away) = MapTeamNames(match);
             var sb = new StringBuilder();
-            sb.AppendLine("📈 <b>Последние матчи команд:</b>\n");
+            sb.AppendLine("<b>Последние матчи команд:</b>\n");
 
             // ------------------ Домашняя команда ------------------
             sb.AppendLine($"<b>{home}</b> (последние {homeResults.Count}):");
-            AppendMatchList(sb, homeResults, match.HomeTeamName, home);
+            BuildMatchList(sb, homeResults, match.HomeTeamName, home, includeOutcome: true);
             sb.AppendLine();
 
             // ------------------ Гостевая команда ------------------
             sb.AppendLine($"<b>{away}</b> (последние {awayResults.Count}):");
-            AppendMatchList(sb, awayResults, match.AwayTeamName, away);
+            BuildMatchList(sb, awayResults, match.AwayTeamName, away, includeOutcome: true);
 
             await _messageService.SendTextAsync(chatId, sb.ToString());
 
@@ -118,25 +112,43 @@ namespace TelegramBOT.Services.Stats
         }
 
         /// <summary>
-        /// Форматирует и добавляет в сообщение список сыгранных матчей указанной команды.
-        /// Используется для вывода последних игр с указанием исхода (🏆 победа / ❌ поражение).
+        /// Формирует текстовый список матчей для отображения в сообщении Telegram.
+        /// Универсальный метод для истории последних игр и очных встреч.
         /// </summary>
-        /// <param name="sb">StringBuilder, в который добавляются строки с результатами матчей.</param>
-        /// <param name="matches">Коллекция сыгранных матчей команды.</param>
-        /// <param name="teamName">Системное имя команды (из базы данных), для которой выводится статистика.</param>
-        /// <param name="mappedName">Человекочитаемое имя команды (с эмодзи), отображаемое в сообщении.</param>
-        private void AppendMatchList(StringBuilder sb, IEnumerable<Match> matches, string teamName, string mappedName)
+        /// <param name="sb">StringBuilder, в который добавляется форматированный список матчей.</param>
+        /// <param name="matches">Коллекция матчей, которые необходимо вывести.</param>
+        /// <param name="teamName">Системное имя команды (из базы данных), относительно которой строится список.</param>
+        /// <param name="mappedName">Отображаемое (человекочитаемое) имя команды с эмодзи.</param>
+        /// <param name="includeOutcome">Если true — добавляются эмодзи исходов (🏆 / ❌). Используется для последних матчей команд.</param>
+        private void BuildMatchList(
+            StringBuilder sb,
+            IEnumerable<Match> matches,
+            string teamName,
+            string mappedName,
+            bool includeOutcome = true
+            )
         {
             foreach (var m in matches)
             {
-                var emoji = GetMatchOutcomeEmoji(m, teamName);
+                // 🏆 или ❌
+                var emoji = includeOutcome ? GetMatchOutcomeEmoji(m, teamName) : "📅";
+
                 var opponent = m.HomeTeamName == teamName
                     ? _mappingService.Map("TeamNames", m.AwayTeamName)
                     : _mappingService.Map("TeamNames", m.HomeTeamName);
 
+                // Добавляем уточнение статуса (ОТ / Бул)
+                string extraStatus = m.Status switch
+                {
+                    "AFTER OVERTIME" => " (ОТ)",
+                    "AFTER PENALTIES" => " (Бул)",
+                    _ => string.Empty
+                };
+
+                // Формируем строку
                 var line = m.HomeTeamName == teamName
-                    ? $"{emoji} {m.MatchDate:dd.MM} — {mappedName} <b>{m.HomeScore}:{m.AwayScore}</b> {opponent}"
-                    : $"{emoji} {m.MatchDate:dd.MM} — {opponent} <b>{m.HomeScore}:{m.AwayScore}</b> {mappedName}";
+                    ? $"{emoji} {m.MatchDate.ToString("dd.MM")} — {mappedName} <b>{m.HomeScore}:{m.AwayScore}</b>{extraStatus} {opponent}"
+                    : $"{emoji} {m.MatchDate.ToString("dd.MM")} — {opponent} <b>{m.HomeScore}:{m.AwayScore}</b>{extraStatus} {mappedName}";
 
                 sb.AppendLine(line);
             }
