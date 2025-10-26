@@ -3002,7 +3002,7 @@
   "lbUX9NZo": {
     "id": "lbUX9NZo",
     "date": "25.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Bars Kazan"
     },
@@ -3010,8 +3010,8 @@
       "name": "Vladivostok"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "3"
     }
   },
   "KQpTKrrR": {

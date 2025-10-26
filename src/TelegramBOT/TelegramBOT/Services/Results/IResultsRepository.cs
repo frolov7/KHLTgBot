@@ -10,5 +10,6 @@ namespace TelegramBOT.Services.Results
         Task<IEnumerable<Match>> GetResultsByDateAsync(DateTime date);
         Task<Match?> GetResultByIdAsync(string matchId);
         Task<IEnumerable<Match>> GetResultsByTeamAsync(string teamName);
+        Task<MatchVideo?> GetMatchVideoByMatchIdAsync(string matchId);
     }
 }

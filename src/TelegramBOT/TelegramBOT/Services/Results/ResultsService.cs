@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using System.Text;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBOT.Models;
 using TelegramBOT.Services.Core;
 using TelegramBOT.Services.Utils;
@@ -15,15 +16,18 @@ namespace TelegramBOT.Services.Results
         private readonly IResultsRepository _resultRepository;
         private readonly ScriptService _scriptService;
         private readonly MappingService _mappingService;
+        private readonly MessageService _messageService;
 
         public ResultsService(
             IResultsRepository resultRepository,
             ScriptService scriptService,
-            MappingService mappingService)
+            MappingService mappingService,
+            MessageService messageService)
         {
             _resultRepository = resultRepository;
             _scriptService = scriptService;
             _mappingService = mappingService;
+            _messageService = messageService;
         }
 
         // ==========================================================
@@ -31,13 +35,42 @@ namespace TelegramBOT.Services.Results
         // ==========================================================
 
         /// <summary>
-        /// Возвращает список результатов за указанную дату.
+        /// Загружает и отправляет результаты матчей за указанную дату с inline-кнопками.
         /// </summary>
-        /// <param name="date">Дата, за которую требуется получить результаты.</param>
-        /// <returns>Список матчей с результатами.</returns>
-        public async Task<IEnumerable<Match>> GetResultsByDateAsync(DateTime date)
+        public async Task SendResultsAsync(long chatId, DateTime date)
         {
-            return await _resultRepository.GetResultsByDateAsync(date);
+            var matches = await _resultRepository.GetResultsByDateAsync(date);
+
+            if (!matches.Any())
+            {
+                await _messageService.SendTextAsync(chatId, "❌ Результатов не найдено.");
+                return;
+            }
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"⚡ Результаты матчей за {date:dd.MM.yyyy}\n");
+
+            var buttons = new List<List<InlineKeyboardButton>>();
+
+            foreach (var match in matches)
+            {
+                var home = _mappingService.Map("TeamNames", match.HomeTeamName);
+                var away = _mappingService.Map("TeamNames", match.AwayTeamName);
+                var status = _mappingService.Map("MatchStatuses", match.Status);
+
+                sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
+                sb.AppendLine($"{home} <b>{match.HomeScore} : {match.AwayScore}</b> {away}");
+                sb.AppendLine(status);
+                sb.AppendLine();
+
+                buttons.Add(new List<InlineKeyboardButton>
+                {
+                    InlineKeyboardButton.WithCallbackData($"{home} vs {away}", $"result_{match.MatchId}")
+                });
+            }
+
+            var keyboard = new InlineKeyboardMarkup(buttons);
+            await _messageService.SendTextWithKeyboardAsync(chatId, sb.ToString(), keyboard);
         }
 
         /// <summary>

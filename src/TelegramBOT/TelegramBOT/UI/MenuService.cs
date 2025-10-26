@@ -13,7 +13,7 @@ namespace TelegramBOT.UI
     {
         private readonly MainMenuBuilder _main;
         private readonly CalendarMenuBuilder _calendar;
-        //private readonly MatchDetailsMenuBuilder _stats;
+        private readonly ResultsMatchMenuBuilder _resultsMatch;
         private readonly ResultsMenuBuilder _results;
         private readonly TeamsMenuBuilder _teams;
         private readonly MatchMenuBuilder _match;
@@ -22,7 +22,7 @@ namespace TelegramBOT.UI
         {
             _main = new MainMenuBuilder();
             _calendar = new CalendarMenuBuilder();
-            //_stats = new MatchDetailsMenuBuilder();
+            _resultsMatch = new ResultsMatchMenuBuilder();
             _results = new ResultsMenuBuilder();
             _teams = new TeamsMenuBuilder();
             _match = new MatchMenuBuilder();
@@ -40,6 +40,7 @@ namespace TelegramBOT.UI
 
         // ---------- Результаты ----------
         public ReplyKeyboardMarkup GetResultsMenu() => _results.Build();
+        public InlineKeyboardMarkup GetResultMatchMenu(Match match) => _resultsMatch.Build(match);
 
         // ---------- Команды ----------
         public ReplyKeyboardMarkup GetWesternTeamsMenu() => _teams.BuildWestern();
