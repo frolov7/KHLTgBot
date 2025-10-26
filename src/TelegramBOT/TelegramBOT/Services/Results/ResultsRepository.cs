@@ -61,5 +61,16 @@ namespace TelegramBOT.Services.Results
 
             return matches.OrderBy(m => m.MatchDate);
         }
+
+        /// <summary>
+        /// Возвращает видеообзор для указанного матча, если он существует.
+        /// </summary>
+        /// <param name="matchId">Идентификатор матча.</param>
+        /// <returns>Видеообзор или null, если не найден.</returns>
+        public async Task<MatchVideo?> GetMatchVideoByMatchIdAsync(string matchId)
+        {
+            return await _db.MatchVideos
+                .FirstOrDefaultAsync(v => v.MatchId == matchId);
+        }
     }
 }

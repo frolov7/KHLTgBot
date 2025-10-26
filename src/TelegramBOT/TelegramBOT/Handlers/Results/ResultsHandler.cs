@@ -56,9 +56,7 @@ namespace TelegramBOT.Handlers.Results
         /// <param name="chatId">Идентификатор Telegram-чата.</param>
         public async Task ShowTodayResults(long chatId)
         {
-            var results = await _resultsService.GetResultsByDateAsync(DateTime.Today);
-            var message = _resultsService.BuildResultsMessage(results, DateTime.Today);
-            await _messageService.SendTextAsync(chatId, message);
+            await _resultsService.SendResultsAsync(chatId, DateTime.Today);
         }
 
         /// <summary>
@@ -67,9 +65,7 @@ namespace TelegramBOT.Handlers.Results
         /// <param name="chatId">Идентификатор Telegram-чата.</param>
         public async Task ShowYesterdayResults(long chatId)
         {
-            var results = await _resultsService.GetResultsByDateAsync(DateTime.Today.AddDays(-1));
-            var message = _resultsService.BuildResultsMessage(results, DateTime.Today.AddDays(-1));
-            await _messageService.SendTextAsync(chatId, message);
+            await _resultsService.SendResultsAsync(chatId, DateTime.Today.AddDays(-1));
         }
 
         // ==========================================================
@@ -92,9 +88,9 @@ namespace TelegramBOT.Handlers.Results
                 return;
             }
 
-            // Формируем сообщение с результатом одного матча через общий метод форматирования
-            var message = _resultsService.BuildResultsMessage(new[] { result });
-            await _messageService.SendTextAsync(chatId, message);
+            await _messageService.SendKeyboardAsync(chatId,
+                $"⚡ <b>{result.HomeTeamName}</b> vs <b>{result.AwayTeamName}</b>",
+                _menuService.GetResultMatchMenu(result));
         }
 
         /// <summary>
