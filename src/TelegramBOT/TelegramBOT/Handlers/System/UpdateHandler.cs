@@ -54,7 +54,7 @@ namespace TelegramBOT.Handlers.System
                 Log.Error(ex, "❌ Ошибка при выполнении глобального обновления данных.");
             }
 
-            // Удаляем сообщениеW
+            // Удаляем сообщение
             try
             {
                 await _messageService.DeleteMessageAsync(chatId, updatingMsg.MessageId);

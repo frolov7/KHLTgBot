@@ -1,5 +1,8 @@
-﻿using TelegramBOT.Models;
+﻿using TelegramBOT.Handlers.Calendar;
+using TelegramBOT.Models;
+using TelegramBOT.Services.Core;
 using TelegramBOT.Services.Utils;
+using TelegramBOT.UI.Menus.Predictions;
 
 namespace TelegramBOT.Services.Predictions
 {
@@ -40,6 +43,71 @@ namespace TelegramBOT.Services.Predictions
             => await _repository.GetPredictionsForMatchAsync(matchId);
 
         // ==========================================================
+        // ===============      БЛОК ОБРАБОТКИ CALLBACK      =========
+        // ==========================================================
+
+        /// <summary>
+        /// Обрабатывает выбор источника прогноза или возврат к меню матча.
+        /// Выполняет получение прогноза(ов) и формирует сообщение для Telegram.
+        /// </summary>
+        /// <param name="chatId">Идентификатор Telegram-чата.</param>
+        /// <param name="callback">Callback-строка, содержащая источник и ID матча.</param>
+        /// <param name="messageService">Сервис для отправки и удаления сообщений.</param>
+        /// <param name="calendarHandler">Хендлер календаря для возврата к меню матча.</param>
+        /// <param name="messageId">Необязательный идентификатор сообщения для удаления.</param>
+        public async Task HandlePredictionSelectedAsync(
+            long chatId,
+            string callback,
+            MessageService messageService,
+            CalendarHandler calendarHandler,
+            int? messageId = null)
+        {
+            // Проверяем возврат к матчу
+            if (callback.StartsWith("back_to_match_"))
+            {
+                var matchId = callback.Replace("back_to_match_", "");
+                if (messageId.HasValue)
+                    await messageService.DeleteMessageAsync(chatId, messageId.Value);
+
+                await calendarHandler.ShowMatchMenu(chatId, matchId);
+                return;
+            }
+
+            // Разбираем callback-строку (ожидается: "predict_source_matchId")
+            var parts = callback.Split('_');
+            if (parts.Length < 3)
+            {
+                await messageService.SendTextAsync(chatId, "❌ Неверный формат callback-запроса.");
+                return;
+            }
+
+            var source = parts[1];
+            var matchIdParsed = parts[2];
+
+            if (source.Equals("общий прогноз", StringComparison.OrdinalIgnoreCase))
+            {
+                var predictions = await GetPredictionsForMatchAsync(matchIdParsed);
+                var text = BuildSummaryMessage(predictions);
+                await messageService.SendTextAsync(chatId, text);
+            }
+            else
+            {
+                var prediction = await GetPredictionAsync(matchIdParsed, source);
+                if (prediction == null)
+                {
+                    await messageService.SendTextAsync(chatId, $"❌ Прогноз от {source} не найден.");
+                    return;
+                }
+
+                var text = BuildPredictionMessage(prediction);
+                await messageService.SendTextAsync(chatId, text);
+            }
+
+            var menu = new PredictionsMenuBuilder().Build(matchIdParsed);
+            await messageService.SendKeyboardAsync(chatId, "Выберите другой источник:", menu);
+        }
+
+        // ==========================================================
         // ===============      БЛОК ФОРМИРОВАНИЯ ТЕКСТА     =========
         // ==========================================================
 
@@ -50,13 +118,15 @@ namespace TelegramBOT.Services.Predictions
         /// <returns>Отформатированная строка для отправки пользователю в Telegram.</returns>
         public string BuildPredictionMessage(Prediction prediction)
         {
-            var home = prediction.Match != null
-                ? _mappingService.Map("TeamNames", prediction.Match.HomeTeamName)
-                : "Хозяева";
+            string home, away;
 
-            var away = prediction.Match != null
-                ? _mappingService.Map("TeamNames", prediction.Match.AwayTeamName)
-                : "Гости";
+            if (prediction.Match != null)
+                (home, away) = _mappingService.MapTeamNames(prediction.Match);
+            else
+            {
+                home = "Хозяева";
+                away = "Гости";
+            }
 
             var sb = new System.Text.StringBuilder();
 
@@ -104,10 +174,14 @@ namespace TelegramBOT.Services.Predictions
 
             // Проверяем наличие матчей (на случай пустой коллекции)
             Match? match = predictions.FirstOrDefault()?.Match;
-            var home = match != null ? _mappingService.Map("TeamNames", match.HomeTeamName) : "Хозяева";
-            var away = match != null ? _mappingService.Map("TeamNames", match.AwayTeamName) : "Гости";
 
-            msg.AppendLine($"<b>{home} vs {away}</b>\n");
+            string home = "Хозяева";
+            string away = "Гости";
+
+            if (match != null)
+                (home, away) = _mappingService.MapTeamNames(match);
+
+            msg.AppendLine($"<b>{home}</b> vs <b>{away}</b>\n");
 
             // Если вообще нет прогнозов — выводим только список источников с "-"
             if (!predictions.Any())

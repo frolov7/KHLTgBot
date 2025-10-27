@@ -4,6 +4,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBOT.Models;
 using TelegramBOT.Services.Core;
 using TelegramBOT.Services.Utils;
+using TelegramBOT.UI;
 
 namespace TelegramBOT.Services.Results
 {
@@ -54,8 +55,7 @@ namespace TelegramBOT.Services.Results
 
             foreach (var match in matches)
             {
-                var home = _mappingService.Map("TeamNames", match.HomeTeamName);
-                var away = _mappingService.Map("TeamNames", match.AwayTeamName);
+                var (home, away) = _mappingService.MapTeamNames(match);
                 var status = _mappingService.Map("MatchStatuses", match.Status);
 
                 sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
@@ -91,6 +91,19 @@ namespace TelegramBOT.Services.Results
         public async Task<Match?> GetResultByIdAsync(string matchId)
         {
             return await _resultRepository.GetResultByIdAsync(matchId);
+        }
+
+        /// <summary>
+        /// Возвращает видеообзор для указанного матча, если он есть в БД.
+        /// </summary>
+        /// <param name="matchId"> Идентификатор матча для поиска в БД (значение <see cref="Match.MatchId"/>),
+        /// </param>
+        /// <returns> Экземпляр <see cref="MatchVideo"/> при наличии записи; 
+        /// иначе <see langword="null"/>.
+        /// </returns>
+        public async Task<MatchVideo?> GetMatchVideoAsync(string matchId)
+        {
+            return await _resultRepository.GetMatchVideoByMatchIdAsync(matchId);
         }
 
         // ==========================================================
@@ -141,9 +154,7 @@ namespace TelegramBOT.Services.Results
 
             foreach (var match in matches)
             {
-                var homeName = _mappingService.Map("TeamNames", match.HomeTeamName);
-                var awayName = _mappingService.Map("TeamNames", match.AwayTeamName);
-
+                var (homeName, awayName) = _mappingService.MapTeamNames(match);
                 string statusText;
 
                 // Победа / поражение (если указана команда)
@@ -182,6 +193,60 @@ namespace TelegramBOT.Services.Results
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Загружает данные матча, локализует названия команд, подтягивает видеообзор
+        /// и отправляет пользователю inline-меню для раздела «Результаты».
+        /// </summary>
+        /// <param name="chatId">ID Telegram-чата.</param>
+        /// <param name="matchId">Уникальный идентификатор матча.</param>
+        /// <param name="menuService">Фасад построения меню.</param>
+        public async Task SendResultMatchMenuAsync(long chatId, string matchId, MenuService menuService)
+        {
+            var match = await _resultRepository.GetResultByIdAsync(matchId);
+            if (match == null)
+            {
+                await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
+                return;
+            }
+
+            var (home, away) = _mappingService.MapTeamNames(match);
+
+            // Получаем видеообзор (может быть null)
+            var video = await GetMatchVideoAsync(matchId);
+
+            var title = $"⚡ <b>{home}</b> vs <b>{away}</b>";
+            await _messageService.SendKeyboardAsync(chatId, title, menuService.GetResultMatchMenu(match, video));
+        }
+
+        /// <summary>
+        /// Загружает и отправляет пользователю результаты конкретной команды.
+        /// Обрабатывает callback, извлекает название команды, выполняет обратное
+        /// отображение в английское имя (для поиска в БД) и отправляет локализованное сообщение.
+        /// </summary>
+        /// <param name="chatId">ID Telegram-чата.</param>
+        /// <param name="callback">Строка callback (например, "team_SKA St. Petersburg").</param>
+        public async Task SendTeamResultsAsync(long chatId, string callback)
+        {
+            // Извлекаем локализованное имя из callback
+            var localizedName = callback.Replace("team_", "");
+
+            // Преобразуем в английское имя для работы с базой данных
+            var englishName = _mappingService.ReverseMap("TeamNames", localizedName);
+
+            // Загружаем результаты команды
+            var results = await _resultRepository.GetResultsByTeamAsync(englishName);
+
+            if (results == null || !results.Any())
+            {
+                await _messageService.SendTextAsync(chatId, $"❌ Результаты команды <b>{localizedName}</b> не найдены.");
+                return;
+            }
+
+            // Формируем текстовое сообщение и отправляем
+            var message = BuildResultsMessage(results, null, englishName);
+            await _messageService.SendTextAsync(chatId, message);
         }
     }
 }

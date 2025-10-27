@@ -1,37 +1,35 @@
-﻿using Telegram.Bot.Types.ReplyMarkups;
+﻿// UI/Menus/Results/ResultsMatchMenuBuilder.cs
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBOT.Models;
 
 namespace TelegramBOT.UI.Menus.Results
 {
-    /// <summary>
-    /// Создаёт inline-меню для конкретного матча в разделе "Результаты".
-    /// </summary>
     public class ResultsMatchMenuBuilder
     {
-        /// <summary>
-        /// Формирует inline-меню действий для выбранного матча.
-        /// </summary>
-        public InlineKeyboardMarkup Build(Match match)
+        public InlineKeyboardMarkup Build(Match match, MatchVideo? video)
         {
-            return new InlineKeyboardMarkup(new[]
+            var rows = new List<List<InlineKeyboardButton>>();
+
+            if (video != null && !string.IsNullOrWhiteSpace(video.Url))
             {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("🎥 Видеообзор", $"video_{match.MatchId}")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("📊 Статистика", $"stats_{match.MatchId}")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("📈 Факты", $"facts_{match.MatchId}")
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("⬅️ Назад (Результаты)", $"back_to_results_{match.MatchDate:yyyyMMdd}")
-                }
+                rows.Add(new List<InlineKeyboardButton> {
+                    InlineKeyboardButton.WithUrl("🎥 Видеообзор", video.Url)
+                });
+            }
+
+            rows.Add(new List<InlineKeyboardButton> {
+                InlineKeyboardButton.WithCallbackData("📊 Статистика", $"stats_{match.MatchId}")
             });
+
+            rows.Add(new List<InlineKeyboardButton> {
+                InlineKeyboardButton.WithCallbackData("📈 Факты", $"facts_{match.MatchId}")
+            });
+
+            rows.Add(new List<InlineKeyboardButton> {
+                InlineKeyboardButton.WithCallbackData("⬅️ Назад (Результаты)", $"back_to_results_{match.MatchDate:yyyyMMdd}")
+            });
+
+            return new InlineKeyboardMarkup(rows);
         }
     }
 }

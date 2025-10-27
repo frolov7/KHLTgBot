@@ -48,8 +48,7 @@ namespace TelegramBOT.Services.Teams
 
             foreach (var match in matches)
             {
-                var home = _mappingService.Map("TeamNames", match.HomeTeamName);
-                var away = _mappingService.Map("TeamNames", match.AwayTeamName);
+                var (home, away) = _mappingService.MapTeamNames(match);
 
                 bool isHome = match.HomeTeamName == teamName;
                 int homeScore = match.HomeScore ?? 0;

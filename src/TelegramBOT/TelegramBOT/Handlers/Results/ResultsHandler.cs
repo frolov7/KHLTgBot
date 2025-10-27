@@ -80,17 +80,7 @@ namespace TelegramBOT.Handlers.Results
         public async Task HandleResult(long chatId, string callback)
         {
             var matchId = callback.Replace("result_", "");
-            var result = await _resultsService.GetResultByIdAsync(matchId);
-
-            if (result == null)
-            {
-                await _messageService.SendTextAsync(chatId, "❌ Матч не найден.");
-                return;
-            }
-
-            await _messageService.SendKeyboardAsync(chatId,
-                $"⚡ <b>{result.HomeTeamName}</b> vs <b>{result.AwayTeamName}</b>",
-                _menuService.GetResultMatchMenu(result));
+            await _resultsService.SendResultMatchMenuAsync(chatId, matchId, _menuService);
         }
 
         /// <summary>
@@ -100,27 +90,8 @@ namespace TelegramBOT.Handlers.Results
         /// <param name="callback">Callback-строка (например: "team_Северсталь").</param>
         public async Task HandleTeamSelection(long chatId, string callback)
         {
-            // Получаем название команды из callback
-            var teamName = callback.Replace("team_", "");
-
-            // Преобразуем локализованное имя обратно в англ
-            var englishName = _mappingService.ReverseMap("TeamNames", teamName);
-            var results = await _resultsService.GetResultsByTeamAsync(englishName);
-
-
-            if (results == null || !results.Any())
-            {
-                await _messageService.SendTextAsync(chatId, $"❌ Результаты команды <b>{teamName}</b> не найдены.");
-                return;
-            }
-
-            // Формируем сообщение
-            var message = _resultsService.BuildResultsMessage(results, null, teamName);
-
-            // Отправляем пользователю
-            await _messageService.SendTextAsync(chatId, message);
+            await _resultsService.SendTeamResultsAsync(chatId, callback);
         }
-
 
         // ==========================================================
         // ============      БЛОК МЕНЮ КОМАНД          =============
