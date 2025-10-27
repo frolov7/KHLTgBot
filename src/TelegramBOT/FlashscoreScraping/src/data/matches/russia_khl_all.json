@@ -3017,7 +3017,7 @@
   "KQpTKrrR": {
     "id": "KQpTKrrR",
     "date": "26.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Cherepovets"
     },
@@ -3025,14 +3025,14 @@
       "name": "Shanghai"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "4",
+      "away": "1"
     }
   },
   "ADIt814b": {
     "id": "ADIt814b",
     "date": "26.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "CSKA Moscow"
     },
@@ -3040,14 +3040,14 @@
       "name": "Khabarovsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "1"
     }
   },
   "ruWm6uZA": {
     "id": "ruWm6uZA",
     "date": "26.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Nizhny Novgorod"
     },
@@ -3055,14 +3055,14 @@
       "name": "Yekaterinburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "7",
+      "away": "4"
     }
   },
   "v7Pd4J3N": {
     "id": "v7Pd4J3N",
     "date": "26.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Spartak Moscow"
     },
@@ -3070,8 +3070,8 @@
       "name": "Sochi"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "3"
     }
   },
   "zwBSbcRp": {
