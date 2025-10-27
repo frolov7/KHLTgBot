@@ -1,26 +1,46 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
+	  <TargetFramework>net7.0</TargetFramework>
+	  <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+
     <UserSecretsId>3860a97c-2ecf-40c8-98eb-fbcdfbc72f41</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+
+    <!-- Генерация XML для DocFX -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <!-- Путь к XML (DocFX ищет этот файл) -->
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\TelegramBOT.xml</DocumentationFile>
+
+    <!-- Игнорировать предупреждения о недостающих комментариях -->
+    <NoWarn>$(NoWarn);1591</NoWarn>
+
+    <!-- Подавить предупреждения о несовместимости TFM -->
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
+    <!-- Entity Framework -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.18">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+
+    <!-- Logging -->
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+
+    <!-- OpenAPI/Swagger -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+
+    <!-- Telegram API -->
     <PackageReference Include="Telegram.Bot" Version="22.6.2" />
   </ItemGroup>
 

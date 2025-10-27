@@ -361,3 +361,21 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# -------------------------
+# DocFX specific ignore
+# -------------------------
+
+# Сгенерированный сайт
+_site/
+
+# Автоматически сгенерированные YAML-файлы API
+src/**/api/
+api/
+**/api/
+
+# Кеш и временные файлы DocFX
+.log/
+.cache/
+temp/
+obj/
