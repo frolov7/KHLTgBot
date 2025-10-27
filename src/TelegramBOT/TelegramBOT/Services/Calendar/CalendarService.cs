@@ -34,19 +34,6 @@ namespace TelegramBOT.Services.Calendar
         // ==========================================================
 
         /// <summary>
-        /// Выполняет сопоставление названий команд в соответствии с настройками отображения.
-        /// </summary>
-        /// <param name="match">Объект матча с исходными данными.</param>
-        /// <returns>Кортеж с локализованными названиями команд: (home, away).</returns>
-        public (string home, string away) MapTeamNames(Match match)
-        {
-            return (
-                _mappingService.Map("TeamNames", match.HomeTeamName),
-                _mappingService.Map("TeamNames", match.AwayTeamName)
-            );
-        }
-
-        /// <summary>
         /// Пытается преобразовать callback-строку в дату (используется при навигации по календарю).
         /// </summary>
         /// <param name="callback">Строка callback (например, "20250120").</param>
@@ -86,8 +73,7 @@ namespace TelegramBOT.Services.Calendar
 
             foreach (var match in matches)
             {
-                var home = _mappingService.Map("TeamNames", match.HomeTeamName);
-                var away = _mappingService.Map("TeamNames", match.AwayTeamName);
+                var (home, away) = _mappingService.MapTeamNames(match);
                 var status = _mappingService.Map("MatchStatuses", match.Status);
 
                 sb.AppendLine($"⏰ {match.MatchDate:HH:mm} — {home} vs {away}");
@@ -119,8 +105,9 @@ namespace TelegramBOT.Services.Calendar
                 return;
             }
 
-            var (home, away) = MapTeamNames(match);
-            var text = $"⚔️ <b>{home}</b> vs <b>{away}</b>";
+            var (home, away) = _mappingService.MapTeamNames(match);
+
+            var text = $"<b>{home}</b> vs <b>{away}</b>";
 
             await _messageService.SendKeyboardAsync(chatId, text, menuService.GetMatchMenu(match));
         }

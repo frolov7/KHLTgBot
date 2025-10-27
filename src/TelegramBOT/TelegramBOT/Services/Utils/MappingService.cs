@@ -1,4 +1,5 @@
-﻿namespace TelegramBOT.Services.Utils
+﻿using TelegramBOT.Models;
+namespace TelegramBOT.Services.Utils
 {
     /// <summary>
     /// Универсальный сервис для преобразования "сырых" данных 
@@ -55,6 +56,21 @@
             // Если не нашли — ищем частичное 
             var partial = map.FirstOrDefault(x => x.Value.Contains(localizedValue, StringComparison.OrdinalIgnoreCase));
             return !string.IsNullOrEmpty(partial.Key) ? partial.Key : localizedValue;
+        }
+
+        /// <summary>
+        /// Возвращает локализованные названия команд для конкретного матча.
+        /// </summary>
+        /// <param name="match">Объект матча с исходными названиями команд.</param>
+        /// <returns>Кортеж (home, away) с локализованными названиями.</returns>
+        public (string home, string away) MapTeamNames(Match match)
+        {
+            if (match == null)
+                throw new ArgumentNullException(nameof(match));
+
+            var home = Map("TeamNames", match.HomeTeamName);
+            var away = Map("TeamNames", match.AwayTeamName);
+            return (home, away);
         }
     }
 }

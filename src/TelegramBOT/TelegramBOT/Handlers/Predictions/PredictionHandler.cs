@@ -53,47 +53,13 @@ namespace TelegramBOT.Handlers.Predictions
         /// </param>
         public async Task HandlePredictionSelected(long chatId, string callback, int? messageId = null)
         {
-            if (callback.StartsWith("back_to_match_"))
-            {
-                var matchId = callback.Replace("back_to_match_", "");
-                if (messageId.HasValue)
-                    await _messageService.DeleteMessageAsync(chatId, messageId.Value);
-
-                await _calendarHandler.ShowMatchMenu(chatId, matchId);
-                return;
-            }
-
-            var parts = callback.Split('_');
-            if (parts.Length < 3)
-            {
-                await _messageService.SendTextAsync(chatId, "Неверный формат callback-запроса.");
-                return;
-            }
-
-            var source = parts[1];
-            var matchIdParsed = parts[2];
-
-            if (source.Equals("общий прогноз", StringComparison.OrdinalIgnoreCase))
-            {
-                var predictions = await _predictionService.GetPredictionsForMatchAsync(matchIdParsed);
-                var text = _predictionService.BuildSummaryMessage(predictions);
-                await _messageService.SendTextAsync(chatId, text);
-            }
-            else
-            {
-                var prediction = await _predictionService.GetPredictionAsync(matchIdParsed, source);
-                if (prediction == null)
-                {
-                    await _messageService.SendTextAsync(chatId, $"❌ Прогноз от {source} не найден.");
-                    return;
-                }
-
-                var text = _predictionService.BuildPredictionMessage(prediction);
-                await _messageService.SendTextAsync(chatId, text);
-            }
-
-            var menu = new PredictionsMenuBuilder().Build(matchIdParsed);
-            await _messageService.SendKeyboardAsync(chatId, "Выберите другой источник:", menu);
+            await _predictionService.HandlePredictionSelectedAsync(
+                chatId,
+                callback,
+                _messageService,
+                _calendarHandler,
+                messageId
+            );
         }
     }
 }

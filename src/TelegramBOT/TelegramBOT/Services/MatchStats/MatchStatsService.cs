@@ -52,7 +52,7 @@ namespace TelegramBOT.Services.Stats
                 return;
             }
 
-            var (home, away) = MapTeamNames(match);
+            var (home, away) = _mappingService.MapTeamNames(match);
             var sb = new StringBuilder();
             sb.AppendLine($"<b>Игры между собой {home} и {away}:</b>\n");
 
@@ -91,7 +91,7 @@ namespace TelegramBOT.Services.Stats
                 return;
             }
 
-            var (home, away) = MapTeamNames(match);
+            var (home, away) = _mappingService.MapTeamNames(match);
             var sb = new StringBuilder();
             sb.AppendLine("<b>Последние матчи команд:</b>\n");
 
@@ -132,10 +132,11 @@ namespace TelegramBOT.Services.Stats
             {
                 // 🏆 или ❌
                 var emoji = includeOutcome ? GetMatchOutcomeEmoji(m, teamName) : "📅";
+                var (home, away) = _mappingService.MapTeamNames(m);
 
-                var opponent = m.HomeTeamName == teamName
-                    ? _mappingService.Map("TeamNames", m.AwayTeamName)
-                    : _mappingService.Map("TeamNames", m.HomeTeamName);
+                // Определяем соперника
+                bool isHome = m.HomeTeamName == teamName;
+                var opponent = isHome ? away : home;
 
                 // Добавляем уточнение статуса (ОТ / Бул)
                 string extraStatus = m.Status switch
@@ -145,10 +146,10 @@ namespace TelegramBOT.Services.Stats
                     _ => string.Empty
                 };
 
-                // Формируем строку
-                var line = m.HomeTeamName == teamName
-                    ? $"{emoji} {m.MatchDate.ToString("dd.MM")} — {mappedName} <b>{m.HomeScore}:{m.AwayScore}</b>{extraStatus} {opponent}"
-                    : $"{emoji} {m.MatchDate.ToString("dd.MM")} — {opponent} <b>{m.HomeScore}:{m.AwayScore}</b>{extraStatus} {mappedName}";
+                // Формируем строку результата
+                var line = isHome
+                    ? $"{emoji} {m.MatchDate:dd.MM} — {mappedName} <b>{m.HomeScore}:{m.AwayScore}</b>{extraStatus} {opponent}"
+                    : $"{emoji} {m.MatchDate:dd.MM} — {opponent} <b>{m.HomeScore}:{m.AwayScore}</b>{extraStatus} {mappedName}";
 
                 sb.AppendLine(line);
             }
@@ -194,25 +195,11 @@ namespace TelegramBOT.Services.Stats
                 return;
             }
 
-            var (home, away) = MapTeamNames(match);
+            var (home, away) = _mappingService.MapTeamNames(match);
             var text = $"🔮 Прогнозы на матч <b>{home}</b> vs <b>{away}</b>";
 
             var menu = new PredictionsMenuBuilder().Build(matchId);
             await _messageService.SendTextWithKeyboardAsync(chatId, text, menu);
-        }
-
-        // ==========================================================
-        // ============      МАППИНГ ДАННЫХ              ============
-        // ==========================================================
-
-        /// <summary>
-        /// Преобразует системные имена команд в человекочитаемые.
-        /// </summary>
-        public (string Home, string Away) MapTeamNames(Match match)
-        {
-            var home = _mappingService.Map("TeamNames", match.HomeTeamName);
-            var away = _mappingService.Map("TeamNames", match.AwayTeamName);
-            return (home, away);
         }
     }
 }

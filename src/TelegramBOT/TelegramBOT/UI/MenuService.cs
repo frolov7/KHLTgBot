@@ -40,7 +40,7 @@ namespace TelegramBOT.UI
 
         // ---------- Результаты ----------
         public ReplyKeyboardMarkup GetResultsMenu() => _results.Build();
-        public InlineKeyboardMarkup GetResultMatchMenu(Match match) => _resultsMatch.Build(match);
+        public InlineKeyboardMarkup GetResultMatchMenu(Match match, MatchVideo? video) => _resultsMatch.Build(match, video);
 
         // ---------- Команды ----------
         public ReplyKeyboardMarkup GetWesternTeamsMenu() => _teams.BuildWestern();
