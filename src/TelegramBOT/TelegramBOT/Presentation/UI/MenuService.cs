@@ -3,7 +3,7 @@ using TelegramBOT.Domain.Models;
 using TelegramBOT.Presentation.UI.Menus.Calendar;
 using TelegramBOT.Presentation.UI.Menus.Main;
 using TelegramBOT.Presentation.UI.Menus.Results;
-
+using TelegramBOT.Presentation.UI.Menus.Stats;
 namespace TelegramBOT.Presentation.UI
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace TelegramBOT.Presentation.UI
         private readonly ResultsMenuBuilder _results;
         private readonly TeamsMenuBuilder _teams;
         private readonly MatchMenuBuilder _match;
+        private readonly ConferenceMenuBuilder _conference;
 
         public MenuService()
         {
@@ -26,6 +27,7 @@ namespace TelegramBOT.Presentation.UI
             _results = new ResultsMenuBuilder();
             _teams = new TeamsMenuBuilder();
             _match = new MatchMenuBuilder();
+            _conference = new ConferenceMenuBuilder();
         }
 
         // ---------- Основное меню ----------
@@ -36,7 +38,7 @@ namespace TelegramBOT.Presentation.UI
         public ReplyKeyboardMarkup GetNextDaysMenu() => _calendar.BuildNextDays();
 
         // ---------- Статистика ----------
-        //public ReplyKeyboardMarkup GetStatsMenu() => _stats.Build();
+        public ReplyKeyboardMarkup GetConferenceSelectionMenu() => _conference.Build();
 
         // ---------- Результаты ----------
         public ReplyKeyboardMarkup GetResultsMenu() => _results.Build();

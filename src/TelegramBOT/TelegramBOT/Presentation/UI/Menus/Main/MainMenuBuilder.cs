@@ -12,29 +12,16 @@ namespace TelegramBOT.Presentation.UI.Menus.Main
         /// </summary>
         public ReplyKeyboardMarkup Build()
         {
-            var keyboard = new[]
+            return new(new[]
             {
-                new[]
-                {
-                    new KeyboardButton("📅 Календарь"),
-                    new KeyboardButton("⚡ Результаты"),
-                },
-                new[]
-                {
-                    new KeyboardButton("📊 Статистика"),
-                    new KeyboardButton("🏒 Команды"),
-                },
-                new[]
-                {
-                    new KeyboardButton("🔄 Обновить данные")
-                }
-            };
-
-            return new ReplyKeyboardMarkup(keyboard)
+                new KeyboardButton[] { "📅 Календарь", "⚡ Результаты" },
+                new KeyboardButton[] { "📊 Статистика", "🏒 Команды" },
+                new KeyboardButton[] { "🏆 Турнирная таблица" },
+                new KeyboardButton[] { "🔄 Обновить данные" }
+            })
             {
                 ResizeKeyboard = true
             };
         }
-
     }
 }

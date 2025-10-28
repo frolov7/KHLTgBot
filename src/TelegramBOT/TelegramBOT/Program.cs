@@ -5,6 +5,7 @@ using TelegramBOT.Application.Calendar;
 using TelegramBOT.Application.MatchStats;
 using TelegramBOT.Application.Predictions;
 using TelegramBOT.Application.Results;
+using TelegramBOT.Application.Standings;
 using TelegramBOT.Application.Teams;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
@@ -14,6 +15,7 @@ using TelegramBOT.Infrastructure.MatchStats;
 using TelegramBOT.Infrastructure.Predictions;
 using TelegramBOT.Infrastructure.Results;
 using TelegramBOT.Infrastructure.Scripts;
+using TelegramBOT.Infrastructure.Standings;
 using TelegramBOT.Infrastructure.Teams;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.Handlers;
@@ -86,6 +88,7 @@ builder.ConfigureServices((context, services) =>
     services.AddScoped<TeamsHandler>();
     services.AddScoped<PredictionHandler>();
     services.AddScoped<UpdateHandler>();
+    services.AddScoped<StandingsHandler>();
 
     // -----------------------------
     // Core Services (Telegram инфраструктура)
@@ -103,6 +106,7 @@ builder.ConfigureServices((context, services) =>
     services.AddScoped<MatchStatsService>();
     services.AddScoped<TeamsService>();
     services.AddScoped<PredictionService>();
+    services.AddScoped<StandingsService>();
 
     // -----------------------------
     // Repositories (доступ к данным)
@@ -112,7 +116,7 @@ builder.ConfigureServices((context, services) =>
     services.AddScoped<IResultsRepository, ResultsRepository>();
     services.AddScoped<ITeamsRepository, TeamsRepository>();
     services.AddScoped<IMatchStatsServiceRepository, MatchStatsServiceRepository>();
-
+    services.AddScoped<IStandingsRepository, StandingsRepository>();
     // -----------------------------
     // Утилиты
     // -----------------------------

@@ -29,6 +29,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="PuppeteerSharp" Version="20.2.4" />
 
     <!-- Logging -->
     <PackageReference Include="Serilog" Version="4.3.0" />
@@ -38,6 +39,7 @@
 
     <!-- OpenAPI/Swagger -->
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
+    <PackageReference Include="SkiaSharp" Version="3.119.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 
     <!-- Telegram API -->
