@@ -1,6 +1,5 @@
 ﻿using Serilog;
 using Telegram.Bot.Types;
-using TelegramBOT.Presentation.Handlers.Teams;
 using TelegramBOT.Presentation.Handlers.Calendar;
 using TelegramBOT.Presentation.Handlers.MatchStats;
 using TelegramBOT.Presentation.Handlers.Navigation;
@@ -26,6 +25,7 @@ namespace TelegramBOT.Presentation.Handlers
         private readonly NavigationHandler _navigationHandler;
         private readonly UpdateHandler _updateHandler;
         private readonly PredictionHandler _predictionHandler;
+        private readonly StandingsHandler _standingsHandler;
 
         private static bool _isUpdating = false;
         // ==========================================================
@@ -38,7 +38,8 @@ namespace TelegramBOT.Presentation.Handlers
             MatchStatsHandler statsHandler,
             NavigationHandler navigationHandler,
             PredictionHandler predictionHandler,
-            UpdateHandler updateHandler)
+            UpdateHandler updateHandler,
+            StandingsHandler standingsHandler)
         {
             _calendarHandler = calendarHandler;
             _resultsHandler = resultsHandler;
@@ -46,8 +47,8 @@ namespace TelegramBOT.Presentation.Handlers
             _navigationHandler = navigationHandler;
             _predictionHandler = predictionHandler;
             _updateHandler = updateHandler;
+            _standingsHandler = standingsHandler;
         }
-
 
         // ==========================================================
         // ============       ОСНОВНОЙ ВХОДНОЙ МЕТОД     ============
@@ -158,8 +159,9 @@ namespace TelegramBOT.Presentation.Handlers
             // ---------- Результаты ----------
             if (await HandleResultsCommands(chatId, text)) return;
 
-            // ---------- Команды ----------
-            //await _teamsHandler.HandleTeamCommand(chatId, text);
+            // ---------- Турнирная таблица ----------
+            if (await HandleStandingsCommands(chatId, text)) return;
+
 
             Log.Information("Обработка завершена для: {Text}", text);
         }
@@ -177,6 +179,10 @@ namespace TelegramBOT.Presentation.Handlers
 
                 case "⚡ Результаты":
                     await _resultsHandler.ShowResultsMenu(chatId);
+                    return true;
+
+                case "🏆 Турнирная таблица":
+                    await _standingsHandler.ShowConferenceSelection(chatId);
                     return true;
 
                 case "🔄 Обновить данные":
@@ -287,6 +293,30 @@ namespace TelegramBOT.Presentation.Handlers
                         return true;
                     }
 
+                    return false;
+            }
+        }
+
+        // ==========================================================
+        // ============       ПОДБЛОК — ТУРНИРНАЯ ТАБЛИЦА  ============
+        // ==========================================================
+        private async Task<bool> HandleStandingsCommands(long chatId, string text)
+        {
+            switch (text)
+            {
+                case "🔹 Западная конференция":
+                    await _standingsHandler.ShowStandings(chatId, "west");
+                    return true;
+
+                case "🔹 Восточная конференция":
+                    await _standingsHandler.ShowStandings(chatId, "east");
+                    return true;
+
+                case "⬅️ Назад (Таблица)":
+                    await _navigationHandler.ShowMainMenu(chatId);
+                    return true;
+
+                default:
                     return false;
             }
         }

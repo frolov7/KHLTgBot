@@ -53,16 +53,17 @@ namespace TelegramBOT.Infrastructure.Telegram
         }
 
         /// <summary>
-        /// Отправляет фото с подписью.
+        /// Отправляет изображение (фото) в чат Telegram с необязательной подписью.
         /// </summary>
-        /// <param name="chatId">ID чата.</param>
-        /// <param name="url">URL изображения.</param>
-        /// <param name="caption">Подпись к изображению (необязательно).</param>
-        public async Task SendPhotoAsync(long chatId, string url, string? caption = null)
+        /// <param name="chatId">Идентификатор чата Telegram, куда будет отправлено изображение.</param>
+        /// <param name="imageStream">Поток изображения (формат PNG).</param>
+        /// <param name="caption">Подпись к изображению (необязательный параметр).</param>
+        public async Task SendPhotoAsync(long chatId, Stream imageStream, string? caption = null)
         {
+            var file = new InputFileStream(imageStream, "standings.png");
             await _client.SendPhoto(
                 chatId: chatId,
-                photo: url,
+                photo: file,
                 caption: caption,
                 parseMode: ParseMode.Html,
                 cancellationToken: CancellationToken.None
