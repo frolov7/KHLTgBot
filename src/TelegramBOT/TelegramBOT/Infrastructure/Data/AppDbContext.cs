@@ -1,0 +1,32 @@
+﻿using Microsoft.EntityFrameworkCore;
+using TelegramBOT.Domain.Models;
+//using Telegram.Bot.Types;
+
+namespace TelegramBOT.Infrastructure.Data
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Match> Matches { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Prediction> Predictions { get; set; }
+        public DbSet<MatchVideo> MatchVideos { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>().ToTable("Users");
+
+            modelBuilder.Entity<Match>().ToTable("Matches");
+            modelBuilder.Entity<Team>().ToTable("Teams");
+
+            modelBuilder.Entity<Prediction>().ToTable("Predictions");
+            modelBuilder.Entity<MatchVideo>().ToTable("MatchVideos");
+        }
+    }
+}
