@@ -3077,7 +3077,7 @@
   "zwBSbcRp": {
     "id": "zwBSbcRp",
     "date": "27.10.2025 16:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Avangard Omsk"
     },
@@ -3085,14 +3085,14 @@
       "name": "Magnitogorsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "4"
     }
   },
   "jogFM0Ji": {
     "id": "jogFM0Ji",
     "date": "27.10.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Bars Kazan"
     },
@@ -3100,14 +3100,14 @@
       "name": "Vladivostok"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "GdWbFM5l": {
     "id": "GdWbFM5l",
     "date": "27.10.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Niznekamsk"
     },
@@ -3115,8 +3115,8 @@
       "name": "Barys Astana"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "QNmvHdmT": {
