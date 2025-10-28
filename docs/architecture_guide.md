@@ -176,3 +176,106 @@ JSON / External API / Database
   - `AddApplicationServices()`
   - `AddInfrastructureServices()`
   - `AddPresentationHandlers()`
+
+---
+
+---
+
+# 7. Структура базы данных
+
+### Основные таблицы:
+
+| Таблица | Назначение |
+|----------|------------|
+| **Users** | Хранит данные пользователей Telegram (имя, ник, телефон, даты регистрации и обновления). |
+| **Teams** | Список команд, участвующих в матчах (уникальные названия). |
+| **Matches** | Информация о матчах — дата, статус, участники, счёт. |
+| **Predictions** | Прогнозы на матчи (основной, альтернативный, текст, результат). |
+| **MatchVideos** | Видеообзоры и записи матчей с привязкой к YouTube. |
+
+---
+
+## 7.1 SQL-структура таблиц
+
+### Таблица `Users`
+
+```sql
+CREATE TABLE Users (
+    userId BIGINT PRIMARY KEY,
+    firstName NVARCHAR(64) NOT NULL,
+    secondName NVARCHAR(64) NULL,
+    username NVARCHAR(64) NULL,
+    phoneNumber NVARCHAR(12) NULL,
+    createdAt DATETIME NOT NULL DEFAULT GETDATE(),
+    updatedAt DATETIME NOT NULL DEFAULT GETDATE()
+);
+```
+
+### Таблица `Matches`
+
+```sql
+CREATE TABLE Matches (
+    match_id VARCHAR(50) PRIMARY KEY,
+    match_date DATETIME NOT NULL,
+    status VARCHAR(50) NOT NULL, -- SCHEDULED, AFTER PENALTIES, AFTER OVERTIME, FINISHED
+
+    home_team_name VARCHAR(255) NOT NULL,
+    home_team_id INT NOT NULL,
+    home_score INT NULL,
+
+    away_team_name VARCHAR(255) NOT NULL,
+    away_team_id INT NOT NULL,
+    away_score INT NULL,
+
+    FOREIGN KEY (home_team_id) REFERENCES Teams(team_id),
+    FOREIGN KEY (away_team_id) REFERENCES Teams(team_id)
+);
+
+```
+### Таблица `Teams`
+
+```sql
+CREATE TABLE Teams (
+    team_id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL
+);
+```
+
+### Таблица `Predictions`
+
+```sql
+CREATE TABLE Predictions (
+    prediction_id INT IDENTITY(1,1) PRIMARY KEY,
+    match_id VARCHAR(50) NOT NULL FOREIGN KEY REFERENCES Matches(match_id),
+    
+    source NVARCHAR(255),
+    url NVARCHAR(MAX),
+
+    main_prediction NVARCHAR(MAX),
+    alt_prediction NVARCHAR(MAX),
+    score NVARCHAR(50),
+    general_text NVARCHAR(MAX),
+    result NVARCHAR(255),
+
+    home_team_text NVARCHAR(MAX),
+    away_team_text NVARCHAR(MAX)
+);
+```
+### Таблица `MatchVideos`
+
+```sql
+CREATE TABLE MatchVideos (
+    video_id INT IDENTITY(1,1) PRIMARY KEY,
+    match_id VARCHAR(50) NOT NULL FOREIGN KEY REFERENCES Matches(match_id),
+    title NVARCHAR(255) NOT NULL,
+    url NVARCHAR(500) NOT NULL
+);
+```
+## 7.2 Взаимосвязи
+
+* Users — независимая сущность (Telegram пользователи).
+* Teams связаны с Matches через home_team_id и away_team_id.
+* Predictions ссылаются на Matches по match_id.
+* MatchVideos также привязаны к Matches через match_id.
+
+Эта структура обеспечивает целостность данных и позволяет строить запросы для отображения матчей, прогнозов и видеообзоров в Telegram UI.
