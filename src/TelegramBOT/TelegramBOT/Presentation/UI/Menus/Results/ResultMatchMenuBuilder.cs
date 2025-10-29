@@ -17,18 +17,6 @@ namespace TelegramBOT.Presentation.UI.Menus.Results
                 });
             }
 
-            rows.Add(new List<InlineKeyboardButton> {
-                InlineKeyboardButton.WithCallbackData("📊 Статистика", $"stats_{match.MatchId}")
-            });
-
-            rows.Add(new List<InlineKeyboardButton> {
-                InlineKeyboardButton.WithCallbackData("📈 Факты", $"facts_{match.MatchId}")
-            });
-
-            rows.Add(new List<InlineKeyboardButton> {
-                InlineKeyboardButton.WithCallbackData("⬅️ Назад (Результаты)", $"back_to_results_{match.MatchDate:yyyyMMdd}")
-            });
-
             return new InlineKeyboardMarkup(rows);
         }
     }

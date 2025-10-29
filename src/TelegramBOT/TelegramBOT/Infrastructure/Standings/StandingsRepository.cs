@@ -24,6 +24,7 @@ namespace TelegramBOT.Infrastructure.Standings
         {
             return await _db.Matches
                 .Where(m => m.HomeScore != null && m.AwayScore != null)
+                .OrderBy(m => m.MatchDate)
                 .ToListAsync();
         }
     }

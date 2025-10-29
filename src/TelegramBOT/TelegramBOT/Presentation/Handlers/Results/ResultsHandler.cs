@@ -34,7 +34,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// <param name="chatId">Идентификатор Telegram-чата.</param>
         public async Task ShowResultsMenu(long chatId)
         {
-            await _messageService.SendKeyboardAsync(chatId, "📊 Выберите действие.", _menuService.GetResultsMenu());
+            await _messageService.SendKeyboardAsync(chatId, "Выберите действие", _menuService.GetResultsMenu());
         }
 
         /// <summary>
