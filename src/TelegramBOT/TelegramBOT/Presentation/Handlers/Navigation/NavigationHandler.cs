@@ -30,7 +30,7 @@ namespace TelegramBOT.Presentation.Handlers.Navigation
         {
             await _messageService.SendKeyboardAsync(
                 chatId,
-                "Выберите действие.",
+                "Выберите действие",
                 _menuService.GetMainMenu()
             );
         }

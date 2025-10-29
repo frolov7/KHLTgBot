@@ -159,9 +159,11 @@ namespace TelegramBOT.Presentation.Handlers
             // ---------- Результаты ----------
             if (await HandleResultsCommands(chatId, text)) return;
 
-            // ---------- Турнирная таблица ----------
-            if (await HandleStandingsCommands(chatId, text)) return;
+            // ---------- Таблицы ----------
+            if (await HandleTablesCommands(chatId, text)) return;
 
+            // ---------- Турнирная таблица ----------
+            if (await _standingsHandler.HandleStandingsCommands(chatId, text)) return;
 
             Log.Information("Обработка завершена для: {Text}", text);
         }
@@ -181,8 +183,8 @@ namespace TelegramBOT.Presentation.Handlers
                     await _resultsHandler.ShowResultsMenu(chatId);
                     return true;
 
-                case "🏆 Турнирная таблица":
-                    await _standingsHandler.ShowConferenceSelection(chatId);
+                case "📊 Таблицы":
+                    await _standingsHandler.ShowTablesMenu(chatId);
                     return true;
 
                 case "🔄 Обновить данные":
@@ -232,6 +234,7 @@ namespace TelegramBOT.Presentation.Handlers
                 case "5 дней":
                     await _calendarHandler.ShowNextDays(chatId, 5);
                     return true;
+                 
                 case "⬅️ Назад (Календарь)":
                     await _calendarHandler.BackToCalendar(chatId);
                     return true;
@@ -298,13 +301,33 @@ namespace TelegramBOT.Presentation.Handlers
         }
 
         // ==========================================================
+        // ============       ПОДБЛОК — ТАБЛИЦЫ           ============
+        // ==========================================================
+        private async Task<bool> HandleTablesCommands(long chatId, string text)
+        {
+            switch (text)
+            {
+                case "🏆 Турнирная таблица":
+                    await _standingsHandler.ShowConferenceSelection(chatId);
+                    return true;
+
+                case "⬅️ Назад (Главное меню)":
+                    await _navigationHandler.ShowMainMenu(chatId);
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        // ==========================================================
         // ============       ПОДБЛОК — ТУРНИРНАЯ ТАБЛИЦА  ============
         // ==========================================================
         private async Task<bool> HandleStandingsCommands(long chatId, string text)
         {
             switch (text)
             {
-                case "🔹 Западная конференция":
+                case "🔸 Западная конференция":
                     await _standingsHandler.ShowStandings(chatId, "west");
                     return true;
 

@@ -46,7 +46,7 @@ namespace TelegramBOT.Application.Results
 
             if (!matches.Any())
             {
-                await _messageService.SendTextAsync(chatId, "Результатов не найдено.");
+                await _messageService.SendTextAsync(chatId, "Результатов не найдено");
                 return;
             }
 
@@ -144,7 +144,7 @@ namespace TelegramBOT.Application.Results
         public string BuildResultsMessage(IEnumerable<Match> matches, DateTime? date = null, string? teamName = null)
         {
             if (matches == null || !matches.Any())
-                return "Результатов не найдено.";
+                return "Результатов не найдено";
 
             var sb = new StringBuilder();
 

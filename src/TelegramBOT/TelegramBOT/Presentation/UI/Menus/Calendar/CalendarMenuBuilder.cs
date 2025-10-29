@@ -16,7 +16,7 @@ namespace TelegramBOT.Presentation.UI.Menus.Calendar
             {
                 new KeyboardButton[] { "📅 Сегодня" },
                 new KeyboardButton[] { "📆 Завтра" },
-                new KeyboardButton[] { "Следующие N дней" },
+                //new KeyboardButton[] { "Следующие N дней" },
                 new KeyboardButton[] { "🏠 В главное меню" }
             })
             {

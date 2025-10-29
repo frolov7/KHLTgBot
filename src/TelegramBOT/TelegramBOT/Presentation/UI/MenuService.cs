@@ -18,6 +18,7 @@ namespace TelegramBOT.Presentation.UI
         private readonly TeamsMenuBuilder _teams;
         private readonly MatchMenuBuilder _match;
         private readonly ConferenceMenuBuilder _conference;
+        private readonly TablesMenuBuilder _tables;
 
         public MenuService()
         {
@@ -28,6 +29,7 @@ namespace TelegramBOT.Presentation.UI
             _teams = new TeamsMenuBuilder();
             _match = new MatchMenuBuilder();
             _conference = new ConferenceMenuBuilder();
+            _tables = new TablesMenuBuilder();
         }
 
         // ---------- Основное меню ----------
@@ -37,8 +39,9 @@ namespace TelegramBOT.Presentation.UI
         public ReplyKeyboardMarkup GetCalendarMenu() => _calendar.Build();
         public ReplyKeyboardMarkup GetNextDaysMenu() => _calendar.BuildNextDays();
 
-        // ---------- Статистика ----------
+        // ---------- Таблицы ----------
         public ReplyKeyboardMarkup GetConferenceSelectionMenu() => _conference.Build();
+        public ReplyKeyboardMarkup GetTablesMenu() => _tables.Build();
 
         // ---------- Результаты ----------
         public ReplyKeyboardMarkup GetResultsMenu() => _results.Build();

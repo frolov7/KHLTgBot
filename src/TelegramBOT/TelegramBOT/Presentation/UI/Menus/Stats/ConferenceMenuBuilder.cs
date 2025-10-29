@@ -13,7 +13,7 @@ namespace TelegramBOT.Presentation.UI.Menus.Stats
             {
                 new[]
                 {
-                    new KeyboardButton("🔹 Западная конференция"),
+                    new KeyboardButton("🔸 Западная конференция"),
                     new KeyboardButton("🔹 Восточная конференция")
                 },
                 new[]
