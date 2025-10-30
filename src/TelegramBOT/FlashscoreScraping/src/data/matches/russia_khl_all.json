@@ -3212,7 +3212,7 @@
   "OKSfZscK": {
     "id": "OKSfZscK",
     "date": "29.10.2025 16:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Avangard Omsk"
     },
@@ -3220,14 +3220,14 @@
       "name": "Barys Astana"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "4",
+      "away": "3"
     }
   },
   "d4XcXHX9": {
     "id": "d4XcXHX9",
     "date": "29.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Salavat Ufa"
     },
@@ -3235,14 +3235,14 @@
       "name": "Vladivostok"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "6",
+      "away": "1"
     }
   },
   "23aVE9Hr": {
     "id": "23aVE9Hr",
     "date": "29.10.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Bars Kazan"
     },
@@ -3250,14 +3250,14 @@
       "name": "Magnitogorsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "4",
+      "away": "0"
     }
   },
   "x2HdZw3c": {
     "id": "x2HdZw3c",
     "date": "29.10.2025 19:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "SKA St. Petersburg"
     },
@@ -3265,8 +3265,8 @@
       "name": "Novosibirsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "OImvDmne": {

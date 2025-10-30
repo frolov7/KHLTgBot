@@ -319,29 +319,5 @@ namespace TelegramBOT.Presentation.Handlers
                     return false;
             }
         }
-
-        // ==========================================================
-        // ============       ПОДБЛОК — ТУРНИРНАЯ ТАБЛИЦА  ============
-        // ==========================================================
-        private async Task<bool> HandleStandingsCommands(long chatId, string text)
-        {
-            switch (text)
-            {
-                case "🔸 Западная конференция":
-                    await _standingsHandler.ShowStandings(chatId, "west");
-                    return true;
-
-                case "🔹 Восточная конференция":
-                    await _standingsHandler.ShowStandings(chatId, "east");
-                    return true;
-
-                case "⬅️ Назад (Таблица)":
-                    await _navigationHandler.ShowMainMenu(chatId);
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
     }
 }
