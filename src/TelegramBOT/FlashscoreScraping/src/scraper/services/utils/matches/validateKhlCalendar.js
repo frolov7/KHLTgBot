@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const logger = createLogger("validateKhlCalendar");
 
 // правильный путь до data
-const filePath = path.join(__dirname, "../../../data/russia_khl_all.json");
+const filePath = path.join(__dirname, "../../../data/khl_all_matches.json");
 
 try {
     const raw = fs.readFileSync(filePath, "utf-8");

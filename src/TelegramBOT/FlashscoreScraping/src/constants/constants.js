@@ -20,7 +20,7 @@ export const FILES = {
     KHL_CALENDAR: path.join(__dirname, "../data/calendar/full_calendar.json"),
 
     // --- Matches ---
-    KHL_MATCHES: path.join(__dirname, "../data/matches/russia_khl_all.json"),
+    KHL_MATCHES: path.join(__dirname, "../data/matches/khl_all_matches.json"),
 
     // --- Predictions ---
     BETZONA: path.join(__dirname, "../data/predictions/betzona.json"),

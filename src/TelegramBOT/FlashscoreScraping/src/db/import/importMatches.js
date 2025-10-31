@@ -34,7 +34,7 @@ async function importMatches() {
     const matchesPath = FILES.KHL_MATCHES;
 
     if (!fs.existsSync(matchesPath)) {
-        logger.error("Файл russia_khl_all.json не найден. Операция прервана.");
+        logger.error("Файл khl_all_matches.json не найден. Операция прервана.");
         return;
     }
 

@@ -16,7 +16,7 @@ const logger = createLogger("khlYoutubeParser");
 /// Алгоритм работы:
 /// 1. Загружает страницу https://www.youtube.com/@khl/videos.
 /// 2. Находит видео с заголовками, содержащими фразу "Обзор матча Фонбет КХЛ сезон 2025/2026".
-/// 3. Сопоставляет по дате и названию команд с календарём матчей (`russia_khl_all.json`).
+/// 3. Сопоставляет по дате и названию команд с календарём матчей (`khl_all_matches.json`).
 /// 4. Добавляет только новые видеообзоры (без дублей).
 /// 5. Сортирует итог по дате (по возрастанию).
 /// </summary>
@@ -55,7 +55,7 @@ export async function scrapeKhlYoutubeVideos(limit = 20) {
     logger.info(`Найдено ${filtered.length} видеообзоров матчей КХЛ`);
 
     if (!fs.existsSync(MATCHES_FILE)) {
-        logger.error("Не найден файл календаря russia_khl_all.json");
+        logger.error("Не найден файл календаря khl_all_matches.json");
         return;
     }
 
