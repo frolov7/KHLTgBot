@@ -38,7 +38,7 @@ function normalizeStatus(rawStatus, homeScore, awayScore) {
 
 /// <summary>
 /// Обновляет результаты последних матчей КХЛ (за вчера и сегодня) на основе данных с сайта Flashscore.
-/// Выполняет парсинг страниц "results" и "live", обновляет локальный JSON-файл russia_khl_all.json,
+/// Выполняет парсинг страниц "results" и "live", обновляет локальный JSON-файл khl_all_matches.json,
 /// и запускает проверку прогнозов через отдельный скрипт.
 /// </summary>
 /// <param name="browser">Экземпляр Puppeteer, используемый для парсинга страниц.</param>
@@ -50,7 +50,7 @@ export const updateRecentMatches = async (browser) => {
 
     const filePath = FILES.KHL_MATCHES;
     if (!fs.existsSync(filePath)) {
-        throw new Error("Файл russia_khl_all.json не найден. Сначала нужно выполнить полное обновление (--all).");
+        throw new Error("Файл khl_all_matches.json не найден. Сначала нужно выполнить полное обновление (--all).");
     }
 
     const matches = JSON.parse(fs.readFileSync(filePath, "utf-8"));

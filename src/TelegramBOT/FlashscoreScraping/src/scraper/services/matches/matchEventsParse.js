@@ -8,7 +8,7 @@ import { openPageAndNavigate, waitForSelectorSafe } from "../utils/core/pageUtil
 /// </summary>
 /// <param name="text">Текстовое название периода, извлечённое из HTML (например, "1-й период", "Overtime").</param>
 /// <returns>
-/// Строка, соответствующая стандартному обозначению периода: 
+/// Строка, соответствующая стандартному обозначению периода:
 /// "1st period", "2nd period", "3rd period", "OT", "SO"
 /// </returns>
 function parsePeriodTitle(text) {
@@ -39,7 +39,7 @@ function parsePeriodTitle(text) {
 /// извлекает события голов (включая буллиты), сохраняет результаты в JSON (`KHL_EVENTS.json`)
 /// и возвращает массив найденных голов.
 /// </remarks>
-export async function scrapeGoals({ browser, matchId, matchUrl, homeTeam, awayTeam, logger }) {
+export async function scrapeMatchEvents({ browser, matchId, matchUrl, homeTeam, awayTeam, logger }) {
     try {
         const page = await openPageAndNavigate(browser, matchUrl);
         await waitForSelectorSafe(page, ".smv__incident");
@@ -47,11 +47,11 @@ export async function scrapeGoals({ browser, matchId, matchUrl, homeTeam, awayTe
         await page.close();
 
         const $ = cheerio.load(html);
-        const goals = [];
+        const events = [];
         let currentPeriod = null;
 
         const mainContainer = $(".smv__verticalSections.section");
-        if (!mainContainer.length) return goals;
+        if (!mainContainer.length) return events;
 
         mainContainer.find("div").each((_, el) => {
             const $el = $(el);
@@ -65,70 +65,129 @@ export async function scrapeGoals({ browser, matchId, matchUrl, homeTeam, awayTe
                 return;
             }
 
-            // --- Событие: гол ---
+            // --- Событие ---
             if ($el.hasClass("smv__participantRow")) {
-                const $incident = $el.find(".smv__incident");
+                const $incident = $el.find(".smv__incident, .smv__incidentIconSub");
                 if ($incident.length === 0) return;
-
-                const isGoal = $incident.find("svg.hockeyGoal-ico, svg.icon--goal").length > 0;
-                if (!isGoal) return;
 
                 const team = $el.hasClass("smv__homeParticipant") ? homeTeam : awayTeam;
                 const time = $incident.find(".smv__timeBox").text().trim() || null;
-                const score =
-                    $incident.find(".smv__score, .smv__incidentHomeScore, .smv__incidentAwayScore").text().trim() || null;
-                const scorer = $incident.find(".smv__playerName").text().trim() || null;
+                let event = { period: currentPeriod, time, team };
 
-                const assistants = $incident
-                    .find(".smv__assist a")
-                    .map((_, a) => $(a).text().trim())
-                    .get()
-                    .filter(Boolean);
+                // === ГОЛ ===
+                if ($incident.find("svg.hockeyGoal-ico, svg.icon--goal").length > 0) {
+                    const eventType = "Goal";
+                    const scorer = $incident.find(".smv__playerName").text().trim();
+                    const assistants = $incident
+                        .find(".smv__assist a")
+                        .map((_, a) => $(a).text().trim())
+                        .get()
+                        .filter(Boolean);
+                    const goalTypeRaw = $incident.find(".smv__subIncident").text().replace(/[()]/g, "").trim();
+                    const goalType = goalTypeRaw || "Even strength";
+                    const score = $incident
+                        .find(".smv__score, .smv__incidentHomeScore, .smv__incidentAwayScore")
+                        .text()
+                        .trim();
 
-                const goalTypeRaw = $incident.find(".smv__subIncident").text().replace(/[()]/g, "").trim();
-                const goalType = goalTypeRaw || "Even strength";
+                    event.eventType = eventType;
+                    if (scorer) event.scorer = scorer;
+                    if (assistants.length) event.assistants = assistants;
+                    if (score) event.score = score;
+                    event.goalType = goalType;
+                }
 
-                goals.push({
-                    period: currentPeriod,
-                    time,
-                    score: score || null,
-                    scorer,
-                    assistants: assistants.length ? assistants : null,
-                    team,
-                    goalType
-                });
+                // === УДАЛЕНИЕ ===
+                else if ($incident.find("svg.penalty-2-min, svg.penalty-5-min, svg.penalty-10-min").length > 0) {
+                    const eventType = "Penalty";
+                    const player = $incident.find(".smv__playerName").text().trim();
+                    const details =
+                        $incident.find(".smv__subIncident").text().replace(/[()]/g, "").trim() ||
+                        $incident.find("[title]").attr("title") ||
+                        null;
+
+                    event.eventType = eventType;
+                    if (player) event.player = player;
+                    if (details) event.details = details;
+                }
+
+                // === ГОЛ НЕ ЗАСЧИТАН ===
+                else if ($incident.find("svg.whistle-ico").length > 0) {
+                    const eventType = "Goal disallowed";
+                    const details =
+                        $incident.find("svg.whistle-ico title").text().trim() ||
+                        $incident.text().trim();
+
+                    const player =
+                        $incident.find(".smv__playerName").text().trim() ||
+                        $incident.find(".smv__assist a").text().trim() ||
+                        null;
+
+                    event.eventType = eventType;
+                    if (details) event.details = details;
+                    if (player) event.player = player;
+                }
+
+                // === БУЛЛИТ НЕ РЕАЛИЗОВАН ===
+                else if ($incident.find("svg.warning").length > 0) {
+                    const eventType = "Shootout missed";
+                    const details =
+                        $incident.find("svg.warning title").text().trim() ||
+                        $incident.find(".smv__subIncident").text().trim() ||
+                        "Буллит не реализован";
+
+                    const player = $incident.find(".smv__playerName").text().trim() || null;
+
+                    event.eventType = eventType;
+                    if (details) event.details = details;
+                    if (player) event.player = player;
+                }
+
+                // === ЗАМЕНА ВРАТАРЯ ===
+                else if ($incident.find("svg.substitution").length > 0) {
+                    const eventType = "Goalkeeper change";
+                    const goalieOut = $incident.find(".smv__playerName").first().text().trim();
+                    const goalieIn = $incident.find(".smv__incidentSubOut a").text().trim();
+
+                    event.eventType = eventType;
+                    if (goalieOut) event.goalieOut = goalieOut;
+                    if (goalieIn) event.goalieIn = goalieIn;
+                }
+
+                // --- Добавляем, если тип события определён ---
+                if (event.eventType) {
+                    // Убираем пустые поля
+                    for (const key in event) {
+                        if (
+                            event[key] === null ||
+                            event[key] === undefined ||
+                            (Array.isArray(event[key]) && event[key].length === 0)
+                        ) {
+                            delete event[key];
+                        }
+                    }
+                    events.push(event);
+                }
             }
         });
 
-        // --- Обработка буллитов (SO) ---
-        const shootoutGoals = goals.filter((g) => g.period === "SO");
-        if (shootoutGoals.length > 0) {
-            let homeCount = 0;
-            let awayCount = 0;
-            shootoutGoals.forEach((g) => {
-                if (g.team === homeTeam) homeCount++;
-                else if (g.team === awayTeam) awayCount++;
-                g.score = `${homeCount}-${awayCount}`;
-            });
-        }
-
-        // --- Сохранение результатов ---
-        let allGoals = {};
+        // --- Сохранение ---
+        let allEvents = {};
         try {
             if (fs.existsSync(FILES.KHL_EVENTS)) {
                 const raw = fs.readFileSync(FILES.KHL_EVENTS, "utf-8").trim();
-                if (raw) allGoals = JSON.parse(raw);
+                if (raw) allEvents = JSON.parse(raw);
             }
         } catch {
-            allGoals = {};
+            allEvents = {};
         }
 
-        allGoals[matchId] = { id: matchId, home: homeTeam, away: awayTeam, goals };
-        fs.writeFileSync(FILES.KHL_EVENTS, JSON.stringify(allGoals, null, 2), "utf-8");
+        allEvents[matchId] = { id: matchId, home: homeTeam, away: awayTeam, events };
+        fs.writeFileSync(FILES.KHL_EVENTS, JSON.stringify(allEvents, null, 2), "utf-8");
 
-        return goals;
+        return events;
     } catch (err) {
-        logger.error(`[parseEvents] Ошибка при парсинге ${homeTeam} – ${awayTeam}: ${err.message}`);
+        logger.error(`[matchEventsParse] Ошибка при парсинге ${homeTeam} – ${awayTeam}: ${err.message}`);
         return [];
     }
 }
@@ -152,34 +211,32 @@ export async function scrapeRecentEvents({ browser, logger }) {
     const { parseDate } = await import("../utils/core/dateUtils.js");
 
     const startTime = Date.now();
-    logger.info(`[scraperRunner] === ▶ Запуск скрипта: parseGoals ===`);
-    logger.info(`[scraperRunner] --- Начало парсинга: parseGoals ---`);
+    logger.info(`[scraperRunner] === ▶ Запуск скрипта: matchEventsParse ===`);
+    logger.info(`[scraperRunner] --- Начало парсинга: matchEventsParse ---`);
 
     const matches = JSON.parse(fs.readFileSync(FILES.KHL_MATCHES, "utf-8"));
 
-    // Диапазон: позавчера → сегодня
     const today = dayjs();
     const startDate = today.subtract(2, "day");
+    //const startDate = dayjs("2025-09-05", "YYYY-MM-DD"); // Парсинг всех матчей с начала сезона
 
-    logger.info(`[parseEvents] Диапазон: ${startDate.format("DD.MM.YYYY")} – ${today.format("DD.MM.YYYY")}`);
+    logger.info(`[matchEventsParse] Диапазон: ${startDate.format("DD.MM.YYYY")} – ${today.format("DD.MM.YYYY")}`);
 
-    // --- Фильтрация матчей по датам ---
     const matchEntries = Object.entries(matches).filter(([_, match]) => {
         if (!match.date) return false;
         const date = dayjs(parseDate(match.date));
         return !date.isBefore(startDate, "day") && !date.isAfter(today, "day");
     });
 
-    logger.info(`[parseEvents] Найдено ${matchEntries.length} матчей КХЛ за последние 3 дня.`);
+    logger.info(`[matchEventsParse] Найдено ${matchEntries.length} матчей КХЛ за последние 3 дня.`);
 
     let updated = 0;
 
-    // --- Обработка матчей ---
     for (const [matchId, match] of matchEntries) {
         const matchDate = dayjs(parseDate(match.date)).toISOString();
-        logger.info(`[parseEvents] Матч: ${match.home?.name} – ${match.away?.name} | matchID: ${matchId} | Дата: ${matchDate}`);
+        logger.info(`[matchEventsParse] Матч: ${match.home?.name} – ${match.away?.name} | matchID: ${matchId} | Дата: ${matchDate}`);
 
-        const goals = await scrapeGoals({
+        const events = await scrapeMatchEvents({
             browser,
             matchId,
             matchUrl: `${BASE_URL}/match/${matchId}/#/match-summary/match-summary`,
@@ -188,11 +245,10 @@ export async function scrapeRecentEvents({ browser, logger }) {
             logger,
         });
 
-        if (goals.length > 0) updated++;
+        if (events.length > 0) updated++;
     }
 
-    // --- Завершение ---
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-    logger.info(`[parseEvents] Итог: обновлено ${updated}/${matchEntries.length} матчей`);
-    logger.info(`[scraperRunner] ✅ Завершён скрипт parseGoals (${elapsed} сек.)`);
+    logger.info(`[matchEventsParse] Итог: обновлено ${updated}/${matchEntries.length} матчей`);
+    logger.info(`[scraperRunner] ✅ Завершён скрипт matchEventsParse (${elapsed} сек.)`);
 }

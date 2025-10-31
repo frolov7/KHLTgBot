@@ -10,7 +10,7 @@ const dataDir = path.join(__dirname, "../../../../data");
 
 const logger = createLogger("validatePredictionsData");
 // список файлов, которые нужно валидировать
-const excludeFiles = ["full calendar.json", "russia_khl_all.json"];
+const excludeFiles = ["full calendar.json", "khl_all_matches.json"];
 const files = fs.readdirSync(dataDir)
     .filter(f => f.endsWith(".json") && !excludeFiles.includes(f));
 

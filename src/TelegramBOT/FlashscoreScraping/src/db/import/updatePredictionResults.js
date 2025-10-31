@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DATA_PATH = path.join(__dirname, "../../data");
-const MATCHES_FILE = path.join(DATA_PATH, "russia_khl_all.json");
+const MATCHES_FILE = path.join(DATA_PATH, "khl_all_matches.json");
 
 const matches = JSON.parse(fs.readFileSync(MATCHES_FILE, "utf-8"));
 
@@ -40,7 +40,7 @@ async function updatePredictionResults() {
 
         // Загружаем все JSON-файлы с прогнозами
         const predictionFiles = fs.readdirSync(DATA_PATH)
-            .filter(f => f.endsWith(".json") && f !== "russia_khl_all.json");
+            .filter(f => f.endsWith(".json") && f !== "khl_all_matches.json");
 
         const jsonData = {};
         for (const file of predictionFiles) {
