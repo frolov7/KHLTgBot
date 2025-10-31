@@ -5,7 +5,7 @@ process.stdout.setEncoding('utf8');
 import puppeteer from "puppeteer";
 import { exec } from "child_process";
 import iconv from "iconv-lite";
-import { FILES } from "../constants/constants.js";
+import { BASE_URL, FILES } from "../constants/constants.js";
 
 import { updateRecentMatches } from "./services/matches/updateMatches.js";
 
@@ -18,6 +18,8 @@ import { scrapePredictions as scrapeVprognoze } from "./services/predictions/vpr
 import { scrapePredictions as scrapeVseprosport } from "./services/predictions/vseprosportParse.js";
 
 import { scrapeKhlYoutubeVideos as scrapeKhlVideos } from "./parsers/khlYoutubeParser.js";
+import { scrapeRecentEvents } from "./services/matches/matchEventsParse.js";
+
 import { createLogger } from "./services/utils/core/logger.js";
 
 import fs from "fs";
@@ -35,6 +37,7 @@ const VALIDATE_SCRIPT = path.join(
 const IMPORT_MATCHES_SCRIPT = path.join(process.cwd(), "src/db/import/importMatches.js");
 const IMPORT_PREDICTIONS_SCRIPT = path.join(process.cwd(), "src/db/import/importPredictions.js");
 const IMPORT_VIDEOS_SCRIPT = path.join(process.cwd(), "src/db/import/importMatchVideos.js");
+const IMPORT_EVENTS_SCRIPT = path.join(process.cwd(), "src/db/import/importMatchEvents.js");
 
 const logger = createLogger("scraperRunner");
 
@@ -149,8 +152,16 @@ export default async function main(args) {
     if (args.includes("--resultvideos")) {
         logger.info("Запускаем парсинг видеообзоров КХЛ...");
         await scrapeKhlVideos();
-        logger.info("Импортируем результаты в БД...");
+        logger.info("Импортируем видеообзоры в БД...");
         runImport(IMPORT_VIDEOS_SCRIPT, "импорт видеообзоров");
+    }
+
+    // === Парсинг событий матчей (голы, удаления, буллиты и т.д.) ===
+    if (args.includes("--events")) {
+        logger.info("=== ▶ Запуск парсера событий КХЛ ===");
+        await scrapeRecentEvents({ browser, logger });
+        logger.info("Импортируем события в БД...");
+        runImport(IMPORT_EVENTS_SCRIPT, "импорт событий матчей");
     }
 
     await browser.close();

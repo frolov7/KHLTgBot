@@ -9,6 +9,7 @@
     "calendar": "node src/scraper/scraperRunner.js --calendar"
   },
   "dependencies": {
+    "axios": "^1.13.1",
     "cheerio": "^1.1.2",
     "cli-loading-animation": "^1.0.6",
     "cli-progress": "^3.12.0",

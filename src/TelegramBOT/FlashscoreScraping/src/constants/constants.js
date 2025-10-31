@@ -33,4 +33,7 @@ export const FILES = {
 
     // --- Videos ---
     RESULT_VIDEOS: path.join(__dirname, "../data/videos/resultVideos.json"),
+
+    // --- Events ---
+    KHL_EVENTS: path.join(__dirname, "../data/matches/khl_events.json"),
 };

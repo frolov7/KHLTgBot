@@ -3272,7 +3272,7 @@
   "OImvDmne": {
     "id": "OImvDmne",
     "date": "30.10.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Cherepovets"
     },
@@ -3280,14 +3280,14 @@
       "name": "Dynamo Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "0",
+      "away": "3"
     }
   },
   "WrinBRG7": {
     "id": "WrinBRG7",
     "date": "30.10.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Nizhny Novgorod"
     },
@@ -3295,14 +3295,14 @@
       "name": "Lada"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "0"
     }
   },
   "f3JQTLKs": {
     "id": "f3JQTLKs",
     "date": "30.10.2025 19:10",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Dinamo Minsk"
     },
@@ -3310,8 +3310,8 @@
       "name": "Khabarovsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "6",
+      "away": "2"
     }
   },
   "4nntX8wR": {
