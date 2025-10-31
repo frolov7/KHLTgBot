@@ -6,7 +6,7 @@
     <!-- Указываем явно, что точка входа не app.js -->
     <StartProgram>npm</StartProgram>
     <StartArguments>run results</StartArguments>
-    <StartupCommand>node app.js --predictions</StartupCommand>
+    <StartupCommand> node src/scraper/scraperRunner.js --goals</StartupCommand>
     <StartupCommandWorkingDirectory>C:\Users\gimna\Desktop\BMSTU\MyProjects\bot\src\TelegramBOT\FlashscoreScraping</StartupCommandWorkingDirectory>
     <BuildCommand>npm install</BuildCommand>
     <BuildCommandWorkingDirectory>C:\Users\gimna\Desktop\BMSTU\MyProjects\bot\src\TelegramBOT\FlashscoreScraping</BuildCommandWorkingDirectory>
