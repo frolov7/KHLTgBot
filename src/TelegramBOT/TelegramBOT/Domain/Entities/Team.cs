@@ -13,6 +13,7 @@ namespace TelegramBOT.Domain.Models
         /// Уникальный идентификатор команды (PRIMARY KEY, автогенерация)
         /// </summary>
         [Key]
+        [Column("team_id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TeamId { get; set; }
 
@@ -21,6 +22,7 @@ namespace TelegramBOT.Domain.Models
         /// </summary>
         [Required]
         [MaxLength(255)]
+        [Column("name")]
         public string Name { get; set; } = string.Empty;
     }
 }

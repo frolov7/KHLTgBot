@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using PuppeteerSharp;
+using System.Text;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
@@ -199,6 +200,67 @@ namespace TelegramBOT.Application.MatchStats
 
             var menu = new PredictionsMenuBuilder().Build(matchId);
             await _messageService.SendTextWithKeyboardAsync(chatId, text, menu);
+        }
+
+        // ==========================================================
+        // ============      СОБЫТИЯ МАТЧА               ============
+        // ==========================================================
+
+        /// <summary>
+        /// Загружает события матча (голы, удаления и т.д.) и отправляет пользователю.
+        /// </summary>
+        public async Task SendMatchEventsAsync(long chatId, string matchId)
+        {
+            var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
+            if (match == null)
+            {
+                await _messageService.SendTextAsync(chatId, "Матч не найден.");
+                return;
+            }
+
+            var events = (await _matchStatsRepository.GetMatchEventsAsync(matchId)).ToList();
+            if (!events.Any())
+            {
+                await _messageService.SendTextAsync(chatId, "❌ События для этого матча пока недоступны.");
+                return;
+            }
+
+            // 1) HTML
+            var html = MatchEventsHtmlBuilder.Build(match, events, _mappingService);
+
+            // 2) PNG
+            var image = await RenderHtmlToImageAsync(html);
+
+            // 3) Отправка
+            var (home, away) = _mappingService.MapTeamNames(match);
+            await _messageService.SendPhotoAsync(chatId, image, $"{home} vs {away}");
+
+            // 4) Вернуть меню матча
+            var menu = new MatchMenuBuilder().Build(match);
+            await _messageService.SendTextWithKeyboardAsync(chatId, $"{home} vs {away}", menu);
+        }
+
+        /// <summary>Рендерит произвольный HTML в PNG через PuppeteerSharp.</summary>
+        private async Task<Stream> RenderHtmlToImageAsync(string html)
+        {
+            var fetcher = new BrowserFetcher();
+            await fetcher.DownloadAsync();
+
+            var options = new LaunchOptions { Headless = true, Args = new[] { "--no-sandbox" } };
+            using var browser = await Puppeteer.LaunchAsync(options);
+            using var page = await browser.NewPageAsync();
+
+            await page.SetViewportAsync(new ViewPortOptions { Width = 1200, Height = 10 }); // ширина под макет
+            await page.SetContentAsync(html, new NavigationOptions { WaitUntil = new[] { WaitUntilNavigation.Networkidle0 } });
+
+            // фон
+            await page.EvaluateExpressionAsync("document.body.style.background = '#121212'");
+
+            var ss = await page.ScreenshotStreamAsync(new ScreenshotOptions { Type = ScreenshotType.Png, FullPage = true });
+            var ms = new MemoryStream();
+            await ss.CopyToAsync(ms);
+            ms.Position = 0;
+            return ms;
         }
     }
 }

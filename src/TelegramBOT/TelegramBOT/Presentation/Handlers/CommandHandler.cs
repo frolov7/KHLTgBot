@@ -92,6 +92,11 @@ namespace TelegramBOT.Presentation.Handlers
                     await _predictionHandler.HandlePredictionSelected(chatId, callback, messageId);
                     break;
 
+                // ---------- События ----------
+                case var _ when callback.StartsWith("events_"):
+                    await _statsHandler.HandleMatchEvents(chatId, callback);
+                    break;
+
                 // ---------- Статистика ----------
                 case var _ when callback.StartsWith("stats_"):
                     await _statsHandler.HandleHeadToHead(chatId, callback);
