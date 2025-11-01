@@ -43,6 +43,7 @@ TelegramBOT/
 │   │   ├── Match.cs
 │   │   ├── MatchVideo.cs
 │   │   ├── Prediction.cs
+│   │   ├── TeamStats.cs
 │   │   ├── Team.cs
 │   │   └── Users.cs
 │   │
@@ -50,6 +51,7 @@ TelegramBOT/
 │   │   ├── ICalendarRepository.cs
 │   │   ├── IPredictionRepository.cs
 │   │   ├── IResultsRepository.cs
+│   │   ├── IStandingsRepository.cs
 │   │   ├── ITeamsRepository.cs
 │   │   ├── IMatchStatsServiceRepository.cs
 │   │   └── IMessageService.cs
@@ -66,6 +68,9 @@ TelegramBOT/
 │   │   └── ResultsService.cs
 │   ├── Teams/
 │   │   └── TeamsService.cs
+│   ├── Standings/
+│   │   ├── StandingsHtmlBuilder.cs
+│   │   └── StandingsService.cs
 │   ├── MatchStats/
 │   │   └── MatchStatsService.cs
 │   └── Utils/
@@ -85,6 +90,8 @@ TelegramBOT/
 │   │   └── TeamsRepository.cs
 │   ├── MatchStats/
 │   │   └── MatchStatsRepository.cs
+│   ├── Standings/
+│   │   └── StandingsRepository.cs
 │   │
 │   ├── Telegram/
 │   │   ├── MessageService.cs
@@ -124,6 +131,9 @@ TelegramBOT/
 │       │   │   └── MainMenuBuilder.cs
 │       │   ├── Predictions/
 │       │   │   └── PredictionsMenuBuilder.cs
+│       │   ├── Stats/
+│       │   │   ├── TablesMenuBuilder.cs
+│       │   │   └── ConferenceMenuBuilder.cs
 │       │   └── Results/
 │       │       ├── ResultsMenuBuilder.cs
 │       │       └── TeamsMenuBuilder.cs
@@ -185,13 +195,13 @@ JSON / External API / Database
 
 ### Основные таблицы:
 
-| Таблица | Назначение |
-|----------|------------|
-| **Users** | Хранит данные пользователей Telegram (имя, ник, телефон, даты регистрации и обновления). |
-| **Teams** | Список команд, участвующих в матчах (уникальные названия). |
-| **Matches** | Информация о матчах — дата, статус, участники, счёт. |
-| **Predictions** | Прогнозы на матчи (основной, альтернативный, текст, результат). |
-| **MatchVideos** | Видеообзоры и записи матчей с привязкой к YouTube. |
+| Таблица         | Назначение                                                                               |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| **Users**       | Хранит данные пользователей Telegram (имя, ник, телефон, даты регистрации и обновления). |
+| **Teams**       | Список команд, участвующих в матчах (уникальные названия).                               |
+| **Matches**     | Информация о матчах — дата, статус, участники, счёт.                                     |
+| **Predictions** | Прогнозы на матчи (основной, альтернативный, текст, результат).                          |
+| **MatchVideos** | Видеообзоры и записи матчей с привязкой к YouTube.                                       |
 
 ---
 
@@ -232,6 +242,7 @@ CREATE TABLE Matches (
 );
 
 ```
+
 ### Таблица `Teams`
 
 ```sql
@@ -247,7 +258,7 @@ CREATE TABLE Teams (
 CREATE TABLE Predictions (
     prediction_id INT IDENTITY(1,1) PRIMARY KEY,
     match_id VARCHAR(50) NOT NULL FOREIGN KEY REFERENCES Matches(match_id),
-    
+
     source NVARCHAR(255),
     url NVARCHAR(MAX),
 
@@ -261,6 +272,7 @@ CREATE TABLE Predictions (
     away_team_text NVARCHAR(MAX)
 );
 ```
+
 ### Таблица `MatchVideos`
 
 ```sql
@@ -271,11 +283,12 @@ CREATE TABLE MatchVideos (
     url NVARCHAR(500) NOT NULL
 );
 ```
+
 ## 7.2 Взаимосвязи
 
-* Users — независимая сущность (Telegram пользователи).
-* Teams связаны с Matches через home_team_id и away_team_id.
-* Predictions ссылаются на Matches по match_id.
-* MatchVideos также привязаны к Matches через match_id.
+- Users — независимая сущность (Telegram пользователи).
+- Teams связаны с Matches через home_team_id и away_team_id.
+- Predictions ссылаются на Matches по match_id.
+- MatchVideos также привязаны к Matches через match_id.
 
 Эта структура обеспечивает целостность данных и позволяет строить запросы для отображения матчей, прогнозов и видеообзоров в Telegram UI.

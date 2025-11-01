@@ -3317,7 +3317,7 @@
   "4nntX8wR": {
     "id": "4nntX8wR",
     "date": "31.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Salavat Ufa"
     },
@@ -3325,14 +3325,14 @@
       "name": "Vladivostok"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "0"
     }
   },
   "zDRYRakf": {
     "id": "zDRYRakf",
     "date": "31.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Tractor Chelyabinsk"
     },
@@ -3340,14 +3340,14 @@
       "name": "Barys Astana"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "6",
+      "away": "3"
     }
   },
   "WYmYYU8E": {
     "id": "WYmYYU8E",
     "date": "31.10.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Yekaterinburg"
     },
@@ -3355,14 +3355,14 @@
       "name": "Novosibirsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "7",
+      "away": "1"
     }
   },
   "OWSCRn1l": {
     "id": "OWSCRn1l",
     "date": "31.10.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "SKA St. Petersburg"
     },
@@ -3370,8 +3370,8 @@
       "name": "Lokomotiv Yaroslavl"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "b97Fo8hK": {
