@@ -98,18 +98,34 @@ export async function scrapeMatchEvents({ browser, matchId, matchUrl, homeTeam, 
                 }
 
                 // === УДАЛЕНИЕ ===
-                else if ($incident.find("svg.penalty-2-min, svg.penalty-5-min, svg.penalty-10-min").length > 0) {
+                else if ($incident.find("svg[class*='penalty']").length > 0) {
                     const eventType = "Penalty";
                     const player = $incident.find(".smv__playerName").text().trim();
-                    const details =
+                    const reason =
                         $incident.find(".smv__subIncident").text().replace(/[()]/g, "").trim() ||
                         $incident.find("[title]").attr("title") ||
                         null;
 
+                    // --- Извлекаем длительность штрафа (2, 5, 10, 2+10, 2+2 и т.д.) ---
+                    const penaltyIcons = $incident.find("svg[class*='penalty']");
+                    const durations = [];
+
+                    penaltyIcons.each((_, icon) => {
+                        const cls = $(icon).attr("class") || "";
+                        if (cls.includes("penalty-2-min")) durations.push("2");
+                        else if (cls.includes("penalty-5-min")) durations.push("5");
+                        else if (cls.includes("penalty-10-min")) durations.push("10");
+                    });
+
+                    // Если несколько штрафов подряд, соединяем их через "+"
+                    const duration = durations.length > 1 ? durations.join("+") : durations[0] || null;
+
                     event.eventType = eventType;
                     if (player) event.player = player;
-                    if (details) event.details = details;
+                    if (reason) event.reason = reason;
+                    if (duration) event.duration = duration;
                 }
+
 
                 // === ГОЛ НЕ ЗАСЧИТАН ===
                 else if ($incident.find("svg.whistle-ico").length > 0) {
@@ -146,8 +162,23 @@ export async function scrapeMatchEvents({ browser, matchId, matchUrl, homeTeam, 
                 // === ЗАМЕНА ВРАТАРЯ ===
                 else if ($incident.find("svg.substitution").length > 0) {
                     const eventType = "Goalkeeper change";
-                    const goalieOut = $incident.find(".smv__playerName").first().text().trim();
-                    const goalieIn = $incident.find(".smv__incidentSubOut a").text().trim();
+
+                    // кто уходит (out) — всегда внутри контейнера SubOut
+                    const goalieOut =
+                        $incident
+                            .find(".smv__incidentSubOut .smv__playerName, .smv__incidentSubOut a")
+                            .first()
+                            .text()
+                            .trim() || null;
+
+                    // кто выходит (in) — основной .smv__playerName рядом с иконкой замены
+                    // (НЕ внутри SubOut)
+                    const goalieIn =
+                        $incident
+                            .children("a.smv__playerName, .smv__playerName")
+                            .first()
+                            .text()
+                            .trim() || null;
 
                     event.eventType = eventType;
                     if (goalieOut) event.goalieOut = goalieOut;
@@ -217,8 +248,8 @@ export async function scrapeRecentEvents({ browser, logger }) {
     const matches = JSON.parse(fs.readFileSync(FILES.KHL_MATCHES, "utf-8"));
 
     const today = dayjs();
-    const startDate = today.subtract(2, "day");
-    //const startDate = dayjs("2025-09-05", "YYYY-MM-DD"); // Парсинг всех матчей с начала сезона
+    //const startDate = today.subtract(2, "day");
+    const startDate = dayjs("2025-09-05", "YYYY-MM-DD"); // Парсинг всех матчей с начала сезона
 
     logger.info(`[matchEventsParse] Диапазон: ${startDate.format("DD.MM.YYYY")} – ${today.format("DD.MM.YYYY")}`);
 
