@@ -24,6 +24,7 @@ namespace TelegramBOT.Infrastructure.Scripts
             Results,
             Predictions,
             MatchVideos,
+            MatchEvents,
             All
         }
 
@@ -39,8 +40,9 @@ namespace TelegramBOT.Infrastructure.Scripts
             var updateResultsTask = RunScraperAsync(ScraperMode.Results);
             var updatePredictionsTask = RunScraperAsync(ScraperMode.Predictions);
             var updateMatchVideoTask = RunScraperAsync(ScraperMode.MatchVideos);
+            var updateMatchEventTask = RunScraperAsync(ScraperMode.MatchEvents);
 
-            await Task.WhenAll(updateResultsTask, updatePredictionsTask, updateMatchVideoTask);
+            await Task.WhenAll(updateResultsTask, updatePredictionsTask, updateMatchVideoTask, updateMatchEventTask);
 
             Log.Information("✅ Обновление результатов и прогнозов завершено успешно.");
         }
@@ -55,6 +57,7 @@ namespace TelegramBOT.Infrastructure.Scripts
                 ScraperMode.Results => "--updateResults",
                 ScraperMode.Predictions => "--predictions",
                 ScraperMode.MatchVideos => "--resultvideos",
+                ScraperMode.MatchEvents => "--events",
                 ScraperMode.All => "--all",
                 _ => throw new ArgumentOutOfRangeException(nameof(mode))
             };

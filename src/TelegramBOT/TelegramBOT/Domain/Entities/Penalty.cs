@@ -27,5 +27,8 @@ namespace TelegramBOT.Domain.Models
         [Column("reason")]
         [MaxLength(255)]
         public string? Reason { get; set; }
+        [Column("duration")]
+        [MaxLength(10)]
+        public string? Duration { get; set; }
     }
 }

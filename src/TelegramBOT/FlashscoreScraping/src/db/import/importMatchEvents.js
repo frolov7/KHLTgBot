@@ -152,16 +152,22 @@ async function importMatchEvents() {
                         continue;
                     }
                     else if (ev.eventType === "Penalty") {
+                        const reason = ev.reason || ev.details || null;
+                        const duration = ev.duration || null;
+
                         await pool
                             .request()
                             .input("event_id", sql.Int, eventId)
                             .input("player", sql.NVarChar, ev.player || null)
-                            .input("reason", sql.NVarChar, ev.details || null)
+                            .input("reason", sql.NVarChar, reason)
+                            .input("duration", sql.NVarChar, duration)
                             .query(`
-                                INSERT INTO Penalties (event_id, player, reason)
-                                VALUES (@event_id, @player, @reason);
+                                INSERT INTO Penalties (event_id, player, reason, duration)
+                                VALUES (@event_id, @player, @reason, @duration);
                             `);
                     }
+
+
 
                 } catch (err) {
                     logger.error(`Ошибка при вставке события (${ev.eventType}) в матче ${matchId}: ${err.message}`);
