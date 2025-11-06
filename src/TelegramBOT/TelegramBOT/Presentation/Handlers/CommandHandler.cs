@@ -97,12 +97,16 @@ namespace TelegramBOT.Presentation.Handlers
                     break;
 
                 // ---------- События ----------
-                case var _ when callback.StartsWith("events_parse_"):
-                    await _matchEventsHandler.HandleMatchEventsParsing(chatId, callback);
+                case var _ when callback.StartsWith("events_results_"):
+                    await _matchEventsHandler.HandleMatchEvents(chatId, callback, "results");
                     break;
 
-                case var _ when callback.StartsWith("events_"):
-                    await _matchEventsHandler.HandleMatchEvents(chatId, callback);
+                case var _ when callback.StartsWith("events_calendar_"):
+                    await _matchEventsHandler.HandleMatchEvents(chatId, callback, "calendar");
+                    break;
+
+                case var _ when callback.StartsWith("events_parse_"):
+                    await _matchEventsHandler.HandleMatchEventsParsing(chatId, callback);
                     break;
 
                 // ---------- Статистика ----------
@@ -117,6 +121,11 @@ namespace TelegramBOT.Presentation.Handlers
                 // ---------- Результаты ----------
                 case var _ when callback.StartsWith("result_"):
                     await _resultsHandler.HandleResult(chatId, callback);
+                    break;
+
+                // ---------- Назад к результатам ----------
+                case var _ when callback.StartsWith("back_to_results_"):
+                    await _resultsHandler.HandleBackToResults(chatId, callback);
                     break;
 
                 // ---------- Календарь ----------

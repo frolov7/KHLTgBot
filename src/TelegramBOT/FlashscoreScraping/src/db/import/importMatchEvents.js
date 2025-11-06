@@ -255,6 +255,42 @@ async function importSingleMatch(matchId, matchData, pool) {
                         `);
                     break;
 
+                // Буллит не реализован — "Shootout missed"
+                case "Shootout missed":
+                    await pool.request()
+                        .input("event_id", sql.Int, eventId)
+                        .input("shooter", sql.NVarChar, ev.player || null)
+                        .input("result", sql.NVarChar, "Missed")
+                        .query(`
+                            MERGE ShootoutDetails AS target
+                            USING (SELECT @event_id AS event_id) AS src
+                            ON target.event_id = src.event_id
+                            WHEN MATCHED THEN
+                                UPDATE SET shooter=@shooter, result=@result
+                            WHEN NOT MATCHED THEN
+                                INSERT (event_id, shooter, result)
+                                VALUES (@event_id, @shooter, @result);
+                        `);
+                    break;
+
+                // Гол не засчитан — "Goal disallowed"
+                case "Goal disallowed":
+                    await pool.request()
+                        .input("event_id", sql.Int, eventId)
+                        .input("scorer", sql.NVarChar, ev.player || null)
+                        .input("goal_type", sql.NVarChar, ev.reason || ev.details || "Disallowed")
+                        .query(`
+                            MERGE GoalDetails AS target
+                            USING (SELECT @event_id AS event_id) AS src
+                            ON target.event_id = src.event_id
+                            WHEN MATCHED THEN
+                                UPDATE SET scorer=@scorer, goal_type=@goal_type
+                            WHEN NOT MATCHED THEN
+                                INSERT (event_id, scorer, goal_type)
+                                VALUES (@event_id, @scorer, @goal_type);
+                        `);
+                    break;
+
                 default:
                     logger.info(`(i) Пропущен дополнительный парсинг для типа "${ev.eventType}"`);
                     break;

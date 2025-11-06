@@ -34,6 +34,15 @@ namespace TelegramBOT.Application.Results
         }
 
         // ==========================================================
+        // ============             УТИЛИТЫ              ============
+        // ==========================================================
+        public bool TryParseCallbackDate(string callback, out DateTime date)
+        {
+            var dateStr = callback.Replace("back_to_results_", "");
+            return DateTime.TryParseExact(dateStr, "yyyyMMdd", null, System.Globalization.DateTimeStyles.None, out date);
+        }
+
+        // ==========================================================
         // ===============      БЛОК ЗАГРУЗКИ ДАННЫХ     =============
         // ==========================================================
 
