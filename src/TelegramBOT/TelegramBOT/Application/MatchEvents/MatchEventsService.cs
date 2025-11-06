@@ -7,6 +7,8 @@ using TelegramBOT.Presentation.UI.Menus.Calendar;
 using System.Text;
 using Serilog;
 using TelegramBOT.Presentation.Rendering.Html;
+using TelegramBOT.Presentation.UI.Menus.Results;
+using TelegramBOT.Application.Results;
 
 namespace TelegramBOT.Application.MatchEvents
 {
@@ -15,14 +17,17 @@ namespace TelegramBOT.Application.MatchEvents
         private readonly IMatchStatsServiceRepository _matchStatsRepository;
         private readonly MappingService _mappingService;
         private readonly MessageService _messageService;
+        private readonly ResultsService _resultsService;
 
         public MatchEventsService(
             IMatchStatsServiceRepository matchStatsRepository,
             MappingService mappingService,
+            ResultsService resultsService,
             MessageService messageService)
         {
             _matchStatsRepository = matchStatsRepository;
             _mappingService = mappingService;
+            _resultsService = resultsService;
             _messageService = messageService;
         }
 
@@ -34,9 +39,9 @@ namespace TelegramBOT.Application.MatchEvents
         /// Загружает события матча (голы, удаления, замены вратаря и т.д.)
         /// и отправляет пользователю картинку с визуализацией.
         /// </summary>
-        public async Task SendMatchEventsAsync(long chatId, string matchId)
+        public async Task SendMatchEventsAsync(long chatId, string matchId, string source)
         {
-            Log.Information($"[MatchEventsService] Получен запрос на события матча: {matchId}");
+            Log.Information($"[MatchEventsService] Получен запрос на события матча: {matchId} (Источник: {source})");
 
             var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
@@ -58,13 +63,25 @@ namespace TelegramBOT.Application.MatchEvents
             // Рендерим HTML → PNG
             var image = await RenderHtmlToImageAsync(html);
 
-            // Отправляем пользователю
+            // Отправляем пользователю изображение
             var (home, away) = _mappingService.MapTeamNames(match);
             await _messageService.SendPhotoAsync(chatId, image, $"{home} vs {away}");
 
-            // Возвращаем inline-меню
-            var menu = new MatchMenuBuilder().Build(match);
-            await _messageService.SendTextWithKeyboardAsync(chatId, $"{home} vs {away}", menu);
+            // Показываем соответствующее меню
+            if (source == "results")
+            {
+                Log.Information("[MatchEventsService] Отображаем меню результатов для {MatchId}", matchId);
+                var video = await _resultsService.GetMatchVideoAsync(match.MatchId);
+
+                var menu = new ResultsMatchMenuBuilder().Build(match, video);
+                await _messageService.SendTextWithKeyboardAsync(chatId, $"{home} vs {away}", menu);
+            }
+            else
+            {
+                Log.Information("[MatchEventsService] Отображаем меню календаря для {MatchId}", matchId);
+                var menu = new MatchMenuBuilder().Build(match);
+                await _messageService.SendTextWithKeyboardAsync(chatId, $"{home} vs {away}", menu);
+            }
         }
 
         /// <summary>

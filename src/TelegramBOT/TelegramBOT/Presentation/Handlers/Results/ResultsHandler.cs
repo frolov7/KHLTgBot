@@ -2,6 +2,7 @@
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
+using System.Globalization;
 
 namespace TelegramBOT.Presentation.Handlers.Results
 {
@@ -35,6 +36,18 @@ namespace TelegramBOT.Presentation.Handlers.Results
         public async Task ShowResultsMenu(long chatId)
         {
             await _messageService.SendKeyboardAsync(chatId, "Выберите действие", _menuService.GetResultsMenu());
+        }
+
+        /// <summary>
+        /// Возврат к результатам матчей за указанную дату.
+        /// Пример callback: back_to_results_20251105
+        /// </summary>
+        public async Task HandleBackToResults(long chatId, string callback)
+        {
+            if (!_resultsService.TryParseCallbackDate(callback, out var date))
+                date = DateTime.Today;
+
+            await _resultsService.SendResultsAsync(chatId, date);
         }
 
         /// <summary>
