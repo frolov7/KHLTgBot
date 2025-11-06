@@ -20,7 +20,7 @@ namespace TelegramBOT.Presentation.UI.Menus.Results
             }
 
             rows.Add(new List<InlineKeyboardButton> {
-                InlineKeyboardButton.WithCallbackData("📋 События", $"events_{match.MatchId}")
+                InlineKeyboardButton.WithCallbackData("📋 События", $"events_parse_{match.MatchId}")
             });
 
             rows.Add(new List<InlineKeyboardButton> {

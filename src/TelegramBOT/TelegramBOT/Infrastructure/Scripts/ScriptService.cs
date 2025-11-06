@@ -66,6 +66,15 @@ namespace TelegramBOT.Infrastructure.Scripts
             await RunNodeScriptAsync($"{scriptPath} {args}");
         }
 
+        public async Task RunSingleMatchEventsAsync(string matchId)
+        {
+            var scriptPath = _config["Script:ScraperPath"] ?? "src/scraper/scraperRunner.js";
+            var workingDir = _config["Script:WorkingDirectory"] ?? Directory.GetCurrentDirectory();
+
+            var args = $"{scriptPath} --events-single {matchId}";
+            await RunNodeScriptAsync(args);
+        }
+
         // ==========================================================
         // ============      ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ     ============
         // ==========================================================

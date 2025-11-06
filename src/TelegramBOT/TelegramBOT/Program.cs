@@ -2,6 +2,7 @@
 using Serilog;
 using Telegram.Bot;
 using TelegramBOT.Application.Calendar;
+using TelegramBOT.Application.MatchEvents;
 using TelegramBOT.Application.MatchStats;
 using TelegramBOT.Application.Predictions;
 using TelegramBOT.Application.Results;
@@ -20,6 +21,7 @@ using TelegramBOT.Infrastructure.Teams;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.Handlers;
 using TelegramBOT.Presentation.Handlers.Calendar;
+using TelegramBOT.Presentation.Handlers.MatchEvents;
 using TelegramBOT.Presentation.Handlers.MatchStats;
 using TelegramBOT.Presentation.Handlers.Navigation;
 using TelegramBOT.Presentation.Handlers.Predictions;
@@ -84,6 +86,7 @@ builder.ConfigureServices((context, services) =>
     services.AddScoped<CommandHandler>();
     services.AddScoped<NavigationHandler>();
     services.AddScoped<ResultsHandler>();
+    services.AddScoped<MatchEventsHandler>();
     services.AddScoped<MatchStatsHandler>();
     services.AddScoped<TeamsHandler>();
     services.AddScoped<PredictionHandler>();
@@ -103,6 +106,7 @@ builder.ConfigureServices((context, services) =>
     // -----------------------------
     services.AddScoped<CalendarService>();
     services.AddScoped<ResultsService>();
+    services.AddScoped<MatchEventsService>();
     services.AddScoped<MatchStatsService>();
     services.AddScoped<TeamsService>();
     services.AddScoped<PredictionService>();

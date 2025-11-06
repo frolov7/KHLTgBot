@@ -53,19 +53,5 @@ namespace TelegramBOT.Presentation.Handlers.MatchStats
             var matchId = callback.Replace("predict_", "");
             await _statsService.SendPredictionsAsync(chatId, matchId);
         }
-
-        // ==========================================================
-        // ============      СОБЫТИЯ МАТЧА                ============
-        // ==========================================================
-
-        /// <summary>
-        /// Обрабатывает callback для отображения событий матча
-        /// (из календаря или результатов).
-        /// </summary>
-        public async Task HandleMatchEvents(long chatId, string callback)
-        {
-            var matchId = callback.Replace("events_", "");
-            await _statsService.SendMatchEventsAsync(chatId, matchId);
-        }
     }
 }

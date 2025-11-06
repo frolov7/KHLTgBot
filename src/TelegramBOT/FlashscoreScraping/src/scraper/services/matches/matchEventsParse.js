@@ -261,7 +261,7 @@ export async function scrapeRecentEvents({ browser, logger }) {
         return !date.isBefore(startDate, "day") && !date.isAfter(today, "day");
     });
 
-    logger.info(`[matchEventsParse] Найдено ${matchEntries.length} матчей КХЛ за последние 3 дня.`);
+    logger.info(`[matchEventsParse] Найдено ${matchEntries.length} матчей КХЛ за последние 2 дня.`);
 
     let updated = 0;
 
