@@ -69,5 +69,38 @@ namespace TelegramBOT.Infrastructure.MatchStats
         {
             return await _db.Matches.FirstOrDefaultAsync(m => m.MatchId == matchId);
         }
+
+        // ==========================================================
+        // ============      СОБЫТИЯ МАТЧА               ============
+        // ==========================================================
+
+        /// <summary>
+        /// Загружает список событий матча (голы, удаления и т.д.) из KHL_EVENTS.json.
+        /// </summary>
+        public async Task<IEnumerable<MatchEvent>> GetMatchEventsAsync(string matchId)
+        {
+            // Загружаем события матча с подгрузкой всех связанных таблиц
+            var events = await _db.MatchEvents
+                .Include(e => e.EventType)
+                .Include(e => e.GoalDetail)
+                .Include(e => e.GoalieChange)
+                .Include(e => e.ShootoutDetail)
+                .Include(e => e.Penalty)
+                .Include(e => e.Team)
+                .Where(e => e.MatchId == matchId)
+                .AsNoTracking()
+                .ToListAsync();
+
+            // Сортировка по периоду и времени (всё в одном месте)
+            return events
+                .OrderBy(e =>
+                    e.Period.StartsWith("1") ? 1 :
+                    e.Period.StartsWith("2") ? 2 :
+                    e.Period.StartsWith("3") ? 3 :
+                    e.Period.StartsWith("OT", StringComparison.OrdinalIgnoreCase) ? 4 :
+                    e.Period.StartsWith("SO", StringComparison.OrdinalIgnoreCase) ? 5 : 99)
+                .ThenBy(e => e.Time)
+                .ToList();
+        }
     }
 }

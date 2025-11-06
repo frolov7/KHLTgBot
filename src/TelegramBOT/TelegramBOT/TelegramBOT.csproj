@@ -22,6 +22,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\icons\puck.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Entity Framework -->
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.18" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.18" />
@@ -44,6 +48,10 @@
 
     <!-- Telegram API -->
     <PackageReference Include="Telegram.Bot" Version="22.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Presentation\Rendering\Assets\" />
   </ItemGroup>
 
 </Project>

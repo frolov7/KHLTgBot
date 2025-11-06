@@ -18,7 +18,7 @@ import { scrapePredictions as scrapeVprognoze } from "./services/predictions/vpr
 import { scrapePredictions as scrapeVseprosport } from "./services/predictions/vseprosportParse.js";
 
 import { scrapeKhlYoutubeVideos as scrapeKhlVideos } from "./parsers/khlYoutubeParser.js";
-import { scrapeRecentEvents } from "./services/matches/matchEventsParse.js";
+import { scrapeRecentEvents, scrapeMatchEvents } from "./services/matches/matchEventsParse.js";
 
 import { createLogger } from "./services/utils/core/logger.js";
 
@@ -164,6 +164,42 @@ export default async function main(args) {
         runImport(IMPORT_EVENTS_SCRIPT, "импорт событий матчей");
     }
 
+    // === Парсинг событий одного конкретного матча ===
+    if (args.includes("--events-single")) {
+        const matchId = args[args.indexOf("--events-single") + 1];
+        if (!matchId) {
+            console.error("❌ Не указан matchId для --events-single");
+            process.exit(1);
+        }
+
+        const matches = JSON.parse(fs.readFileSync(FILES.KHL_MATCHES, "utf-8"));
+        const match = matches[matchId];
+        if (!match) {
+            console.error(`❌ Матч с ID ${matchId} не найден в KHL_MATCHES.json`);
+            process.exit(1);
+        }
+
+        logger.info(`=== ▶ Парсинг событий только для матча ${match.home?.name} – ${match.away?.name} (${matchId}) ===`);
+
+        const startTime = Date.now(); // ⏱️ начинаем замер
+
+        await scrapeMatchEvents({
+            browser,
+            matchId,
+            matchUrl: `${BASE_URL}/match/${matchId}/#/match-summary/match-summary`,
+            homeTeam: match.home?.name,
+            awayTeam: match.away?.name,
+            logger,
+        });
+
+        const duration = ((Date.now() - startTime) / 1000).toFixed(2);
+
+        logger.info("Импортируем события только для одного матча в БД...");
+        runImport(`${IMPORT_EVENTS_SCRIPT} --single ${matchId}`, `импорт событий для ${matchId}`);
+
+        logger.info(`✅ Завершён парсинг событий для матча ${matchId} (${duration} сек.)`);
+    }
+
     await browser.close();
     logger.info("Браузер закрыт");
 }
@@ -172,9 +208,9 @@ export default async function main(args) {
 /// Выполняет запуск внешнего Node.js-скрипта (импорта данных) и отображает лог его выполнения.
 /// Используется для импортирования матчей, прогнозов и видеообзоров в базу данных.
 /// </summary>
-function runImport(scriptPath, label = "импорт") {
+function runImport(command, label = "импорт") {
     logger.info(`Запускаем ${label}...`);
-    exec(`node "${scriptPath}"`, { encoding: "buffer" }, (error, stdout, stderr) => {
+    exec(`node ${command}`, { encoding: "buffer" }, (error, stdout, stderr) => {
         const out = iconv.decode(stdout, "utf8");
         const err = iconv.decode(stderr, "utf8");
 

@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using Telegram.Bot.Types;
 using TelegramBOT.Presentation.Handlers.Calendar;
+using TelegramBOT.Presentation.Handlers.MatchEvents;
 using TelegramBOT.Presentation.Handlers.MatchStats;
 using TelegramBOT.Presentation.Handlers.Navigation;
 using TelegramBOT.Presentation.Handlers.Predictions;
@@ -26,6 +27,7 @@ namespace TelegramBOT.Presentation.Handlers
         private readonly UpdateHandler _updateHandler;
         private readonly PredictionHandler _predictionHandler;
         private readonly StandingsHandler _standingsHandler;
+        private readonly MatchEventsHandler _matchEventsHandler;
 
         private static bool _isUpdating = false;
         // ==========================================================
@@ -39,6 +41,7 @@ namespace TelegramBOT.Presentation.Handlers
             NavigationHandler navigationHandler,
             PredictionHandler predictionHandler,
             UpdateHandler updateHandler,
+            MatchEventsHandler matchEventsHandler,
             StandingsHandler standingsHandler)
         {
             _calendarHandler = calendarHandler;
@@ -47,6 +50,7 @@ namespace TelegramBOT.Presentation.Handlers
             _navigationHandler = navigationHandler;
             _predictionHandler = predictionHandler;
             _updateHandler = updateHandler;
+            _matchEventsHandler = matchEventsHandler;
             _standingsHandler = standingsHandler;
         }
 
@@ -90,6 +94,15 @@ namespace TelegramBOT.Presentation.Handlers
 
                 case var _ when callback.StartsWith("prediction_") || callback.StartsWith("back_to_match_"):
                     await _predictionHandler.HandlePredictionSelected(chatId, callback, messageId);
+                    break;
+
+                // ---------- События ----------
+                case var _ when callback.StartsWith("events_parse_"):
+                    await _matchEventsHandler.HandleMatchEventsParsing(chatId, callback);
+                    break;
+
+                case var _ when callback.StartsWith("events_"):
+                    await _matchEventsHandler.HandleMatchEvents(chatId, callback);
                     break;
 
                 // ---------- Статистика ----------

@@ -31,6 +31,10 @@ namespace TelegramBOT.Presentation.UI.Menus.Calendar
                 },
                 new[]
                 {
+                    InlineKeyboardButton.WithCallbackData("📅 События", $"events_{match.MatchId}")
+                },
+                new[]
+                {
                     InlineKeyboardButton.WithCallbackData("⬅️ Назад (Календарь)", $"back_to_calendar_{match.MatchDate:yyyyMMdd}")
                 }
             });
