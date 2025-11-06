@@ -123,6 +123,20 @@ async function importSingleMatch(matchId, matchData, pool) {
     const events = matchData.events || [];
     let insertedEvents = 0;
 
+    // --- получаем все event_id для этого матча ---
+    const existingEvents = await pool.request()
+        .input("match_id", sql.VarChar, matchId)
+        .query("SELECT event_id, event_type_id, period, time, player, details FROM MatchEvents WHERE match_id = @match_id");
+
+    const existingMap = new Map(
+        existingEvents.recordset.map(ev => [
+            `${ev.event_type_id}|${ev.period || ""}|${ev.time || ""}|${ev.player || ""}|${ev.details || ""}`,
+            ev.event_id
+        ])
+    );
+
+    const seenEventIds = new Set();
+
     for (const ev of events) {
         try {
             // === Получаем event_type_id ===
@@ -148,41 +162,23 @@ async function importSingleMatch(matchId, matchData, pool) {
                 if (teamSet.length > 0) teamId = teamSet[0].team_id;
             }
 
-            // === Проверяем, есть ли уже такое событие ===
-            const { recordset: existing } = await pool.request()
-                .input("match_id", sql.VarChar, matchId)
-                .input("event_type_id", sql.Int, eventTypeId)
-                .input("period", sql.NVarChar, ev.period || null)
-                .input("time", sql.NVarChar, ev.time || null)
-                .input("player", sql.NVarChar, ev.player || null)
-                .input("details", sql.NVarChar, ev.details || null)
-                .query(`
-                    SELECT event_id FROM MatchEvents
-                    WHERE match_id = @match_id AND event_type_id = @event_type_id
-                      AND ISNULL(period, '') = ISNULL(@period, '')
-                      AND ISNULL(time, '') = ISNULL(@time, '')
-                      AND ISNULL(player, '') = ISNULL(@player, '')
-                      AND ISNULL(details, '') = ISNULL(@details, '')
-                `);
+            const key = `${eventTypeId}|${ev.period || ""}|${ev.time || ""}|${ev.player || ""}|${ev.details || ""}`;
+            let eventId = existingMap.get(key);
 
-            let eventId;
-
-            if (existing.length > 0) {
-                // === Обновляем существующее событие ===
-                eventId = existing[0].event_id;
-
+            // --- MERGE-логика для MatchEvents ---
+            if (eventId) {
+                // обновляем
                 await pool.request()
                     .input("event_id", sql.Int, eventId)
                     .input("team_id", sql.Int, teamId)
                     .query(`
                         UPDATE MatchEvents
                         SET team_id = @team_id
-                        WHERE event_id = @event_id
+                        WHERE event_id = @event_id;
                     `);
-
                 logger.info(`🔄 Обновлено событие (${ev.eventType}) для матча ${matchId}`);
             } else {
-                // === Вставляем новое событие ===
+                // вставляем
                 const insertEvent = await pool.request()
                     .input("match_id", sql.VarChar, matchId)
                     .input("team_id", sql.Int, teamId)
@@ -196,13 +192,14 @@ async function importSingleMatch(matchId, matchData, pool) {
                         OUTPUT INSERTED.event_id AS event_id
                         VALUES (@match_id, @team_id, @event_type_id, @period, @time, @details, @player);
                     `);
-
                 eventId = insertEvent.recordset[0].event_id;
                 insertedEvents++;
                 logger.info(`➕ Добавлено новое событие (${ev.eventType}) для матча ${matchId}`);
             }
 
-            // === Обработка деталей ===
+            seenEventIds.add(eventId);
+
+            // --- Обработка подтаблиц (MERGE сохраняем как есть) ---
             switch (ev.eventType) {
                 case "Goal":
                     await pool.request()
@@ -241,7 +238,6 @@ async function importSingleMatch(matchId, matchData, pool) {
                         `);
                     break;
 
-                case "Goalie change":
                 case "Goalkeeper change":
                     await pool.request()
                         .input("event_id", sql.Int, eventId)
@@ -259,49 +255,34 @@ async function importSingleMatch(matchId, matchData, pool) {
                         `);
                     break;
 
-                case "Goal disallowed":
-                    // Можно просто логировать, или, например, писать в ту же таблицу GoalDetails с пометкой
-                    await pool.request()
-                        .input("event_id", sql.Int, eventId)
-                        .input("details", sql.NVarChar, "Goal disallowed")
-                        .query(`
-                            UPDATE MatchEvents
-                            SET details = @details
-                            WHERE event_id = @event_id;
-                        `);
-                    break;
-
-                case "Shootout scored":
-                case "Shootout missed":
-                    await pool.request()
-                        .input("event_id", sql.Int, eventId)
-                        .input("shooter", sql.NVarChar, ev.player || null)
-                        .input("result", sql.NVarChar, ev.eventType.includes("scored") ? "Scored" : "Missed")
-                        .query(`
-                            MERGE ShootoutDetails AS target
-                            USING (SELECT @event_id AS event_id) AS src
-                            ON target.event_id = src.event_id
-                            WHEN MATCHED THEN
-                                UPDATE SET shooter=@shooter, result=@result
-                            WHEN NOT MATCHED THEN
-                                INSERT (event_id, shooter, result)
-                                VALUES (@event_id, @shooter, @result);
-                        `);
-                    break;
-
                 default:
                     logger.info(`(i) Пропущен дополнительный парсинг для типа "${ev.eventType}"`);
                     break;
             }
 
         } catch (err) {
-            logger.error(`❌ Ошибка при обработке события (${ev.eventType}) в матче ${matchId}: ${err.message}`);
+            logger.error(`Ошибка при обработке события (${ev.eventType}) в матче ${matchId}: ${err.message}`);
+        }
+    }
+
+    // --- Удаляем устаревшие события ---
+    for (const [_, evId] of existingMap) {
+        if (!seenEventIds.has(evId)) {
+            await pool.request()
+                .input("event_id", sql.Int, evId)
+                .query(`
+                    DELETE FROM GoalDetails WHERE event_id = @event_id;
+                    DELETE FROM GoalieChanges WHERE event_id = @event_id;
+                    DELETE FROM ShootoutDetails WHERE event_id = @event_id;
+                    DELETE FROM Penalties WHERE event_id = @event_id;
+                    DELETE FROM MatchEvents WHERE event_id = @event_id;
+                `);
+            logger.info(`Удалено устаревшее событие event_id=${evId} для матча ${matchId}`);
         }
     }
 
     return insertedEvents;
 }
-
 
 /// <summary>
 /// Точка входа при прямом запуске скрипта.
