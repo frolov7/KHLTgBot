@@ -20,11 +20,11 @@ namespace TelegramBOT.Presentation.UI.Menus.Results
             }
 
             rows.Add(new List<InlineKeyboardButton> {
-                InlineKeyboardButton.WithCallbackData("📋 События", $"events_parse_{match.MatchId}")
+                InlineKeyboardButton.WithCallbackData("📋 События", $"events_results_{match.MatchId}")
             });
 
             rows.Add(new List<InlineKeyboardButton> {
-                InlineKeyboardButton.WithCallbackData("⬅️ Назад (Результаты)", "back_to_results")
+                InlineKeyboardButton.WithCallbackData("⬅️ Назад (Результаты)", $"back_to_results_{match.MatchDate:yyyyMMdd}")
             });
 
             return new InlineKeyboardMarkup(rows);
