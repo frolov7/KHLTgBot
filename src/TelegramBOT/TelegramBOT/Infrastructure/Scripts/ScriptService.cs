@@ -66,6 +66,9 @@ namespace TelegramBOT.Infrastructure.Scripts
             await RunNodeScriptAsync($"{scriptPath} {args}");
         }
 
+        /// <summary>
+        /// Запускает скрипт парсинга событий для конкретного матча по matchId
+        /// </summary>
         public async Task RunSingleMatchEventsAsync(string matchId)
         {
             var scriptPath = _config["Script:ScraperPath"] ?? "src/scraper/scraperRunner.js";

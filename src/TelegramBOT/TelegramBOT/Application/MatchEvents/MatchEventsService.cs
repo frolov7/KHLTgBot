@@ -18,17 +18,20 @@ namespace TelegramBOT.Application.MatchEvents
         private readonly MappingService _mappingService;
         private readonly MessageService _messageService;
         private readonly ResultsService _resultsService;
+        private readonly MatchEventsHtmlBuilder _htmlBuilder;
 
         public MatchEventsService(
             IMatchStatsServiceRepository matchStatsRepository,
             MappingService mappingService,
             ResultsService resultsService,
-            MessageService messageService)
+            MessageService messageService,
+            MatchEventsHtmlBuilder htmlBuilder)
         {
             _matchStatsRepository = matchStatsRepository;
             _mappingService = mappingService;
             _resultsService = resultsService;
             _messageService = messageService;
+            _htmlBuilder = htmlBuilder;
         }
 
         // ==========================================================
@@ -58,7 +61,7 @@ namespace TelegramBOT.Application.MatchEvents
             }
 
             // Генерируем HTML
-            var html = MatchEventsHtmlBuilder.Build(match, events, _mappingService);
+            var html = _htmlBuilder.Build(match, events);
 
             // Рендерим HTML → PNG
             var image = await RenderHtmlToImageAsync(html);

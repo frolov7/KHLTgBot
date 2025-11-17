@@ -70,7 +70,6 @@ async function importMatchVideos() {
                         VALUES (@match_id, @title, @url);
                     `);
 
-                logger.info(`Добавлено видео: ${video.title} | matchID: ${video.id}`);
                 inserted++;
             } catch (err) {
                 logger.error(`Ошибка при вставке видео "${video.title}": ${err.message}`);

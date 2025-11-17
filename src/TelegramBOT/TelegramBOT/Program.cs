@@ -28,6 +28,7 @@ using TelegramBOT.Presentation.Handlers.Predictions;
 using TelegramBOT.Presentation.Handlers.Results;
 using TelegramBOT.Presentation.Handlers.System;
 using TelegramBOT.Presentation.Handlers.Teams;
+using TelegramBOT.Presentation.Rendering.Html;
 using TelegramBOT.Presentation.UI;
 
 // -----------------------------
@@ -125,6 +126,7 @@ builder.ConfigureServices((context, services) =>
     // Утилиты
     // -----------------------------
     services.AddSingleton<MappingService>();
+    services.AddSingleton<MatchEventsHtmlBuilder>();
 });
 
 // -----------------------------

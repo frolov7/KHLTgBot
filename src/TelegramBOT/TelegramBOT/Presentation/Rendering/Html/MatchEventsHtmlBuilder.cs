@@ -5,21 +5,91 @@ using TelegramBOT.Domain.Models;
 
 namespace TelegramBOT.Presentation.Rendering.Html
 {
-    public static class MatchEventsHtmlBuilder
+    public class MatchEventsHtmlBuilder
     {
-        public static string Build(Match match, IEnumerable<MatchEvent> events, MappingService mapper)
+        private readonly IConfiguration _config;
+        private readonly MappingService _mapper;
+
+        public MatchEventsHtmlBuilder(IConfiguration config, MappingService mapper)
         {
-            var (homePretty, awayPretty) = mapper.MapTeamNames(match);
+            _config = config;
+            _mapper = mapper;
+        }
+
+        public string Build(Match match, IEnumerable<MatchEvent> events)
+        {
+            var (homePretty, awayPretty) = _mapper.MapTeamNames(match);
+
+            // Загружаем словарь арен
+            var arenaDict = _config.GetSection("Arenas").Get<Dictionary<string, string>>();
+
+            // ===== ДАТА, ВРЕМЯ, АРЕНА =====
+            string date = match.MatchDate.ToString("dd.MM.yyyy");
+            string time = match.MatchDate.ToString("HH:mm");
+
+            string arena = arenaDict != null && arenaDict.ContainsKey(match.HomeTeamName)
+                ? arenaDict[match.HomeTeamName]
+                : "Арена неизвестна";
+
             var sb = new StringBuilder();
 
             sb.AppendLine("<html><head><meta charset='utf-8'><style>");
             sb.AppendLine(MatchEventsCss.Get());
             sb.AppendLine("</style></head><body><div class='card'>");
 
-            sb.AppendLine("<h2>События матча</h2>");
-            sb.AppendLine($"<div class='teams'><span class='home'>{homePretty}</span> vs <span class='away'>{awayPretty}</span></div>");
+            // =====================================================================
+            // =====================   ШАПКА С ЛОГОТИПАМИ   =========================
+            // =====================================================================
 
-            // === ГРУППИРОВКА ПО ПЕРИОДАМ ===
+            string iconsDir = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
+                "src", "TelegramBOT", "TelegramBOT", "wwwroot", "icons", "teams");
+
+            string homeLogoFile = $"{match.HomeTeamName}_right.png";
+            string awayLogoFile = $"{match.AwayTeamName}_left.png";
+
+            string homeLogoPath = Path.Combine(iconsDir, homeLogoFile);
+            string awayLogoPath = Path.Combine(iconsDir, awayLogoFile);
+
+            string homeLogoBase64 = File.Exists(homeLogoPath)
+                ? Convert.ToBase64String(File.ReadAllBytes(homeLogoPath))
+                : "";
+
+            string awayLogoBase64 = File.Exists(awayLogoPath)
+                ? Convert.ToBase64String(File.ReadAllBytes(awayLogoPath))
+                : "";
+
+            string homeLogoHtml = File.Exists(homeLogoPath)
+                ? $"<img src='data:image/png;base64,{homeLogoBase64}' class='team-logo'>"
+                : $"<span class='team-name'>{homePretty}</span>";
+
+            string awayLogoHtml = File.Exists(awayLogoPath)
+                ? $"<img src='data:image/png;base64,{awayLogoBase64}' class='team-logo'>"
+                : $"<span class='team-name'>{awayPretty}</span>";
+
+
+            // ===== ВЕРХНЯЯ ПАНЕЛЬ =====
+            sb.AppendLine("<div class='header-row'>");
+            sb.AppendLine($"  <div class='logo-left'>{homeLogoHtml}</div>");
+            sb.AppendLine("  <div class='header-title'>События матча</div>");
+            sb.AppendLine($"  <div class='logo-right'>{awayLogoHtml}</div>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("<div class='title-line'></div>");
+
+            // =====================================================================
+            // ================   НОВЫЙ БЛОК ДАТА — ВРЕМЯ — АРЕНА   ================
+            // =====================================================================
+            sb.AppendLine(@$"
+                <div class='match-info'>
+                    <div class='match-arena'>«{arena}»</div>
+                    <div class='match-date'>{date}</div>
+                    <div class='match-time'>{time}</div>
+                </div>
+            ");
+
+            // =====================================================================
+            // ===================      ПЕРИОДЫ И СОБЫТИЯ       ====================
+            // =====================================================================
+
             foreach (var periodGroup in events.OrderBy(e => e.Period).GroupBy(e => e.Period))
             {
                 sb.AppendLine("<div class='period'>");
@@ -27,6 +97,7 @@ namespace TelegramBOT.Presentation.Rendering.Html
                 sb.AppendLine("<table>");
 
                 var periodList = periodGroup.OrderBy(e => e.Time).ToList();
+
                 var groupedByTime = periodList
                     .GroupBy(x => x.Time)
                     .OrderBy(g => g.Key)
@@ -34,7 +105,7 @@ namespace TelegramBOT.Presentation.Rendering.Html
 
                 foreach (var timeGroup in groupedByTime)
                 {
-                    string time = timeGroup.Key ?? "";
+                    string timeStr = timeGroup.Key ?? "";
                     string score = timeGroup.FirstOrDefault(e => !string.IsNullOrWhiteSpace(e.GoalDetail?.Score))?.GoalDetail?.Score ?? "";
 
                     var homeEvents = timeGroup.Where(e => e.Team?.Name == match.HomeTeamName).ToList();
@@ -43,7 +114,7 @@ namespace TelegramBOT.Presentation.Rendering.Html
 
                     sb.AppendLine("<tr>");
 
-                    // Левая колонка (хозяева)
+                    // Левая колонка
                     sb.AppendLine("<td class='home'>");
                     foreach (var e in homeEvents)
                     {
@@ -52,13 +123,15 @@ namespace TelegramBOT.Presentation.Rendering.Html
                     }
                     sb.AppendLine("</td>");
 
-                    // Центр — время и счёт
-                    sb.AppendLine($@"<td class='center'>
-                        <div class='time'>{time}</div>
-                        <div class='score'>{(string.IsNullOrWhiteSpace(score) ? "" : $"({score})")}</div>
-                    </td>");
+                    // Центр
+                    sb.AppendLine($@"
+                        <td class='center'>
+                            <div class='time'>{timeStr}</div>
+                            <div class='score'>{(string.IsNullOrWhiteSpace(score) ? "" : $"({score})")}</div>
+                        </td>
+                    ");
 
-                    // Правая колонка (гости)
+                    // Правая колонка
                     sb.AppendLine("<td class='away'>");
                     foreach (var e in awayEvents)
                     {
@@ -66,19 +139,19 @@ namespace TelegramBOT.Presentation.Rendering.Html
                         sb.AppendLine(GetEventHtml(e, type, false));
                     }
                     sb.AppendLine("</td>");
-
                     sb.AppendLine("</tr>");
 
-                    // Нейтральные события (например, объявления)
+                    // Нейтральные события
                     foreach (var e in neutralEvents)
                     {
                         string type = e.EventType?.Name?.ToLower() ?? "";
                         string html = GetEventHtml(e, type, true);
+
                         sb.AppendLine($@"<tr>
-                            <td class='home'></td>
-                            <td class='center'>{html}</td>
-                            <td class='away'></td>
-                        </tr>");
+                        <td class='home'></td>
+                        <td class='center'>{html}</td>
+                        <td class='away'></td>
+                    </tr>");
                     }
                 }
 
@@ -106,11 +179,11 @@ namespace TelegramBOT.Presentation.Rendering.Html
             type switch
             {
                 "goal" => 
-                    BuildGoalBlock(e, isHome, false),
-                
-                "goal disallowed" or "no goal" =>
-                    BuildGoalBlock(e, isHome, true),
-                
+                    BuildGoalBlock(e, isHome),
+
+                "goal disallowed" =>
+                    BuildGoalDisallowedBlock(e, isHome),
+
                 "penalty missed" or "shootout missed" or "so missed" =>
                     BuildMissedPenalty(e, isHome),
                 
@@ -159,42 +232,72 @@ namespace TelegramBOT.Presentation.Rendering.Html
         }
 
         // ======== ГОЛ ========
-        private static string BuildGoalBlock(MatchEvent e, bool isHome, bool isNoGoal)
+        private static string BuildGoalBlock(MatchEvent e, bool isHome)
         {
-            string puckPath = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
-                "src", "TelegramBOT", "TelegramBOT", "wwwroot", "icons", "puck.png");
-            string base64 = File.Exists(puckPath) ? Convert.ToBase64String(File.ReadAllBytes(puckPath)) : "";
-            string imgHtml = File.Exists(puckPath)
-                ? $"<img src='data:image/png;base64,{base64}' class='event-icon' style='filter: drop-shadow(0 0 4px {(isNoGoal ? "#ff4d4d" : "white")});'>"
-                : "🏒";
-
-            string scorer = e.GoalDetail?.Scorer ?? e.Player ?? "";
-            string assists = e.GoalDetail?.Assistants;
-            string assistsHtml = string.IsNullOrWhiteSpace(assists) ? "" : $"<div class='event-assist'>({assists})</div>";
+            string player = e.GoalDetail?.Scorer ?? e.Player ?? "";
+            string assists = e.GoalDetail?.Assistants ?? "";
+            string score = e.GoalDetail?.Score ?? "";
+            string goalType = e.GoalDetail?.GoalType ?? "";
             string side = isHome ? "home" : "away";
-            string details = isNoGoal && !string.IsNullOrWhiteSpace(e.Details) ? e.Details : "";
 
-            if (isNoGoal)
+            string goalTypeText = goalType switch
             {
-                string scorerHtml = string.IsNullOrWhiteSpace(scorer) ? "" : $"<div class='event-assist'>({scorer})</div>";
-                return $@"
-                    <div class='event-block {side}'>
-                      <div class='event-header'>
-                        {imgHtml}
-                        <span class='event-player' style='color:#ff4d4d;'>{details}</span>
-                      </div>
-                      {scorerHtml}
-                    </div>";
-            }
+                "Power-play" => "(Большинство)",
+                "Power-play, Empty net" => "(Большинство, пустые ворота)",
+                "Shorthanded" => "(Меньшинство)",
+                "Shorthanded, Empty net" => "(Меньшинство, пустые ворота)",
+                "Empty net" => "(Пустые ворота)",
+                _ => ""
+            };
+
+            string playerHtml = string.IsNullOrEmpty(goalTypeText)
+                ? player
+                : $"{player} <span class='goal-type'>{goalTypeText}</span>";
+
+            string iconPath = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
+                "src", "TelegramBOT", "TelegramBOT", "wwwroot", "icons", "puck.png");
+
+            string base64 = File.Exists(iconPath) ? Convert.ToBase64String(File.ReadAllBytes(iconPath)) : "";
+            string iconHtml = File.Exists(iconPath)
+                ? $"<img src='data:image/png;base64,{base64}' class='event-icon'>"
+                : "🥅";
+
+            string assistsHtml = string.IsNullOrWhiteSpace(assists)
+                ? ""
+                : $"<div class='event-assist'>({assists})</div>";
 
             return $@"
                 <div class='event-block {side}'>
-                  <div class='event-header'>
-                    {imgHtml}
-                    <span class='event-player'>{scorer}</span>
-                  </div>
-                  {assistsHtml}
+                    <div class='event-header'>
+                        {iconHtml}
+                        <span class='event-player'>{playerHtml}</span>
+                    </div>
+                    {assistsHtml}
                 </div>";
+        }
+
+        // ======== НЕЗАСЧИТАННЫЙ ГОЛ ========
+        private static string BuildGoalDisallowedBlock(MatchEvent e, bool isHome)
+        {
+            string side = isHome ? "home" : "away";
+            string reason = e.Details ?? e.EventType?.Name ?? "Goal disallowed";
+
+            // Иконка крестика на шайбе
+            string iconPath = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
+                "src", "TelegramBOT", "TelegramBOT", "wwwroot", "icons", "puck.png");
+
+            string base64 = File.Exists(iconPath) ? Convert.ToBase64String(File.ReadAllBytes(iconPath)) : "";
+            string iconHtml = File.Exists(iconPath)
+                ? $"<img src='data:image/png;base64,{base64}' class='event-icon' style='filter: drop-shadow(0 0 4px #ff4d4d);'>"
+                : "❌🥅";
+
+            return $@"
+        <div class='event-block {side}'>
+            <div class='event-header'>
+                {iconHtml}
+                <span class='event-player' style='color:#ff4d4d;'>{reason}</span>
+            </div>
+        </div>";
         }
 
         // ======== УДАЛЕНИЕ ========
@@ -203,16 +306,10 @@ namespace TelegramBOT.Presentation.Rendering.Html
             string player = e.Penalty?.Player ?? e.Player ?? "";
             string reason = e.Penalty?.Reason ?? "";
             string side = isHome ? "home" : "away";
-            string duration = e.Penalty?.Duration?.Trim() ?? "2";
-            string iconFile = $"{duration}min.png";
+            string durationRaw = e.Penalty?.Duration?.Trim() ?? "2";
 
-            string iconPath = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
-                "src", "TelegramBOT", "TelegramBOT", "wwwroot", "icons", iconFile);
-
-            string base64 = File.Exists(iconPath) ? Convert.ToBase64String(File.ReadAllBytes(iconPath)) : "";
-            string iconHtml = File.Exists(iconPath)
-                ? $"<img src='data:image/png;base64,{base64}' class='event-icon'>"
-                : $"<span class='badge b{duration}'>{duration}</span>";
+            // Получаем HTML всех иконок (например 5+10 -> две картинки)
+            string iconsHtml = BuildPenaltyIcons(durationRaw);
 
             if (!string.IsNullOrWhiteSpace(reason) &&
                 reason.Contains("too many men on the ice", StringComparison.OrdinalIgnoreCase))
@@ -221,13 +318,65 @@ namespace TelegramBOT.Presentation.Rendering.Html
             }
 
             return $@"
-                <div class='event-block {side}'>
-                  <div class='event-header'>
-                    {iconHtml}
-                    <span class='event-player'>{player}</span>
-                  </div>
-                  <div class='event-assist'>({reason})</div>
-                </div>";
+        <div class='event-block {side}'>
+          <div class='event-header'>
+            {iconsHtml}
+            <span class='event-player'>{player}</span>
+          </div>
+          <div class='event-assist'>({reason})</div>
+        </div>";
+        }
+
+        private static string BuildPenaltyIcons(string durationRaw)
+        {
+            var parts = durationRaw
+                .Replace("мин", "")
+                .Replace("min", "")
+                .Split('+', StringSplitOptions.RemoveEmptyEntries)
+                .Select(p => p.Trim())
+                .ToList();
+
+            if (parts.Count == 0)
+                parts.Add("2");
+
+            var iconsHtml = new StringBuilder();
+
+            string baseIconsDir = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
+                "src", "TelegramBOT", "TelegramBOT", "wwwroot", "icons");
+
+            string plusIconPath = Path.Combine(baseIconsDir, "plus.png");
+
+            string plusHtml = File.Exists(plusIconPath)
+                ? $"<img src='data:image/png;base64,{Convert.ToBase64String(File.ReadAllBytes(plusIconPath))}' class='penalty-plus-img'>"
+                : "<span class='penalty-plus'>+</span>";
+
+            for (int i = 0; i < parts.Count; i++)
+            {
+                string dur = parts[i];
+                string iconFile = $"{dur}min.png";
+                string iconPath = Path.Combine(baseIconsDir, iconFile);
+
+                string iconHtml;
+                if (File.Exists(iconPath))
+                {
+                    string base64 = Convert.ToBase64String(File.ReadAllBytes(iconPath));
+                    iconHtml = $"<img src='data:image/png;base64,{base64}' class='event-icon'>";
+                }
+                else
+                {
+                    iconHtml = $"<span class='badge b{dur}'>{dur}</span>";
+                }
+
+                iconsHtml.Append(iconHtml);
+
+                // вставляем картинку плюса, если есть ещё части
+                if (i < parts.Count - 1)
+                {
+                    iconsHtml.Append(plusHtml);
+                }
+            }
+
+            return iconsHtml.ToString();
         }
 
         // ======== НЕЗАБИТЫЙ БУЛЛИТ ========
