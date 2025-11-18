@@ -89,7 +89,7 @@ async function importPredictions() {
 
         // Очистка таблицы перед импортом
         await pool.request().query("TRUNCATE TABLE Predictions;");
-        logger.info("Таблица Predictions очищена.\n");
+        logger.info("Таблица Predictions очищена.");
 
         let totalInserted = 0;
         let totalSkipped = 0;
@@ -193,7 +193,7 @@ async function importPredictions() {
         }
 
         logger.info(`✅ Импорт завершён.`);
-        logger.info(`Добавлено: ${totalInserted}, пропущено: ${totalSkipped}.`);
+        logger.info(`Добавлено: ${totalInserted}, пропущено: ${totalSkipped}.\n`);
     } catch (err) {
         logger.error(`Ошибка при импорте прогнозов: ${err.message}`);
     } finally {

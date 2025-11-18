@@ -63,11 +63,27 @@ namespace TelegramBOT.Presentation.Handlers
         /// </summary>
         public async Task HandleAsync(Update update)
         {
-            if (update.CallbackQuery != null)
-                await HandleCallbackQueryAsync(update.CallbackQuery);
+            Log.Information("[HandleAsync] Начало работы метода.");
 
-            else if (update.Message != null && !update.Message.From.IsBot)
+            if (update.CallbackQuery != null)
+            {
+                Log.Information("[HandleAsync] Обнаружен CallbackQuery от UserId={UserId}",
+                    update.CallbackQuery.From.Id);
+
+                await HandleCallbackQueryAsync(update.CallbackQuery);
+                return;
+            }
+
+            if (update.Message != null && !update.Message.From.IsBot)
+            {
+                Log.Information("[HandleAsync] Обнаружено сообщение от UserId={UserId}",
+                    update.Message.From.Id);
+
                 await HandleMessageAsync(update.Message);
+                return;
+            }
+
+            Log.Warning("[HandleAsync] Получено обновление неизвестного типа.");
         }
 
         // ==========================================================
@@ -83,62 +99,77 @@ namespace TelegramBOT.Presentation.Handlers
             var chatId = query.Message.Chat.Id;
             var messageId = query.Message.MessageId;
 
-            Log.Information("Получен callback: {Callback}", callback);
+            Log.Information("[HandleCallbackQueryAsync] Начало работы метода. Параметры: chatId={ChatId}, messageId={MessageId}, callback={Callback}", chatId, messageId, callback);
 
             switch (callback)
             {
                 // ---------- Прогнозы ----------
                 case var _ when callback.StartsWith("predict_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandlePredictions");
                     await _statsHandler.HandlePredictions(chatId, callback);
                     break;
 
                 case var _ when callback.StartsWith("prediction_") || callback.StartsWith("back_to_match_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandlePredictionSelected");
                     await _predictionHandler.HandlePredictionSelected(chatId, callback, messageId);
                     break;
 
                 // ---------- События ----------
                 case var _ when callback.StartsWith("events_results_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleMatchEvents (results)");
                     await _matchEventsHandler.HandleMatchEvents(chatId, callback, "results");
                     break;
 
                 case var _ when callback.StartsWith("events_calendar_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleMatchEvents (calendar)");
                     await _matchEventsHandler.HandleMatchEvents(chatId, callback, "calendar");
                     break;
 
                 case var _ when callback.StartsWith("events_parse_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleMatchEventsParsing");
                     await _matchEventsHandler.HandleMatchEventsParsing(chatId, callback);
                     break;
 
                 // ---------- Статистика ----------
                 case var _ when callback.StartsWith("stats_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleHeadToHead");
                     await _statsHandler.HandleHeadToHead(chatId, callback);
                     break;
 
                 case var _ when callback.StartsWith("history_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleHistory");
                     await _statsHandler.HandleHistory(chatId, callback);
                     break;
 
                 // ---------- Результаты ----------
                 case var _ when callback.StartsWith("result_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleResult");
                     await _resultsHandler.HandleResult(chatId, callback);
                     break;
 
-                // ---------- Назад к результатам ----------
                 case var _ when callback.StartsWith("back_to_results_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleBackToResults");
                     await _resultsHandler.HandleBackToResults(chatId, callback);
                     break;
 
                 // ---------- Календарь ----------
                 case var _ when callback.StartsWith("match_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleMatchSelected");
                     await _calendarHandler.HandleMatchSelected(chatId, callback);
                     break;
 
                 case "back_to_today":
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: ShowToday");
                     await _calendarHandler.ShowToday(chatId);
                     break;
 
                 case var _ when callback.StartsWith("back_to_calendar_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleBackToCalendar");
                     await _calendarHandler.HandleBackToCalendar(chatId, messageId, callback);
+                    break;
+
+                default:
+                    Log.Warning("[HandleCallbackQueryAsync] Неизвестный callback: {Callback}", callback);
                     break;
             }
         }
@@ -156,38 +187,42 @@ namespace TelegramBOT.Presentation.Handlers
             var chatId = message.Chat.Id;
             var text = message.Text ?? "";
 
+            Log.Information("[HandleMessageAsync] Начало работы метода. Входные параметры: chatId={ChatId}, text={Text}", chatId, text);
+
             // Если обновление уже идёт — игнорируем любые сообщения
             if (_isUpdating)
             {
+                Log.Information("[HandleMessageAsync] Обновление данных активно. Сообщение проигнорировано.");
                 await _navigationHandler.SendTemporaryNotice(chatId, "⏳ Обновление данных уже выполняется...");
                 return;
             }
 
-            Log.Information("Сообщение от пользователя ({UserId}): {Text}", message.From?.Id, text);
+            Log.Information("[HandleMessageAsync] Сообщение от UserId={UserId}: {Text}", message.From?.Id, text);
 
             // ---------- Главное меню ----------
             if (text == "/start" || text == "🏠 В главное меню")
             {
+                Log.Information("[HandleMessageAsync] Команда главного меню: {Text}", text);
                 await _navigationHandler.ShowMainMenu(chatId);
                 return;
             }
 
             // ---------- Основные команды ----------
-            if (await HandleMainMenuCommands(chatId, text)) return;
+            if (await HandleMainMenuCommands(chatId, text)) { Log.Information("[HandleMessageAsync] Команда обработана в HandleMainMenuCommands"); return; }
 
             // ---------- Календарь ----------
-            if (await HandleCalendarCommands(chatId, text)) return;
+            if (await HandleCalendarCommands(chatId, text)) { Log.Information("[HandleMessageAsync] Команда обработана в HandleCalendarCommands"); return; }
 
             // ---------- Результаты ----------
-            if (await HandleResultsCommands(chatId, text)) return;
+            if (await HandleResultsCommands(chatId, text)) { Log.Information("[HandleMessageAsync] Команда обработана в HandleResultsCommands"); return; }
 
             // ---------- Таблицы ----------
-            if (await HandleTablesCommands(chatId, text)) return;
+            if (await HandleTablesCommands(chatId, text)) { Log.Information("[HandleMessageAsync] Команда обработана в HandleTablesCommands"); return; }
 
             // ---------- Турнирная таблица ----------
-            if (await _standingsHandler.HandleStandingsCommands(chatId, text)) return;
+            if (await _standingsHandler.HandleStandingsCommands(chatId, text)) { Log.Information("[HandleMessageAsync] Команда обработана в HandleStandingsCommands"); return; }
 
-            Log.Information("Обработка завершена для: {Text}", text);
+            Log.Warning("[HandleMessageAsync] Неизвестная команда: {Text}", text);
         }
 
         // ==========================================================
@@ -195,25 +230,30 @@ namespace TelegramBOT.Presentation.Handlers
         // ==========================================================
         private async Task<bool> HandleMainMenuCommands(long chatId, string text)
         {
+            Log.Information("[HandleMainMenuCommands] Входные параметры: chatId={ChatId}, text={Text}", chatId, text);
+
             switch (text)
             {
                 case "📅 Календарь":
+                    Log.Information("[HandleMainMenuCommands] Обработчик: ShowCalendarMenu");
                     await _calendarHandler.ShowCalendarMenu(chatId);
                     return true;
 
                 case "⚡ Результаты":
+                    Log.Information("[HandleMainMenuCommands] Обработчик: ShowResultsMenu");
                     await _resultsHandler.ShowResultsMenu(chatId);
                     return true;
 
                 case "📊 Таблицы":
+                    Log.Information("[HandleMainMenuCommands] Обработчик: ShowTablesMenu");
                     await _standingsHandler.ShowTablesMenu(chatId);
                     return true;
 
                 case "🔄 Обновить данные":
+                    Log.Information("[HandleMainMenuCommands] Обработчик: RunGlobalUpdate");
                     _isUpdating = true;
                     try
                     {
-                        //await _navigationHandler.HideKeyboardAsync(chatId);
                         await _updateHandler.RunGlobalUpdate(chatId);
                     }
                     finally
@@ -230,36 +270,27 @@ namespace TelegramBOT.Presentation.Handlers
         // ==========================================================
         // ============       ПОДБЛОК — КАЛЕНДАРЬ         ============
         // ==========================================================
-
         private async Task<bool> HandleCalendarCommands(long chatId, string text)
         {
+            Log.Information("[HandleCalendarCommands] Входные параметры: chatId={ChatId}, text={Text}", chatId, text);
+
             switch (text)
             {
                 case "📅 Сегодня":
+                    Log.Information("[HandleCalendarCommands] Обработчик: ShowToday");
                     await _calendarHandler.ShowToday(chatId);
                     return true;
+
                 case "📆 Завтра":
+                    Log.Information("[HandleCalendarCommands] Обработчик: ShowTomorrow");
                     await _calendarHandler.ShowTomorrow(chatId);
                     return true;
-                case "Следующие N дней":
-                    await _calendarHandler.ShowNextDaysMenu(chatId);
-                    return true;
-                case "2 дня":
-                    await _calendarHandler.ShowNextDays(chatId, 2);
-                    return true;
-                case "3 дня":
-                    await _calendarHandler.ShowNextDays(chatId, 3);
-                    return true;
-                case "4 дня":
-                    await _calendarHandler.ShowNextDays(chatId, 4);
-                    return true;
-                case "5 дней":
-                    await _calendarHandler.ShowNextDays(chatId, 5);
-                    return true;
-                 
+
                 case "⬅️ Назад (Календарь)":
+                    Log.Information("[HandleCalendarCommands] Обработчик: BackToCalendar");
                     await _calendarHandler.BackToCalendar(chatId);
                     return true;
+
                 default:
                     return false;
             }
@@ -268,33 +299,39 @@ namespace TelegramBOT.Presentation.Handlers
         // ==========================================================
         // ============       ПОДБЛОК — РЕЗУЛЬТАТЫ         ============
         // ==========================================================
-
         private async Task<bool> HandleResultsCommands(long chatId, string text)
         {
+            Log.Information("[HandleResultsCommands] Входные параметры: chatId={ChatId}, text={Text}", chatId, text);
+
             switch (text)
             {
                 case "📆 Сегодня":
+                    Log.Information("[HandleResultsCommands] Обработчик: ShowTodayResults");
                     await _resultsHandler.ShowTodayResults(chatId);
                     return true;
 
                 case "📅 Вчера":
+                    Log.Information("[HandleResultsCommands] Обработчик: ShowYesterdayResults");
                     await _resultsHandler.ShowYesterdayResults(chatId);
                     return true;
 
                 case "⬅️ Запад (Результаты)":
+                    Log.Information("[HandleResultsCommands] Обработчик: ShowWesternTeams");
                     await _resultsHandler.ShowWesternTeams(chatId);
                     return true;
 
                 case "➡️ Восток (Результаты)":
+                    Log.Information("[HandleResultsCommands] Обработчик: ShowEasternTeams");
                     await _resultsHandler.ShowEasternTeams(chatId);
                     return true;
 
                 case "⬅️ Назад (Результаты)":
+                    Log.Information("[HandleResultsCommands] Обработчик: BackToResults");
                     await _resultsHandler.BackToResults(chatId);
                     return true;
 
                 default:
-                    // Если пользователь нажал на команду из меню
+                    // проверка команд по именам команд
                     var teamNames = new[]
                     {
                         "🦌 Торпедо", "🐉 Шанхай Дрэгонс", "🐃 Динамо Минск", "⚒️ Северсталь",
@@ -305,14 +342,11 @@ namespace TelegramBOT.Presentation.Handlers
                         "🐺 Нефтехимик", "🕌 Салават Юлаев", "❄️ Сибирь"
                     };
 
-                    // Проверяем, есть ли совпадение
                     if (teamNames.Contains(text))
                     {
-                        // Убираем эмодзи (чтобы получить чистое имя для поиска в БД)
-                        var teamName = text;
-                        var firstSpaceIndex = teamName.IndexOf(' ');
-                        if (firstSpaceIndex > 0)
-                            teamName = teamName.Substring(firstSpaceIndex + 1);
+                        var teamName = text.Substring(text.IndexOf(' ') + 1);
+
+                        Log.Information("[HandleResultsCommands] Обработчик: HandleTeamSelection, team={Team}", teamName);
 
                         await _resultsHandler.HandleTeamSelection(chatId, $"team_{teamName}");
                         return true;
@@ -327,13 +361,17 @@ namespace TelegramBOT.Presentation.Handlers
         // ==========================================================
         private async Task<bool> HandleTablesCommands(long chatId, string text)
         {
+            Log.Information("[HandleTablesCommands] Входные параметры: chatId={ChatId}, text={Text}", chatId, text);
+
             switch (text)
             {
                 case "🏆 Турнирная таблица":
+                    Log.Information("[HandleTablesCommands] Обработчик: ShowConferenceSelection");
                     await _standingsHandler.ShowConferenceSelection(chatId);
                     return true;
 
                 case "⬅️ Назад (Главное меню)":
+                    Log.Information("[HandleTablesCommands] Обработчик: ShowMainMenu");
                     await _navigationHandler.ShowMainMenu(chatId);
                     return true;
 

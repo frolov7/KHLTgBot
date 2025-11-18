@@ -1,4 +1,7 @@
-﻿namespace TelegramBOT.Presentation.Rendering.Html
+﻿using System.Drawing;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace TelegramBOT.Presentation.Rendering.Html
 {
     public static class MatchEventsCss
     {
@@ -28,7 +31,7 @@
             CssStyle.TextColor => "#fff",
             CssStyle.AccentColor => "#5ca0d3",
             CssStyle.BorderColor => "#e0e0e0",
-            CssStyle.CardBackground => "rgba(227, 227, 227, 0.08)",
+            CssStyle.CardBackground => "#2A2C31",
             CssStyle.HeaderColor => "#e0e0e0",
 
             CssStyle.FontMain => "20px",
@@ -65,15 +68,21 @@
                 backdrop-filter: blur(4px);
                 box-shadow: inset 0 0 40px rgba(0,0,0,0.4);
                 width: 100%;
-                padding: 50px;
+                padding: 5px 50px 5px 50px; /* top right bottom left */
             }}
 
             /* === Заголовок === */
-            h2 {{
+            .header-title {{
                 text-align: center;
-                color: {GetValue(CssStyle.HeaderColor)};
-                font-size: {GetValue(CssStyle.FontTitle)};
-                margin-bottom: 12px;
+                font-size: 80px;
+                font-weight: 800;
+                color: #fff;
+                margin-top: -40px;       /* ← вот что нужно */
+                margin-bottom: 0;    /* ← и это */
+                line-height: 1.0;
+
+                position: relative;
+                padding-bottom: 20px;
             }}
 
             .teams {{
@@ -95,6 +104,33 @@
                 color: {GetValue(CssStyle.TextColor)};
                 font-size: {GetValue(CssStyle.FontPeriod)};
                 margin-bottom: 14px;
+            }}
+
+            .match-info {{    
+                text-align: center;
+                margin-top: 25px;
+                margin-bottom: 30px;
+            }}
+
+            .match-arena {{
+                font-size: 30px;
+                font-weight: 700;
+                color: #ffffff;
+                margin-bottom: 8px;
+            }}
+
+            .match-date {{
+                font-size: 22px;
+                color: #cccccc;
+                margin-bottom: 5px;
+            }}
+
+            .match-time {{
+                font-size: 22px;
+                color: #cccccc;
+            }}
+
+            .match-info div {{margin: 3px 0;
             }}
 
             /* === Таблица === */
@@ -148,6 +184,23 @@
                 width: 28px;
                 height: 28px;
                 filter: drop-shadow(0 0 4px white);
+                vertical-align: middle;
+                margin-right: 2px;
+            }}
+            .penalty-plus {{color: #ccc;
+                font-weight: bold;
+                margin: 0 0px;
+                vertical-align: middle;
+                display: inline-block;
+                font-size: 16px;
+            }}
+            .penalty-plus-img {{width: 20px;
+                height: 20px;
+                display: inline-block;
+                vertical-align: middle;
+                margin: 0 0px;
+                filter: none !important;
+                box-shadow: none !important;
             }}
             .event-assist {{
                 color: #aaa;
@@ -170,6 +223,43 @@
             .b2 {{ background: #ffb703; color: #2B2D31; }}
             .b5 {{ background: #e85d04; color: #2B2D31; }}
             .b10 {{ background: #a00000; color: #2B2D31; }}
+            
+            /* === Шапка с логотипами === */
+            .header-row {{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: center;
+                margin-bottom: -120px;
+            }}
+
+            .title-line {{
+                width: 600px;
+                height: 2px;
+                background: #e0e0e0;
+                margin: 5px auto 10px auto;
+            }}
+
+            .team-logo {{
+                width: 180px;
+                height: auto;
+                filter: drop-shadow(0 0 8px rgba(255,255,255,0.6));
+                margin-top: 30px;
+            }}
+
+            .logo-left, .logo-right {{
+                width: 160px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 25px;   /* ← добавляем */
+            }}
+
+            .team-name {{
+                font-size: 28px;
+                color: #ccc;
+                font-weight: bold;
+            }}
             ";
     }
 }

@@ -194,7 +194,6 @@ async function importSingleMatch(matchId, matchData, pool) {
                     `);
                 eventId = insertEvent.recordset[0].event_id;
                 insertedEvents++;
-                logger.info(`➕ Добавлено новое событие (${ev.eventType}) для матча ${matchId}`);
             }
 
             seenEventIds.add(eventId);

@@ -1,4 +1,5 @@
-﻿using TelegramBOT.Application.Calendar;
+﻿using Serilog;
+using TelegramBOT.Application.Calendar;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
 
@@ -30,7 +31,13 @@ namespace TelegramBOT.Presentation.Handlers.Calendar
         /// </summary>
         public async Task ShowCalendarMenu(long chatId)
         {
-            await _messageService.SendKeyboardAsync(chatId, "Выберите день", _menuService.GetCalendarMenu());
+            Log.Information("[ShowCalendarMenu] Начало работы метода. Параметры: chatId={ChatId}", chatId);
+
+            await _messageService.SendKeyboardAsync(
+                chatId,
+                "Выберите день",
+                _menuService.GetCalendarMenu()
+            );
         }
 
         /// <summary>
@@ -38,7 +45,13 @@ namespace TelegramBOT.Presentation.Handlers.Calendar
         /// </summary>
         public async Task ShowNextDaysMenu(long chatId)
         {
-            await _messageService.SendKeyboardAsync(chatId, "Выберите количество следующих дней", _menuService.GetNextDaysMenu());
+            Log.Information("[ShowNextDaysMenu] Начало работы метода. Параметры: chatId={ChatId}", chatId);
+
+            await _messageService.SendKeyboardAsync(
+                chatId,
+                "Выберите количество следующих дней",
+                _menuService.GetNextDaysMenu()
+            );
         }
 
         // ============================
@@ -50,7 +63,13 @@ namespace TelegramBOT.Presentation.Handlers.Calendar
         /// </summary>
         public async Task ShowToday(long chatId)
         {
-            await _calendarService.SendMatchesAsync(chatId, DateTime.Today, DateTime.Today);
+            Log.Information("[ShowToday] Начало работы метода. Параметры: chatId={ChatId}", chatId);
+
+            await _calendarService.SendMatchesAsync(
+                chatId,
+                DateTime.Today,
+                DateTime.Today
+            );
         }
 
         /// <summary>
@@ -59,15 +78,10 @@ namespace TelegramBOT.Presentation.Handlers.Calendar
         public async Task ShowTomorrow(long chatId)
         {
             var tomorrow = DateTime.Today.AddDays(1);
-            await _calendarService.SendMatchesAsync(chatId, tomorrow, tomorrow);
-        }
 
-        /// <summary>
-        /// Загружает и отображает матчи на N следующих дней.
-        /// </summary>
-        public async Task ShowNextDays(long chatId, int days)
-        {
-            await _calendarService.SendMatchesAsync(chatId, DateTime.Today.AddDays(1), DateTime.Today.AddDays(days));
+            Log.Information("[ShowTomorrow] Начало работы метода. Параметры: chatId={ChatId}, date={Date}", chatId, tomorrow);
+
+            await _calendarService.SendMatchesAsync(chatId, tomorrow, tomorrow);
         }
 
         // ============================
@@ -79,6 +93,8 @@ namespace TelegramBOT.Presentation.Handlers.Calendar
         /// </summary>
         public async Task ShowMatchMenu(long chatId, string matchId)
         {
+            Log.Information("[ShowMatchMenu] Начало работы метода. Параметры: chatId={ChatId}, matchId={MatchId}", chatId, matchId);
+
             await _calendarService.SendMatchMenuAsync(chatId, matchId, _menuService);
         }
 
@@ -87,7 +103,12 @@ namespace TelegramBOT.Presentation.Handlers.Calendar
         /// </summary>
         public async Task HandleMatchSelected(long chatId, string callback)
         {
+            Log.Information("[HandleMatchSelected] Начало работы метода. Параметры: chatId={ChatId}, callback={Callback}", chatId, callback);
+
             var matchId = callback.Replace("match_", "");
+
+            Log.Information("[HandleMatchSelected] Извлечён matchId={MatchId}", matchId);
+
             await _calendarService.SendMatchMenuAsync(chatId, matchId, _menuService);
         }
 
@@ -96,11 +117,21 @@ namespace TelegramBOT.Presentation.Handlers.Calendar
         /// </summary>
         public async Task HandleBackToCalendar(long chatId, int? messageId, string callback)
         {
+            Log.Information("[HandleBackToCalendar] Начало работы метода. Параметры: chatId={ChatId}, messageId={MessageId}, callback={Callback}", chatId, messageId, callback);
+
             if (messageId.HasValue)
+            {
+                Log.Information("[HandleBackToCalendar] Удаление сообщения messageId={MessageId}", messageId);
                 await _messageService.DeleteMessageAsync(chatId, messageId.Value);
+            }
 
             if (!_calendarService.TryParseCallbackDate(callback, out var date))
+            {
+                Log.Warning("[HandleBackToCalendar] Не удалось получить дату из callback. Используется текущая дата.");
                 date = DateTime.Today;
+            }
+
+            Log.Information("[HandleBackToCalendar] Отображение матчей за дату {Date}", date);
 
             await _calendarService.SendMatchesAsync(chatId, date, date);
         }
@@ -110,6 +141,7 @@ namespace TelegramBOT.Presentation.Handlers.Calendar
         /// </summary>
         public async Task BackToCalendar(long chatId)
         {
+            Log.Information("[BackToCalendar] Начало работы метода. Параметры: chatId={ChatId}", chatId);
             await ShowCalendarMenu(chatId);
         }
     }

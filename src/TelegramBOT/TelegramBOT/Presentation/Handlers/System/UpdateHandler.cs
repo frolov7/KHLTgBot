@@ -35,42 +35,39 @@ namespace TelegramBOT.Presentation.Handlers.System
         /// <param name="chatId">ID Telegram-чата, куда отправляется уведомление о статусе.</param>
         public async Task RunGlobalUpdate(long chatId)
         {
-            // 1️⃣ Отправляем сообщение об обновлении и убираем клавиатуру
-            var updatingMsg = await _messageService.RemoveKeyboardAsync(chatId, "⏳ Выполняется обновление всех данных...");
+            Log.Information("[RunGlobalUpdate] Начало работы метода. chatId={ChatId}", chatId);
+
+            var updatingMsg = await _messageService.RemoveKeyboardAsync(chatId, "Выполняется обновление всех данных...");
 
             bool success = true;
 
             try
             {
-                Log.Information("🔄 Начато глобальное обновление данных.");
-
+                Log.Information("[RunGlobalUpdate] Запуск обновления данных.");
                 success = await _resultsService.UpdateResultsAsync();
-
-                Log.Information("✅ Глобальное обновление данных завершено успешно.");
+                Log.Information("[RunGlobalUpdate] Завершено обновление данных. success={Success}", success);
             }
             catch (Exception ex)
             {
                 success = false;
-                Log.Error(ex, "❌ Ошибка при выполнении глобального обновления данных.");
+                Log.Error(ex, "[RunGlobalUpdate] Ошибка при выполнении обновления данных.");
             }
 
-            // Удаляем сообщение
+            // Удаление временного сообщения
             try
             {
                 await _messageService.DeleteMessageAsync(chatId, updatingMsg.MessageId);
             }
             catch (Exception ex)
             {
-                Log.Warning(ex, "Не удалось удалить сообщение о ходе обновления.");
+                Log.Warning(ex, "[RunGlobalUpdate] Не удалось удалить промежуточное сообщение.");
             }
 
-            // Отправляем финальное уведомление
             var message = success
-                ? "✅ Все данные успешно обновлены!"
-                : "❌ Произошла ошибка при обновлении данных. Попробуйте позже.";
+                ? "Все данные успешно обновлены."
+                : "При обновлении данных произошла ошибка. Попробуйте позже.";
 
             await _messageService.SendKeyboardAsync(chatId, message, _menuService.GetMainMenu());
         }
-
     }
 }

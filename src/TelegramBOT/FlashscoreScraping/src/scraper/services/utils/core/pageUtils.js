@@ -5,7 +5,11 @@ import { TIMEOUT_FAST } from "../../../../constants/constants.js";
 /// </summary>
 export async function openPageAndNavigate(browser, url) {
     const page = await browser.newPage();
-    await page.goto(url, { waitUntil: "domcontentloaded" });
+    try {
+        await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+    } catch (err) {
+        console.warn(`Не удалось открыть ${url}: ${err.message}`);
+    }
     return page;
 }
 

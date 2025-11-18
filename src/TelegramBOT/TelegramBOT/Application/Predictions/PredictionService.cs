@@ -1,4 +1,5 @@
-﻿using TelegramBOT.Application.Utils;
+﻿using Serilog;
+using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
 using TelegramBOT.Infrastructure.Telegram;
@@ -32,8 +33,12 @@ namespace TelegramBOT.Application.Predictions
         /// <param name="matchId">Идентификатор матча.</param>
         /// <param name="source">Название источника прогноза (например, "legalbet").</param>
         /// <returns>Объект <see cref="Prediction"/> или <c>null</c>, если прогноз не найден.</returns>
+
         public async Task<Prediction?> GetPredictionAsync(string matchId, string source)
-            => await _repository.GetPredictionAsync(matchId, source);
+        {
+            Log.Information("[GetPredictionAsync] matchId={MatchId}, source={Source}", matchId, source);
+            return await _repository.GetPredictionAsync(matchId, source);
+        }
 
         /// <summary>
         /// Получает все прогнозы по указанному матчу из разных источников.
@@ -41,7 +46,10 @@ namespace TelegramBOT.Application.Predictions
         /// <param name="matchId">Идентификатор матча.</param>
         /// <returns>Список прогнозов по данному матчу.</returns>
         public async Task<List<Prediction>> GetPredictionsForMatchAsync(string matchId)
-            => await _repository.GetPredictionsForMatchAsync(matchId);
+        {
+            Log.Information("[GetPredictionsForMatchAsync] matchId={MatchId}", matchId);
+            return await _repository.GetPredictionsForMatchAsync(matchId);
+        }
 
         // ==========================================================
         // ===============      БЛОК ОБРАБОТКИ CALLBACK      =========
@@ -57,16 +65,21 @@ namespace TelegramBOT.Application.Predictions
         /// <param name="calendarHandler">Хендлер календаря для возврата к меню матча.</param>
         /// <param name="messageId">Необязательный идентификатор сообщения для удаления.</param>
         public async Task HandlePredictionSelectedAsync(
-            long chatId,
-            string callback,
-            MessageService messageService,
-            CalendarHandler calendarHandler,
-            int? messageId = null)
+             long chatId,
+             string callback,
+             MessageService messageService,
+             CalendarHandler calendarHandler,
+             int? messageId = null)
         {
-            // Проверяем возврат к матчу
+            Log.Information("[HandlePredictionSelectedAsync] Старт. chatId={ChatId}, callback={Callback}", chatId, callback);
+
+            // Возврат к матчу
             if (callback.StartsWith("back_to_match_"))
             {
                 var matchId = callback.Replace("back_to_match_", "");
+
+                Log.Information("[HandlePredictionSelectedAsync] Возврат к меню матча. matchId={MatchId}", matchId);
+
                 if (messageId.HasValue)
                     await messageService.DeleteMessageAsync(chatId, messageId.Value);
 
@@ -74,10 +87,11 @@ namespace TelegramBOT.Application.Predictions
                 return;
             }
 
-            // Разбираем callback-строку (ожидается: "predict_source_matchId")
+            // Разбор callback
             var parts = callback.Split('_');
             if (parts.Length < 3)
             {
+                Log.Warning("[HandlePredictionSelectedAsync] Неверный формат callback: {Callback}", callback);
                 await messageService.SendTextAsync(chatId, "Неверный формат callback-запроса.");
                 return;
             }
@@ -85,25 +99,35 @@ namespace TelegramBOT.Application.Predictions
             var source = parts[1];
             var matchIdParsed = parts[2];
 
+            Log.Information("[HandlePredictionSelectedAsync] Выбран источник: {Source}, matchId={MatchId}", source, matchIdParsed);
+
+            // Общий суммарный прогноз
             if (source.Equals("общий прогноз", StringComparison.OrdinalIgnoreCase))
             {
                 var predictions = await GetPredictionsForMatchAsync(matchIdParsed);
+                Log.Information("[HandlePredictionSelectedAsync] Получено {Count} прогнозов для общего анализа", predictions.Count);
+
                 var text = BuildSummaryMessage(predictions);
                 await messageService.SendTextAsync(chatId, text);
             }
             else
             {
+                // Прогноз конкретного источника
                 var prediction = await GetPredictionAsync(matchIdParsed, source);
                 if (prediction == null)
                 {
+                    Log.Information("[HandlePredictionSelectedAsync] Прогноз отсутствует. source={Source}, matchId={MatchId}", source, matchIdParsed);
                     await messageService.SendTextAsync(chatId, $"Прогноз от {source} не найден.");
                     return;
                 }
+
+                Log.Information("[HandlePredictionSelectedAsync] Прогноз найден. source={Source}", source);
 
                 var text = BuildPredictionMessage(prediction);
                 await messageService.SendTextAsync(chatId, text);
             }
 
+            Log.Information("[HandlePredictionSelectedAsync] Отправка меню выбора нового источника");
             var menu = new PredictionsMenuBuilder().Build(matchIdParsed);
             await messageService.SendKeyboardAsync(chatId, "Выберите другой источник:", menu);
         }
@@ -119,6 +143,8 @@ namespace TelegramBOT.Application.Predictions
         /// <returns>Отформатированная строка для отправки пользователю в Telegram.</returns>
         public string BuildPredictionMessage(Prediction prediction)
         {
+            Log.Information("[BuildPredictionMessage] Построение текста для источника {Source}", prediction.Source);
+
             string home, away;
 
             if (prediction.Match != null)
@@ -156,7 +182,6 @@ namespace TelegramBOT.Application.Predictions
             return sb.ToString();
         }
 
-
         /// <summary>
         /// Формирует сводное сообщение по всем доступным источникам прогнозов.
         /// </summary>
@@ -164,6 +189,8 @@ namespace TelegramBOT.Application.Predictions
         /// <returns>Форматированный текст со сводными прогнозами всех источников.</returns>
         public string BuildSummaryMessage(IEnumerable<Prediction> predictions)
         {
+            Log.Information("[BuildSummaryMessage] Сборка общего прогноза. SourcesCount={Count}", predictions.Count());
+
             var allSources = new[]
             {
                 "vseprosport", "vprognoze", "stavkatv", "betzona",
@@ -171,9 +198,9 @@ namespace TelegramBOT.Application.Predictions
             };
 
             var msg = new System.Text.StringBuilder();
+
             msg.AppendLine("📊 <b>Общий прогноз</b>");
 
-            // Проверяем наличие матчей (на случай пустой коллекции)
             Match? match = predictions.FirstOrDefault()?.Match;
 
             string home = "Хозяева";
@@ -184,15 +211,15 @@ namespace TelegramBOT.Application.Predictions
 
             msg.AppendLine($"<b>{home}</b> vs <b>{away}</b>\n");
 
-            // Если вообще нет прогнозов — выводим только список источников с "-"
             if (!predictions.Any())
             {
+                Log.Information("[BuildSummaryMessage] Прогнозы отсутствуют полностью");
                 foreach (var src in allSources)
                     msg.AppendLine($"<b>{src}</b>: -");
+
                 return msg.ToString();
             }
 
-            // Для каждого источника проверяем наличие прогноза
             foreach (var src in allSources)
             {
                 var p = predictions.FirstOrDefault(x =>
@@ -204,13 +231,13 @@ namespace TelegramBOT.Application.Predictions
                     continue;
                 }
 
-                // Берем основной и альтернативный прогнозы
                 var main = !string.IsNullOrWhiteSpace(p.MainPrediction) ? p.MainPrediction.Trim() : "-";
                 var alt = !string.IsNullOrWhiteSpace(p.AltPrediction) ? $", {p.AltPrediction.Trim()}" : "";
 
                 msg.AppendLine($"<b>{src}</b>: {main}{alt}");
             }
 
+            Log.Information("[BuildSummaryMessage] Завершил работу");
             return msg.ToString();
         }
     }
