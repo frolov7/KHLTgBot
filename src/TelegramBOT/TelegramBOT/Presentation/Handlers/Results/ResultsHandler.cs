@@ -3,6 +3,7 @@ using TelegramBOT.Application.Utils;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
 using System.Globalization;
+using Serilog;
 
 namespace TelegramBOT.Presentation.Handlers.Results
 {
@@ -35,6 +36,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// <param name="chatId">Идентификатор Telegram-чата.</param>
         public async Task ShowResultsMenu(long chatId)
         {
+            Log.Information("[ShowResultsMenu] Начало работы метода. chatId={ChatId}", chatId);
             await _messageService.SendKeyboardAsync(chatId, "Выберите действие", _menuService.GetResultsMenu());
         }
 
@@ -44,6 +46,8 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// </summary>
         public async Task HandleBackToResults(long chatId, string callback)
         {
+            Log.Information("[HandleBackToResults] Начало работы метода. chatId={ChatId}, callback={Callback}", chatId, callback);
+
             if (!_resultsService.TryParseCallbackDate(callback, out var date))
                 date = DateTime.Today;
 
@@ -56,6 +60,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// <param name="chatId">Идентификатор Telegram-чата.</param>
         public async Task BackToResults(long chatId)
         {
+            Log.Information("[BackToResults] Начало работы метода. chatId={ChatId}", chatId);
             await _messageService.SendKeyboardAsync(chatId, "Возврат к результатам", _menuService.GetResultsMenu());
         }
 
@@ -69,6 +74,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// <param name="chatId">Идентификатор Telegram-чата.</param>
         public async Task ShowTodayResults(long chatId)
         {
+            Log.Information("[ShowTodayResults] Начало работы метода. chatId={ChatId}", chatId);
             await _resultsService.SendResultsAsync(chatId, DateTime.Today);
         }
 
@@ -78,6 +84,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// <param name="chatId">Идентификатор Telegram-чата.</param>
         public async Task ShowYesterdayResults(long chatId)
         {
+            Log.Information("[ShowYesterdayResults] Начало работы метода. chatId={ChatId}", chatId);
             await _resultsService.SendResultsAsync(chatId, DateTime.Today.AddDays(-1));
         }
 
@@ -92,6 +99,8 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// <param name="callback">Callback-строка, содержащая идентификатор матча (формат: result_{matchId}).</param>
         public async Task HandleResult(long chatId, string callback)
         {
+            Log.Information("[HandleResult] Начало работы метода. chatId={ChatId}, callback={Callback}", chatId, callback);
+
             var matchId = callback.Replace("result_", "");
             await _resultsService.SendResultMatchMenuAsync(chatId, matchId, _menuService);
         }
@@ -103,6 +112,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// <param name="callback">Callback-строка (например: "team_Северсталь").</param>
         public async Task HandleTeamSelection(long chatId, string callback)
         {
+            Log.Information("[HandleTeamSelection] Начало работы метода. chatId={ChatId}, callback={Callback}", chatId, callback);
             await _resultsService.SendTeamResultsAsync(chatId, callback);
         }
 
@@ -117,6 +127,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// <param name="chatId">ID чата Telegram.</param>
         public async Task ShowWesternTeams(long chatId)
         {
+            Log.Information("[ShowWesternTeams] Начало работы метода. chatId={ChatId}", chatId);
             await _messageService.SendKeyboardAsync(chatId, "Выберите команду (Запад)", _menuService.GetWesternTeamsMenu());
         }
 
@@ -127,6 +138,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
         /// <param name="chatId">ID чата Telegram.</param>
         public async Task ShowEasternTeams(long chatId)
         {
+            Log.Information("[ShowEasternTeams] Начало работы метода. chatId={ChatId}", chatId);
             await _messageService.SendKeyboardAsync(chatId, "Выберите команду (Восток)", _menuService.GetEasternTeamsMenu());
         }
     }

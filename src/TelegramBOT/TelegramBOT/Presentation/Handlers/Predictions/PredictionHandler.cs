@@ -2,6 +2,7 @@
 using TelegramBOT.Application.Predictions;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.Handlers.Calendar;
+using Serilog;
 
 namespace TelegramBOT.Presentation.Handlers.Predictions
 {
@@ -22,21 +23,6 @@ namespace TelegramBOT.Presentation.Handlers.Predictions
         }
 
         // ==========================================================
-        // ============      БЛОК ОТОБРАЖЕНИЯ МЕНЮ      =============
-        // ==========================================================
-
-        /// <summary>
-        /// Отображает пользователю меню выбора источника прогнозов (например, Legalbet, Metaratings и др.).
-        /// </summary>
-        /// <param name="chatId">Идентификатор Telegram-чата, куда будет отправлено меню.</param>
-        /// <param name="matchId">Идентификатор матча, для которого отображаются прогнозы.</param>
-        public async Task ShowSourcesMenu(long chatId, string matchId)
-        {
-            var keyboard = new PredictionsMenuBuilder().Build(matchId);
-            await _messageService.SendKeyboardAsync(chatId, "Выберите источник прогноза:", keyboard);
-        }
-
-        // ==========================================================
         // ============      БЛОК ОБРАБОТКИ ВЫБОРА      =============
         // ==========================================================
 
@@ -51,6 +37,8 @@ namespace TelegramBOT.Presentation.Handlers.Predictions
         /// </param>
         public async Task HandlePredictionSelected(long chatId, string callback, int? messageId = null)
         {
+            Log.Information("[HandlePredictionSelected] Начало работы метода. chatId={ChatId}, callback={Callback}, messageId={MessageId}", chatId, callback, messageId);
+
             await _predictionService.HandlePredictionSelectedAsync(
                 chatId,
                 callback,

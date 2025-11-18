@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using TelegramBOT.Application.Standings;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
@@ -38,13 +39,10 @@ namespace TelegramBOT.Presentation.Handlers
         /// <param name="chatId">ID чата Telegram, в который будет отправлено меню.</param>
         public async Task ShowTablesMenu(long chatId)
         {
-            var keyboard = _menuService.GetTablesMenu();
+            Log.Information("[ShowTablesMenu] Начало работы метода. chatId={ChatId}", chatId);
 
-            await _messageService.SendKeyboardAsync(
-                chatId,
-                "Выберите таблицу:",
-                keyboard
-            );
+            var keyboard = _menuService.GetTablesMenu();
+            await _messageService.SendKeyboardAsync(chatId, "Выберите таблицу:", keyboard);
         }
 
         // ==========================================================
@@ -57,13 +55,10 @@ namespace TelegramBOT.Presentation.Handlers
         /// <param name="chatId">ID чата Telegram, в который будет отправлено меню.</param>
         public async Task ShowConferenceSelection(long chatId)
         {
-            var keyboard = _menuService.GetConferenceSelectionMenu();
+            Log.Information("[ShowConferenceSelection] Начало работы метода. chatId={ChatId}", chatId);
 
-            await _messageService.SendKeyboardAsync(
-                chatId,
-                "Выберите конференцию:",
-                keyboard
-            );
+            var keyboard = _menuService.GetConferenceSelectionMenu();
+            await _messageService.SendKeyboardAsync(chatId, "Выберите конференцию:", keyboard);
         }
 
         // ==========================================================
@@ -78,6 +73,7 @@ namespace TelegramBOT.Presentation.Handlers
         /// <param name="conference">Идентификатор конференции ("east" — Восточная, "west" — Западная).</param>
         public async Task ShowStandings(long chatId, string conference)
         {
+            Log.Information("[ShowStandings] Начало работы метода. chatId={ChatId}, conference={Conference}", chatId, conference);
             await _service.SendStandingsAsync(chatId, conference);
         }
 
@@ -97,23 +93,28 @@ namespace TelegramBOT.Presentation.Handlers
             {
                 // ---------- Конференции ----------
                 case "🔸 Западная конференция":
+                    Log.Information("[HandleConference] Пользователь выбрал западную конференцию. chatId={ChatId}", chatId);
                     await ShowStandings(chatId, "west");
                     return true;
 
                 case "🔹 Восточная конференция":
+                    Log.Information("[HandleConference] Пользователь выбрал восточную конференцию. chatId={ChatId}", chatId);
                     await ShowStandings(chatId, "east");
                     return true;
 
                 // ---------- Навигация ----------
                 case "⬅️ Назад (Главное меню)":
+                    Log.Information("[HandleStandingsCommands] Возврат в главное меню. chatId={ChatId}", chatId);
                     await _messageService.SendKeyboardAsync(chatId, "Возврат в главное меню.", _menuService.GetMainMenu());
                     return true;
 
                 case "⬅️ Назад (Таблица)":
+                    Log.Information("[HandleStandingsCommands] Возврат к таблицам. chatId={ChatId}", chatId);
                     await ShowTablesMenu(chatId);
                     return true;
 
                 default:
+                    Log.Information("[HandleStandingsCommands] Команда не распознана. chatId={ChatId}, text={Text}", chatId, text);
                     return false;
             }
         }
