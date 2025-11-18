@@ -4,6 +4,7 @@ using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
+using Serilog;
 
 namespace TelegramBOT.Application.Calendar
 {
@@ -55,13 +56,18 @@ namespace TelegramBOT.Application.Calendar
         /// <param name="to">Конечная дата диапазона.</param>
         public async Task SendMatchesAsync(long chatId, DateTime from, DateTime to)
         {
+            Log.Information("[SendMatchesAsync] Начало работы метода. chatId={ChatId}, from={From}, to={To}", chatId, from, to);
+
             var matches = await _calendarRepository.GetMatchesByDateRangeAsync(from, to);
 
             if (matches.Count == 0)
             {
+                Log.Information("[SendMatchesAsync] Матчи не найдены. chatId={ChatId}, from={From}, to={To}", chatId, from, to);
                 await _messageService.SendTextAsync(chatId, "Матчи не найдены.");
                 return;
             }
+
+            Log.Information("[SendMatchesAsync] Получено {Count} матчей. chatId={ChatId}", matches.Count, chatId);
 
             var sb = new StringBuilder();
             sb.AppendLine(from == to
@@ -86,6 +92,8 @@ namespace TelegramBOT.Application.Calendar
             }
 
             var keyboard = new InlineKeyboardMarkup(buttons);
+
+            Log.Information("[SendMatchesAsync] Отправка списка матчей. chatId={ChatId}", chatId);
             await _messageService.SendTextWithKeyboardAsync(chatId, sb.ToString(), keyboard);
         }
 
@@ -97,9 +105,12 @@ namespace TelegramBOT.Application.Calendar
         /// <param name="menuService">Сервис для построения контекстного меню.</param>
         public async Task SendMatchMenuAsync(long chatId, string matchId, MenuService menuService)
         {
+            Log.Information("[SendMatchMenuAsync] Начало работы метода. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
+
             var match = await _calendarRepository.GetMatchAsync(matchId);
             if (match == null)
             {
+                Log.Information("[SendMatchMenuAsync] Матч не найден. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
@@ -107,7 +118,6 @@ namespace TelegramBOT.Application.Calendar
             var (home, away) = _mappingService.MapTeamNames(match);
 
             var text = $"<b>{home}</b> vs <b>{away}</b>";
-
             await _messageService.SendKeyboardAsync(chatId, text, menuService.GetMatchMenu(match));
         }
     }

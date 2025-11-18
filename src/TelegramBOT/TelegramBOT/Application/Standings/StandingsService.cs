@@ -5,6 +5,7 @@ using TelegramBOT.Application.Utils;
 using PuppeteerSharp;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
+using Serilog;
 
 namespace TelegramBOT.Application.Standings
 {
@@ -45,35 +46,44 @@ namespace TelegramBOT.Application.Standings
         /// <param name="conference">Идентификатор конференции ("east" — Восточная, "west" — Западная).</param>
         public async Task SendStandingsAsync(long chatId, string conference)
         {
+            Log.Information("[SendStandingsAsync] Старт. chatId={ChatId}, conference={Conference}",
+                chatId, conference);
+
             try
             {
                 // 1. Получаем данные
+                Log.Information("[SendStandingsAsync] Загрузка данных конференции...");
                 var standings = await GetStandingsDataAsync(conference);
 
                 // 2. Формируем HTML
+                Log.Information("[SendStandingsAsync] Формирование HTML...");
                 var title = conference == "east" ? "Восточная конференция" : "Западная конференция";
                 var html = StandingsHtmlBuilder.Build(standings, title, _mapper);
 
-                // 3. Преобразуем в картинку
+                // 3. Преобразуем в PNG
+                Log.Information("[SendStandingsAsync] Рендеринг изображения...");
                 var imageStream = await RenderStandingsImageAsync(html);
 
-                // 4. Отправляем пользователю
+                // 4. Отправляем
+                Log.Information("[SendStandingsAsync] Отправка изображения пользователю...");
                 await _messageService.SendPhotoAsync(
                     chatId,
                     imageStream,
                     conference == "east" ? "🔹 Восточная конференция" : "🔸 Западная конференция"
                 );
 
-                // 5. Добавляем меню
+                // 5. Меню
                 await _messageService.SendKeyboardAsync(
                     chatId,
                     "Выберите действие:",
                     _menuService.GetConferenceSelectionMenu()
                 );
+
+                Log.Information("[SendStandingsAsync] Завершено успешно.");
             }
             catch (Exception ex)
             {
-                Serilog.Log.Error(ex, "Ошибка при формировании турнирной таблицы");
+                Log.Error(ex, "[SendStandingsAsync] Ошибка формирования таблицы");
                 await _messageService.SendTextAsync(chatId, "⚠️ Не удалось загрузить таблицу. Попробуйте позже.");
             }
         }
@@ -93,24 +103,33 @@ namespace TelegramBOT.Application.Standings
         /// </returns>
         private async Task<List<KeyValuePair<string, TeamStats>>> GetStandingsDataAsync(string conference)
         {
-            // Загружаем все матчи из репозитория
-            var matches = await _repo.GetAllMatchesAsync();
+            Log.Information("[GetStandingsDataAsync] Старт обработки. Conference={Conference}", conference);
 
-            // Берём список команд из конфигурации
+            // 1. Загружаем все матчи
+            var matches = await _repo.GetAllMatchesAsync();
+            Log.Information("[GetStandingsDataAsync] Загружено матчей: {Count}", matches.Count());
+
+            // 2. Загружаем команды конференции
             var conferenceTeams = _config
                 .GetSection($"Conferences:{conference}")
                 .Get<string[]>() ?? Array.Empty<string>();
 
             if (conferenceTeams.Length == 0)
-                throw new InvalidOperationException($"⚠️ Не найдены команды конференции: {conference}");
+            {
+                Log.Warning("[GetStandingsDataAsync] Команды конференции не найдены: {Conference}", conference);
+                throw new InvalidOperationException($"Не найдены команды конференции: {conference}");
+            }
+
+            Log.Information("[GetStandingsDataAsync] Команд в конференции: {Count}", conferenceTeams.Length);
 
             var standings = new Dictionary<string, TeamStats>();
 
-            // Перебираем все матчи по дате
+            // 3. Обработка матчей
             foreach (var match in matches.OrderBy(m => m.MatchDate))
             {
                 if (match.HomeScore == null || match.AwayScore == null)
                     continue;
+
                 if (match.Status is "LIVE" or "SCHEDULED")
                     continue;
 
@@ -120,27 +139,15 @@ namespace TelegramBOT.Application.Standings
                 bool homeInConf = conferenceTeams.Contains(homeTeam);
                 bool awayInConf = conferenceTeams.Contains(awayTeam);
 
-                // Пропускаем, если обе команды не из конференции
+                // Матч не влияет на конференцию
                 if (!homeInConf && !awayInConf)
                     continue;
 
-                // Определяем победителя
                 bool homeWin = match.HomeScore > match.AwayScore;
                 bool awayWin = match.AwayScore > match.HomeScore;
 
                 bool isOvertime = match.Status == "AFTER OVERTIME";
                 bool isShootout = match.Status == "AFTER PENALTIES";
-                bool isOTOrSO = isOvertime || isShootout;
-
-                // 💬 Отладка только матчей Bars Kazan
-                if (homeTeam.Contains("Bars Kazan") || awayTeam.Contains("Bars Kazan"))
-                {
-                    Serilog.Log.Information(
-                        $"[DEBUG] Проверка матча: {match.MatchDate:yyyy-MM-dd} | " +
-                        $"{homeTeam} {match.HomeScore}:{match.AwayScore} {awayTeam} | " +
-                        $"Status={match.Status}"
-                    );
-                }
 
                 // Инициализация статистики для команд
                 if (homeInConf && !standings.ContainsKey(homeTeam))
@@ -148,69 +155,39 @@ namespace TelegramBOT.Application.Standings
                 if (awayInConf && !standings.ContainsKey(awayTeam))
                     standings[awayTeam] = new TeamStats();
 
-                // === Победа хозяев ===
+                // Обновление статистики
                 if (homeWin)
                 {
                     if (homeInConf)
                         standings[homeTeam] = UpdateStats(
-                            homeTeam,
-                            standings[homeTeam],
-                            match.HomeScore.Value,
-                            match.AwayScore.Value,
-                            isOvertime: isOvertime,
-                            isShootout: isShootout,
-                            isWin: true,
-                            isHome: true,
-                            opponent: awayTeam
+                            homeTeam, standings[homeTeam],
+                            match.HomeScore.Value, match.AwayScore.Value,
+                            isOvertime, isShootout, true, true, awayTeam
                         );
 
                     if (awayInConf)
                         standings[awayTeam] = UpdateStats(
-                            awayTeam,
-                            standings[awayTeam],
-                            match.AwayScore.Value,
-                            match.HomeScore.Value,
-                            isOvertime: isOvertime,
-                            isShootout: isShootout,
-                            isWin: false,
-                            isHome: false,
-                            opponent: homeTeam
+                            awayTeam, standings[awayTeam],
+                            match.AwayScore.Value, match.HomeScore.Value,
+                            isOvertime, isShootout, false, false, homeTeam
                         );
                 }
-
-                // === Победа гостей ===
                 else if (awayWin)
                 {
                     if (awayInConf)
                         standings[awayTeam] = UpdateStats(
-                            awayTeam,
-                            standings[awayTeam],
-                            match.AwayScore.Value,
-                            match.HomeScore.Value,
-                            isOvertime: isOvertime,
-                            isShootout: isShootout,
-                            isWin: true,
-                            isHome: false,
-                            opponent: homeTeam
+                            awayTeam, standings[awayTeam],
+                            match.AwayScore.Value, match.HomeScore.Value,
+                            isOvertime, isShootout, true, false, homeTeam
                         );
 
                     if (homeInConf)
                         standings[homeTeam] = UpdateStats(
-                            homeTeam,
-                            standings[homeTeam],
-                            match.HomeScore.Value,
-                            match.AwayScore.Value,
-                            isOvertime: isOvertime,
-                            isShootout: isShootout,
-                            isWin: false,
-                            isHome: true,
-                            opponent: awayTeam
+                            homeTeam, standings[homeTeam],
+                            match.HomeScore.Value, match.AwayScore.Value,
+                            isOvertime, isShootout, false, true, awayTeam
                         );
                 }
-
-
-
-                // === Ничья — на всякий случай (если появится в будущем) ===
                 else
                 {
                     if (homeInConf)
@@ -219,49 +196,52 @@ namespace TelegramBOT.Application.Standings
                         standings[awayTeam].GamesPlayed++;
                 }
             }
-            if (standings.ContainsKey("Bars Kazan"))
+
+            // 5. Общий лог статистики
+            Log.Information("=== STANDINGS SNAPSHOT ===");
+            foreach (var t in standings)
             {
-                var s = standings["Bars Kazan"];
-                Serilog.Log.Information(
-                    $"[SUMMARY Bars Kazan] Итого после всех матчей: " +
-                    $"Игры={s.GamesPlayed}, Победы={s.Wins}, Победы ОТ/Б={s.OvertimeWins}, " +
-                    $"Поражения ОТ/Б={s.OvertimeLosses}, Поражения={s.Losses}, Очки={s.Points}, " +
-                    $"Голы {s.GoalsFor}:{s.GoalsAgainst}"
+                var s = t.Value;
+                Log.Information(
+                    "{Team}: O={PTS}, W={W}, WO={WO}, LO={LO}, L={L}, GP={GP}, GF={GF}:{GA}",
+                    t.Key, s.Points, s.Wins, s.OvertimeWins, s.OvertimeLosses,
+                    s.Losses, s.GamesPlayed, s.GoalsFor, s.GoalsAgainst
                 );
             }
+            Log.Information("==========================");
 
-            Serilog.Log.Information("=== STANDINGS DEBUG ===");
-            foreach (var team in standings)
-            {
-                var s = team.Value;
-                Serilog.Log.Information(
-                    $"{team.Key}: O={s.Points}, В={s.Wins}, ВО={s.OvertimeWins}, ПО={s.OvertimeLosses}, П={s.Losses}, И={s.GamesPlayed}, Г={s.GoalsFor}:{s.GoalsAgainst}"
-                );
-            }
-            Serilog.Log.Information("========================");
-
-            // ✅ Финальная сортировка строго по регламенту КХЛ
+            // 6. Финальная сортировка
             var sorted = standings
-                .OrderByDescending(s => s.Value.Points)                                // 1️⃣ Очки
-                .ThenByDescending(s => s.Value.Wins)                                   // 2️⃣ Победы в основное время
-                .ThenByDescending(s => s.Value.GoalsFor - s.Value.GoalsAgainst)        // 3️⃣ Разница шайб
-                .ThenByDescending(s => s.Value.GoalsFor)                               // 4️⃣ Заброшенные шайбы
-                .ThenByDescending(s => s.Value.OvertimeWins)                           // 5️⃣ Победы в ОТ
-                .ThenByDescending(s => s.Value.ShootoutWins)                           // 6️⃣ Победы по буллитам
-                .ThenBy(s => s.Key)                                                    // 7️⃣ Алфавит (на всякий случай)
+                .OrderByDescending(s => s.Value.Points)
+                .ThenByDescending(s => s.Value.Wins)
+                .ThenByDescending(s => s.Value.GoalsFor - s.Value.GoalsAgainst)
+                .ThenByDescending(s => s.Value.GoalsFor)
+                .ThenByDescending(s => s.Value.OvertimeWins)
+                .ThenByDescending(s => s.Value.ShootoutWins)
+                .ThenBy(s => s.Key)
                 .ToList();
 
-            Serilog.Log.Information("=== SORTED STANDINGS (STRICT KHL FINAL) ===");
-            int rank = 1;
+            Log.Information("[GetStandingsDataAsync] Сортировка завершена. Команд={Count}", sorted.Count);
+
+            // 7. Лог финального рейтинга
+            Log.Information("=== SORTED STANDINGS (FINAL) ===");
+            int place = 1;
             foreach (var t in sorted)
             {
                 var s = t.Value;
-                Serilog.Log.Information(
-                    $"{rank,2}. {t.Key,-22} O={s.Points}, В={s.Wins}, ВО={s.OvertimeWins}, ВБ={s.ShootoutWins}, Δ={s.GoalsFor - s.GoalsAgainst}, Г={s.GoalsFor}:{s.GoalsAgainst}"
+                Log.Information(
+                    "{Place,2}. {Team,-20} O={PTS}, W={W}, WO={WO}, SO={SO}, Δ={Diff}, GF={GF}:{GA}",
+                    place, t.Key,
+                    s.Points, s.Wins, s.OvertimeWins, s.ShootoutWins,
+                    s.GoalsFor - s.GoalsAgainst,
+                    s.GoalsFor, s.GoalsAgainst
                 );
-                rank++;
+                place++;
             }
-            Serilog.Log.Information("==========================================");
+            Log.Information("=================================");
+
+            Log.Information("[GetStandingsDataAsync] Завершено успешно.");
+
             return sorted;
         }
 
@@ -281,16 +261,22 @@ namespace TelegramBOT.Application.Standings
         /// </param>
         /// <returns>Обновлённая статистика команды после учёта результата матча.</returns>
         private TeamStats UpdateStats(
-            string teamName,
-            TeamStats stats,
-            int scored,
-            int conceded,
-            bool isOvertime,
-            bool isShootout,
-            bool isWin,
-            bool isHome,
-            string opponent)
+             string teamName,
+             TeamStats stats,
+             int scored,
+             int conceded,
+             bool isOvertime,
+             bool isShootout,
+             bool isWin,
+             bool isHome,
+             string opponent)
         {
+            // Логируем только ключевое, без отладочного спама
+            Log.Information(
+                "[UpdateStats] Команда={Team}, Win={Win}, Score={Scored}:{Conceded}, Opp={Opponent}",
+                teamName, isWin, scored, conceded, opponent
+            );
+
             int pointsBefore = stats.Points;
             int earnedPoints = 0;
 
@@ -336,23 +322,13 @@ namespace TelegramBOT.Application.Standings
             while (stats.RecentForm.Count > 5)
                 stats.RecentForm.Dequeue();
 
-            // 💬 Подробный лог
-            if (teamName.Contains("Bars Kazan", StringComparison.OrdinalIgnoreCase))
-            {
-                string location = isHome ? "Дома" : "В гостях";
-                string opponentStr = isHome ? $"vs {opponent}" : $"@ {opponent}";
-                string type = isOvertime ? "ОТ" : isShootout ? "Б" : "ОСН";
-
-                Serilog.Log.Information(
-                    $"[DEBUG {teamName}] {DateTime.Now:HH:mm:ss} | {location} {opponentStr} | " +
-                    $"Результат: {(isWin ? "Победа" : "Поражение")} ({type}) | " +
-                    $"Счёт: {scored}:{conceded} | Очков: +{earnedPoints} | Было: {pointsBefore} → Стало: {stats.Points}"
-                );
-            }
+            Log.Information(
+                "[UpdateStats] Итог: Team={Team}, Points {Before}->{After}, Form={Form}",
+                teamName, pointsBefore, stats.Points, string.Join("", stats.RecentForm)
+            );
 
             return stats;
         }
-
 
         /// <summary>
         /// Преобразует сгенерированный HTML-код турнирной таблицы в изображение PNG
@@ -362,16 +338,17 @@ namespace TelegramBOT.Application.Standings
         /// <returns>Поток <see cref="Stream"/> с изображением таблицы в формате PNG.</returns>
         private async Task<Stream> RenderStandingsImageAsync(string html)
         {
+            Log.Information("[RenderStandingsImageAsync] Старт рендеринга HTML.");
+
             var fetcher = new BrowserFetcher();
             await fetcher.DownloadAsync();
 
-            var options = new LaunchOptions
+            using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
             {
                 Headless = true,
                 Args = new[] { "--no-sandbox" }
-            };
+            });
 
-            using var browser = await Puppeteer.LaunchAsync(options);
             using var page = await browser.NewPageAsync();
 
             await page.SetContentAsync(html);
@@ -386,6 +363,8 @@ namespace TelegramBOT.Application.Standings
             var output = new MemoryStream();
             await screenshot.CopyToAsync(output);
             output.Seek(0, SeekOrigin.Begin);
+
+            Log.Information("[RenderStandingsImageAsync] Рендеринг завершён.");
             return output;
         }
     }

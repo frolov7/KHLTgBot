@@ -1,6 +1,11 @@
-﻿using TelegramBOT.Application.MatchEvents;
+﻿using Serilog;
+using Telegram.Bot.Types;
+using TelegramBOT.Application.MatchEvents;
+using TelegramBOT.Application.Results;
 using TelegramBOT.Infrastructure.Scripts;
 using TelegramBOT.Infrastructure.Telegram;
+using TelegramBOT.Presentation.UI.Menus.Calendar;
+using TelegramBOT.Presentation.UI.Menus.Results;
 
 namespace TelegramBOT.Presentation.Handlers.MatchEvents
 {
@@ -26,16 +31,6 @@ namespace TelegramBOT.Presentation.Handlers.MatchEvents
         }
 
         /// <summary>
-        /// Обрабатывает callback-запрос для отображения событий матча.
-        /// Например: "events_12345"
-        /// </summary>
-        public async Task HandleMatchEvents(long chatId, string callback)
-        {
-            var matchId = callback.Replace("events_", "");
-            await _matchEventsService.SendMatchEventsAsync(chatId, matchId, "calendar");
-        }
-
-        /// <summary>
         /// Запускает парсинг событий конкретного матча (по кнопке "📋 События").
         /// </summary>
         public async Task HandleMatchEvents(long chatId, string callback, string source)
@@ -45,35 +40,41 @@ namespace TelegramBOT.Presentation.Handlers.MatchEvents
                 .Replace("events_calendar_", "")
                 .Replace("events_", "");
 
-            try
-            {
-                // Выводим события матча
-                await _matchEventsService.SendMatchEventsAsync(chatId, matchId, source);
-            }
-            catch (Exception ex)
-            {
-                Serilog.Log.Error(ex, "Ошибка при отображении событий матча {MatchId}", matchId);
-                await _matchEventsService.SendMatchEventsAsync(chatId, matchId, source);
-            }
+            var loading = await _messageService
+                .RemoveKeyboardAsync(chatId, "⏳ Загружаем события матча...");
+
+            await _matchEventsService.ProcessMatchEventsAsync(
+                chatId,
+                matchId,
+                source,
+                forceParse: source == "calendar" // если календарь → парсим
+            );
+
+            try { await _messageService.DeleteMessageAsync(chatId, loading.MessageId); }
+            catch { }
         }
 
+        /// <summary>
+        /// Обрабатывает запрос на ручное обновление событий матча.
+        /// Используется, когда требуется принудительно перепарсить данные 
+        /// и отправить пользователю обновлённую визуализацию.
+        /// </summary>
         public async Task HandleMatchEventsParsing(long chatId, string callback)
         {
             var matchId = callback.Replace("events_parse_", "");
 
-            try
-            {
-                // 1️ Запускаем парсинг через Node.js
-                await _scriptService.RunSingleMatchEventsAsync(matchId);
+            var loading = await _messageService
+                .SendTextAsync(chatId, "⏳ Обновляем данные...");
 
-                // 2️ После обновления данных — показываем события (по умолчанию вернёмся в календарь)
-                await _matchEventsService.SendMatchEventsAsync(chatId, matchId, "calendar");
-            }
-            catch (Exception ex)
-            {
-                Serilog.Log.Error(ex, "Ошибка при парсинге событий матча {MatchId}", matchId);
-                await _messageService.SendTextAsync(chatId, "Ошибка при обновлении событий.");
-            }
+            await _matchEventsService.ProcessMatchEventsAsync(
+                chatId,
+                matchId,
+                "calendar",
+                forceParse: true
+            );
+
+            try { await _messageService.DeleteMessageAsync(chatId, loading.MessageId); }
+            catch { }
         }
     }
 }

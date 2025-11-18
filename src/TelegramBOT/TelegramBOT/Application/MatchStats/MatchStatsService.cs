@@ -1,4 +1,5 @@
 ﻿using PuppeteerSharp;
+using Serilog;
 using System.Text;
 using TelegramBOT.Application.MatchEvents;
 using TelegramBOT.Application.Utils;
@@ -38,30 +39,34 @@ namespace TelegramBOT.Application.MatchStats
         /// </summary>
         public async Task SendHeadToHeadAsync(long chatId, string matchId)
         {
+            Log.Information("[SendHeadToHeadAsync] Старт. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
+
             var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
             {
+                Log.Information("[SendHeadToHeadAsync] Матч не найден. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
 
-            // Получаем очные встречи через репозиторий
             var matches = await _matchStatsRepository.GetHeadToHeadMatchesAsync(match.HomeTeamName, match.AwayTeamName);
             if (!matches.Any())
             {
+                Log.Information("[SendHeadToHeadAsync] Очных матчей нет. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Эти команды ещё не встречались.");
                 return;
             }
 
+            Log.Information("[SendHeadToHeadAsync] Найдено {Count} очных встреч. matchId={MatchId}", matches.Count(), matchId);
+
             var (home, away) = _mappingService.MapTeamNames(match);
+
             var sb = new StringBuilder();
             sb.AppendLine($"<b>Игры между собой {home} и {away}:</b>\n");
-
             BuildMatchList(sb, matches, match.HomeTeamName, home, includeOutcome: false);
 
             await _messageService.SendTextAsync(chatId, sb.ToString());
 
-            // После списка — вернуть inline-меню матча
             var menu = new MatchMenuBuilder().Build(match);
             await _messageService.SendTextWithKeyboardAsync(chatId, $"{home} vs {away}", menu);
         }
@@ -76,9 +81,12 @@ namespace TelegramBOT.Application.MatchStats
         /// </summary>
         public async Task SendTeamsHistoryAsync(long chatId, string matchId)
         {
+            Log.Information("[SendTeamsHistoryAsync] Старт. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
+
             var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
             {
+                Log.Information("[SendTeamsHistoryAsync] Матч не найден. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
@@ -88,26 +96,27 @@ namespace TelegramBOT.Application.MatchStats
 
             if (!homeResults.Any() && !awayResults.Any())
             {
+                Log.Information("[SendTeamsHistoryAsync] Нет данных по последним играм. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Нет данных по прошлым играм.");
                 return;
             }
 
+            Log.Information("[SendTeamsHistoryAsync] Найдены данные: home={Home}, away={Away}. matchId={MatchId}", homeResults.Count, awayResults.Count, matchId);
+
             var (home, away) = _mappingService.MapTeamNames(match);
+
             var sb = new StringBuilder();
             sb.AppendLine("<b>Последние матчи команд:</b>\n");
 
-            // ------------------ Домашняя команда ------------------
             sb.AppendLine($"<b>{home}</b> (последние {homeResults.Count}):");
             BuildMatchList(sb, homeResults, match.HomeTeamName, home, includeOutcome: true);
             sb.AppendLine();
 
-            // ------------------ Гостевая команда ------------------
             sb.AppendLine($"<b>{away}</b> (последние {awayResults.Count}):");
             BuildMatchList(sb, awayResults, match.AwayTeamName, away, includeOutcome: true);
 
             await _messageService.SendTextAsync(chatId, sb.ToString());
 
-            // Меню матча (возврат)
             var menu = new MatchMenuBuilder().Build(match);
             await _messageService.SendTextWithKeyboardAsync(chatId, $"{home} vs {away}", menu);
         }
@@ -121,25 +130,16 @@ namespace TelegramBOT.Application.MatchStats
         /// <param name="teamName">Системное имя команды (из базы данных), относительно которой строится список.</param>
         /// <param name="mappedName">Отображаемое (человекочитаемое) имя команды с эмодзи.</param>
         /// <param name="includeOutcome">Если true — добавляются эмодзи исходов (🏆 / ❌). Используется для последних матчей команд.</param>
-        private void BuildMatchList(
-            StringBuilder sb,
-            IEnumerable<Match> matches,
-            string teamName,
-            string mappedName,
-            bool includeOutcome = true
-            )
+        private void BuildMatchList(StringBuilder sb, IEnumerable<Match> matches, string teamName, string mappedName, bool includeOutcome = true)
         {
             foreach (var m in matches)
             {
-                // 🏆 или ❌
                 var emoji = includeOutcome ? GetMatchOutcomeEmoji(m, teamName) : "📅";
                 var (home, away) = _mappingService.MapTeamNames(m);
 
-                // Определяем соперника
                 bool isHome = m.HomeTeamName == teamName;
                 var opponent = isHome ? away : home;
 
-                // Добавляем уточнение статуса (ОТ / Бул)
                 string extraStatus = m.Status switch
                 {
                     "AFTER OVERTIME" => " (ОТ)",
@@ -147,7 +147,6 @@ namespace TelegramBOT.Application.MatchStats
                     _ => string.Empty
                 };
 
-                // Формируем строку результата
                 var line = isHome
                     ? $"{emoji} {m.MatchDate:dd.MM} — {mappedName} <b>{m.HomeScore}:{m.AwayScore}</b>{extraStatus} {opponent}"
                     : $"{emoji} {m.MatchDate:dd.MM} — {opponent} <b>{m.HomeScore}:{m.AwayScore}</b>{extraStatus} {mappedName}";
@@ -165,10 +164,7 @@ namespace TelegramBOT.Application.MatchStats
                 return "📅";
 
             bool isHome = match.HomeTeamName == teamName;
-            int homeScore = match.HomeScore ?? 0;
-            int awayScore = match.AwayScore ?? 0;
-
-            bool isWin = isHome && homeScore > awayScore || !isHome && awayScore > homeScore;
+            bool isWin = (isHome && match.HomeScore > match.AwayScore) || (!isHome && match.AwayScore > match.HomeScore);
 
             return isWin ? "🏆" : "❌";
         }
@@ -182,9 +178,12 @@ namespace TelegramBOT.Application.MatchStats
         /// </summary>
         public async Task SendPredictionsAsync(long chatId, string matchId)
         {
+            Log.Information("[SendPredictionsAsync] Старт. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
+
             var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
             {
+                Log.Information("[SendPredictionsAsync] Матч не найден. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
@@ -192,9 +191,12 @@ namespace TelegramBOT.Application.MatchStats
             var predictions = await _matchStatsRepository.GetPredictionsByMatchIdAsync(matchId);
             if (!predictions.Any())
             {
+                Log.Information("[SendPredictionsAsync] Прогнозы отсутствуют. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Прогнозов пока нет.");
                 return;
             }
+
+            Log.Information("[SendPredictionsAsync] Найдено {Count} прогнозов. matchId={MatchId}", predictions.Count(), matchId);
 
             var (home, away) = _mappingService.MapTeamNames(match);
             var text = $"🔮 Прогнозы на матч <b>{home}</b> vs <b>{away}</b>";

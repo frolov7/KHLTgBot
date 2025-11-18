@@ -38,8 +38,16 @@ namespace TelegramBOT.Application.Results
         // ==========================================================
         public bool TryParseCallbackDate(string callback, out DateTime date)
         {
+            Log.Information("[TryParseCallbackDate] Входные данные: {Callback}", callback);
+
             var dateStr = callback.Replace("back_to_results_", "");
-            return DateTime.TryParseExact(dateStr, "yyyyMMdd", null, System.Globalization.DateTimeStyles.None, out date);
+            var result = DateTime.TryParseExact(
+                dateStr, "yyyyMMdd", null,
+                System.Globalization.DateTimeStyles.None, out date
+            );
+
+            Log.Information("[TryParseCallbackDate] Распарсено: {Success}, Дата={Date}", result, date);
+            return result;
         }
 
         // ==========================================================
@@ -51,11 +59,15 @@ namespace TelegramBOT.Application.Results
         /// </summary>
         public async Task SendResultsAsync(long chatId, DateTime date)
         {
+            Log.Information("[SendResultsAsync] Старт. chatId={ChatId}, date={Date}", chatId, date);
+
             var matches = await _resultRepository.GetResultsByDateAsync(date);
+            Log.Information("[SendResultsAsync] Загружено матчей: {Count}", matches.Count());
 
             if (!matches.Any())
             {
                 await _messageService.SendTextAsync(chatId, "Результатов не найдено");
+                Log.Information("[SendResultsAsync] Завершено — данных нет");
                 return;
             }
 
@@ -80,8 +92,9 @@ namespace TelegramBOT.Application.Results
                 });
             }
 
-            var keyboard = new InlineKeyboardMarkup(buttons);
-            await _messageService.SendTextWithKeyboardAsync(chatId, sb.ToString(), keyboard);
+            await _messageService.SendTextWithKeyboardAsync(chatId, sb.ToString(), new InlineKeyboardMarkup(buttons));
+
+            Log.Information("[SendResultsAsync] Завершено успешно");
         }
 
         /// <summary>
@@ -127,14 +140,17 @@ namespace TelegramBOT.Application.Results
         /// <returns><c>true</c>, если обновление завершилось успешно; иначе <c>false</c>.</returns>
         public async Task<bool> UpdateResultsAsync()
         {
+            Log.Information("[UpdateResultsAsync] Старт обновления результатов");
+
             try
             {
                 await _scriptService.RunScrapersAsync();
+                Log.Information("[UpdateResultsAsync] Успешно завершено");
                 return true;
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Ошибка при обновлении данных (результаты/прогнозы)");
+                Log.Error(ex, "[UpdateResultsAsync] Ошибка обновления");
                 return false;
             }
         }
@@ -152,12 +168,16 @@ namespace TelegramBOT.Application.Results
         /// <returns>Готовый текст сообщения для Telegram.</returns>
         public string BuildResultsMessage(IEnumerable<Match> matches, DateTime? date = null, string? teamName = null)
         {
+            Log.Information("[BuildResultsMessage] Старт. Matches={Count}", matches.Count());
+
             if (matches == null || !matches.Any())
+            {
+                Log.Information("[BuildResultsMessage] Нет данных");
                 return "Результатов не найдено";
+            }
 
             var sb = new StringBuilder();
 
-            // Заголовок
             if (date != null)
                 sb.AppendLine($"⚡ Результаты матчей за {date:dd.MM.yyyy}\n");
             else
@@ -166,9 +186,9 @@ namespace TelegramBOT.Application.Results
             foreach (var match in matches)
             {
                 var (homeName, awayName) = _mappingService.MapTeamNames(match);
+
                 string statusText;
 
-                // Победа / поражение (если указана команда)
                 if (teamName != null && match.Status != "SCHEDULED" &&
                     !(match.Status.Contains("PERIOD") || match.Status == "OVERTIME" || match.Status == "PENALTIES"))
                 {
@@ -178,6 +198,7 @@ namespace TelegramBOT.Application.Results
                     bool isWin = isHome && homeScore > awayScore || !isHome && awayScore > homeScore;
 
                     var shortStatus = _mappingService.Map("MatchStatusesShort", match.Status);
+
                     statusText = isWin
                         ? $"🏆 Победа ({shortStatus})"
                         : $"❌ Поражение ({shortStatus})";
@@ -187,13 +208,11 @@ namespace TelegramBOT.Application.Results
                     statusText = _mappingService.Map("MatchStatuses", match.Status);
                 }
 
-                // Время или дата
                 if (date != null)
                     sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
                 else
                     sb.AppendLine($"📅 {match.MatchDate:dd.MM.yyyy}");
 
-                // Счёт или анонс
                 if (match.Status != "SCHEDULED")
                     sb.AppendLine($"{homeName} <b>{match.HomeScore ?? 0} : {match.AwayScore ?? 0}</b> {awayName}");
                 else
@@ -203,6 +222,7 @@ namespace TelegramBOT.Application.Results
                 sb.AppendLine();
             }
 
+            Log.Information("[BuildResultsMessage] Завершено успешно");
             return sb.ToString();
         }
 
@@ -215,20 +235,26 @@ namespace TelegramBOT.Application.Results
         /// <param name="menuService">Фасад построения меню.</param>
         public async Task SendResultMatchMenuAsync(long chatId, string matchId, MenuService menuService)
         {
+            Log.Information("[SendResultMatchMenuAsync] Старт. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
+
             var match = await _resultRepository.GetResultByIdAsync(matchId);
             if (match == null)
             {
+                Log.Warning("[SendResultMatchMenuAsync] Матч не найден");
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
 
             var (home, away) = _mappingService.MapTeamNames(match);
-
-            // Получаем видеообзор (может быть null)
             var video = await GetMatchVideoAsync(matchId);
 
-            var title = $"⚡ <b>{home}</b> vs <b>{away}</b>";
-            await _messageService.SendKeyboardAsync(chatId, title, menuService.GetResultMatchMenu(match, video));
+            await _messageService.SendKeyboardAsync(
+                chatId,
+                $"⚡ <b>{home}</b> vs <b>{away}</b>",
+                menuService.GetResultMatchMenu(match, video)
+            );
+
+            Log.Information("[SendResultMatchMenuAsync] Завершено успешно");
         }
 
         /// <summary>
@@ -240,24 +266,27 @@ namespace TelegramBOT.Application.Results
         /// <param name="callback">Строка callback (например, "team_SKA St. Petersburg").</param>
         public async Task SendTeamResultsAsync(long chatId, string callback)
         {
-            // Извлекаем локализованное имя из callback
-            var localizedName = callback.Replace("team_", "");
+            Log.Information("[SendTeamResultsAsync] Старт. chatId={ChatId}, callback={Callback}", chatId, callback);
 
-            // Преобразуем в английское имя для работы с базой данных
+            var localizedName = callback.Replace("team_", "");
             var englishName = _mappingService.ReverseMap("TeamNames", localizedName);
 
-            // Загружаем результаты команды
+            Log.Information("[SendTeamResultsAsync] Локализованное имя={Local}, Английское={English}",
+                localizedName, englishName);
+
             var results = await _resultRepository.GetResultsByTeamAsync(englishName);
 
             if (results == null || !results.Any())
             {
+                Log.Information("[SendTeamResultsAsync] Данных нет");
                 await _messageService.SendTextAsync(chatId, $"Результаты команды <b>{localizedName}</b> не найдены.");
                 return;
             }
 
-            // Формируем текстовое сообщение и отправляем
             var message = BuildResultsMessage(results, null, englishName);
             await _messageService.SendTextAsync(chatId, message);
+
+            Log.Information("[SendTeamResultsAsync] Завершено успешно");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using TelegramBOT.Infrastructure.Telegram;
+﻿using Serilog;
+using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
 
 namespace TelegramBOT.Presentation.Handlers.Navigation
@@ -28,6 +29,8 @@ namespace TelegramBOT.Presentation.Handlers.Navigation
         /// <param name="chatId">Идентификатор Telegram-чата.</param>
         public async Task ShowMainMenu(long chatId)
         {
+            Log.Information("[ShowMainMenu] Начало работы метода. chatId={ChatId}", chatId);
+
             await _messageService.SendKeyboardAsync(
                 chatId,
                 "Выберите действие",
@@ -45,6 +48,8 @@ namespace TelegramBOT.Presentation.Handlers.Navigation
         /// <param name="chatId">Идентификатор Telegram-чата.</param>
         public async Task BackToMainMenu(long chatId)
         {
+            Log.Information("[BackToMainMenu] Начало работы метода. chatId={ChatId}", chatId);
+
             await _messageService.SendKeyboardAsync(
                 chatId,
                 "🔙 Возврат в главное меню.",
@@ -63,6 +68,8 @@ namespace TelegramBOT.Presentation.Handlers.Navigation
         /// <param name="text">Текст уведомления.</param>
         public async Task SendTemporaryNotice(long chatId, string text)
         {
+            Log.Information("[SendTemporaryNotice] Начало работы метода. chatId={ChatId}, text={Text}", chatId, text);
+
             await _messageService.SendTextAsync(chatId, text);
         }
     }
