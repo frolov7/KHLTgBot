@@ -1,4 +1,4 @@
-﻿using PuppeteerSharp;
+using PuppeteerSharp;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
@@ -67,15 +67,27 @@ namespace TelegramBOT.Application.MatchEvents
 
             try
             {
-                // 1. Парсинг при необходимости
-                if (forceParse)
+                // === 1. Загружаем события из БД ===
+                var events = (await _matchStatsRepository.GetMatchEventsAsync(matchId)).ToList();
+
+                bool needParse = forceParse || !events.Any();
+
+                if (needParse)
                 {
-                    Log.Information("[ProcessMatchEvents] Запуск парсинга матча {MatchId}", matchId);
+                    Log.Information("[ProcessMatchEvents] Парсинг требуется (forceParse={Force}, eventsInDb={Has})",
+                        forceParse, events.Any());
+
                     await _scriptService.RunSingleMatchEventsAsync(matchId);
+
+                    // загружаем снова после парсинга
+                    events = (await _matchStatsRepository.GetMatchEventsAsync(matchId)).ToList();
+                }
+                else
+                {
+                    Log.Information("[ProcessMatchEvents] Парсинг НЕ требуется — данные уже есть в БД");
                 }
 
-                // 2. Загрузка матча
-                Log.Information("[ProcessMatchEvents] Загрузка данных матча {MatchId}", matchId);
+                // 2. Загружаем матч
                 var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
 
                 if (match == null)
@@ -84,24 +96,20 @@ namespace TelegramBOT.Application.MatchEvents
                     return;
                 }
 
-                Log.Information("[ProcessMatchEvents] Загрузка событий матча {MatchId}", matchId);
-                var events = (await _matchStatsRepository.GetMatchEventsAsync(matchId)).ToList();
-
                 if (!events.Any())
                 {
                     await _messageService.SendTextAsync(chatId, "События для этого матча пока недоступны.");
                     return;
                 }
 
-                // 3. Генерация HTML → PNG
+                // 3. HTML → PNG
                 var html = _htmlBuilder.Build(match, events);
                 var image = await RenderHtmlToImageAsync(html);
 
-                // 4. Отправка картинки
                 var (home, away) = _mappingService.MapTeamNames(match);
                 await _messageService.SendPhotoAsync(chatId, image, $"{home} vs {away}");
 
-                // 5. Показываем меню матча (inline) + меню календаря (reply)
+                // 4. Меню
                 await SendMenuAsync(chatId, match, source, home, away);
             }
             catch (Exception ex)
