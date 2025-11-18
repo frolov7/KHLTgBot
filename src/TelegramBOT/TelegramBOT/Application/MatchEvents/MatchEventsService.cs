@@ -1,4 +1,4 @@
-﻿using PuppeteerSharp;
+using PuppeteerSharp;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
