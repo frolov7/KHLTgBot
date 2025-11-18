@@ -4367,7 +4367,7 @@
   "hAkbiyz3": {
     "id": "hAkbiyz3",
     "date": "17.11.2025 15:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Novosibirsk"
     },
@@ -4375,14 +4375,14 @@
       "name": "Shanghai"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "0",
+      "away": "3"
     }
   },
   "4SDGpsQG": {
     "id": "4SDGpsQG",
     "date": "17.11.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Lokomotiv Yaroslavl"
     },
@@ -4390,14 +4390,14 @@
       "name": "Salavat Ufa"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "4",
+      "away": "3"
     }
   },
   "QNm6kF4F": {
     "id": "QNm6kF4F",
     "date": "17.11.2025 19:30",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Sochi"
     },
@@ -4405,8 +4405,8 @@
       "name": "Barys Astana"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "2"
     }
   },
   "ChHOrLfT": {
