@@ -5,6 +5,8 @@ import { FILES } from "../../../constants/constants.js";
 import { findMatchId, cleanText, normalizeTeamName } from "../utils/matches/teamMapUtils.js";
 import { appendUniqueJson } from "../utils/core/jsonUtils.js";
 import { createLogger } from "../utils/core/logger.js";
+import { normalizePrediction } from "../utils/predictions/normalizePrediction.js";
+
 
 const logger = createLogger("livesport");
 const BASE_URL = "https://www.livesport.ru";
@@ -115,6 +117,19 @@ async function parseMatchPage(url, calendar) {
         if (!mainBet) mainBet = txt;
     });
 
+    // Альтернативная ставка (#2)
+    let altBet = null;
+
+    $("div.article-tipsvrez").each((_, el) => {
+        const small = $(el).find("small").text().trim();
+        if (/Ставка на матч #2/i.test(small)) {
+            const betText = $(el).find("b").text().trim(); // например "Тотал больше 5.5"
+            altBet = betText;
+        }
+    });
+
+    const normalizedMain = normalizePrediction(mainBet, home, away);
+
     return {
         source: "livesport",
         url,
@@ -125,9 +140,9 @@ async function parseMatchPage(url, calendar) {
             away: { name: away, text: awayText },
         },
         prediction: {
-            main: mainBet,
+            main: normalizedMain,
             text: commonText,
-            alt: null,
+            alt: altBet ? normalizePrediction(altBet, home, away) : null,
             result: null,
         },
         id: matchId,

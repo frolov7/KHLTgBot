@@ -10,6 +10,7 @@ import {
 } from "../utils/matches/teamMapUtils.js";
 import { appendUniqueJson } from "../utils/core/jsonUtils.js";
 import { createLogger } from "../utils/core/logger.js";
+import { normalizePrediction } from "../utils/predictions/normalizePrediction.js";
 
 const logger = createLogger("legalbet");
 const BASE_URL = "https://legalbet.kz";
@@ -154,7 +155,7 @@ async function parseMatchPage(url, calendar, matchInfo) {
             away: { name: away, text: awayText },
         },
         prediction: {
-            main: mainBet,
+            main: normalizePrediction(mainBet, home, away),
             text: commonText,
             alt: null,
             result: null,

@@ -3,6 +3,7 @@ import fs from "fs";
 import { FILES } from "../../../constants/constants.js";
 import { appendUniqueJson } from "../utils/core/jsonUtils.js";
 import { normalizeTeamName, findMatchId } from "../utils/matches/teamMapUtils.js";
+import { normalizePrediction } from "../utils/predictions/normalizePrediction.js";
 
 const BASE_URL = "https://betzona.ru";
 
@@ -82,6 +83,18 @@ function extractTeamAndPredictionTexts($, home, away) {
     return { homeText, awayText, commonText: commonParts.join(" ") };
 }
 
+function extractForecastText($) {
+    const parts = [];
+
+    $(".forecast-info p").each((_, el) => {
+        const text = $(el).text().replace(/\s+/g, " ").trim();
+        if (text) parts.push(text);
+    });
+
+    return parts.join(" ");
+}
+
+
 /// <summary>
 /// Парсит данные конкретного матча и возвращает структурированный объект с прогнозом.
 /// </summary>
@@ -113,6 +126,7 @@ async function parseData(url, calendar, matchInfo, logger) {
     logger.info(`Матч: ${home} – ${away} | matchID: ${matchId || "не найден"} | Дата: ${matchDate.toISOString()}`);
 
     const texts = extractTeamAndPredictionTexts($, home, away);
+    const forecastText = extractForecastText($);
     const mainBet = $(".forecast-info .bet_name").first().text().trim() || null;
 
     return {
@@ -124,8 +138,8 @@ async function parseData(url, calendar, matchInfo, logger) {
             away: { name: away, text: normalizeQuotes(texts.awayText || "") },
         },
         prediction: {
-            main: normalizeQuotes(mainBet),
-            text: normalizeQuotes(texts.commonText || ""),
+            main: normalizePrediction(mainBet, home, away),
+            text: normalizeQuotes(forecastText || ""),
             result: null,
         },
         id: matchId,
