@@ -5,6 +5,7 @@ import { FILES } from "../../../constants/constants.js";
 import { findMatchId, normalizeTeamName } from "../utils/matches/teamMapUtils.js";
 import { appendUniqueJson } from "../utils/core/jsonUtils.js";
 import { createLogger } from "../utils/core/logger.js";
+import { normalizePrediction } from "../utils/predictions/normalizePrediction.js";
 
 const logger = createLogger("metaratings");
 const BASE_URL = "https://meta-ratings.kz";
@@ -131,7 +132,19 @@ async function parseMatchPage(url, calendar, matchInfo) {
             altBets.push(p.replace("Ставка —", "").trim());
         }
     }
-    if (altBets.length) prediction.alt = altBets.join(", ");
+
+    // Основной прогноз
+    if (prediction.main) {
+        prediction.main = normalizePrediction(prediction.main, home, away);
+    }
+
+    // Альтернативные ставки
+    if (altBets.length) {
+        prediction.alt = altBets
+            .map(b => normalizePrediction(b, home, away))
+            .join(", ");
+    }
+
     prediction.text = cleanText(paras.join(" "));
 
     // Проверяем исход прогноза

@@ -5,6 +5,7 @@ import { FILES } from "../../../constants/constants.js";
 import { normalizeTeamName, findMatchId } from "../utils/matches/teamMapUtils.js";
 import { appendUniqueJson } from "../utils/core/jsonUtils.js";
 import { createLogger } from "../utils/core/logger.js";
+import { normalizePrediction } from "../utils/predictions/normalizePrediction.js";
 
 const logger = createLogger("vprognoze");
 const BASE_URL = "https://vprognoze.kz/user/Андрей+Шарафутдинов/";
@@ -168,6 +169,10 @@ async function parseMatchPage(url, calendar) {
         }
     });
 
+    // НОРМАЛИЗАЦИЯ ОСНОВНОГО И АЛЬТЕРНАТИВНОГО ПРОГНОЗА
+    const normalizedMain = normalizePrediction(mainBet, home, away);
+    const normalizedAlt = normalizePrediction(altBet, home, away);
+
     return {
         source: "vprognoze",
         url,
@@ -178,10 +183,10 @@ async function parseMatchPage(url, calendar) {
             away: { name: away, text: awayText },
         },
         prediction: {
-            main: mainBet,
+            main: normalizedMain,
             text: commonText.trim(),
-            alt: altBet,
-            result: null,     
+            alt: normalizedAlt,
+            result: null,
             score: score || null,
         },
         id: matchId,

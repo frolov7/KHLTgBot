@@ -3,8 +3,8 @@ import * as cheerio from "cheerio";
 import fs from "fs";
 import { FILES } from "../../../constants/constants.js";
 import { normalizeTeamName, findMatchId } from "../utils/matches/teamMapUtils.js";
-import { appendUniqueJson } from "../utils/core/jsonUtils.js";
 import { createLogger } from "../utils/core/logger.js";
+import { normalizePrediction } from "../utils/predictions/normalizePrediction.js";
 
 const logger = createLogger("vseprosport");
 const BASE_URL = "https://www.vseprosport.kz";
@@ -91,7 +91,9 @@ async function parseMatchPage(url, calendar) {
             away: { name: away, text: awayForm },
         },
         prediction: {
-            main: mainBet || null,
+            main: mainBet
+                ? normalizePrediction(mainBet, home, away)
+                : null,
             text: textBlock || null,
             alt: null,
             result: null,

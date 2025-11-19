@@ -5,6 +5,7 @@ import { FILES } from "../../../constants/constants.js";
 import { findMatchId, normalizeTeamName } from "../utils/matches/teamMapUtils.js";
 import { appendUniqueJson } from "../utils/core/jsonUtils.js";
 import { createLogger } from "../utils/core/logger.js";
+import { normalizePrediction } from "../utils/predictions/normalizePrediction.js";
 
 const logger = createLogger("stavkatv");
 const BASE_URL = "https://stavka.tv";
@@ -214,6 +215,15 @@ export async function scrapePredictionsStavka() {
 
         try {
             const prediction = await parseMatchPage(fullUrl);
+
+            // Нормализуем прогноз (main + alt)
+            // нормализуем только main и alt
+            prediction.main = normalizePrediction(prediction.main, home, away);
+            prediction.alt = normalizePrediction(prediction.alt, home, away);
+
+
+
+            // Проверка исхода матча
             prediction.result = checkPrediction(prediction, calendar[matchId]);
 
             results.push({
