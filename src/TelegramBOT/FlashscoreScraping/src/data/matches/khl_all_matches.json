@@ -4637,7 +4637,7 @@
   "Kp9u4EJ8": {
     "id": "Kp9u4EJ8",
     "date": "21.11.2025 17:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Barys Astana"
     },
@@ -4645,8 +4645,8 @@
       "name": "Salavat Ufa"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "1"
     }
   },
   "KzE7DWaK": {

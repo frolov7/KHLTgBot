@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using System.Text;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBOT.Application.Predictions;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
@@ -20,17 +21,20 @@ namespace TelegramBOT.Application.Results
         private readonly ScriptService _scriptService;
         private readonly MappingService _mappingService;
         private readonly MessageService _messageService;
+        private readonly PredictionService _predictionService;
 
         public ResultsService(
             IResultsRepository resultRepository,
             ScriptService scriptService,
             MappingService mappingService,
-            MessageService messageService)
+            MessageService messageService,
+            PredictionService predictionService)
         {
             _resultRepository = resultRepository;
             _scriptService = scriptService;
             _mappingService = mappingService;
             _messageService = messageService;
+            _predictionService = predictionService;
         }
 
         // ==========================================================
@@ -287,6 +291,71 @@ namespace TelegramBOT.Application.Results
             await _messageService.SendTextAsync(chatId, message);
 
             Log.Information("[SendTeamResultsAsync] Завершено успешно");
+        }
+
+        // ==========================================================
+        // ===============      БЛОК ПРОГНОЗОВ МАТЧА      =============
+        // ==========================================================
+
+        /// <summary>
+        /// Получает, агрегирует и форматирует прогнозы для завершённого матча.
+        /// Формирование полностью аналогично «Общему прогнозу» в календаре,
+        /// но дополнительно добавляется стикер результата (WIN/LOSE/DRAW).
+        /// </summary>
+        /// <param name="matchId">Идентификатор матча.</param>
+        /// <returns>HTML-текст для Telegram, содержащий список прогнозов.</returns>
+        public async Task<string> BuildFinishedMatchPredictionsAsync(string matchId)
+        {
+            Log.Information("[BuildFinishedMatchPredictionsAsync] matchId={MatchId}", matchId);
+
+            var predictions = await _predictionService.GetPredictionsForMatchAsync(matchId);
+
+            if (predictions == null || predictions.Count == 0)
+                return "🔮 Прогнозы отсутствуют.";
+
+            var match = predictions.First().Match;
+            string home = "Хозяева";
+            string away = "Гости";
+
+            if (match != null)
+                (home, away) = _mappingService.MapTeamNames(match);
+
+            string[] sources =
+            {
+                "vseprosport", "vprognoze", "stavkatv",
+                "betzona", "legalbet", "metaratings", "livesport"
+            };
+
+            var sb = new StringBuilder();
+            sb.AppendLine("🔮 <b>Прогнозы</b>");
+            sb.AppendLine($"{home} vs {away}\n");
+
+            foreach (var src in sources)
+            {
+                var p = predictions.FirstOrDefault(x =>
+                    x.Source.Equals(src, StringComparison.OrdinalIgnoreCase));
+
+                string emoji = p?.Result switch
+                {
+                    "WIN" => "🟩",
+                    "LOSE" => "🟥",
+                    "DRAW" => "🟨",
+                    _ => "⬜"
+                };
+
+                if (p == null)
+                {
+                    sb.AppendLine($"{emoji} <b>{src}</b>: -");
+                    continue;
+                }
+
+                string main = string.IsNullOrWhiteSpace(p.MainPrediction) ? "-" : p.MainPrediction.Trim();
+                string alt = string.IsNullOrWhiteSpace(p.AltPrediction) ? "" : $", {p.AltPrediction.Trim()}";
+
+                sb.AppendLine($"{emoji} <b>{src}</b>: {main}{alt}");
+            }
+
+            return sb.ToString();
         }
     }
 }
