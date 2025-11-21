@@ -14,18 +14,12 @@ import { createLogger } from "../../scraper/services/utils/core/logger.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Путь к JSON прогнозов
 const DATA_PATH = path.join(__dirname, "../../data/predictions");
-
-// Путь к JSON матчей
 const MATCHES_FILE = path.join(__dirname, "../../data/matches/khl_all_matches.json");
-
-// Загружаем матчи
 const matches = JSON.parse(fs.readFileSync(MATCHES_FILE, "utf-8"));
 
 const logger = createLogger("updatePredictionResults");
 
-// Подключение к БД
 const pool = new sql.ConnectionPool({
     server: "LAPTOP-34F82EN1",
     database: "TelegramBOT",
@@ -33,46 +27,56 @@ const pool = new sql.ConnectionPool({
     options: { trustedConnection: true },
 });
 
-// Helper: преобразовать дату из JSON
+// === ПАРСИНГ ДАТЫ МАТЧА ===
 function parseMatchDate(str) {
     if (!str) return null;
-    // Формат: "06.09.2025 14:30"
     const [datePart, timePart] = str.split(" ");
     const [d, m, y] = datePart.split(".").map(Number);
     const [hh, mm] = timePart.split(":").map(Number);
     return new Date(y, m - 1, d, hh, mm);
 }
 
-// Фильтр: матч был за последние 2 дня
+// Проверка — матч за последние 2 дня?
 function isRecentMatch(matchDate) {
     if (!matchDate) return false;
     const now = new Date();
-    const diffMs = now - matchDate;
-    const diffDays = diffMs / 1000 / 60 / 60 / 24;
-    return diffDays <= 2; // последние 2 дня
+    const diff = (now - matchDate) / 1000 / 60 / 60 / 24;
+    return diff <= 2;
 }
 
-/// Основная логика
+/// ============================================================================
+///   ОСНОВНАЯ ФУНКЦИЯ
+/// ============================================================================
 async function updatePredictionResults() {
     const startTime = Date.now();
-    logger.info("=== Проверка прогнозов (последние 2 дня) ===");
+
+    // === ВКЛЮЧЕНО ПО УМОЛЧАНИЮ: только последние 2 дня ===
+    const UPDATE_ONLY_RECENT = false;
+
+    /*  
+    // === ВАРИАНТ: обновлять ВСЕ прогнозы ===
+    const UPDATE_ONLY_RECENT = false;
+    */
+
+    logger.info(
+        UPDATE_ONLY_RECENT
+            ? "=== Проверка прогнозов (последние 2 дня) ==="
+            : "=== Проверка всех прогнозов ==="
+    );
 
     try {
         await pool.connect();
         logger.info("Соединение с базой установлено.");
 
-        // Загружаем прогнозы
         const { recordset: predictions } = await pool.request()
             .query("SELECT prediction_id, match_id, main_prediction, source FROM Predictions");
 
-        // Загружаем все JSON с прогнозами
         const predictionFiles = fs.readdirSync(DATA_PATH)
             .filter(f => f.endsWith(".json"));
 
         const jsonData = {};
         for (const file of predictionFiles) {
-            const full = path.join(DATA_PATH, file);
-            jsonData[file] = JSON.parse(fs.readFileSync(full, "utf-8"));
+            jsonData[file] = JSON.parse(fs.readFileSync(path.join(DATA_PATH, file), "utf-8"));
         }
 
         const modifiedFiles = new Set();
@@ -82,26 +86,24 @@ async function updatePredictionResults() {
             const match = matches[row.match_id];
             if (!match) continue;
 
-            // превращаем дату матча в Date()
             const matchDate = parseMatchDate(match.date);
 
-            // ОБРАБАТЫВАЕМ ТОЛЬКО МАТЧИ ЗА ПОСЛЕДНИЕ 2 ДНЯ
-            if (!isRecentMatch(matchDate)) continue;
+            // === ФИЛЬТР ПО 2 ДНЯМ ===
+            if (UPDATE_ONLY_RECENT && !isRecentMatch(matchDate)) continue;
 
-            // И только завершённые
+            // === ТОЛЬКО ЗАКОНЧЕННЫЕ МАТЧИ ===
             if (!["FINISHED", "AFTER OVERTIME", "AFTER PENALTIES"].includes(match.status))
                 continue;
 
             const parsed = parsePrediction(row.main_prediction);
             const result = evaluatePrediction(parsed, match);
 
-            // Обновляем БД
             await pool.request()
                 .input("id", sql.Int, row.prediction_id)
                 .input("res", sql.NVarChar, result)
                 .query("UPDATE Predictions SET result = @res WHERE prediction_id = @id");
 
-            // Обновление в JSON
+            // === Обновляем JSON ===
             for (const file of predictionFiles) {
                 const arr = jsonData[file];
                 if (!Array.isArray(arr)) continue;
@@ -127,11 +129,14 @@ async function updatePredictionResults() {
             updatedCount++;
         }
 
-        // Сохраняем только изменённые файлы
+        // === Сохранение JSON ===
         for (const file of modifiedFiles) {
-            const full = path.join(DATA_PATH, file);
-            fs.writeFileSync(full, JSON.stringify(jsonData[file], null, 2), "utf-8");
-            logger.info(`✔ JSON сохранён: ${file}`);
+            fs.writeFileSync(
+                path.join(DATA_PATH, file),
+                JSON.stringify(jsonData[file], null, 2),
+                "utf-8"
+            );
+            logger.info(`✔ JSON обновлен: ${file}`);
         }
 
         logger.info(`Готово. Обновлено прогнозов: ${updatedCount}`);
@@ -139,8 +144,7 @@ async function updatePredictionResults() {
         logger.error("Ошибка:", err);
     } finally {
         await pool.close();
-        const sec = ((Date.now() - startTime) / 1000).toFixed(2);
-        logger.info(`=== Завершено за ${sec} сек ===`);
+        logger.info(`=== Завершено за ${((Date.now() - startTime) / 1000).toFixed(2)} сек ===`);
     }
 }
 
