@@ -82,6 +82,12 @@ export default async function main(args) {
         console.info(`Сохранили в: ${FILES.KHL_MATCHES}`);
 
         runImport(IMPORT_MATCHES_SCRIPT, "импорт матчей");
+
+        const UPDATE_PREDICTIONS_RESULTS_SCRIPT = path.join(
+            process.cwd(),
+            "src/db/import/updatePredictionResults.js"
+        );
+        runImport(UPDATE_PREDICTIONS_RESULTS_SCRIPT, "обновление результатов прогнозов");
     }
 
     // === Парсинг прогнозов ===
