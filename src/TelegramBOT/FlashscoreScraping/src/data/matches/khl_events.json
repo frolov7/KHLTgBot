@@ -44706,5 +44706,232 @@
         "goalType": "Penalty"
       }
     ]
+  },
+  "Kp9u4EJ8": {
+    "id": "Kp9u4EJ8",
+    "home": "Barys Astana",
+    "away": "Salavat Ufa",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "05:11",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Simonov S.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "08:18",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Galimov E.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "10:57",
+        "team": "Barys Astana",
+        "eventType": "Goalkeeper change",
+        "goalieOut": "Scheel A.",
+        "goalieIn": "Shutov A."
+      },
+      {
+        "period": "1st period",
+        "time": "12:14",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Faizov A.",
+        "assistants": [
+          "Khokhryakov P.",
+          "Pimenov A."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "14:29",
+        "team": "Barys Astana",
+        "eventType": "Goalkeeper change",
+        "goalieOut": "Shutov A.",
+        "goalieIn": "Scheel A."
+      },
+      {
+        "period": "1st period",
+        "time": "15:09",
+        "team": "Barys Astana",
+        "eventType": "Goal",
+        "scorer": "Massie J.",
+        "assistants": [
+          "Morelli M.",
+          "Gaitamirov T."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "17:01",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Asetov A.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "17:01",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Walsh R.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "17:01",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Brosseau D.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "17:01",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Rempal S.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:29",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Simonov S.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:02",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "09:42",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:35",
+        "team": "Barys Astana",
+        "eventType": "Goal",
+        "scorer": "Asetov A.",
+        "assistants": [
+          "Shaikhmeddenov A.",
+          "Panyukov K."
+        ],
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "17:34",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Walsh R.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "08:39",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Yefremov V.",
+        "reason": "High sticking",
+        "duration": "2+2"
+      }
+    ]
+  },
+  "KzE7DWaK": {
+    "id": "KzE7DWaK",
+    "home": "Niznekamsk",
+    "away": "Bars Kazan",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "06:47",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Denisenko G.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "11:46",
+        "team": "Bars Kazan",
+        "eventType": "Goal",
+        "scorer": "Barabanov A.",
+        "assistants": [
+          "Semyonov K.",
+          "Jaskin D."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:28",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Denisenko G.",
+        "reason": "Illegal check to the head",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:51",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Mityakin Y.",
+        "assistants": [
+          "Belozyorov A.",
+          "Serikov A."
+        ],
+        "score": "1 - 1",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "13:58",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Dergachyov A.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "08'",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "reason": "Penalty - 2 minutes",
+        "duration": "2"
+      }
+    ]
   }
 }

@@ -152,6 +152,12 @@ namespace TelegramBOT.Presentation.Handlers
                     await _resultsHandler.HandleBackToResults(chatId, callback);
                     break;
 
+                // ---------- Прогнозы (раздел Результаты) ----------
+                case var _ when callback.StartsWith("results_predictions_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleMatchPredictions");
+                    await _resultsHandler.HandleMatchPredictions(chatId, messageId, callback);
+                    break;
+
                 // ---------- Календарь ----------
                 case var _ when callback.StartsWith("match_"):
                     Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleMatchSelected");

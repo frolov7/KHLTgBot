@@ -24,6 +24,10 @@ namespace TelegramBOT.Presentation.UI.Menus.Results
             });
 
             rows.Add(new List<InlineKeyboardButton> {
+                InlineKeyboardButton.WithCallbackData("🔮 Прогнозы", $"results_predictions_{match.MatchId}")
+            });
+
+            rows.Add(new List<InlineKeyboardButton> {
                 InlineKeyboardButton.WithCallbackData("⬅️ Назад (Результаты)", $"back_to_results_{match.MatchDate:yyyyMMdd}")
             });
 

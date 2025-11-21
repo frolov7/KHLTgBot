@@ -4,6 +4,7 @@ using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
 using System.Globalization;
 using Serilog;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBOT.Presentation.Handlers.Results
 {
@@ -140,6 +141,52 @@ namespace TelegramBOT.Presentation.Handlers.Results
         {
             Log.Information("[ShowEasternTeams] Начало работы метода. chatId={ChatId}", chatId);
             await _messageService.SendKeyboardAsync(chatId, "Выберите команду (Восток)", _menuService.GetEasternTeamsMenu());
+        }
+
+        // ==========================================================
+        // ============      БЛОК ПРОГНОЗОВ (РЕЗУЛЬТАТЫ)   ==========
+        // ==========================================================
+
+        /// <summary>
+        /// Обрабатывает кнопку «Прогнозы» в разделе результатов.
+        /// Callback: results_predictions_{matchId}.
+        /// Вызывает бизнес-логику в ResultsService и отображает данные.
+        /// </summary>
+        /// <param name="chatId">ID Telegram-чата.</param>
+        /// <param name="messageId">Редактируемое сообщение.</param>
+        /// <param name="callback">Callback-строка с matchId.</param>
+        public async Task HandleMatchPredictions(long chatId, int messageId, string callback)
+        {
+            Log.Information("[HandleMatchPredictions] chatId={ChatId}, callback={Callback}", chatId, callback);
+
+            var matchId = callback.Replace("results_predictions_", "");
+
+            // Бизнес-логика формирования текста
+            var text = await _resultsService.BuildFinishedMatchPredictionsAsync(matchId);
+
+            // Получаем матч (для кнопки «Назад»)
+            var match = await _resultsService.GetResultByIdAsync(matchId);
+            if (match == null)
+            {
+                await _messageService.EditMessageTextAsync(chatId, messageId, "Матч не найден.");
+                return;
+            }
+
+            // Меню "Назад"
+            var menu = new InlineKeyboardMarkup(new[]
+            {
+                InlineKeyboardButton.WithCallbackData(
+                    "⬅️ Назад (Результаты)",
+                    $"back_to_results_{match.MatchDate:yyyyMMdd}")
+            });
+
+            // 1) Обновляем текст
+            await _messageService.EditMessageTextAsync(chatId, messageId, text);
+
+            // 2) Обновляем клавиатуру
+            await _messageService.EditMessageKeyboardAsync(chatId, messageId, menu);
+
+            Log.Information("[HandleMatchPredictions] Прогнозы успешно отображены");
         }
     }
 }

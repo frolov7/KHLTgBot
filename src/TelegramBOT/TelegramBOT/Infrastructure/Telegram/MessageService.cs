@@ -183,5 +183,18 @@ namespace TelegramBOT.Infrastructure.Telegram
                 cancellationToken: CancellationToken.None
             );
         }
+
+        /// <summary>
+        /// Изменяет inline-клавиатуру существующего сообщения.
+        /// </summary>
+        public async Task EditMessageKeyboardAsync(long chatId, int messageId, InlineKeyboardMarkup keyboard)
+        {
+            await _client.EditMessageReplyMarkup(
+                chatId: chatId,
+                messageId: messageId,
+                replyMarkup: keyboard,
+                cancellationToken: CancellationToken.None
+            );
+        }
     }
 }
