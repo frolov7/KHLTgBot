@@ -196,5 +196,22 @@ namespace TelegramBOT.Infrastructure.Telegram
                 cancellationToken: CancellationToken.None
             );
         }
+
+        public async Task SendPhotoWithKeyboardAsync(
+    long chatId,
+    Stream imageStream,
+    InlineKeyboardMarkup keyboard
+)
+        {
+            var file = new InputFileStream(imageStream, "banner.png");
+
+            await _client.SendPhoto(
+                chatId: chatId,
+                photo: file,
+                replyMarkup: keyboard,
+                cancellationToken: CancellationToken.None
+            );
+        }
+
     }
 }

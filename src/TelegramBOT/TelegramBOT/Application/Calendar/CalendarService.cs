@@ -5,6 +5,7 @@ using TelegramBOT.Application.Utils;
 using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
 using Serilog;
+using TelegramBOT.Presentation.Rendering.Html;
 
 namespace TelegramBOT.Application.Calendar
 {
@@ -18,15 +19,18 @@ namespace TelegramBOT.Application.Calendar
         private readonly ICalendarRepository _calendarRepository;
         private readonly MessageService _messageService;
         private readonly MappingService _mappingService;
+        private readonly IConfiguration _config;
 
         public CalendarService(
             ICalendarRepository calendarRepository,
             MessageService messageService,
+            IConfiguration config,
             MappingService mappingService)
         {
             _calendarRepository = calendarRepository;
             _messageService = messageService;
             _mappingService = mappingService;
+            _config = config;
         }
 
         // ==========================================================
@@ -110,15 +114,26 @@ namespace TelegramBOT.Application.Calendar
             var match = await _calendarRepository.GetMatchAsync(matchId);
             if (match == null)
             {
-                Log.Information("[SendMatchMenuAsync] Матч не найден. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
 
-            var (home, away) = _mappingService.MapTeamNames(match);
+            // ==== 1. Генерируем HTML для постера ====
+            var posterBuilder = new MatchPosterHtmlBuilder(_config, _mappingService);
+            string html = posterBuilder.Build(match);
 
-            var text = $"<b>{home}</b> vs <b>{away}</b>";
-            await _messageService.SendKeyboardAsync(chatId, text, menuService.GetMatchMenu(match));
+            // ==== 2. Конвертация HTML → PNG ====
+            var renderer = new HtmlToImageRenderer();
+            byte[] pngBytes = await renderer.RenderAsync(html, 1024, 1191);
+
+            await using var ms = new MemoryStream(pngBytes);
+
+            // ==== 3. Получаем клавиатуру ====
+            var keyboard = menuService.GetMatchMenu(match);
+
+            // ==== 4. Отправляем фото с клавиатурой ====
+            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, keyboard);
         }
+
     }
 }
