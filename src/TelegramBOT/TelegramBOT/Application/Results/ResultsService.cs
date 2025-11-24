@@ -335,6 +335,15 @@ namespace TelegramBOT.Application.Results
                 var p = predictions.FirstOrDefault(x =>
                     x.Source.Equals(src, StringComparison.OrdinalIgnoreCase));
 
+                Log.Information(
+                    "[PredictionCheck] matchId={MatchId}, source={Source}, found={Found}, result='{Result}', main='{Main}', alt='{Alt}'",
+                    matchId,
+                    src,
+                    p != null,
+                    p?.Result,
+                    p?.MainPrediction,
+                    p?.AltPrediction
+                );
                 string emoji = p?.Result switch
                 {
                     "WIN" => "🟩",
