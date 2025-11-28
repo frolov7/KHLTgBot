@@ -68,9 +68,7 @@ namespace TelegramBOT.Presentation.Rendering.Html
                 if (m.Status == "AFTER OVERTIME") score += " (ОТ)";
                 if (m.Status == "AFTER PENALTIES") score += " (Б)";
 
-                string dateShort = m.MatchDate.ToString("dd'/'MM",
-    new System.Globalization.CultureInfo("ru-RU"));
-
+                string dateShort = m.MatchDate.ToString("dd'/'MM", new System.Globalization.CultureInfo("ru-RU"));
 
                 rows.Append($@"
                     <div class='match-row' style='height:{rowHeight}px'>
@@ -82,7 +80,6 @@ namespace TelegramBOT.Presentation.Rendering.Html
                             </div>
                             <div class='score-text'>{score}</div>
                         </div>
-
 
                         <img class='team-logo-right' src='data:image/png;base64,{awayLogo64}' />
                     </div>
@@ -119,148 +116,143 @@ namespace TelegramBOT.Presentation.Rendering.Html
             return sb.ToString();
         }
 
-
         private string NewCss() => @"
-    body, html {
-        margin:0;
-        padding:0;
-        width:100%;
-        height:100%;
-        font-family: Inter, Arial, sans-serif;
-    }
+            body, html {
+                margin:0;
+                padding:0;
+                width:100%;
+                height:100%;
+                font-family: Inter, Arial, sans-serif;
+            }
 
-    .poster {
-        position: relative;
-        width: 1024px;
-        height: 810px;
-        overflow: hidden;
-    }
+            .poster {
+                position: relative;
+                width: 1024px;
+                height: 810px;
+                overflow: hidden;
+            }
 
-    .bg {
-        position:absolute;
-        width:100%;
-        height:100%;
-        object-fit: cover;
-        filter: brightness(0.75);
-    }
+            .bg {
+                position:absolute;
+                width:100%;
+                height:100%;
+                object-fit: cover;
+                filter: brightness(0.75);
+            }
 
-    /* === ВАЖНО ===
-       Область для матчей фиксированная.
-       Всё, что внутри, масштабируется. 
-    */
-.matches-wrapper {
-    position: absolute;
-    top: 80px;
-    bottom: 170px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;   /* ← ВОТ ЭТО! Центрирование по вертикали */
-    overflow: hidden;
-}
+            /* === ВАЖНО ===
+                Область для матчей фиксированная.
+                Всё, что внутри, масштабируется. 
+            */
+            .matches-wrapper {
+                position: absolute;
+                top: 80px;
+                bottom: 170px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;   /* ← ВОТ ЭТО! Центрирование по вертикали */
+                overflow: hidden;
+            }
 
-.matches {
-    position: absolute;
-    top: 120px;            /* ← регулирует позицию ВСЕГО блока матчей */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;   /* центрируем по центру */
-    gap: 28px;
+            .matches {
+                position: absolute;
+                top: 120px;            /* ← регулирует позицию ВСЕГО блока матчей */
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;   /* центрируем по центру */
+                gap: 28px;
 
-    /* ДИНАМИЧЕСКИЙ ЦЕНТР ДЛЯ ОДНОГО/ДВУХ МАТЧЕЙ */
-    transform: translateY(var(--shift, 0px));
-}
+                /* ДИНАМИЧЕСКИЙ ЦЕНТР ДЛЯ ОДНОГО/ДВУХ МАТЧЕЙ */
+                transform: translateY(var(--shift, 0px));
+            }
 
+            /* строка матча */
+            .match-row {
+                width: 82%;                 /* ← как у плашки */
+                background: rgba(0,0,0,0.35);
+                border-radius: 22px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 20px;
+                backdrop-filter: blur(4px);
+            }
 
-    /* строка матча */
-.match-row {
-    width: 82%;                 /* ← как у плашки */
-    background: rgba(0,0,0,0.35);
-    border-radius: 22px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    backdrop-filter: blur(4px);
-}
+            .team-logo-left,
+            .team-logo-right {
+                width: 130px;
+                height: auto;
+            }
 
+            .score-box {
+                position: relative;
+                background: white;
+                color: black;
+                width: 320px;
+                height: 80px;
 
-    .team-logo-left,
-    .team-logo-right {
-        width: 130px;
-        height: auto;
-    }
+                border-radius: 18px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 
-.score-box {
-    position: relative;
-    background: white;
-    color: black;
-    width: 320px;
-    height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
 
-    border-radius: 18px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.date-wrapper {
-    position: absolute;
-    left: 5px; /* ← ТОЧНО 5 пикселей от края */
-    top: 50%;
-    transform: translateY(-50%);
-}
+            .date-wrapper {
+                position: absolute;
+                left: 5px; /* ← ТОЧНО 5 пикселей от края */
+                top: 50%;
+                transform: translateY(-50%);
+            }
 
 
-.date-badge {
-    background: #000813;
-    color: #fff;
-    font-size: 10px;      /* уменьшили текст */
-    font-weight: 700;
-    padding: 4px 10px;    /* уменьшили плашку */
-    border-radius: 8px;   /* чуть менее округлая */
-    display: inline-flex;
-    min-width: 20px;      /* уменьшили ширину */
-    justify-content: center;
-}
+            .date-badge {
+                background: #000813;
+                color: #fff;
+                font-size: 10px;      /* уменьшили текст */
+                font-weight: 700;
+                padding: 4px 10px;    /* уменьшили плашку */
+                border-radius: 8px;   /* чуть менее округлая */
+                display: inline-flex;
+                min-width: 20px;      /* уменьшили ширину */
+                justify-content: center;
+            }
 
-.score-text {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 42px;
-    font-weight: 900;
-    white-space: nowrap;     /* ← главное! */
-    line-height: 1;          /* минимальная высота строки */
-}
+            .score-text {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 42px;
+                font-weight: 900;
+                white-space: nowrap;     /* ← главное! */
+                line-height: 1;          /* минимальная высота строки */
+            }
 
-    /* Плашка */
-    .footer-strip {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 40px;
-        width: 82%;
-        padding: 22px 32px;
-        border-radius: 18px;
-        background: linear-gradient(90deg, rgba(8,20,40,0.95), rgba(6,35,70,0.95));
-        box-shadow:
-            0 0 30px rgba(0,0,0,0.9),
-            0 0 40px rgba(0,0,0,0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 6;
+            /* Плашка */
+            .footer-strip {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 40px;
+                width: 82%;
+                padding: 22px 32px;
+                border-radius: 18px;
+                background: linear-gradient(90deg, rgba(8,20,40,0.95), rgba(6,35,70,0.95));
+                box-shadow:
+                    0 0 30px rgba(0,0,0,0.9),
+                    0 0 40px rgba(0,0,0,0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 6;
 
-        font-size: 48px;
-        font-weight: 900;
-        color: #ffffff;
-        text-align: center;
-    }
-";
-
+                font-size: 48px;
+                font-weight: 900;
+                color: #ffffff;
+                text-align: center;
+            }";
     }
 }

@@ -235,58 +235,55 @@ namespace TelegramBOT.Presentation.Rendering.Html
             }}
 
             /* ====== Head-to-Head Block (H2H) ====== */
+            .h2h-strip {{
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 40px;
+                width: 82%;
+                padding: 26px 40px;
+                border-radius: 18px;
+                background: linear-gradient(90deg, rgba(8,20,40,0.95), rgba(6,35,70,0.95));
+                box-shadow: 0 0 30px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.8);
+                z-index: 100;
+            }}
 
+            .h2h-row {{
+                display: grid;
+                grid-template-columns: 140px 1fr;
+                column-gap: 5px; 
+                font-size: 32px;
+                font-weight: 700;
+                margin: 10px 0;
+                color: #ffffff;
+            }}
 
-.h2h-strip {{
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 40px;
-    width: 82%;
-    padding: 26px 40px;
-    border-radius: 18px;
-    background: linear-gradient(90deg, rgba(8,20,40,0.95), rgba(6,35,70,0.95));
-    box-shadow: 0 0 30px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.8);
-    z-index: 100;
-}}
+            .h2h-frame {{
+                display: grid;
+                grid-template-columns: 1fr 110px 1fr;  /* Ровные симметричные зоны */
+                column-gap: 20px;  
+                margin-left: -50px;
+            }}
 
-.h2h-row {{
-    display: grid;
-    grid-template-columns: 140px 1fr;
-    column-gap: 5px; 
-    font-size: 32px;
-    font-weight: 700;
-    margin: 10px 0;
-    color: #ffffff;
-}}
+            .h2h-date {{
+                text-align: left;
+            }}
 
-.h2h-frame {{
-    display: grid;
-    grid-template-columns: 1fr 110px 1fr;  /* Ровные симметричные зоны */
-    column-gap: 20px;  
-    margin-left: -50px;
-}}
+            .h2h-home {{
+                text-align: right;
+                white-space: nowrap;
+                padding-right: 1px;   /* ← двигай команду ближе/дальше от счёта */
+            }}
 
-.h2h-date {{
-    text-align: left;
-}}
+            .h2h-score {{
+                text-align: center;
+                white-space: nowrap;
+            }}
 
-.h2h-home {{
-    text-align: right;
-    white-space: nowrap;
-    padding-right: 1px;   /* ← двигай команду ближе/дальше от счёта */
-}}
-
-.h2h-score {{
-    text-align: center;
-    white-space: nowrap;
-}}
-
-.h2h-away {{
-    text-align: left;
-    white-space: nowrap;
-}}
-
+            .h2h-away {{
+                text-align: left;
+                white-space: nowrap;
+            }}
         ";
     }
 }
