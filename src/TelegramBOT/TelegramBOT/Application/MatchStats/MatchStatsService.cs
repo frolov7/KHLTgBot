@@ -6,6 +6,7 @@ using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
 using TelegramBOT.Infrastructure.Telegram;
+using TelegramBOT.Presentation.Rendering.Html;
 using TelegramBOT.Presentation.UI.Menus.Calendar;
 using TelegramBOT.Presentation.UI.Menus.Predictions;
 
@@ -17,17 +18,20 @@ namespace TelegramBOT.Application.MatchStats
         private readonly IResultsRepository _resultsRepository;
         private readonly MappingService _mappingService;
         private readonly MessageService _messageService;
+        private readonly IConfiguration _config;
 
         public MatchStatsService(
             IMatchStatsServiceRepository matchStatsRepository,
             IResultsRepository resultsRepository,
             MappingService mappingService,
-            MessageService messageService)
+            MessageService messageService,
+            IConfiguration config)
         {
             _matchStatsRepository = matchStatsRepository;
             _resultsRepository = resultsRepository;
             _mappingService = mappingService;
             _messageService = messageService;
+            _config = config;
         }
 
         // ==========================================================
@@ -39,12 +43,9 @@ namespace TelegramBOT.Application.MatchStats
         /// </summary>
         public async Task SendHeadToHeadAsync(long chatId, string matchId)
         {
-            Log.Information("[SendHeadToHeadAsync] Старт. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
-
             var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
             {
-                Log.Information("[SendHeadToHeadAsync] Матч не найден. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
@@ -52,23 +53,25 @@ namespace TelegramBOT.Application.MatchStats
             var matches = await _matchStatsRepository.GetHeadToHeadMatchesAsync(match.HomeTeamName, match.AwayTeamName);
             if (!matches.Any())
             {
-                Log.Information("[SendHeadToHeadAsync] Очных матчей нет. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Эти команды ещё не встречались.");
                 return;
             }
 
-            Log.Information("[SendHeadToHeadAsync] Найдено {Count} очных встреч. matchId={MatchId}", matches.Count(), matchId);
+            // HTML билдер
+            var builder = new HeadToHeadPosterHtmlBuilder(_config, _mappingService);
+            string html = builder.Build(match, matches);
 
-            var (home, away) = _mappingService.MapTeamNames(match);
+            // рендер
+            var renderer = new HtmlToImageRenderer();
+            byte[] png = await renderer.RenderAsync(html, 1024, 810);
 
-            var sb = new StringBuilder();
-            sb.AppendLine($"<b>Игры между собой {home} и {away}:</b>\n");
-            BuildMatchList(sb, matches, match.HomeTeamName, home, includeOutcome: false);
+            using var ms = new MemoryStream(png);
 
-            await _messageService.SendTextAsync(chatId, sb.ToString());
-
+            // меню
             var menu = new MatchMenuBuilder().Build(match);
-            await _messageService.SendTextWithKeyboardAsync(chatId, $"{home} vs {away}", menu);
+
+            // отправка
+            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, menu);
         }
 
         // ==========================================================
