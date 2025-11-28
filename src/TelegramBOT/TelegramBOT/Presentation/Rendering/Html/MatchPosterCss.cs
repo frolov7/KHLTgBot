@@ -229,6 +229,23 @@ namespace TelegramBOT.Presentation.Rendering.Html
                 font-weight: 700;
             }}
 
+            /* --- Текст СЧЁТА --- */
+            .match_score {{
+                font-size: 48px;
+                font-weight: 900;
+                letter-spacing: 2px;
+                text-shadow: 0 0 18px rgba(0,0,0,0.7);
+                color: #ffffff;
+            }}
+
+            /* --- Текст статуса: «Основное время» --- */
+            .result-type {{
+                font-size: 28px;
+                font-weight: 700;
+                margin-top: 4px;
+                color: #d0e4ff;
+            }}
+
             .dot {{
                 font-size: {GetValue(CssStyle.FontInfoDate)};
                 opacity: 0.8;

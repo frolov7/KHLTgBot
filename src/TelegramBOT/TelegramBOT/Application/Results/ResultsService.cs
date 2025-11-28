@@ -7,6 +7,7 @@ using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
 using TelegramBOT.Infrastructure.Scripts;
 using TelegramBOT.Infrastructure.Telegram;
+using TelegramBOT.Presentation.Rendering.Html;
 using TelegramBOT.Presentation.UI;
 
 namespace TelegramBOT.Application.Results
@@ -22,19 +23,22 @@ namespace TelegramBOT.Application.Results
         private readonly MappingService _mappingService;
         private readonly MessageService _messageService;
         private readonly PredictionService _predictionService;
+        private readonly IConfiguration _config;
 
         public ResultsService(
             IResultsRepository resultRepository,
             ScriptService scriptService,
             MappingService mappingService,
             MessageService messageService,
-            PredictionService predictionService)
+            PredictionService predictionService,
+            IConfiguration config)   // <-- добавили
         {
             _resultRepository = resultRepository;
             _scriptService = scriptService;
             _mappingService = mappingService;
             _messageService = messageService;
             _predictionService = predictionService;
+            _config = config;
         }
 
         // ==========================================================
@@ -244,19 +248,25 @@ namespace TelegramBOT.Application.Results
             var match = await _resultRepository.GetResultByIdAsync(matchId);
             if (match == null)
             {
-                Log.Warning("[SendResultMatchMenuAsync] Матч не найден");
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
 
-            var (home, away) = _mappingService.MapTeamNames(match);
             var video = await GetMatchVideoAsync(matchId);
 
-            await _messageService.SendKeyboardAsync(
-                chatId,
-                $"⚡ <b>{home}</b> vs <b>{away}</b>",
-                menuService.GetResultMatchMenu(match, video)
-            );
+            // === 1. Генерация HTML ===
+            var builder = new ResultPosterHtmlBuilder(_config, _mappingService);
+            string html = builder.Build(match);
+
+            var renderer = new HtmlToImageRenderer();
+            byte[] pngBytes = await renderer.RenderAsync(html, 1024, 1191);
+
+            await using var ms = new MemoryStream(pngBytes);
+
+            var keyboard = menuService.GetResultMatchMenu(match, video);
+
+            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, keyboard);
+
 
             Log.Information("[SendResultMatchMenuAsync] Завершено успешно");
         }
