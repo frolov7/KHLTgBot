@@ -4937,7 +4937,7 @@
   "06ZZTC1b": {
     "id": "06ZZTC1b",
     "date": "27.11.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Magnitogorsk"
     },
@@ -4945,14 +4945,14 @@
       "name": "Avangard Omsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "3"
     }
   },
   "tExNGi3E": {
     "id": "tExNGi3E",
     "date": "27.11.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Salavat Ufa"
     },
@@ -4960,14 +4960,14 @@
       "name": "Barys Astana"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "7",
+      "away": "4"
     }
   },
   "MLNrSjWA": {
     "id": "MLNrSjWA",
     "date": "27.11.2025 19:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "CSKA Moscow"
     },
@@ -4975,14 +4975,14 @@
       "name": "Lada"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "4",
+      "away": "2"
     }
   },
   "8bHSVYWo": {
     "id": "8bHSVYWo",
     "date": "27.11.2025 19:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Spartak Moscow"
     },
@@ -4990,8 +4990,8 @@
       "name": "Yekaterinburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "1"
     }
   },
   "GtWAVPx3": {
