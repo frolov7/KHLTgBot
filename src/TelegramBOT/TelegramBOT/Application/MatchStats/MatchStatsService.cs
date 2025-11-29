@@ -89,7 +89,6 @@ namespace TelegramBOT.Application.MatchStats
             var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
             {
-                Log.Information("[SendTeamsHistoryAsync] Матч не найден. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
@@ -99,29 +98,33 @@ namespace TelegramBOT.Application.MatchStats
 
             if (!homeResults.Any() && !awayResults.Any())
             {
-                Log.Information("[SendTeamsHistoryAsync] Нет данных по последним играм. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Нет данных по прошлым играм.");
                 return;
             }
 
-            Log.Information("[SendTeamsHistoryAsync] Найдены данные: home={Home}, away={Away}. matchId={MatchId}", homeResults.Count, awayResults.Count, matchId);
+            Log.Information("[SendTeamsHistoryAsync] Найдены данные: home={Home}, away={Away}. matchId={MatchId}",
+                homeResults.Count, awayResults.Count, matchId);
 
-            var (home, away) = _mappingService.MapTeamNames(match);
+            // ========== ГЕНЕРАЦИЯ HTML ==========
+            var builder = new HistoryPosterHtmlBuilder(_config);
 
-            var sb = new StringBuilder();
-            sb.AppendLine("<b>Последние матчи команд:</b>\n");
+            string html = builder.Build(
+                match.HomeTeamName,
+                match.AwayTeamName,
+                homeResults.Take(7),
+                awayResults.Take(7));
 
-            sb.AppendLine($"<b>{home}</b> (последние {homeResults.Count}):");
-            BuildMatchList(sb, homeResults, match.HomeTeamName, home, includeOutcome: true);
-            sb.AppendLine();
+            // ========== РЕНДЕР ==========
+            var renderer = new HtmlToImageRenderer();
+            byte[] png = await renderer.RenderAsync(html, 1024, 900);
 
-            sb.AppendLine($"<b>{away}</b> (последние {awayResults.Count}):");
-            BuildMatchList(sb, awayResults, match.AwayTeamName, away, includeOutcome: true);
+            using var ms = new MemoryStream(png);
 
-            await _messageService.SendTextAsync(chatId, sb.ToString());
-
+            // меню
             var menu = new MatchMenuBuilder().Build(match);
-            await _messageService.SendTextWithKeyboardAsync(chatId, $"{home} vs {away}", menu);
+
+            // ========== ОТПРАВКА ТАК ЖЕ, КАК В SendHeadToHeadAsync ==========
+            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, menu);
         }
 
         /// <summary>

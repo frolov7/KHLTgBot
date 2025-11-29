@@ -5,12 +5,12 @@ using TelegramBOT.Domain.Models;
 
 namespace TelegramBOT.Presentation.Rendering.Html
 {
-    public class ResultPosterHtmlBuilder
+    public class SingleMatchResultPosterHtmlBuilder
     {
         private readonly IConfiguration _config;
         private readonly MappingService _mapper;
 
-        public ResultPosterHtmlBuilder(IConfiguration config, MappingService mapper)
+        public SingleMatchResultPosterHtmlBuilder(IConfiguration config, MappingService mapper)
         {
             _config = config;
             _mapper = mapper;
