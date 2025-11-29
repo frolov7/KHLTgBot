@@ -70,37 +70,38 @@ namespace TelegramBOT.Application.Results
             Log.Information("[SendResultsAsync] Старт. chatId={ChatId}, date={Date}", chatId, date);
 
             var matches = await _resultRepository.GetResultsByDateAsync(date);
-            Log.Information("[SendResultsAsync] Загружено матчей: {Count}", matches.Count());
 
             if (!matches.Any())
             {
                 await _messageService.SendTextAsync(chatId, "Результатов не найдено");
-                Log.Information("[SendResultsAsync] Завершено — данных нет");
                 return;
             }
 
-            var sb = new StringBuilder();
-            sb.AppendLine($"⚡ Результаты матчей за {date:dd.MM.yyyy}\n");
+            // === HTML Генерация ===
+            var builder = new MatchdayResultsPosterHtmlBuilder(_config);
+            string html = builder.Build(matches, date);
 
-            var buttons = new List<List<InlineKeyboardButton>>();
+            // === Рендер ===
+            var renderer = new HtmlToImageRenderer();
+            byte[] png = await renderer.RenderAsync(html, 1024, 900);
 
-            foreach (var match in matches)
-            {
-                var (home, away) = _mappingService.MapTeamNames(match);
-                var status = _mappingService.Map("MatchStatuses", match.Status);
+            using var ms = new MemoryStream(png);
 
-                sb.AppendLine($"⏰ {match.MatchDate:HH:mm} (МСК)");
-                sb.AppendLine($"{home} <b>{match.HomeScore} : {match.AwayScore}</b> {away}");
-                sb.AppendLine(status);
-                sb.AppendLine();
-
-                buttons.Add(new List<InlineKeyboardButton>
+            // === Клавиатура (то же самое что было!) ===
+            var buttons = matches
+                .Select(m =>
                 {
-                    InlineKeyboardButton.WithCallbackData($"{home} vs {away}", $"result_{match.MatchId}")
-                });
-            }
+                    var (home, away) = _mappingService.MapTeamNames(m);
+                    return new List<InlineKeyboardButton>
+                    {
+                InlineKeyboardButton.WithCallbackData($"{home} vs {away}", $"result_{m.MatchId}")
+                    };
+                })
+                .ToList();
 
-            await _messageService.SendTextWithKeyboardAsync(chatId, sb.ToString(), new InlineKeyboardMarkup(buttons));
+            var keyboard = new InlineKeyboardMarkup(buttons);
+
+            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, keyboard);
 
             Log.Information("[SendResultsAsync] Завершено успешно");
         }
@@ -255,7 +256,7 @@ namespace TelegramBOT.Application.Results
             var video = await GetMatchVideoAsync(matchId);
 
             // === 1. Генерация HTML ===
-            var builder = new ResultPosterHtmlBuilder(_config, _mappingService);
+            var builder = new SingleMatchResultPosterHtmlBuilder(_config, _mappingService);
             string html = builder.Build(match);
 
             var renderer = new HtmlToImageRenderer();

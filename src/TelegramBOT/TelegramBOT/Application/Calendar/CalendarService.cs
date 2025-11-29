@@ -66,39 +66,38 @@ namespace TelegramBOT.Application.Calendar
 
             if (matches.Count == 0)
             {
-                Log.Information("[SendMatchesAsync] Матчи не найдены. chatId={ChatId}, from={From}, to={To}", chatId, from, to);
                 await _messageService.SendTextAsync(chatId, "Матчи не найдены.");
                 return;
             }
 
             Log.Information("[SendMatchesAsync] Получено {Count} матчей. chatId={ChatId}", matches.Count, chatId);
 
-            var sb = new StringBuilder();
-            sb.AppendLine(from == to
-                ? $"📅 Матчи на {from:dd.MM.yyyy}\n"
-                : $"📅 Матчи с {from:dd.MM.yyyy} по {to:dd.MM.yyyy}\n");
-
+            // === СОЗДАЁМ КНОПКИ ТАК ЖЕ, КАК РАНЬШЕ ===
             var buttons = new List<List<InlineKeyboardButton>>();
-
             foreach (var match in matches)
             {
                 var (home, away) = _mappingService.MapTeamNames(match);
-                var status = _mappingService.Map("MatchStatuses", match.Status);
-
-                sb.AppendLine($"⏰ {match.MatchDate:HH:mm} — {home} vs {away}");
-                sb.AppendLine(status);
-                sb.AppendLine();
 
                 buttons.Add(new List<InlineKeyboardButton>
-                {
-                    InlineKeyboardButton.WithCallbackData($"{home} vs {away}", $"match_{match.MatchId}")
-                });
+        {
+            InlineKeyboardButton.WithCallbackData($"{home} vs {away}", $"match_{match.MatchId}")
+        });
             }
 
             var keyboard = new InlineKeyboardMarkup(buttons);
 
-            Log.Information("[SendMatchesAsync] Отправка списка матчей. chatId={ChatId}", chatId);
-            await _messageService.SendTextWithKeyboardAsync(chatId, sb.ToString(), keyboard);
+            // === НОВЫЙ ГЕНЕРАТОР ПОСТЕРА ===
+            var builder = new TodayMatchesHtmlBuilder(_config);
+            string html = builder.Build(matches, from);
+
+            // === РЕНДЕР В PNG ===
+            var renderer = new HtmlToImageRenderer();
+            byte[] png = await renderer.RenderAsync(html, 1024, 900);
+
+            using var ms = new MemoryStream(png);
+
+            // === ОТПРАВКА С ИНЛАЙН-КЛАВИАТУРОЙ (ВЕДЬ ЭТО ТЕБЕ И НУЖНО!) ===
+            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, keyboard);
         }
 
         /// <summary>
