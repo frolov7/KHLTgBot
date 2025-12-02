@@ -13,7 +13,7 @@ namespace TelegramBOT.Presentation.UI.Menus.Predictions
         // ----------------------------------------------------------
         private static readonly string[] Sources =
         {
-            "Общий прогноз",
+            //"Общий прогноз",
             "vseprosport",
             "vprognoze",
             "stavkatv",
