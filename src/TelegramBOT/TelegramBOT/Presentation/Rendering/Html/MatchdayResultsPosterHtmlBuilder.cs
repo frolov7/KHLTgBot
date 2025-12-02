@@ -94,8 +94,10 @@ namespace TelegramBOT.Presentation.Rendering.Html
             sb.AppendLine(rowsSb.ToString());
             sb.AppendLine("</div>");
 
+            string dateStr = day.ToString("dd.MM.yyyy").Replace(".", "/");
+
             sb.AppendLine($@"
-                <div class='footer-strip'>Результаты за {day:dd.MM.yyyy}</div>
+                <div class='footer-strip'>Результаты за {dateStr}</div>
             ");
 
             sb.AppendLine("</div>");

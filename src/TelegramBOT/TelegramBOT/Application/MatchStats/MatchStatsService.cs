@@ -204,11 +204,30 @@ namespace TelegramBOT.Application.MatchStats
 
             Log.Information("[SendPredictionsAsync] Найдено {Count} прогнозов. matchId={MatchId}", predictions.Count(), matchId);
 
+            // ==== 1. Команды ====
             var (home, away) = _mappingService.MapTeamNames(match);
-            var text = $"🔮 Прогнозы на матч <b>{home}</b> vs <b>{away}</b>";
 
+            // ==== 2. HTML ====
+            var builder = new MatchPredictionPosterHtmlBuilder(_config);
+            string html = builder.Build(
+                predictions,
+                match.HomeTeamName,  // имя для файла
+                match.AwayTeamName   // имя для файла
+            );
+
+            // ==== 3. PNG ====
+            var renderer = new HtmlToImageRenderer();
+            byte[] png = await renderer.RenderAsync(html, 1100, 900);
+
+            using var ms = new MemoryStream(png);
+
+            // ==== 4. Клавиатура ====
             var menu = new PredictionsMenuBuilder().Build(matchId);
-            await _messageService.SendTextWithKeyboardAsync(chatId, text, menu);
+
+            // ==== 5. Фото + клавиатура одним сообщением ====
+            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, menu);
+
+            Log.Information("[SendPredictionsAsync] Картинка прогнозов отправлена успешно.");
         }
     }
 }
