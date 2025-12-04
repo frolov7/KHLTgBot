@@ -2,7 +2,7 @@
 using Telegram.Bot;
 using TelegramBOT.Presentation.Handlers;
 
-namespace TelegramBOT.Infrastructure.Telegram
+namespace TelegramBOT.Application.Telegram
 {
     /// <summary>
     /// Фоновый сервис, управляющий жизненным циклом Telegram-бота.

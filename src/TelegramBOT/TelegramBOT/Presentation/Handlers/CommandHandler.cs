@@ -7,6 +7,7 @@ using TelegramBOT.Presentation.Handlers.Navigation;
 using TelegramBOT.Presentation.Handlers.Predictions;
 using TelegramBOT.Presentation.Handlers.Results;
 using TelegramBOT.Presentation.Handlers.System;
+using TelegramBOT.Presentation.Handlers.Teams;
 
 namespace TelegramBOT.Presentation.Handlers
 {
@@ -28,6 +29,7 @@ namespace TelegramBOT.Presentation.Handlers
         private readonly PredictionHandler _predictionHandler;
         private readonly StandingsHandler _standingsHandler;
         private readonly MatchEventsHandler _matchEventsHandler;
+        private readonly TeamsHandler _teamsHandler;
 
         private static bool _isUpdating = false;
         // ==========================================================
@@ -42,7 +44,8 @@ namespace TelegramBOT.Presentation.Handlers
             PredictionHandler predictionHandler,
             UpdateHandler updateHandler,
             MatchEventsHandler matchEventsHandler,
-            StandingsHandler standingsHandler)
+            StandingsHandler standingsHandler,
+            TeamsHandler teamsHandler)
         {
             _calendarHandler = calendarHandler;
             _resultsHandler = resultsHandler;
@@ -52,6 +55,7 @@ namespace TelegramBOT.Presentation.Handlers
             _updateHandler = updateHandler;
             _matchEventsHandler = matchEventsHandler;
             _standingsHandler = standingsHandler;
+            _teamsHandler = teamsHandler;
         }
 
         // ==========================================================
@@ -174,6 +178,20 @@ namespace TelegramBOT.Presentation.Handlers
                     await _calendarHandler.HandleBackToCalendar(chatId, messageId, callback);
                     break;
 
+                // ---------- Команды ----------
+                case var _ when callback.StartsWith("teams_conf_"):
+                    await _teamsHandler.ShowTeamsByConference(chatId, callback.Replace("teams_conf_", ""));
+                    break;
+
+                case var _ when callback.StartsWith("team_"):
+                    var teamCode = callback.Replace("team_", "");
+                    await _teamsHandler.HandleTeamSelected(chatId, teamCode);
+                    break;
+
+                case "teams_back_to_conf":
+                    await _teamsHandler.ShowTeamsMenu(chatId);
+                    break;
+
                 default:
                     Log.Warning("[HandleCallbackQueryAsync] Неизвестный callback: {Callback}", callback);
                     break;
@@ -255,6 +273,11 @@ namespace TelegramBOT.Presentation.Handlers
                     await _standingsHandler.ShowTablesMenu(chatId);
                     return true;
 
+                case "🏒 Команды":
+                    Log.Information("[HandleMainMenuCommands] Обработчик: ShowTeamsMenu");
+                    await _teamsHandler.ShowTeamsMenu(chatId);
+                    return true;
+
                 case "🔄 Обновить данные":
                     Log.Information("[HandleMainMenuCommands] Обработчик: RunGlobalUpdate");
                     _isUpdating = true;
@@ -320,7 +343,7 @@ namespace TelegramBOT.Presentation.Handlers
                     Log.Information("[HandleResultsCommands] Обработчик: ShowYesterdayResults");
                     await _resultsHandler.ShowYesterdayResults(chatId);
                     return true;
-
+                /*
                 case "⬅️ Запад (Результаты)":
                     Log.Information("[HandleResultsCommands] Обработчик: ShowWesternTeams");
                     await _resultsHandler.ShowWesternTeams(chatId);
@@ -330,7 +353,7 @@ namespace TelegramBOT.Presentation.Handlers
                     Log.Information("[HandleResultsCommands] Обработчик: ShowEasternTeams");
                     await _resultsHandler.ShowEasternTeams(chatId);
                     return true;
-
+                */
                 case "⬅️ Назад (Результаты)":
                     Log.Information("[HandleResultsCommands] Обработчик: BackToResults");
                     await _resultsHandler.BackToResults(chatId);

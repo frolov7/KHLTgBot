@@ -15,7 +15,7 @@ namespace TelegramBOT.Presentation.UI.Menus.Main
             return new(new[]
             {
                 new KeyboardButton[] { "📅 Календарь", "⚡ Результаты" },
-                new KeyboardButton[] { "📈 Статистика", "📊 Таблицы" },
+                new KeyboardButton[] { "🏒 Команды", "📊 Таблицы" },
                 new KeyboardButton[] { "🔄 Обновить данные" }
             })
             {

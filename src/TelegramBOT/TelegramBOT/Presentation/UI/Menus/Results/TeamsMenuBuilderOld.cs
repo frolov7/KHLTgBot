@@ -6,7 +6,7 @@ namespace TelegramBOT.Presentation.UI.Menus.Results
     /// Создаёт клавиатуры для выбора команд в разделе "Результаты" и "Команды".
     /// Содержит меню Западной и Восточной конференций КХЛ.
     /// </summary>
-    public class TeamsMenuBuilder
+    public class TeamsMenuBuilderOld
     {
         // ==========================================================
         // ============         ЗАПАДНАЯ КОНФЕРЕНЦИЯ      ===========

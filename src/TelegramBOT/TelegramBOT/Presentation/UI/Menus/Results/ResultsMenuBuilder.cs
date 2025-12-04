@@ -14,8 +14,9 @@ namespace TelegramBOT.Presentation.UI.Menus.Results
         {
             return new ReplyKeyboardMarkup(new[]
             {
-                new KeyboardButton[] { "📆 Сегодня", "📅 Вчера" },
-                new KeyboardButton[] { "⬅️ Запад (Результаты)", "➡️ Восток (Результаты)" },
+                new KeyboardButton[] { "📆 Сегодня" },
+                new KeyboardButton[] { "📅 Вчера" },
+                //new KeyboardButton[] { "⬅️ Запад (Результаты)", "➡️ Восток (Результаты)" },
                 new KeyboardButton[] { "🏠 В главное меню" }
             })
             {

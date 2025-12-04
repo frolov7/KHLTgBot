@@ -1,5 +1,5 @@
 ﻿using Serilog;
-using TelegramBOT.Infrastructure.Telegram;
+using TelegramBOT.Application.Telegram;
 using TelegramBOT.Presentation.UI;
 
 namespace TelegramBOT.Presentation.Handlers.Navigation

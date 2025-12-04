@@ -1,10 +1,9 @@
 ﻿using Serilog;
+using TelegramBOT.Application.Telegram;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
-using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.Handlers.Calendar;
-using TelegramBOT.Presentation.Rendering.Html;
 using TelegramBOT.Presentation.UI.Menus.Predictions;
 
 namespace TelegramBOT.Application.Predictions
@@ -17,19 +16,11 @@ namespace TelegramBOT.Application.Predictions
     {
         private readonly IPredictionRepository _repository;
         private readonly MappingService _mappingService;
-        private readonly IConfiguration _config;
-        private readonly MessageService _messageService;
 
-        public PredictionService(
-            IPredictionRepository repository,
-            MappingService mappingService,
-            IConfiguration config,
-            MessageService messageService)
+        public PredictionService(IPredictionRepository repository, MappingService mappingService)
         {
             _repository = repository;
             _mappingService = mappingService;
-            _config = config;
-            _messageService = messageService;
         }
 
         // ==========================================================
@@ -116,7 +107,8 @@ namespace TelegramBOT.Application.Predictions
                 var predictions = await GetPredictionsForMatchAsync(matchIdParsed);
                 Log.Information("[HandlePredictionSelectedAsync] Получено {Count} прогнозов для общего анализа", predictions.Count);
 
-                await SendSummaryPredictionAsync(chatId, predictions);
+                var text = BuildSummaryMessage(predictions);
+                await messageService.SendTextAsync(chatId, text);
             }
             else
             {
@@ -195,11 +187,21 @@ namespace TelegramBOT.Application.Predictions
         /// </summary>
         /// <param name="predictions">Коллекция прогнозов по одному матчу.</param>
         /// <returns>Форматированный текст со сводными прогнозами всех источников.</returns>
-        public async Task SendSummaryPredictionAsync(long chatId, IEnumerable<Prediction> predictions)
+        public string BuildSummaryMessage(IEnumerable<Prediction> predictions)
         {
-            Log.Information("[SendSummaryPredictionAsync] Сборка общего прогноза. SourcesCount={Count}", predictions.Count());
+            Log.Information("[BuildSummaryMessage] Сборка общего прогноза. SourcesCount={Count}", predictions.Count());
 
-            var match = predictions.FirstOrDefault()?.Match;
+            var allSources = new[]
+            {
+                "vseprosport", "vprognoze", "stavkatv", "betzona",
+                "legalbet", "metaratings", "livesport"
+            };
+
+            var msg = new System.Text.StringBuilder();
+
+            msg.AppendLine("📊 <b>Общий прогноз</b>");
+
+            Match? match = predictions.FirstOrDefault()?.Match;
 
             string home = "Хозяева";
             string away = "Гости";
@@ -207,20 +209,36 @@ namespace TelegramBOT.Application.Predictions
             if (match != null)
                 (home, away) = _mappingService.MapTeamNames(match);
 
-            // === HTML Генерация ===
-            var builder = new MatchPredictionPosterHtmlBuilder(_config);
-            string html = builder.Build(predictions, home, away);
+            msg.AppendLine($"<b>{home}</b> vs <b>{away}</b>\n");
 
-            // === Рендер ===
-            var renderer = new HtmlToImageRenderer();
-            byte[] png = await renderer.RenderAsync(html, 1100, 900);
+            if (!predictions.Any())
+            {
+                Log.Information("[BuildSummaryMessage] Прогнозы отсутствуют полностью");
+                foreach (var src in allSources)
+                    msg.AppendLine($"<b>{src}</b>: -");
 
-            using var ms = new MemoryStream(png);
+                return msg.ToString();
+            }
 
-            // === Отправка изображения ===
-            await _messageService.SendPhotoAsync(chatId, ms);
+            foreach (var src in allSources)
+            {
+                var p = predictions.FirstOrDefault(x =>
+                    x.Source.Equals(src, StringComparison.OrdinalIgnoreCase));
 
-            Log.Information("[SendSummaryPredictionAsync] Картинка общего прогноза отправлена");
+                if (p == null)
+                {
+                    msg.AppendLine($"<b>{src}</b>: -");
+                    continue;
+                }
+
+                var main = !string.IsNullOrWhiteSpace(p.MainPrediction) ? p.MainPrediction.Trim() : "-";
+                var alt = !string.IsNullOrWhiteSpace(p.AltPrediction) ? $", {p.AltPrediction.Trim()}" : "";
+
+                msg.AppendLine($"<b>{src}</b>: {main}{alt}");
+            }
+
+            Log.Information("[BuildSummaryMessage] Завершил работу");
+            return msg.ToString();
         }
     }
 }

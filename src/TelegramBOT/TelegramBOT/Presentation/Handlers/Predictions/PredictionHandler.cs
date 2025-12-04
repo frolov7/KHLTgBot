@@ -1,8 +1,8 @@
 ﻿using TelegramBOT.Presentation.UI.Menus.Predictions;
 using TelegramBOT.Application.Predictions;
-using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.Handlers.Calendar;
 using Serilog;
+using TelegramBOT.Application.Telegram;
 
 namespace TelegramBOT.Presentation.Handlers.Predictions
 {

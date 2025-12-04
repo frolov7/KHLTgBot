@@ -5222,7 +5222,7 @@
   "faqw9015": {
     "id": "faqw9015",
     "date": "02.12.2025 12:15",
-    "status": "SCHEDULED",
+    "status": "AFTER PENALTIES",
     "home": {
       "name": "Khabarovsk"
     },
@@ -5230,14 +5230,14 @@
       "name": "Dinamo Minsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "3"
     }
   },
   "tpiQzLEr": {
     "id": "tpiQzLEr",
     "date": "02.12.2025 12:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Vladivostok"
     },
@@ -5245,14 +5245,14 @@
       "name": "Sochi"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "4"
     }
   },
   "lAfYYbqe": {
     "id": "lAfYYbqe",
     "date": "02.12.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Lokomotiv Yaroslavl"
     },
@@ -5260,14 +5260,14 @@
       "name": "SKA St. Petersburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "4"
     }
   },
   "fVP6mbbl": {
     "id": "fVP6mbbl",
     "date": "03.12.2025 15:30",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Novosibirsk"
     },
@@ -5275,14 +5275,14 @@
       "name": "Spartak Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "6",
+      "away": "7"
     }
   },
   "bavygKzR": {
     "id": "bavygKzR",
     "date": "03.12.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Yekaterinburg"
     },
@@ -5290,14 +5290,14 @@
       "name": "Magnitogorsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "6"
     }
   },
   "jcJFoxT0": {
     "id": "jcJFoxT0",
     "date": "03.12.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Bars Kazan"
     },
@@ -5305,14 +5305,14 @@
       "name": "Tractor Chelyabinsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "3"
     }
   },
   "APrsXxE7": {
     "id": "APrsXxE7",
     "date": "03.12.2025 19:00",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Cherepovets"
     },
@@ -5320,14 +5320,14 @@
       "name": "Dynamo Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "0",
+      "away": "1"
     }
   },
   "2XpSft6E": {
     "id": "2XpSft6E",
     "date": "03.12.2025 19:30",
-    "status": "SCHEDULED",
+    "status": "AFTER PENALTIES",
     "home": {
       "name": "CSKA Moscow"
     },
@@ -5335,14 +5335,14 @@
       "name": "Nizhny Novgorod"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "4",
+      "away": "5"
     }
   },
   "lbxn7vWH": {
     "id": "lbxn7vWH",
     "date": "03.12.2025 19:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Shanghai"
     },
@@ -5350,8 +5350,8 @@
       "name": "Salavat Ufa"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "xjaA7JkK": {

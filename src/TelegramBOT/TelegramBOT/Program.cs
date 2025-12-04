@@ -8,6 +8,7 @@ using TelegramBOT.Application.Predictions;
 using TelegramBOT.Application.Results;
 using TelegramBOT.Application.Standings;
 using TelegramBOT.Application.Teams;
+using TelegramBOT.Application.Telegram;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Infrastructure.Calendar;
@@ -18,7 +19,6 @@ using TelegramBOT.Infrastructure.Results;
 using TelegramBOT.Infrastructure.Scripts;
 using TelegramBOT.Infrastructure.Standings;
 using TelegramBOT.Infrastructure.Teams;
-using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.Handlers;
 using TelegramBOT.Presentation.Handlers.Calendar;
 using TelegramBOT.Presentation.Handlers.MatchEvents;
@@ -127,6 +127,7 @@ builder.ConfigureServices((context, services) =>
     // -----------------------------
     services.AddSingleton<MappingService>();
     services.AddSingleton<MatchEventsHtmlBuilder>();
+    services.AddSingleton<TeamCardPosterHtmlBuilder>();
 });
 
 // -----------------------------

@@ -1,6 +1,6 @@
 ﻿using Serilog;
 using TelegramBOT.Application.Results;
-using TelegramBOT.Infrastructure.Telegram;
+using TelegramBOT.Application.Telegram;
 using TelegramBOT.Presentation.UI;
 
 namespace TelegramBOT.Presentation.Handlers.System

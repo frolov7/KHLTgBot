@@ -28,7 +28,8 @@ namespace TelegramBOT.Presentation.Rendering.Html
 
             var bytes = await page.ScreenshotDataAsync(new ScreenshotOptions
             {
-                Type = ScreenshotType.Png
+                Type = ScreenshotType.Png,
+                FullPage = true
             });
 
             await browser.CloseAsync();
