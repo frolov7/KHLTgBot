@@ -4,6 +4,8 @@ using TelegramBOT.Presentation.UI.Menus.Calendar;
 using TelegramBOT.Presentation.UI.Menus.Main;
 using TelegramBOT.Presentation.UI.Menus.Results;
 using TelegramBOT.Presentation.UI.Menus.Stats;
+using TelegramBOT.Presentation.UI.Menus.Teams;
+
 namespace TelegramBOT.Presentation.UI
 {
     /// <summary>
@@ -15,7 +17,6 @@ namespace TelegramBOT.Presentation.UI
         private readonly CalendarMenuBuilder _calendar;
         private readonly ResultsMatchMenuBuilder _resultsMatch;
         private readonly ResultsMenuBuilder _results;
-        private readonly TeamsMenuBuilder _teams;
         private readonly MatchMenuBuilder _match;
         private readonly ConferenceMenuBuilder _conference;
         private readonly TablesMenuBuilder _tables;
@@ -26,7 +27,6 @@ namespace TelegramBOT.Presentation.UI
             _calendar = new CalendarMenuBuilder();
             _resultsMatch = new ResultsMatchMenuBuilder();
             _results = new ResultsMenuBuilder();
-            _teams = new TeamsMenuBuilder();
             _match = new MatchMenuBuilder();
             _conference = new ConferenceMenuBuilder();
             _tables = new TablesMenuBuilder();
@@ -48,8 +48,11 @@ namespace TelegramBOT.Presentation.UI
         public InlineKeyboardMarkup GetResultMatchMenu(Match match, MatchVideo? video) => _resultsMatch.Build(match, video);
 
         // ---------- Команды ----------
-        public ReplyKeyboardMarkup GetWesternTeamsMenu() => _teams.BuildWestern();
-        public ReplyKeyboardMarkup GetEasternTeamsMenu() => _teams.BuildEastern();
+        public InlineKeyboardMarkup GetTeamsConferenceMenu()
+            => TeamsMenuBuilder.BuildConferenceMenu();
+
+        public InlineKeyboardMarkup GetTeamsByConferenceMenu(string conference)
+            => TeamsMenuBuilder.BuildTeamsMenu(conference);
 
         // ---------- Матчи ----------
         public InlineKeyboardMarkup GetMatchMenu(Match match) => _match.Build(match);

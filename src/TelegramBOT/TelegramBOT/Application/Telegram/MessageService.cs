@@ -3,7 +3,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace TelegramBOT.Infrastructure.Telegram
+namespace TelegramBOT.Application.Telegram
 {
     public class MessageService
     {
@@ -197,11 +197,7 @@ namespace TelegramBOT.Infrastructure.Telegram
             );
         }
 
-        public async Task SendPhotoWithKeyboardAsync(
-    long chatId,
-    Stream imageStream,
-    InlineKeyboardMarkup keyboard
-)
+        public async Task SendPhotoWithKeyboardAsync(long chatId, Stream imageStream, InlineKeyboardMarkup keyboard)
         {
             var file = new InputFileStream(imageStream, "banner.png");
 

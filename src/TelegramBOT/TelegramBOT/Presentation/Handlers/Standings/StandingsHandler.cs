@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Telegram.Bot;
 using TelegramBOT.Application.Standings;
-using TelegramBOT.Infrastructure.Telegram;
+using TelegramBOT.Application.Telegram;
 using TelegramBOT.Presentation.UI;
 
 namespace TelegramBOT.Presentation.Handlers

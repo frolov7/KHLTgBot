@@ -2,8 +2,8 @@
 using Telegram.Bot.Types;
 using TelegramBOT.Application.MatchEvents;
 using TelegramBOT.Application.Results;
+using TelegramBOT.Application.Telegram;
 using TelegramBOT.Infrastructure.Scripts;
-using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI.Menus.Calendar;
 using TelegramBOT.Presentation.UI.Menus.Results;
 

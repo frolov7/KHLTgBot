@@ -4,7 +4,7 @@ using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace TelegramBOT.Infrastructure.Telegram
+namespace TelegramBOT.Application.Telegram
 {
     /// <summary>
     /// Сервис для работы с Telegram API.

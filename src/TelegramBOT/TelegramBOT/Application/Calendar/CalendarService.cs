@@ -2,10 +2,10 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Application.Utils;
-using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
 using Serilog;
 using TelegramBOT.Presentation.Rendering.Html;
+using TelegramBOT.Application.Telegram;
 
 namespace TelegramBOT.Application.Calendar
 {

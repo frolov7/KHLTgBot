@@ -1,103 +1,121 @@
-﻿using System.Text;
+﻿using Serilog;
+using TelegramBOT.Application.Telegram;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
-using TelegramBOT.Domain.Models;
+using TelegramBOT.Presentation.Rendering.Html;
+using TelegramBOT.Presentation.UI;
+using System.Text;
 
 namespace TelegramBOT.Application.Teams
 {
     public class TeamsService
     {
-        private readonly ITeamsRepository _repository;
-        private readonly MappingService _mappingService;
+        private readonly IMatchStatsServiceRepository _statsRepository;
+        private readonly MappingService _mapping;
+        private readonly MessageService _messageService;
+        private readonly MenuService _menuService;
+        private readonly TeamCardPosterHtmlBuilder _htmlBuilder;
 
-        public TeamsService(ITeamsRepository repository, MappingService mappingService)
+        public TeamsService(
+            IMatchStatsServiceRepository statsRepository,
+            MappingService mappingService,
+            MessageService messageService,
+            MenuService menuService,
+            TeamCardPosterHtmlBuilder htmlBuilder)
         {
-            _repository = repository;
-            _mappingService = mappingService;
+            _statsRepository = statsRepository;
+            _mapping = mappingService;
+            _messageService = messageService;
+            _menuService = menuService;
+            _htmlBuilder = htmlBuilder;
         }
 
-        // ==========================================================
-        // ============      ПОЛУЧЕНИЕ РЕЗУЛЬТАТОВ       ============
-        // ==========================================================
+        // ============================================================================
 
         /// <summary>
-        /// Получает последние сыгранные матчи указанной команды.
+        /// Приватный словарь код → английское имя для БД
         /// </summary>
-        /// <param name="teamName">Название команды (внутреннее имя).</param>
-        public async Task<List<Match>> GetResultsByTeamAsync(string teamName)
+        private string ResolveEnglishTeamName(string teamCode)
         {
-            return await _repository.GetRecentMatchesByTeamAsync(teamName);
-        }
-
-        // ==========================================================
-        // ============      ПОСТРОЕНИЕ СООБЩЕНИЯ         ============
-        // ==========================================================
-
-        /// <summary>
-        /// Формирует сообщение со списком последних матчей выбранной команды.
-        /// </summary>
-        /// <param name="matches">Список матчей.</param>
-        /// <param name="teamName">Название команды (внутреннее имя).</param>
-        public string BuildTeamResultsMessage(IEnumerable<Match> matches, string teamName)
-        {
-            if (matches == null || !matches.Any())
-                return "Нет сыгранных матчей для этой команды.";
-
-            var sb = new StringBuilder();
-            sb.AppendLine($"⚡ Последние результаты команды {_mappingService.Map("TeamNames", teamName)}:\n");
-
-            foreach (var match in matches)
+            var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                var (home, away) = _mappingService.MapTeamNames(match);
+                ["cska"] = "CSKA Moscow",
+                ["ska"] = "SKA St. Petersburg",
+                ["dynamo_moscow"] = "Dynamo Moscow",
+                ["spartak"] = "Spartak Moscow",
+                ["severstal"] = "Cherepovets",
+                ["lokomotiv"] = "Lokomotiv Yaroslavl",
+                ["torpedo"] = "Nizhny Novgorod",
+                ["dynamo_minsk"] = "Dinamo Minsk",
+                ["sochi"] = "Sochi",
+                ["lada"] = "Lada",
+                ["dragons"] = "Shanghai",
 
-                bool isHome = match.HomeTeamName == teamName;
-                int homeScore = match.HomeScore ?? 0;
-                int awayScore = match.AwayScore ?? 0;
-                bool isWin = isHome && homeScore > awayScore || !isHome && awayScore > homeScore;
+                ["avtomobilist"] = "Yekaterinburg",
+                ["avangard"] = "Avangard Omsk",
+                ["traktor"] = "Tractor Chelyabinsk",
+                ["barys"] = "Barys Astana",
+                ["metallurg"] = "Magnitogorsk",
+                ["amur"] = "Khabarovsk",
+                ["ak_bars"] = "Bars Kazan",
+                ["admiral"] = "Vladivostok",
+                ["neftekhimik"] = "Niznekamsk",
+                ["salavat"] = "Salavat Ufa",
+                ["sibir"] = "Novosibirsk"
+            };
 
-                string statusShort = _mappingService.Map("MatchStatusesShort", match.Status);
-                string resultEmoji = isWin ? "🏆 Победа" : "❌ Поражение";
-
-                sb.AppendLine($"📅 {match.MatchDate:dd.MM.yyyy} ⏰ {match.MatchDate:HH:mm} (МСК)");
-                sb.AppendLine($"{home} <b>{homeScore} : {awayScore}</b> {away}");
-                sb.AppendLine($"{resultEmoji} ({statusShort})");
-                sb.AppendLine();
-            }
-
-            return sb.ToString();
+            return map.TryGetValue(teamCode, out var eng) ? eng : teamCode;
         }
 
-        // ==========================================================
-        // ============      СЛОВАРЬ КОМАНД              ============
-        // ==========================================================
+        // ============================================================================
 
-        /// <summary>
-        /// Возвращает словарь доступных команд (русское название → системное имя).
-        /// </summary>
-        public Dictionary<string, string> GetTeamsDictionary() => new()
+        public async Task SendTeamCardAsync(long chatId, string teamCode)
         {
-            { "⭐ СКА", "SKA St. Petersburg" },
-            { "★ ЦСКА", "CSKA Moscow" },
-            { "🔵 Динамо Москва", "Dynamo Moscow" },
-            { "♦️ Спартак", "Spartak Moscow" },
-            { "🚂 Локомотив", "Lokomotiv Yaroslavl" },
-            { "🦌 Торпедо", "Nizhny Novgorod" },
-            { "⚒️ Северсталь", "Cherepovets" },
-            { "🐆 ХК Сочи", "Sochi" },
-            { "🐃 Динамо Минск", "Dinamo Minsk" },
-            { "🚗 Лада", "Lada" },
-            { "🐉 Шанхай Дрэгонс", "Shanghai" },
-            { "🦅 Авангард", "Avangard Omsk" },
-            { "🐯 Ак Барс", "Bars Kazan" },
-            { "⛏️ Металлург", "Magnitogorsk" },
-            { "🕌 Салават Юлаев", "Salavat Ufa" },
-            { "🚘 Автомобилист", "Yekaterinburg" },
-            { "🚜 Трактор", "Tractor Chelyabinsk" },
-            { "⚓ Адмирал", "Vladivostok" },
-            { "❄️ Сибирь", "Novosibirsk" },
-            { "🐺 Нефтехимик", "Niznekamsk" },
-            { "🐆 Барыс", "Barys Astana" },
-            { "🐅 Амур", "Khabarovsk" }
-        };
+            /*
+            try
+            {
+                Log.Information("[TeamsService] Запрос карточки команды: {TeamCode}", teamCode);
+
+                // 1. teamCode → EnglishName
+                string englishName = ResolveEnglishTeamName(teamCode);
+
+                // 2. Загружаем матчи
+                var matches = (await _statsRepository.GetLastMatchesByTeamAsync(englishName))
+                    .OrderByDescending(m => m.MatchDate)
+                    .Take(15)
+                    .ToList();
+
+                if (!matches.Any())
+                {
+                    await _messageService.SendTextAsync(chatId, "Данные по команде пока недоступны.");
+                    return;
+                }
+
+                // 3. Маппинг имени и арены
+                string teamNameRu = _mapping.Map("TeamNamesPlain", englishName);
+                string arena = _mapping.Map("Arenas", englishName);
+
+                // 4. HTML
+                string html = _htmlBuilder.Build(teamNameRu, arena, matches);
+
+                // 5. Рендер PNG
+                var renderer = new HtmlToImageRenderer();
+                byte[] png = await renderer.RenderAsync(html, 1024, 1500);
+
+                using var ms = new MemoryStream(png);
+
+                await _messageService.SendPhotoAsync(chatId, ms, $"{teamNameRu} — статистика");
+
+                // 6. Навигация
+                var backMenu = _menuService.GetTeamsConferenceMenu();
+                await _messageService.SendTextWithKeyboardAsync(chatId, "Выберите конференцию:", backMenu);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "[TeamsService] Ошибка при генерации карточки команды: {TeamCode}", teamCode);
+                await _messageService.SendTextAsync(chatId, "Произошла ошибка при формировании карточки.");
+            }
+            */
+        }
     }
 }

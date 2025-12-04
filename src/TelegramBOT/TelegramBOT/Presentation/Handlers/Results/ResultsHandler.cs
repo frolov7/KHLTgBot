@@ -1,10 +1,10 @@
 ﻿using TelegramBOT.Application.Results;
 using TelegramBOT.Application.Utils;
-using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
 using System.Globalization;
 using Serilog;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBOT.Application.Telegram;
 
 namespace TelegramBOT.Presentation.Handlers.Results
 {
@@ -120,7 +120,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
         // ==========================================================
         // ============      БЛОК МЕНЮ КОМАНД          =============
         // ==========================================================
-
+        /*
         /// <summary>
         /// Отображает меню выбора команд западной конференции
         /// для просмотра их последних результатов.
@@ -142,7 +142,7 @@ namespace TelegramBOT.Presentation.Handlers.Results
             Log.Information("[ShowEasternTeams] Начало работы метода. chatId={ChatId}", chatId);
             await _messageService.SendKeyboardAsync(chatId, "Выберите команду (Восток)", _menuService.GetEasternTeamsMenu());
         }
-
+        */
         // ==========================================================
         // ============      БЛОК ПРОГНОЗОВ (РЕЗУЛЬТАТЫ)   ==========
         // ==========================================================

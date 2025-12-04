@@ -2,11 +2,11 @@
 using System.Text;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBOT.Application.Predictions;
+using TelegramBOT.Application.Telegram;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
 using TelegramBOT.Infrastructure.Scripts;
-using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.Rendering.Html;
 using TelegramBOT.Presentation.UI;
 

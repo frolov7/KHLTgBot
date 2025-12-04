@@ -3,9 +3,9 @@ using TelegramBOT.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using TelegramBOT.Application.Utils;
 using PuppeteerSharp;
-using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.UI;
 using Serilog;
+using TelegramBOT.Application.Telegram;
 
 namespace TelegramBOT.Application.Standings
 {

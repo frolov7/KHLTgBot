@@ -2,10 +2,10 @@
 using Serilog;
 using System.Text;
 using TelegramBOT.Application.MatchEvents;
+using TelegramBOT.Application.Telegram;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Models;
-using TelegramBOT.Infrastructure.Telegram;
 using TelegramBOT.Presentation.Rendering.Html;
 using TelegramBOT.Presentation.UI.Menus.Calendar;
 using TelegramBOT.Presentation.UI.Menus.Predictions;
