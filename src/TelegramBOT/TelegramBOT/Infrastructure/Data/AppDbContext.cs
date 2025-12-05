@@ -65,6 +65,12 @@ namespace TelegramBOT.Infrastructure.Data
                 .WithOne(d => d.MatchEvent)
                 .HasForeignKey<Penalty>(d => d.EventId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Match>()
+            .HasMany(m => m.Events)
+            .WithOne(e => e.Match)
+            .HasForeignKey(e => e.MatchId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

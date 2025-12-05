@@ -71,5 +71,7 @@ namespace TelegramBOT.Domain.Models
         /// </summary>
         [Column("away_score")]
         public int? AwayScore { get; set; }
+
+        public List<MatchEvent> Events { get; set; } = new();
     }
 }

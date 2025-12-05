@@ -37,17 +37,17 @@ namespace TelegramBOT.Presentation.UI.Menus.Teams
 
         private static readonly (string Name, string Code)[] WesternTeams =
         {
-            ("🦌 Торпедо", "torpedo"),
-            ("🐉 Шанхай Дрэгонс", "dragons"),
-            ("🐃 Динамо Минск", "dynamo_minsk"),
-            ("⚒️ Северсталь", "severstal"),
-            ("★ ЦСКА", "cska"),
-            ("🐆 ХК Сочи", "sochi"),
-            ("🚂 Локомотив", "lokomotiv"),
-            ("⭐ СКА", "ska"),
-            ("🔵 Динамо Москва", "dynamo_moscow"),
-            ("🚗 Лада", "lada"),
-            ("♦️ Спартак", "spartak")
+            ("🦌 Торпедо", "Nizhny Novgorod"),
+            ("🐉 Шанхай Дрэгонс", "Shanghai"),
+            ("🐃 Динамо Минск", "Dinamo Minsk"),
+            ("⚒️ Северсталь", "Cherepovets"),
+            ("★ ЦСКА", "CSKA Moscow"),
+            ("🐆 ХК Сочи", "Sochi"),
+            ("🚂 Локомотив", "Lokomotiv Yaroslavl"),
+            ("⭐ СКА", "SKA St. Petersburg"),
+            ("🔵 Динамо Москва", "Dynamo Moscow"),
+            ("🚗 Лада", "Lada"),
+            ("♦️ Спартак", "Spartak Moscow")
         };
 
         // ==========================================================
@@ -56,17 +56,17 @@ namespace TelegramBOT.Presentation.UI.Menus.Teams
 
         private static readonly (string Name, string Code)[] EasternTeams =
         {
-            ("🚘 Автомобилист", "avtomobilist"),
-            ("🦅 Авангард", "avangard"),
-            ("🚜 Трактор", "traktor"),
-            ("🐆 Барыс", "barys"),
-            ("⛏️ Металлург", "metallurg"),
-            ("🐅 Амур", "amur"),
-            ("🐯 Ак Барс", "ak_bars"),
-            ("⚓ Адмирал", "admiral"),
-            ("🐺 Нефтехимик", "neftekhimik"),
-            ("🕌 Салават Юлаев", "salavat"),
-            ("❄️ Сибирь", "sibir")
+            ("🚘 Автомобилист", "Yekaterinburg"),
+            ("🦅 Авангард", "Avangard Omsk"),
+            ("🚜 Трактор", "Tractor Chelyabinsk"),
+            ("🐆 Барыс", "Barys Astana"),
+            ("⛏️ Металлург", "Magnitogorsk"),
+            ("🐅 Амур", "Khabarovsk"),
+            ("🐯 Ак Барс", "Bars Kazan"),
+            ("⚓ Адмирал", "Vladivostok"),
+            ("🐺 Нефтехимик", "Niznekamsk"),
+            ("🕌 Салават Юлаев", "Salavat Ufa"),
+            ("❄️ Сибирь", "Novosibirsk")
         };
 
         // ==========================================================
