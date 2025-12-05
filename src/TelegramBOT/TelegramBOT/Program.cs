@@ -122,6 +122,8 @@ builder.ConfigureServices((context, services) =>
     services.AddScoped<ITeamsRepository, TeamsRepository>();
     services.AddScoped<IMatchStatsServiceRepository, MatchStatsServiceRepository>();
     services.AddScoped<IStandingsRepository, StandingsRepository>();
+    services.AddScoped<ITeamStatsRepository, TeamStatsRepository>();
+
     // -----------------------------
     // Утилиты
     // -----------------------------

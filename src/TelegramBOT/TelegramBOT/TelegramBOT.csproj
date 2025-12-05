@@ -22,6 +22,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Presentation\Rendering\Assets\**" />
+    <Content Remove="Presentation\Rendering\Assets\**" />
+    <EmbeddedResource Remove="Presentation\Rendering\Assets\**" />
+    <None Remove="Presentation\Rendering\Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\icons\puck.png" />
   </ItemGroup>
 
@@ -48,10 +55,6 @@
 
     <!-- Telegram API -->
     <PackageReference Include="Telegram.Bot" Version="22.6.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Presentation\Rendering\Assets\" />
   </ItemGroup>
 
 </Project>

@@ -5357,7 +5357,7 @@
   "xjaA7JkK": {
     "id": "xjaA7JkK",
     "date": "04.12.2025 12:15",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Khabarovsk"
     },
@@ -5365,14 +5365,14 @@
       "name": "Lokomotiv Yaroslavl"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "0",
+      "away": "3"
     }
   },
   "8Ykt2cDs": {
     "id": "8Ykt2cDs",
     "date": "04.12.2025 12:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Vladivostok"
     },
@@ -5380,14 +5380,14 @@
       "name": "SKA St. Petersburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "3"
     }
   },
   "dfMNqGcD": {
     "id": "dfMNqGcD",
     "date": "04.12.2025 16:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Avangard Omsk"
     },
@@ -5395,8 +5395,8 @@
       "name": "Sochi"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "2"
     }
   },
   "xEscbFC6": {
