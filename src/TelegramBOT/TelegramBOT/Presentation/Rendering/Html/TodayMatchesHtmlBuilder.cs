@@ -71,6 +71,35 @@ namespace TelegramBOT.Presentation.Rendering.Html
             foreach (var m in list)
                 rowsSb.AppendLine(BuildRow(m, teamsDir, rowHeight, logoSize));
 
+            int gap = 30;
+            int posterHeight = 900;
+            int footerHeight = 160;
+
+            int totalRowsHeight = count * (rowHeight + gap);
+
+            int top;
+
+            // Если матчей мало — центрируем
+            if (count <= 4)
+            {
+                int available = posterHeight - footerHeight;
+                int centeredTop = (available - totalRowsHeight) / 2;
+                if (centeredTop < 50) centeredTop = 50;
+
+                top = centeredTop;
+            }
+            else
+            {
+                // Если матчей много — поднимаем вверх
+                int baseTop = 50;
+                int maxAllowed = posterHeight - footerHeight;
+
+                if (totalRowsHeight > maxAllowed)
+                    top = Math.Max(20, baseTop - (totalRowsHeight - maxAllowed));
+                else
+                    top = baseTop;
+            }
+
             // ==== Сборка HTML ====
             var sb = new StringBuilder();
 
@@ -79,7 +108,7 @@ namespace TelegramBOT.Presentation.Rendering.Html
             sb.AppendLine("<meta charset='utf-8'>");
 
             sb.AppendLine("<style>");
-            sb.AppendLine(NewCss(shift));
+            sb.AppendLine(NewCss(top));
             sb.AppendLine("</style>");
 
             sb.AppendLine("</head><body>");
@@ -144,7 +173,7 @@ namespace TelegramBOT.Presentation.Rendering.Html
 
         // ========================= CSS ==========================
 
-        private string NewCss(int shift) => @"
+        private string NewCss(int top) => @"
             body, html {
                 margin:0;
                 padding:0;
@@ -170,13 +199,12 @@ namespace TelegramBOT.Presentation.Rendering.Html
 
             .matches {
                 position:absolute;
-                top:120px;
+                top:" + top + @"px;
                 width:100%;
                 display:flex;
                 flex-direction:column;
                 align-items:center;
                 gap:30px;
-                transform:translateY(" + shift + @"px);
             }
 
             .match-row {
