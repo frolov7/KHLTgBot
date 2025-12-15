@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using TelegramBOT.Application.Utils;
-using TelegramBOT.Domain.Models;
+using TelegramBOT.Domain.Entities.Teams;
 
 namespace TelegramBOT.Application.Standings
 {

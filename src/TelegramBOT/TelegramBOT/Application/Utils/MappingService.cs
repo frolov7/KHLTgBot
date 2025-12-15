@@ -1,4 +1,4 @@
-﻿using TelegramBOT.Domain.Models;
+﻿using TelegramBOT.Domain.Entities.Matches;
 
 namespace TelegramBOT.Application.Utils
 {

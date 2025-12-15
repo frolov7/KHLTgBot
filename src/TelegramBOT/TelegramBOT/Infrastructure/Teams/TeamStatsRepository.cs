@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
+using TelegramBOT.Domain.Entities.Matches;
 using TelegramBOT.Domain.Interfaces;
-using TelegramBOT.Domain.Models;
+using TelegramBOT.Domain.Teams.TeamCard;
 using TelegramBOT.Infrastructure.Data;
 
 namespace TelegramBOT.Infrastructure.Teams
@@ -45,43 +47,6 @@ namespace TelegramBOT.Infrastructure.Teams
                             m.AwayTeamName == englishTeamName)
                 .OrderByDescending(m => m.MatchDate)
                 .ToListAsync();
-        }
-
-        public async Task<(int scoredFirst, int concededFirst)> GetFirstGoalStatsAsync(string teamName, List<Match> matches)
-        {
-            int scored = 0;
-            int conceded = 0;
-
-            foreach (var match in matches)
-            {
-                var firstGoal = await _db.MatchEvents
-                    .Include(e => e.Team) 
-                    .Include(e => e.EventType)
-                    .Where(e => e.MatchId == match.MatchId && e.EventType.Name == "Goal")
-                    .OrderBy(e => e.Period)
-                    .ThenBy(e => e.Time)
-                    .FirstOrDefaultAsync();
-
-                if (firstGoal == null)
-                    continue;
-
-                string scoringTeam = firstGoal.Team?.Name;
-
-                bool isHomeTeam = match.HomeTeamName == teamName;
-
-                if (scoringTeam == match.HomeTeamName)
-                {
-                    if (isHomeTeam) scored++;
-                    else conceded++;
-                }
-                else
-                {
-                    if (isHomeTeam) conceded++;
-                    else scored++;
-                }
-            }
-
-            return (scored, conceded);
         }
     }
 }

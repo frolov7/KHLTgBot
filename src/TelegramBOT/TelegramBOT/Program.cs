@@ -28,7 +28,8 @@ using TelegramBOT.Presentation.Handlers.Predictions;
 using TelegramBOT.Presentation.Handlers.Results;
 using TelegramBOT.Presentation.Handlers.System;
 using TelegramBOT.Presentation.Handlers.Teams;
-using TelegramBOT.Presentation.Rendering.Html;
+using TelegramBOT.Presentation.Rendering.Html.MatchEvents;
+using TelegramBOT.Presentation.Rendering.Html.Teams;
 using TelegramBOT.Presentation.UI;
 
 // -----------------------------

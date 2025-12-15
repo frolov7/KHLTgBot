@@ -1,16 +1,16 @@
 using PuppeteerSharp;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Interfaces;
-using TelegramBOT.Domain.Models;
 using TelegramBOT.Presentation.UI.Menus.Calendar;
 using System.Text;
 using Serilog;
-using TelegramBOT.Presentation.Rendering.Html;
 using TelegramBOT.Presentation.UI.Menus.Results;
 using TelegramBOT.Application.Results;
 using TelegramBOT.Infrastructure.Scripts;
 using TelegramBOT.Presentation.UI;
 using TelegramBOT.Application.Telegram;
+using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Presentation.Rendering.Html.MatchEvents;
 
 namespace TelegramBOT.Application.MatchEvents
 {

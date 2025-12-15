@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TelegramBOT.Domain.Models;
+using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Domain.Entities.MatchEvents;
+using TelegramBOT.Domain.Entities.Predictions;
+using TelegramBOT.Domain.Entities.Teams;
+using TelegramBOT.Domain.Entities.Users;
 //using Telegram.Bot.Types;
 
 namespace TelegramBOT.Infrastructure.Data

@@ -1,4 +1,6 @@
-﻿using TelegramBOT.Domain.Models;
+﻿using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Domain.Entities.MatchEvents;
+using TelegramBOT.Domain.Entities.Predictions;
 
 namespace TelegramBOT.Domain.Interfaces
 {

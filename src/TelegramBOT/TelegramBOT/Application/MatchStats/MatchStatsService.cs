@@ -4,9 +4,10 @@ using System.Text;
 using TelegramBOT.Application.MatchEvents;
 using TelegramBOT.Application.Telegram;
 using TelegramBOT.Application.Utils;
+using TelegramBOT.Domain.Entities.Matches;
 using TelegramBOT.Domain.Interfaces;
-using TelegramBOT.Domain.Models;
 using TelegramBOT.Presentation.Rendering.Html;
+using TelegramBOT.Presentation.Rendering.Html.Calendar;
 using TelegramBOT.Presentation.UI.Menus.Calendar;
 using TelegramBOT.Presentation.UI.Menus.Predictions;
 

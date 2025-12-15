@@ -1,11 +1,11 @@
 ﻿using TelegramBOT.Domain.Interfaces;
-using TelegramBOT.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using TelegramBOT.Application.Utils;
 using PuppeteerSharp;
 using TelegramBOT.Presentation.UI;
 using Serilog;
 using TelegramBOT.Application.Telegram;
+using TelegramBOT.Domain.Entities.Teams;
 
 namespace TelegramBOT.Application.Standings
 {
