@@ -1,12 +1,9 @@
-﻿using TelegramBOT.Domain.Models;
+﻿using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Domain.Teams.TeamCard;
 
 public interface ITeamStatsRepository
 {
-    Task<List<Match>> GetLastMatchesAsync(string englishTeamName, int limit = 15);
+    Task<List<Match>> GetLastMatchesAsync(string englishTeamName, int limit);
 
     Task<List<Match>> GetAllMatchesAsync(string englishTeamName);
-
-    Task<(int scoredFirst, int concededFirst)> GetFirstGoalStatsAsync(
-        string englishTeamName,
-        List<Match> matches);
 }

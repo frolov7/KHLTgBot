@@ -1,5 +1,5 @@
 ﻿using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBOT.Domain.Models;
+using TelegramBOT.Domain.Entities.Matches;
 using TelegramBOT.Presentation.UI.Menus.Calendar;
 using TelegramBOT.Presentation.UI.Menus.Main;
 using TelegramBOT.Presentation.UI.Menus.Results;

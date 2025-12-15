@@ -1,179 +1,153 @@
-﻿using Microsoft.Extensions.FileSystemGlobbing;
-using Serilog;
-using TelegramBOT.Domain.Models;
+﻿using Serilog;
+using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Domain.Entities.Teams;
+using TelegramBOT.Domain.Interfaces;
+using TelegramBOT.Domain.Teams.TeamCard;
 
 namespace TelegramBOT.Application.Teams
 {
     public static class TeamStatsCalculator
     {
-        public static TeamCardStats Calculate(
-            string teamName,
-            List<Match> matches15,
-            List<Match> matches7,
-            int scoredFirst,
-            int concededFirst)
+        public static async Task<TeamCardStats> CalculateAsync(string teamName, List<Match> matches10)
         {
             Log.Information("=== Расчёт статистики для команды {Team} ===", teamName);
-            Log.Information("Получено матчей: {Count}", matches15.Count);
-
-            foreach (var m in matches15)
-            {
-                Log.Information(
-                    "Матч {Id}: {Home} {HS}:{AS} {Away} | Статус={Status}",
-                    m.MatchId,
-                    m.HomeTeamName, m.HomeScore,
-                    m.AwayTeamName, m.AwayScore,
-                    m.Status
-                );
-            }
 
             var stats = new TeamCardStats();
 
-            if (matches15.Count == 0 || matches7.Count == 0)
+            if (matches10 == null || matches10.Count == 0)
             {
-                Log.Warning("Матчей нет — возвращаем пустую статистику.");
+                Log.Warning("Матчей нет — возвращаем пустую статистику");
                 return stats;
             }
 
-            stats.TotalGames = matches15.Count;
+            stats.TotalGames = matches10.Count;
 
-            stats.AvgTotal = CalculateAverageTotal(matches15);
-            Log.Information("Средний тотал матча = {AvgTotal}", stats.AvgTotal);
+            // ===============================
+            // FIRST GOAL STATISTICS
+            // Кто забивал первым / пропускал первым
+            // ===============================
+            var (scoredFirst, concededFirst) = CalculateFirstGoalStats(teamName, matches10);
 
-            (stats.TeamTotal, stats.OppTotal) = CalculateTeamTotals(teamName, matches15);
-            Log.Information("ИТ команды = {TeamIT}, ИТ соперника = {OppIT}", stats.TeamTotal, stats.OppTotal);
+            stats.FirstGoal.ScoredFirst = scoredFirst;
+            stats.FirstGoal.ConcededFirst = concededFirst;
 
-            (stats.WinReg, stats.WinOT, stats.LoseReg, stats.LoseOT) =
-                CalculateWinsAndLosses(teamName, matches15);
-            Log.Information(
-                "Побед осн={WinReg}, Побед ОТ/Б={WinOT}, Поражение осн={LoseReg}, Поражение ОТ/Б={LoseOT}",
-                stats.WinReg, stats.WinOT, stats.LoseReg, stats.LoseOT
-            );
+            // ===============================
+            // SUMMARY TOTALS
+            // Средние тоталы и индивидуальные тоталы
+            // ===============================
+            stats.Summary.AvgTotal = CalculateAverageTotal(matches10);
+            (stats.Summary.TeamTotal, stats.Summary.OppTotal) = CalculateTeamTotals(teamName, matches10);
 
-            stats.ScoredFirst = scoredFirst;
-            stats.ConcededFirst = concededFirst;
-            Log.Information("Забили первыми = {Scored}, Пропустили первыми = {Conceded}",
-            scoredFirst, concededFirst);
+            // ===============================
+            // MATCH RESULTS (W / L)
+            // Победы и поражения (осн. время / ОТ / Б)
+            // ===============================
+            (stats.Results.WinReg, stats.Results.WinOT, stats.Results.LoseReg, stats.Results.LoseOT) = CalculateWinsAndLosses(teamName, matches10);
 
-            stats.Totals45 = CalculateTotals(matches7, 4.5);
-            stats.Totals55 = CalculateTotals(matches7, 5.5);
-            Log.Information("Сформированы Totals45 и Totals55");
+            // ===============================
+            // VISUAL RESULTS (LAST 10 MATCHES)
+            // Визуальный ряд последних матчей
+            // ===============================
+            stats.Visual.Last10 = CalculateLast10Results(teamName, matches10);
 
-            CalculatePeriods(teamName, matches15, stats);
-            Log.Information(
-                "Периоды: 1п {P1IT}/{P1T}, 2п {P2IT}/{P2T}, 3п {P3IT}/{P3T}",
-                stats.Period1IT_Avg, stats.Period1Total_Avg,
-                stats.Period2IT_Avg, stats.Period2Total_Avg,
-                stats.Period3IT_Avg, stats.Period3Total_Avg
-            );
+            // ===============================
+            // VISUAL TOTALS (4.5 / 5.5)
+            // Пробитие тоталов для визуализации
+            // ===============================
+            stats.Visual.Totals45 = CalculateTotals(teamName, matches10, 4.5);
+
+            stats.Visual.Totals55 = CalculateTotals(teamName, matches10, 5.5);
+
+            // ===============================
+            // PERIOD STATISTICS
+            // Статистика по периодам (1 / 2 / 3)
+            // ===============================
+            CalculatePeriods(teamName, matches10, stats.Periods);
+
+            // ===============================
+            // AVERAGE TOTAL (LAST 10)
+            // Средний тотал за последние матчи
+            // ===============================
+            stats.Totals.AvgTotal10 = matches10.Average(m => (m.HomeScore ?? 0) + (m.AwayScore ?? 0));
+
+            // ===============================
+            // COMEBACK STATISTICS
+            // Камбэки с -2 и не проиграли
+            // ===============================
+            CalculateComebacksNoLoss(teamName, matches10, stats.Comebacks);
 
             Log.Information("=== Статистика успешно рассчитана ===");
 
             return stats;
         }
 
+        // ------------------------------------------------------------------
+        // helpers
+        // ------------------------------------------------------------------
+
+        /// <summary>
+        /// Рассчитывает средний общий тотал шайб за список матчей
+        /// (сумма голов обеих команд в среднем за матч).
+        /// </summary>
         private static double CalculateAverageTotal(List<Match> matches)
         {
-            double total = matches.Sum(m =>
-            {
-                int sum = (m.HomeScore ?? 0) + (m.AwayScore ?? 0);
-                Log.Information("Тотал матча: {HS} + {AS} = {Total}", m.HomeScore, m.AwayScore, sum);
-                return sum;
-            });
-
-            return total / matches.Count;
+            return matches.Average(m =>
+                (m.HomeScore ?? 0) + (m.AwayScore ?? 0));
         }
 
+        /// <summary>
+        /// Рассчитывает средние индивидуальные тоталы:
+        /// сколько шайб в среднем забивает команда и её соперники за матч.
+        /// </summary>
         private static (double team, double opp) CalculateTeamTotals(string teamName, List<Match> matches)
         {
-            double sumTeam = 0;
-            double sumOpp = 0;
+            double team = 0, opp = 0;
 
             foreach (var m in matches)
             {
-                bool isHome = m.HomeTeamName == teamName;
+                bool home = m.HomeTeamName == teamName;
 
-                int gf = isHome ? (m.HomeScore ?? 0) : (m.AwayScore ?? 0);
-                int ga = isHome ? (m.AwayScore ?? 0) : (m.HomeScore ?? 0);
-
-                Log.Information("Матч IT: {Team} GF={GF}, GA={GA}", teamName, gf, ga);
-
-                sumTeam += gf;
-                sumOpp += ga;
+                team += home ? (m.HomeScore ?? 0) : (m.AwayScore ?? 0);
+                opp += home ? (m.AwayScore ?? 0) : (m.HomeScore ?? 0);
             }
 
-            return (sumTeam / matches.Count, sumOpp / matches.Count);
+            return (
+                Math.Round(team / matches.Count, 2),
+                Math.Round(opp / matches.Count, 2)
+            );
         }
 
-        private static (int win, int winOT, int lose, int loseOT)
-            CalculateWinsAndLosses(string teamName, List<Match> matches)
+        /// <summary>
+        /// Подсчитывает количество побед и поражений команды:
+        /// отдельно в основное время и в овертайме/буллитах.
+        /// </summary>
+        private static (int win, int winOT, int lose, int loseOT) CalculateWinsAndLosses(string teamName, List<Match> matches)
         {
             int win = 0, winOT = 0, lose = 0, loseOT = 0;
 
             foreach (var m in matches)
             {
-                bool isHome = m.HomeTeamName == teamName;
+                bool home = m.HomeTeamName == teamName;
 
-                int gf = isHome ? (m.HomeScore ?? 0) : (m.AwayScore ?? 0);
-                int ga = isHome ? (m.AwayScore ?? 0) : (m.HomeScore ?? 0);
+                int gf = home ? (m.HomeScore ?? 0) : (m.AwayScore ?? 0);
+                int ga = home ? (m.AwayScore ?? 0) : (m.HomeScore ?? 0);
 
-                bool isOT = m.Status == "AFTER OVERTIME" || m.Status == "AFTER PENALTIES";
-
-                Log.Information("Матч Win/Lose: GF={GF}, GA={GA}, isOT={OT}", gf, ga, isOT);
+                bool ot = m.Status == "AFTER OVERTIME" || m.Status == "AFTER PENALTIES";
 
                 if (gf > ga)
-                    if (isOT) winOT++; else win++;
+                    if (ot) winOT++; else win++;
                 else if (gf < ga)
-                    if (isOT) loseOT++; else lose++;
+                    if (ot) loseOT++; else lose++;
             }
 
             return (win, winOT, lose, loseOT);
         }
 
-        private static List<bool> CalculateTotals(List<Match> matches, double line)
-        {
-            var result = new List<bool>();
-
-            foreach (var m in matches)
-            {
-                int hs = m.HomeScore ?? 0;
-                int ascore = m.AwayScore ?? 0;
-                int total = hs + ascore;
-
-                // Если матч FINISHED — стандартно
-                if (m.Status == "FINISHED")
-                {
-                    bool over = total > line;
-                    result.Add(over);
-                    continue;
-                }
-
-                // Если матч завершён в ОТ или Б
-                if (m.Status == "AFTER OVERTIME" || m.Status == "AFTER PENALTIES")
-                {
-                    int diff = Math.Abs(hs - ascore);
-
-                    // Разница = 1 → победная забита в ОТ
-                    if (diff == 1)
-                    {
-                        // Победная шайба забита в ОТ → тотал не считаем
-                        result.Add(false);
-                        continue;
-                    }
-
-                    // Разница > 1 → шайба ОТ не влияет на тотал → можно считать
-                    bool over = total > line;
-                    result.Add(over);
-                    continue;
-                }
-
-                // Остальные статусы (LIVE, SCHEDULED) — считаем как НЕ пробит
-                result.Add(false);
-            }
-
-            return result;
-        }
-
+        /// <summary>
+        /// Преобразует строковое представление периода матча
+        /// (например: "1st period", "OT") в номер периода.
+        /// Используется для расчёта периодной статистики.
+        /// </summary>
         private static int ParsePeriod(string? raw)
         {
             if (string.IsNullOrWhiteSpace(raw))
@@ -181,71 +155,182 @@ namespace TelegramBOT.Application.Teams
 
             raw = raw.ToLower();
 
-            // Игнорируем OT и SO — они не считаются в периодную статистику
             if (raw.StartsWith("ot") || raw.StartsWith("so"))
                 return 0;
 
-            // Ищем цифры: "1st period" → 1
             var digits = new string(raw.Where(char.IsDigit).ToArray());
-
-            if (int.TryParse(digits, out int result))
-                return result;
-
-            return 0;
+            return int.TryParse(digits, out int p) ? p : 0;
         }
 
-        private static void CalculatePeriods(
-    string teamName,
-    List<Match> matches,
-    TeamCardStats stats)
+        /// <summary>
+        /// Рассчитывает статистику по периодам:
+        /// средний индивидуальный тотал команды и общий тотал
+        /// для 1, 2 и 3 периодов.
+        /// </summary>
+        private static void CalculatePeriods(string teamName, List<Match> matches, TeamPeriodsStats stats)
         {
-            int p1_team = 0, p1_total = 0;
-            int p2_team = 0, p2_total = 0;
-            int p3_team = 0, p3_total = 0;
+            int p1t = 0, p1 = 0;
+            int p2t = 0, p2 = 0;
+            int p3t = 0, p3 = 0;
 
-            foreach (var match in matches)
+            foreach (var m in matches)
             {
-                bool isHome = match.HomeTeamName == teamName;
+                bool home = m.HomeTeamName == teamName;
 
-                foreach (var e in match.Events.Where(e => e.EventType.Name == "Goal")) // гол
+                foreach (var e in m.Events.Where(e => e.EventType.Name == "Goal"))
                 {
-                    int period = ParsePeriod(e.Period);
+                    int p = ParsePeriod(e.Period);
+                    bool teamGoal =
+                        (home && e.TeamId == m.HomeTeamId) ||
+                        (!home && e.TeamId == m.AwayTeamId);
 
-                    bool isTeamGoal =
-                        (isHome && e.TeamId == match.HomeTeamId) ||
-                        (!isHome && e.TeamId == match.AwayTeamId);
-
-                    switch (period)
+                    switch (p)
                     {
-                        case 1:
-                            p1_total++;
-                            if (isTeamGoal) p1_team++;
-                            break;
-
-                        case 2:
-                            p2_total++;
-                            if (isTeamGoal) p2_team++;
-                            break;
-
-                        case 3:
-                            p3_total++;
-                            if (isTeamGoal) p3_team++;
-                            break;
+                        case 1: p1t++; if (teamGoal) p1++; break;
+                        case 2: p2t++; if (teamGoal) p2++; break;
+                        case 3: p3t++; if (teamGoal) p3++; break;
                     }
                 }
             }
 
-            int gamesCount = matches.Count;
+            int games = matches.Count;
 
-            stats.Period1IT_Avg = Math.Round((double)p1_team / gamesCount, 2);
-            stats.Period1Total_Avg = Math.Round((double)p1_total / gamesCount, 2);
+            stats.Period1IT_Avg = Math.Round((double)p1 / games, 2);
+            stats.Period1Total_Avg = Math.Round((double)p1t / games, 2);
 
-            stats.Period2IT_Avg = Math.Round((double)p2_team / gamesCount, 2);
-            stats.Period2Total_Avg = Math.Round((double)p2_total / gamesCount, 2);
+            stats.Period2IT_Avg = Math.Round((double)p2 / games, 2);
+            stats.Period2Total_Avg = Math.Round((double)p2t / games, 2);
 
-            stats.Period3IT_Avg = Math.Round((double)p3_team / gamesCount, 2);
-            stats.Period3Total_Avg = Math.Round((double)p3_total / gamesCount, 2);
+            stats.Period3IT_Avg = Math.Round((double)p3 / games, 2);
+            stats.Period3Total_Avg = Math.Round((double)p3t / games, 2);
         }
 
+        /// <summary>
+        /// Рассчитывает статистику камбэков:
+        /// сколько матчей команда проигрывала минимум в 2 шайбы
+        /// и сколько из них завершила без поражения.
+        /// </summary>
+        private static void CalculateComebacksNoLoss(string teamName, List<Match> matches, TeamComebackStats stats)
+        {
+            foreach (var m in matches)
+            {
+                bool home = m.HomeTeamName == teamName;
+
+                int diff = 0;
+                bool wasMinus2 = false;
+
+                var goals = m.Events
+                    .Where(e => e.EventType.Name == "Goal")
+                    .OrderBy(e => e.Period)
+                    .ThenBy(e => e.Time);
+
+                foreach (var g in goals)
+                {
+                    bool teamGoal =
+                        (home && g.TeamId == m.HomeTeamId) ||
+                        (!home && g.TeamId == m.AwayTeamId);
+
+                    diff += teamGoal ? 1 : -1;
+                    if (diff <= -2) wasMinus2 = true;
+                }
+
+                if (!wasMinus2) continue;
+
+                stats.GamesTrailingBy2++;
+
+                int gf = home ? (m.HomeScore ?? 0) : (m.AwayScore ?? 0);
+                int ga = home ? (m.AwayScore ?? 0) : (m.HomeScore ?? 0);
+
+                if (m.Status != "FINISHED" || gf >= ga)
+                    stats.ComebacksNoLossFrom2++;
+            }
+        }
+
+        /// <summary>
+        /// Определяет, сколько раз команда забивала первой
+        /// и сколько раз пропускала первой в заданных матчах.
+        /// </summary>
+        private static (int scoredFirst, int concededFirst) CalculateFirstGoalStats(string teamName, List<Match> matches)
+        {
+            int scored = 0;
+            int conceded = 0;
+
+            foreach (var match in matches)
+            {
+                var firstGoal = match.Events
+                    .Where(e => e.EventType.Name == "Goal")
+                    .OrderBy(e => e.Period)
+                    .ThenBy(e => e.Time)
+                    .FirstOrDefault();
+
+                if (firstGoal == null)
+                    continue;
+
+                bool isHome = match.HomeTeamName == teamName;
+                bool teamScored =
+                    (isHome && firstGoal.TeamId == match.HomeTeamId) ||
+                    (!isHome && firstGoal.TeamId == match.AwayTeamId);
+
+                if (teamScored) scored++;
+                else conceded++;
+            }
+
+            return (scored, conceded);
+        }
+
+        /// <summary>
+        /// Формирует визуальную статистику пробития тотала
+        /// для заданной линии (например 4.5 или 5.5 шайб).
+        /// </summary>
+        private static List<MatchResultInfo> CalculateTotals(string teamName, List<Match> matches, double line)
+        {
+            var result = new List<MatchResultInfo>();
+
+            foreach (var m in matches)
+            {
+                int total = (m.HomeScore ?? 0) + (m.AwayScore ?? 0);
+
+                // если матч не FINISHED — шайба ОТ не считается
+                if (m.Status != "FINISHED")
+                    total = Math.Max(0, total - 1);
+
+                result.Add(new MatchResultInfo
+                {
+                    OpponentTeamName =
+                        m.HomeTeamName == teamName
+                            ? m.AwayTeamName
+                            : m.HomeTeamName,
+
+                    IsWin = total > line
+                });
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Формирует визуальные результаты последних матчей команды:
+        /// победа или поражение с учётом овертайма и буллитов.
+        /// </summary>
+        private static List<MatchResultInfo> CalculateLast10Results(string teamName, List<Match> matches)
+        {
+            return matches.Select(m =>
+            {
+                bool home = m.HomeTeamName == teamName;
+
+                int gf = home ? (m.HomeScore ?? 0) : (m.AwayScore ?? 0);
+                int ga = home ? (m.AwayScore ?? 0) : (m.HomeScore ?? 0);
+
+                return new MatchResultInfo
+                {
+                    OpponentTeamName =
+                        home ? m.AwayTeamName : m.HomeTeamName,
+
+                    IsWin = gf > ga,
+                    IsOT = m.Status == "AFTER OVERTIME",
+                    IsPEN = m.Status == "AFTER PENALTIES"
+                };
+            }).ToList();
+        }
     }
 }

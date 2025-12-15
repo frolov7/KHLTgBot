@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TelegramBOT.Domain.Entities.Predictions;
 using TelegramBOT.Domain.Interfaces;
-using TelegramBOT.Domain.Models;
 using TelegramBOT.Infrastructure.Data;
 
 namespace TelegramBOT.Infrastructure.Predictions

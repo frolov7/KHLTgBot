@@ -5,6 +5,7 @@ using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Presentation.Rendering.Html;
 using TelegramBOT.Presentation.UI;
 using System.Text;
+using TelegramBOT.Presentation.Rendering.Html.Teams;
 
 namespace TelegramBOT.Application.Teams
 {
@@ -40,38 +41,27 @@ namespace TelegramBOT.Application.Teams
                 string teamName = _mapping.ReverseMap("TeamNamesPlain", teamCode);
 
                 // 2. Загружаем 15 последних матчей
-                var matches15 = await _teamStatsRepository.GetLastMatchesAsync(teamName, 15);
-                var matches7 = await _teamStatsRepository.GetLastMatchesAsync(teamName, 7);
+                var matches10 = await _teamStatsRepository.GetLastMatchesAsync(teamName, 10);
 
-                if (matches15.Count == 0 || matches7.Count == 0)
+                if (matches10.Count == 0)
                 {
                     await _messageService.SendTextAsync(chatId, "Данные по команде пока недоступны.");
                     return;
                 }
 
-                // 3. Получаем статистику первого гола
-                var (scoredFirst, concededFirst) =
-                    await _teamStatsRepository.GetFirstGoalStatsAsync(teamName, matches15);
+                // 3. Считаем агрегированную статистику
+                var stats = await TeamStatsCalculator.CalculateAsync(teamName, matches10);
 
-                // 4. Считаем агрегированную статистику
-                var stats = TeamStatsCalculator.Calculate(
-                    teamName,
-                    matches15,
-                    matches7,
-                    scoredFirst,
-                    concededFirst);
-
-
-                // 5. Получаем русский выводимый заголовок команды
+                // 4. Получаем русский выводимый заголовок команды
                 string teamNameRu = _mapping.Map("TeamNamesPlain", teamName);
 
-                // 6. Локализуем арену
+                // 5. Локализуем город
                 string city = _mapping.Map("Cities", teamName);
 
-                // 7. HTML постер
+                // 6. HTML постер
                 string html = _htmlBuilder.Build(teamName, city, stats);
 
-                // 8. Рендер → PNG
+                // 7. Рендер → PNG
                 var renderer = new HtmlToImageRenderer();
                 byte[] png = await renderer.RenderAsync(html, 1024, 1500);
 
@@ -79,9 +69,9 @@ namespace TelegramBOT.Application.Teams
 
                 await _messageService.SendPhotoAsync(chatId, ms, $"{teamNameRu} — статистика");
 
-                // 9. Показываем меню
+                // 8. Показываем меню
                 var menu = _menuService.GetTeamsConferenceMenu();
-                await _messageService.SendTextWithKeyboardAsync(chatId, "Выберите конференцию:", menu);
+                await _messageService.SendTextWithKeyboardAsync(chatId, "Выберите конференцию", menu);
             }
             catch (Exception ex)
             {

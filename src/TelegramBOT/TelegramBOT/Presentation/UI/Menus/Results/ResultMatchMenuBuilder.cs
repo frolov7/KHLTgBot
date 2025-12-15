@@ -1,5 +1,5 @@
 ﻿using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBOT.Domain.Models;
+using TelegramBOT.Domain.Entities.Matches;
 
 namespace TelegramBOT.Presentation.UI.Menus.Results
 {

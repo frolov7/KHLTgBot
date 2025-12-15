@@ -1,8 +1,9 @@
 ﻿using Serilog;
 using TelegramBOT.Application.Telegram;
 using TelegramBOT.Application.Utils;
+using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Domain.Entities.Predictions;
 using TelegramBOT.Domain.Interfaces;
-using TelegramBOT.Domain.Models;
 using TelegramBOT.Presentation.Handlers.Calendar;
 using TelegramBOT.Presentation.UI.Menus.Predictions;
 
