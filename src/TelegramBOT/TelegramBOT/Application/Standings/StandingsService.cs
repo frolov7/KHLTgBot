@@ -1,11 +1,13 @@
 ﻿using TelegramBOT.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using TelegramBOT.Application.Utils;
-using PuppeteerSharp;
 using TelegramBOT.Presentation.UI;
 using Serilog;
 using TelegramBOT.Application.Telegram;
 using TelegramBOT.Domain.Entities.Teams;
+using TelegramBOT.Domain.Teams.TeamCard;
+using TelegramBOT.Presentation.Rendering.Html.Standings;
+using TelegramBOT.Presentation.Rendering.Html;
 
 namespace TelegramBOT.Application.Standings
 {
@@ -58,17 +60,25 @@ namespace TelegramBOT.Application.Standings
                 // 2. Формируем HTML
                 Log.Information("[SendStandingsAsync] Формирование HTML...");
                 var title = conference == "east" ? "Восточная конференция" : "Западная конференция";
-                var html = StandingsHtmlBuilder.Build(standings, title, _mapper);
+                var html = StandingsPosterHtmlBuilder.Build(standings, title, _mapper);
 
                 // 3. Преобразуем в PNG
                 Log.Information("[SendStandingsAsync] Рендеринг изображения...");
-                var imageStream = await RenderStandingsImageAsync(html);
 
-                // 4. Отправляем
+                var renderer = new HtmlToImageRenderer();
+                byte[] pngBytes = await renderer.RenderAsync(
+                    html,
+                    width: 1930,
+                    height: 815
+                );
+
+                await using var ms = new MemoryStream(pngBytes);
+
+                // 4. Отправка
                 Log.Information("[SendStandingsAsync] Отправка изображения пользователю...");
                 await _messageService.SendPhotoAsync(
                     chatId,
-                    imageStream,
+                    ms,
                     conference == "east" ? "🔹 Восточная конференция" : "🔸 Западная конференция"
                 );
 
@@ -162,14 +172,14 @@ namespace TelegramBOT.Application.Standings
                         standings[homeTeam] = UpdateStats(
                             homeTeam, standings[homeTeam],
                             match.HomeScore.Value, match.AwayScore.Value,
-                            isOvertime, isShootout, true, true, awayTeam
+                            isOvertime, isShootout, true, awayTeam
                         );
 
                     if (awayInConf)
                         standings[awayTeam] = UpdateStats(
                             awayTeam, standings[awayTeam],
                             match.AwayScore.Value, match.HomeScore.Value,
-                            isOvertime, isShootout, false, false, homeTeam
+                            isOvertime, isShootout, false, homeTeam
                         );
                 }
                 else if (awayWin)
@@ -178,14 +188,14 @@ namespace TelegramBOT.Application.Standings
                         standings[awayTeam] = UpdateStats(
                             awayTeam, standings[awayTeam],
                             match.AwayScore.Value, match.HomeScore.Value,
-                            isOvertime, isShootout, true, false, homeTeam
+                            isOvertime, isShootout, true, homeTeam
                         );
 
                     if (homeInConf)
                         standings[homeTeam] = UpdateStats(
                             homeTeam, standings[homeTeam],
                             match.HomeScore.Value, match.AwayScore.Value,
-                            isOvertime, isShootout, false, true, awayTeam
+                            isOvertime, isShootout, false, awayTeam
                         );
                 }
                 else
@@ -255,7 +265,6 @@ namespace TelegramBOT.Application.Standings
         /// <param name="stats">Текущая статистика команды, которая будет обновлена.</param>
         /// <param name="scored">Количество голов, забитых данной командой в матче.</param>
         /// <param name="conceded">Количество голов, пропущенных данной командой в матче.</param>
-        /// <param name="isHome">
         /// Флаг, указывающий, является ли команда хозяином площадки.
         /// True — домашний матч, False — выездной.
         /// </param>
@@ -268,7 +277,6 @@ namespace TelegramBOT.Application.Standings
              bool isOvertime,
              bool isShootout,
              bool isWin,
-             bool isHome,
              string opponent)
         {
             // Логируем только ключевое, без отладочного спама
@@ -278,7 +286,6 @@ namespace TelegramBOT.Application.Standings
             );
 
             int pointsBefore = stats.Points;
-            int earnedPoints = 0;
 
             stats.GamesPlayed++;
             stats.GoalsFor += scored;
@@ -293,22 +300,26 @@ namespace TelegramBOT.Application.Standings
                 else
                     stats.Wins++;
 
-                earnedPoints = 2;
                 stats.Points += 2;
-                stats.RecentForm.Enqueue("🟩");
+                stats.RecentForm.Enqueue(new MatchResultInfo
+                {
+                    IsWin = isWin,
+                    IsOT = isOvertime,
+                    IsPEN = isShootout,
+                    OpponentTeamName = opponent
+                });
+
             }
             else
             {
                 if (isOvertime)
                 {
                     stats.OvertimeLosses++;
-                    earnedPoints = 1;
                     stats.Points += 1;
                 }
                 else if (isShootout)
                 {
                     stats.ShootoutLosses++;
-                    earnedPoints = 1;
                     stats.Points += 1;
                 }
                 else
@@ -316,10 +327,16 @@ namespace TelegramBOT.Application.Standings
                     stats.Losses++;
                 }
 
-                stats.RecentForm.Enqueue("🟥");
+                stats.RecentForm.Enqueue(new MatchResultInfo
+                {
+                    IsWin = isWin,
+                    IsOT = isOvertime,
+                    IsPEN = isShootout,
+                    OpponentTeamName = opponent
+                });
             }
 
-            while (stats.RecentForm.Count > 5)
+            while (stats.RecentForm.Count > 7)
                 stats.RecentForm.Dequeue();
 
             Log.Information(
@@ -328,44 +345,6 @@ namespace TelegramBOT.Application.Standings
             );
 
             return stats;
-        }
-
-        /// <summary>
-        /// Преобразует сгенерированный HTML-код турнирной таблицы в изображение PNG
-        /// с помощью библиотеки PuppeteerSharp для последующей отправки пользователю.
-        /// </summary>
-        /// <param name="html">HTML-код таблицы, который необходимо отрендерить.</param>
-        /// <returns>Поток <see cref="Stream"/> с изображением таблицы в формате PNG.</returns>
-        private async Task<Stream> RenderStandingsImageAsync(string html)
-        {
-            Log.Information("[RenderStandingsImageAsync] Старт рендеринга HTML.");
-
-            var fetcher = new BrowserFetcher();
-            await fetcher.DownloadAsync();
-
-            using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
-            {
-                Headless = true,
-                Args = new[] { "--no-sandbox" }
-            });
-
-            using var page = await browser.NewPageAsync();
-
-            await page.SetContentAsync(html);
-            await page.EvaluateExpressionAsync("document.body.style.background = '#1e1e1e'");
-
-            var screenshot = await page.ScreenshotStreamAsync(new ScreenshotOptions
-            {
-                Type = ScreenshotType.Png,
-                FullPage = true
-            });
-
-            var output = new MemoryStream();
-            await screenshot.CopyToAsync(output);
-            output.Seek(0, SeekOrigin.Begin);
-
-            Log.Information("[RenderStandingsImageAsync] Рендеринг завершён.");
-            return output;
         }
     }
 }
