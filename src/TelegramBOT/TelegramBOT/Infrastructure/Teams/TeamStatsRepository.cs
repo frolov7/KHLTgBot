@@ -48,5 +48,24 @@ namespace TelegramBOT.Infrastructure.Teams
                 .OrderByDescending(m => m.MatchDate)
                 .ToListAsync();
         }
+
+        /// <summary>
+        /// Возвращает все матчи команды за сезон
+        /// (дом + выезд, без SCHEDULED).
+        /// Используется для стабильной сезонной статистики
+        /// (Home/Away, проценты и т.п.)
+        /// </summary>
+        public async Task<List<Match>> GetSeasonMatchesAsync(string englishTeamName)
+        {
+            return await _db.Matches
+                .Include(m => m.Events)
+                    .ThenInclude(e => e.EventType)
+                .Where(m =>
+                    (m.HomeTeamName == englishTeamName ||
+                     m.AwayTeamName == englishTeamName) &&
+                    m.Status != "SCHEDULED")
+                .OrderByDescending(m => m.MatchDate)
+                .ToListAsync();
+        }
     }
 }

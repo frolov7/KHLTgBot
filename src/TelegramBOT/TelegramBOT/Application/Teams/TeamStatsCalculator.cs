@@ -1,33 +1,132 @@
 ﻿using Serilog;
 using TelegramBOT.Domain.Entities.Matches;
-using TelegramBOT.Domain.Entities.Teams;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Domain.Teams.TeamCard;
+using TelegramBOT.Domain.Teams.TeamCardStats;
 
 namespace TelegramBOT.Application.Teams
 {
-    public static class TeamStatsCalculator
+    public class TeamStatsCalculator
     {
-        public static async Task<TeamCardStats> CalculateAsync(string teamName, List<Match> matches10)
+        private readonly ITeamStatsRepository _teamStatsRepository;
+        private readonly TeamStrengthCalculator _teamStrengthCalculator;
+
+        public TeamStatsCalculator(
+            ITeamStatsRepository teamStatsRepository,
+            TeamStrengthCalculator teamStrengthCalculator)
+        {
+            _teamStatsRepository = teamStatsRepository;
+            _teamStrengthCalculator = teamStrengthCalculator;
+        }
+
+        // ============================================================
+        // PUBLIC ENTRY POINT
+        // ============================================================
+
+        public async Task<TeamCardStats> CalculateAsync(string teamName, List<Match> matches10)
         {
             Log.Information("=== Расчёт статистики для команды {Team} ===", teamName);
 
-            var stats = new TeamCardStats();
-
+            // ------------------------------------------------------------
+            // ВАЛИДАЦИЯ ВХОДНЫХ ДАННЫХ
+            // ------------------------------------------------------------
             if (matches10 == null || matches10.Count == 0)
             {
-                Log.Warning("Матчей нет — возвращаем пустую статистику");
-                return stats;
+                Log.Warning(
+                    "Матчи для команды {Team} отсутствуют — возвращаем пустую статистику",
+                    teamName
+                );
+
+                return new TeamCardStats();
             }
 
-            stats.TotalGames = matches10.Count;
+            Log.Information(
+                "Получено матчей для расчёта: {Count}",
+                matches10.Count
+            );
+
+            var seasonMatches = await _teamStatsRepository.GetSeasonMatchesAsync(teamName);
+
+            // ------------------------------------------------------------
+            // 1. БАЗОВАЯ СТАТИСТИКА КОМАНДЫ
+            // (всё, кроме индекса силы)
+            // ------------------------------------------------------------
+            Log.Information(
+                "→ Расчёт базовой статистики команды {Team}",
+                teamName
+            );
+
+            var stats = CalculateBaseStats(
+                teamName,
+                matches10,
+                seasonMatches
+            );
+
+            Log.Information(
+                "Базовая статистика рассчитана: Games={Games}, WinReg={WinReg}, WinOT={WinOT}",
+                stats.TotalGames,
+                stats.Results.WinReg,
+                stats.Results.WinOT
+            );
+
+            // ------------------------------------------------------------
+            // 2. ИНДЕКС СИЛЫ КОМАНДЫ (SNAPSHOT-МОДЕЛЬ)
+            // ------------------------------------------------------------
+            Log.Information(
+                "→ Переход к расчёту индекса силы команды {Team}",
+                teamName
+            );
+
+            await CalculateTeamStrengthIndexAsync(
+                teamName,
+                matches10,
+                stats
+            );
+
+            // ------------------------------------------------------------
+            // ФИНАЛЬНОЕ ЛОГИРОВАНИЕ
+            // ------------------------------------------------------------
+            if (stats.Strength != null)
+            {
+                Log.Information(
+                    "Индекс силы команды {Team} успешно рассчитан: {Value}",
+                    teamName,
+                    stats.Strength.Value
+                );
+            }
+            else
+            {
+                Log.Warning(
+                    "Индекс силы команды {Team} не был рассчитан",
+                    teamName
+                );
+            }
+
+            Log.Information("=== Статистика команды {Team} успешно рассчитана ===", teamName);
+
+            return stats;
+        }
+
+        // ============================================================
+        // BASE STATS (без силы)
+        // ============================================================
+
+        private TeamCardStats CalculateBaseStats(
+            string teamName,
+            List<Match> matches10,
+            List<Match> seasonMatches)
+        {
+            var stats = new TeamCardStats
+            {
+                TotalGames = matches10.Count
+            };
 
             // ===============================
             // FIRST GOAL STATISTICS
             // Кто забивал первым / пропускал первым
             // ===============================
-            var (scoredFirst, concededFirst) = CalculateFirstGoalStats(teamName, matches10);
-
+            var (scoredFirst, concededFirst) =
+                CalculateFirstGoalStats(teamName, matches10);
             stats.FirstGoal.ScoredFirst = scoredFirst;
             stats.FirstGoal.ConcededFirst = concededFirst;
 
@@ -36,13 +135,18 @@ namespace TelegramBOT.Application.Teams
             // Средние тоталы и индивидуальные тоталы
             // ===============================
             stats.Summary.AvgTotal = CalculateAverageTotal(matches10);
-            (stats.Summary.TeamTotal, stats.Summary.OppTotal) = CalculateTeamTotals(teamName, matches10);
+            (stats.Summary.TeamTotal, stats.Summary.OppTotal) =
+                CalculateTeamTotals(teamName, matches10);
 
             // ===============================
             // MATCH RESULTS (W / L)
             // Победы и поражения (осн. время / ОТ / Б)
             // ===============================
-            (stats.Results.WinReg, stats.Results.WinOT, stats.Results.LoseReg, stats.Results.LoseOT) = CalculateWinsAndLosses(teamName, matches10);
+            (stats.Results.WinReg,
+             stats.Results.WinOT,
+             stats.Results.LoseReg,
+             stats.Results.LoseOT) =
+                CalculateWinsAndLosses(teamName, matches10);
 
             // ===============================
             // VISUAL RESULTS (LAST 10 MATCHES)
@@ -55,7 +159,6 @@ namespace TelegramBOT.Application.Teams
             // Пробитие тоталов для визуализации
             // ===============================
             stats.Visual.Totals45 = CalculateTotals(teamName, matches10, 4.5);
-
             stats.Visual.Totals55 = CalculateTotals(teamName, matches10, 5.5);
 
             // ===============================
@@ -68,7 +171,8 @@ namespace TelegramBOT.Application.Teams
             // AVERAGE TOTAL (LAST 10)
             // Средний тотал за последние матчи
             // ===============================
-            stats.Totals.AvgTotal10 = matches10.Average(m => (m.HomeScore ?? 0) + (m.AwayScore ?? 0));
+            stats.Totals.AvgTotal10 =
+                matches10.Average(m => (m.HomeScore ?? 0) + (m.AwayScore ?? 0));
 
             // ===============================
             // COMEBACK STATISTICS
@@ -76,9 +180,68 @@ namespace TelegramBOT.Application.Teams
             // ===============================
             CalculateComebacksNoLoss(teamName, matches10, stats.Comebacks);
 
+            // ===============================
+            // HOME / AWAY WIN STATS
+            // Победы дома и в гостях (за всё время)
+            // ===============================
+            stats.HomeAway = CalculateHomeAwayWinStats(teamName, seasonMatches);
+
+            Log.Information(
+                "Home/Away stats: Home {HomeWins}/{HomeGames} ({HomePct}%), Away {AwayWins}/{AwayGames} ({AwayPct}%)",
+                stats.HomeAway.HomeWins,
+                stats.HomeAway.HomeGames,
+                stats.HomeAway.HomeWinPercent,
+                stats.HomeAway.AwayWins,
+                stats.HomeAway.AwayGames,
+                stats.HomeAway.AwayWinPercent
+            );
+
             Log.Information("=== Статистика успешно рассчитана ===");
 
             return stats;
+        }
+
+        private async Task<List<TeamMetricsSnapshot>> BuildOpponentSnapshotsAsync(string teamName, List<Match> matches)
+        {
+            Log.Information("→ Построение snapshot’ов соперников для команды {Team}", teamName);
+
+            var opponents = matches
+                .Select(m =>
+                    m.HomeTeamName == teamName
+                        ? m.AwayTeamName
+                        : m.HomeTeamName)
+                .Distinct()
+                .ToList();
+
+            var snapshots = new List<TeamMetricsSnapshot>();
+
+            foreach (var opponent in opponents)
+            {
+                Log.Information("→ Соперник {Opponent}", opponent);
+
+                var oppMatches =
+                    await _teamStatsRepository.GetLastMatchesAsync(opponent, 10);
+
+                if (oppMatches == null || oppMatches.Count == 0)
+                {
+                    Log.Warning("Нет матчей для соперника {Opponent}", opponent);
+                    continue;
+                }
+
+                var snapshot =
+                    TeamMetricsSnapshotBuilder.Build(opponent, oppMatches);
+
+                snapshots.Add(snapshot);
+
+                Log.Information(
+                    "Snapshot соперника {Opponent}: WinRate={WinRate}, GoalDiff={GoalDiff}",
+                    opponent,
+                    snapshot.WinRate,
+                    snapshot.GoalDiff
+                );
+            }
+
+            return snapshots;
         }
 
         // ------------------------------------------------------------------
@@ -89,11 +252,8 @@ namespace TelegramBOT.Application.Teams
         /// Рассчитывает средний общий тотал шайб за список матчей
         /// (сумма голов обеих команд в среднем за матч).
         /// </summary>
-        private static double CalculateAverageTotal(List<Match> matches)
-        {
-            return matches.Average(m =>
-                (m.HomeScore ?? 0) + (m.AwayScore ?? 0));
-        }
+
+        private static double CalculateAverageTotal(List<Match> matches) => matches.Average(m => (m.HomeScore ?? 0) + (m.AwayScore ?? 0));
 
         /// <summary>
         /// Рассчитывает средние индивидуальные тоталы:
@@ -106,7 +266,6 @@ namespace TelegramBOT.Application.Teams
             foreach (var m in matches)
             {
                 bool home = m.HomeTeamName == teamName;
-
                 team += home ? (m.HomeScore ?? 0) : (m.AwayScore ?? 0);
                 opp += home ? (m.AwayScore ?? 0) : (m.HomeScore ?? 0);
             }
@@ -132,7 +291,9 @@ namespace TelegramBOT.Application.Teams
                 int gf = home ? (m.HomeScore ?? 0) : (m.AwayScore ?? 0);
                 int ga = home ? (m.AwayScore ?? 0) : (m.HomeScore ?? 0);
 
-                bool ot = m.Status == "AFTER OVERTIME" || m.Status == "AFTER PENALTIES";
+                bool ot =
+                    m.Status == "AFTER OVERTIME" ||
+                    m.Status == "AFTER PENALTIES";
 
                 if (gf > ga)
                     if (ot) winOT++; else win++;
@@ -169,9 +330,7 @@ namespace TelegramBOT.Application.Teams
         /// </summary>
         private static void CalculatePeriods(string teamName, List<Match> matches, TeamPeriodsStats stats)
         {
-            int p1t = 0, p1 = 0;
-            int p2t = 0, p2 = 0;
-            int p3t = 0, p3 = 0;
+            int p1t = 0, p1 = 0, p2t = 0, p2 = 0, p3t = 0, p3 = 0;
 
             foreach (var m in matches)
             {
@@ -197,10 +356,8 @@ namespace TelegramBOT.Application.Teams
 
             stats.Period1IT_Avg = Math.Round((double)p1 / games, 2);
             stats.Period1Total_Avg = Math.Round((double)p1t / games, 2);
-
             stats.Period2IT_Avg = Math.Round((double)p2 / games, 2);
             stats.Period2Total_Avg = Math.Round((double)p2t / games, 2);
-
             stats.Period3IT_Avg = Math.Round((double)p3 / games, 2);
             stats.Period3Total_Avg = Math.Round((double)p3t / games, 2);
         }
@@ -215,7 +372,6 @@ namespace TelegramBOT.Application.Teams
             foreach (var m in matches)
             {
                 bool home = m.HomeTeamName == teamName;
-
                 int diff = 0;
                 bool wasMinus2 = false;
 
@@ -252,8 +408,7 @@ namespace TelegramBOT.Application.Teams
         /// </summary>
         private static (int scoredFirst, int concededFirst) CalculateFirstGoalStats(string teamName, List<Match> matches)
         {
-            int scored = 0;
-            int conceded = 0;
+            int scored = 0, conceded = 0;
 
             foreach (var match in matches)
             {
@@ -289,8 +444,6 @@ namespace TelegramBOT.Application.Teams
             foreach (var m in matches)
             {
                 int total = (m.HomeScore ?? 0) + (m.AwayScore ?? 0);
-
-                // если матч не FINISHED — шайба ОТ не считается
                 if (m.Status != "FINISHED")
                     total = Math.Max(0, total - 1);
 
@@ -300,7 +453,6 @@ namespace TelegramBOT.Application.Teams
                         m.HomeTeamName == teamName
                             ? m.AwayTeamName
                             : m.HomeTeamName,
-
                     IsWin = total > line
                 });
             }
@@ -325,12 +477,126 @@ namespace TelegramBOT.Application.Teams
                 {
                     OpponentTeamName =
                         home ? m.AwayTeamName : m.HomeTeamName,
-
                     IsWin = gf > ga,
                     IsOT = m.Status == "AFTER OVERTIME",
                     IsPEN = m.Status == "AFTER PENALTIES"
                 };
             }).ToList();
         }
+
+        /// <summary>
+        /// Строит snapshots для команды и её соперников
+        /// и рассчитывает индекс силы команды.
+        /// </summary>
+        private async Task CalculateTeamStrengthIndexAsync(
+            string teamName,
+            List<Match> matches10,
+            TeamCardStats stats)
+        {
+            // =====================================================
+            // SNAPSHOT ДЛЯ ОСНОВНОЙ КОМАНДЫ
+            // =====================================================
+            Log.Information("→ Построение snapshot основной команды {Team}", teamName);
+
+            var teamSnapshot =
+                TeamMetricsSnapshotBuilder.Build(teamName, matches10);
+
+            // =====================================================
+            // SNAPSHOT’Ы ДЛЯ СОПЕРНИКОВ
+            // =====================================================
+            Log.Information("→ Построение snapshot соперников");
+
+            var opponentSnapshots = new List<TeamMetricsSnapshot>();
+
+            var opponents = matches10
+                .Select(m => m.HomeTeamName == teamName
+                    ? m.AwayTeamName
+                    : m.HomeTeamName)
+                .Distinct();
+
+            foreach (var opponent in opponents)
+            {
+                Log.Information("→ Соперник {Opponent}", opponent);
+
+                var oppMatches =
+                    await _teamStatsRepository.GetLastMatchesAsync(opponent, 10);
+
+                if (oppMatches == null || oppMatches.Count == 0)
+                {
+                    Log.Warning("Нет матчей для соперника {Opponent}", opponent);
+                    continue;
+                }
+
+                var snapshot =
+                    TeamMetricsSnapshotBuilder.Build(opponent, oppMatches);
+
+                opponentSnapshots.Add(snapshot);
+            }
+
+            // =====================================================
+            // ИНДЕКС СИЛЫ (НА ОСНОВЕ SNAPSHOT’ОВ)
+            // =====================================================
+            Log.Information("→ Расчёт индекса силы команды {Team}", teamName);
+
+            stats.Strength = _teamStrengthCalculator.Calculate(
+                teamSnapshot,
+                opponentSnapshots
+            );
+
+            Log.Information(
+                "Индекс силы команды {Team} рассчитан: {Value}",
+                teamName,
+                stats.Strength.Value
+            );
+        }
+
+        private static TeamHomeAwayStats CalculateHomeAwayWinStats(
+    string teamName,
+    List<Match> matches)
+        {
+            int homeGames = 0, homeWins = 0;
+            int awayGames = 0, awayWins = 0;
+
+            foreach (var m in matches)
+            {
+                bool isHome = m.HomeTeamName == teamName;
+                bool isAway = m.AwayTeamName == teamName;
+
+                if (!isHome && !isAway)
+                    continue;
+
+                int teamGoals = isHome ? (m.HomeScore ?? 0) : (m.AwayScore ?? 0);
+                int oppGoals = isHome ? (m.AwayScore ?? 0) : (m.HomeScore ?? 0);
+
+                if (isHome)
+                {
+                    homeGames++;
+                    if (teamGoals > oppGoals)
+                        homeWins++;
+                }
+                else
+                {
+                    awayGames++;
+                    if (teamGoals > oppGoals)
+                        awayWins++;
+                }
+            }
+
+            return new TeamHomeAwayStats
+            {
+                HomeGames = homeGames,
+                HomeWins = homeWins,
+                HomeWinPercent = homeGames == 0
+                    ? 0
+                    : Math.Round(homeWins * 100.0 / homeGames, 1),
+
+                AwayGames = awayGames,
+                AwayWins = awayWins,
+                AwayWinPercent = awayGames == 0
+                    ? 0
+                    : Math.Round(awayWins * 100.0 / awayGames, 1)
+            };
+        }
+
     }
 }

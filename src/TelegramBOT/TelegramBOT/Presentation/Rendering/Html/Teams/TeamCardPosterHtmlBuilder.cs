@@ -210,6 +210,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.Teams
 
                 .team-logo {{
                     width:160px;
+                    filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
                 }}
 
                 .team-name {{
@@ -320,7 +321,8 @@ namespace TelegramBOT.Presentation.Rendering.Html.Teams
                     flex-wrap: nowrap; 
                 }}
 
-                .square {{width: 34px;
+                .square {{
+                    width: 34px;
                     height: 34px;
                     border-radius: 6px;
                     display: flex;
@@ -331,13 +333,15 @@ namespace TelegramBOT.Presentation.Rendering.Html.Teams
                     background-size: cover;
                     background-position: center;
                 }}
+
                 .square img {{
                     width: 26px;
                     height: 26px;
                     filter: drop-shadow(0 0 3px white) drop-shadow(0 0 1px white);
                 }}
 
-                .result-square {{width: 34px;
+                .result-square {{
+                    width: 34px;
                     height: 34px;
                     border-radius: 6px;
                     display: flex;
@@ -346,7 +350,8 @@ namespace TelegramBOT.Presentation.Rendering.Html.Teams
                     overflow: hidden;
                 }}
 
-                .result-square img {{width: 26px;
+                .result-square img {{
+                    width: 26px;
                     height: 26px;
                     object-fit: contain;
                 }}
@@ -357,12 +362,11 @@ namespace TelegramBOT.Presentation.Rendering.Html.Teams
                     align-items:center;
                     justify-content:center;
                     gap:3px;
-                    min-height:48px; /* было 60 — из-за этого блок стал больше */
+                    min-height:48px;
                 }}
 
                 .totals-values::before,
-                .totals-values::after 
-                {{
+                .totals-values::after {{
                     opacity: 0.8;
                 }}
 
@@ -427,7 +431,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.Teams
 
                                 <div class='cell'>
                                     <div class='cell-title'>Индекс силы</div>
-                                    <div class='cell-value'>NULL</div>
+                                    <div class='cell-value'>{stats.Strength.Value.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)}</div>
                                 </div>
                             </div>
 
@@ -453,21 +457,21 @@ namespace TelegramBOT.Presentation.Rendering.Html.Teams
 
 
                             <!-- ========================================================= -->
-                            <!-- ===== БЛОК 3 — ЗАБИЛИ / ПРОПУСТИЛИ ПЕРВЫМИ и КАМБЭКИ ==== -->
+                            <!-- ===== БЛОК 3 — ПОБЕДЫ ДОМА И В ГОСТЯХ и КАМБЭКИ ========= -->
                             <!-- ========================================================= -->
                             <div class='grid'>
                                 <div class='cell'>
-                                    <div class='cell-title'>Забили / Пропустили первыми</div>
-                                    <div class='cell-value'>
-                                        {stats.FirstGoal.ScoredFirst} / {stats.FirstGoal.ConcededFirst}
+                                    <div class='cell-title'>Победы дома/в гостях за сезон</div>
+                                        <div class='cell-value' style='font-size:32px;'>
+                                           {stats.HomeAway.HomeWinPercent.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)}% / {stats.HomeAway.AwayWinPercent.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)}%
+                                        </div>
                                     </div>
-                                </div>
 
                                 <div class='cell'>
                                     <div class='cell-title'>Камбэк с -2 и не проиграла</div>
                                     <div class='cell-value' style='font-size:32px;'>
                                         {stats.Comebacks.ComebacksNoLossFrom2} / {stats.Comebacks.GamesTrailingBy2}
-                                        ({stats.Comebacks.Percent}%)
+                                        ({stats.Comebacks.Percent.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)}%)
                                     </div>
                                 </div>
                             </div>
