@@ -16,20 +16,24 @@ namespace TelegramBOT.Application.Teams
         private readonly MessageService _messageService;
         private readonly MenuService _menuService;
         private readonly TeamCardPosterHtmlBuilder _htmlBuilder;
+        private readonly TeamStatsCalculator _teamStatsCalculator;
 
         public TeamsService(
             ITeamStatsRepository teamStatsRepository,
+            TeamStatsCalculator teamStatsCalculator,
             MappingService mappingService,
             MessageService messageService,
             MenuService menuService,
             TeamCardPosterHtmlBuilder htmlBuilder)
         {
             _teamStatsRepository = teamStatsRepository;
+            _teamStatsCalculator = teamStatsCalculator;
             _mapping = mappingService;
             _messageService = messageService;
             _menuService = menuService;
             _htmlBuilder = htmlBuilder;
         }
+
 
         public async Task SendTeamCardAsync(long chatId, string teamCode)
         {
@@ -50,7 +54,7 @@ namespace TelegramBOT.Application.Teams
                 }
 
                 // 3. Считаем агрегированную статистику
-                var stats = await TeamStatsCalculator.CalculateAsync(teamName, matches10);
+                var stats = await _teamStatsCalculator.CalculateAsync(teamName, matches10);
 
                 // 4. Получаем русский выводимый заголовок команды
                 string teamNameRu = _mapping.Map("TeamNamesPlain", teamName);

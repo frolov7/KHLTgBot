@@ -1,4 +1,6 @@
-﻿namespace TelegramBOT.Domain.Teams.TeamCard
+﻿using TelegramBOT.Domain.Teams.TeamCardStats;
+
+namespace TelegramBOT.Domain.Teams.TeamCard
 {
     /// <summary>
     /// Агрегированная модель статистики команды для карточки Team Card.
@@ -53,5 +55,18 @@
         /// (квадраты результатов последних матчей и тоталов).
         /// </summary>
         public TeamVisualStats Visual { get; set; } = new();
+
+        /// <summary>
+        /// Индекс силы команды — агрегированный показатель текущей формы
+        /// и уровня команды на основе набора статистических факторов.
+        /// Используется для сравнений и визуального отображения в карточке.
+        /// </summary>
+        public TeamStrengthIndex Strength { get; set; } = new();
+
+        /// <summary>
+        /// Статистика побед команды дома и в гостях.
+        /// Используется для отображения процента побед за сезон.
+        /// </summary>
+        public TeamHomeAwayStats HomeAway { get; set; } = new();
     }
 }

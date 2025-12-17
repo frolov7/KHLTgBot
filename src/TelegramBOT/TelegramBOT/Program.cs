@@ -114,6 +114,10 @@ builder.ConfigureServices((context, services) =>
     services.AddScoped<PredictionService>();
     services.AddScoped<StandingsService>();
 
+    services.AddScoped<TeamStrengthCalculator>();
+    services.AddScoped<TeamStatsCalculator>();
+
+
     // -----------------------------
     // Repositories (доступ к данным)
     // -----------------------------
