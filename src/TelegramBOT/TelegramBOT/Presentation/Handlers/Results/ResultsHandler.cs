@@ -5,26 +5,36 @@ using System.Globalization;
 using Serilog;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBOT.Application.Telegram;
+using TelegramBOT.Presentation.Rendering.Html.Calendar;
+using TelegramBOT.Presentation.Rendering.Html;
+using TelegramBOT.Domain.Interfaces;
+using static TelegramBOT.Presentation.Rendering.Html.Calendar.MatchPredictionPosterHtmlBuilder;
 
 namespace TelegramBOT.Presentation.Handlers.Results
 {
-    public class ResultsHandler
+    public class ResultsHandler     
     {
         private readonly MessageService _messageService;
         private readonly ResultsService _resultsService;
         private readonly MenuService _menuService;
         private readonly MappingService _mappingService;
+        private readonly IMatchStatsServiceRepository _matchStatsRepository;
+        private readonly IConfiguration _config;
 
         public ResultsHandler(
+            IMatchStatsServiceRepository matchStatsRepository,
+            IConfiguration config,
             MessageService messageService,
             ResultsService resultsService,
             MenuService menuService,
             MappingService mappingService)
         {
+            _matchStatsRepository = matchStatsRepository;
             _messageService = messageService;
             _resultsService = resultsService;
             _menuService = menuService;
             _mappingService = mappingService;
+            _config = config;
         }
 
         // ==========================================================
@@ -159,34 +169,62 @@ namespace TelegramBOT.Presentation.Handlers.Results
         {
             Log.Information("[HandleMatchPredictions] chatId={ChatId}, callback={Callback}", chatId, callback);
 
+            // ==== 1. matchId ====
             var matchId = callback.Replace("results_predictions_", "");
 
-            // Бизнес-логика формирования текста
-            var text = await _resultsService.BuildFinishedMatchPredictionsAsync(matchId);
-
-            // Получаем матч (для кнопки «Назад»)
+            // ==== 2. Матч ====
             var match = await _resultsService.GetResultByIdAsync(matchId);
             if (match == null)
             {
-                await _messageService.EditMessageTextAsync(chatId, messageId, "Матч не найден.");
+                await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
 
-            // Меню "Назад"
+            // ==== 3. Прогнозы (С РЕЗУЛЬТАТАМИ: WIN / LOSE / DRAW) ====
+            var predictions = await _matchStatsRepository.GetPredictionsByMatchIdAsync(matchId);
+            // ↑ должен возвращать Prediction.Result
+
+            if (predictions == null || !predictions.Any())
+            {
+                await _messageService.SendTextAsync(chatId, "Прогнозы отсутствуют.");
+                return;
+            }
+
+            Log.Information(
+                "[HandleMatchPredictions] Найдено {Count} прогнозов. matchId={MatchId}",
+                predictions.Count(),
+                matchId
+            );
+
+            // ==== 4. HTML (РЕЖИМ РЕЗУЛЬТАТОВ) ====
+            var builder = new MatchPredictionPosterHtmlBuilder(_config);
+
+            string html = builder.Build(
+                predictions,
+                match.HomeTeamName,
+                match.AwayTeamName,
+                PredictionPosterMode.Result   // 🔥 КЛЮЧЕВОЕ ОТЛИЧИЕ
+            );
+
+            // ==== 5. PNG ====
+            var renderer = new HtmlToImageRenderer();
+            byte[] png = await renderer.RenderAsync(html, 1100, 900);
+
+            await using var ms = new MemoryStream(png);
+
+            // ==== 6. Клавиатура "Назад к результатам" ====
             var menu = new InlineKeyboardMarkup(new[]
             {
                 InlineKeyboardButton.WithCallbackData(
-                    "⬅️ Назад (Результаты)",
-                    $"back_to_results_{match.MatchDate:yyyyMMdd}")
+                    "⬅️ Назад (К матчу)",
+                    $"result_{matchId}"
+                )
             });
 
-            // 1) Обновляем текст
-            await _messageService.EditMessageTextAsync(chatId, messageId, text);
+            // ==== 7. Фото + клавиатура одним сообщением ====
+            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, menu);
 
-            // 2) Обновляем клавиатуру
-            await _messageService.EditMessageKeyboardAsync(chatId, messageId, menu);
-
-            Log.Information("[HandleMatchPredictions] Прогнозы успешно отображены");
+            Log.Information("[HandleMatchPredictions] Картинка прогнозов с результатами отправлена успешно");
         }
     }
 }
