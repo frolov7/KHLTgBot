@@ -71,7 +71,7 @@ namespace TelegramBOT.Application.Teams
 
                 using var ms = new MemoryStream(png);
 
-                await _messageService.SendPhotoAsync(chatId, ms, $"{teamNameRu} — статистика");
+                await _messageService.SendPhotoAsync(chatId, ms, $"{teamNameRu}");
 
                 // 8. Показываем меню
                 var menu = _menuService.GetTeamsConferenceMenu();

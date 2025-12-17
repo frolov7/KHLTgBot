@@ -192,6 +192,11 @@ namespace TelegramBOT.Presentation.Handlers
                     await _teamsHandler.ShowTeamsMenu(chatId);
                     break;
 
+                case "back_to_main":
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: ShowMainMenu");
+                    await _navigationHandler.ShowMainMenu(chatId);
+                    break;
+
                 default:
                     Log.Warning("[HandleCallbackQueryAsync] Неизвестный callback: {Callback}", callback);
                     break;
