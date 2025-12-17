@@ -56306,5 +56306,321 @@
         "goalType": "Empty net"
       }
     ]
+  },
+  "M7vASobe": {
+    "id": "M7vASobe",
+    "home": "Khabarovsk",
+    "away": "Vladivostok",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "04:05",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Yevseyev N.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "07:11",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Li O.",
+        "assistants": [
+          "Likhachyov Y.",
+          "Korotkikh I."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "13:14",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "16:09",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Osnovin V.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "17:48",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Shvaryov A.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "04:34",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Sulak L.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "04:34",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Voronkov Y.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:10",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Talaluyev I.",
+        "assistants": [
+          "Svechnikov Y.",
+          "Galchenyuk A."
+        ],
+        "score": "2 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:07",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Petukhov Y.",
+        "assistants": [
+          "Soshnikov N."
+        ],
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:38",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Grachyov Y.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "13:13",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Likhachyov Y.",
+        "assistants": [
+          "Li O.",
+          "Galchenyuk A."
+        ],
+        "score": "3 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:58",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Rykov Y.",
+        "reason": "Delay of game",
+        "duration": "2"
+      }
+    ]
+  },
+  "rNSIQPS7": {
+    "id": "rNSIQPS7",
+    "home": "Sochi",
+    "away": "Magnitogorsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "07:26",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Polyakov N.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "08:17",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Fyodorov M.",
+        "assistants": [
+          "Yakovlev Y.",
+          "Tkachev V."
+        ],
+        "score": "0 - 1",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "1st period",
+        "time": "10:29",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Petunin A.",
+        "assistants": [
+          "Iskhakov R.",
+          "Mikhailis N."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "15:43",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Nechayev I.",
+        "assistants": [
+          "Kuznetsov E."
+        ],
+        "score": "0 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "16:47",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Sapozhnikov A.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "17:41",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Barach D.",
+        "assistants": [
+          "Fyodorov M.",
+          "Tkachev V."
+        ],
+        "score": "0 - 4",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "1st period",
+        "time": "19:57",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Palivko D.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "11:03",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Nikolayev I.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:35",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Iskhakov R.",
+        "assistants": [
+          "Petunin A.",
+          "Mikhailis N."
+        ],
+        "score": "0 - 5",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:32",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Seroukh D.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:36",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Mikhailis N.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:15",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Kozlov A.",
+        "reason": "Kneeing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "04:02",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Kuznetsov E.",
+        "assistants": [
+          "Orekhov V.",
+          "Nechayev I."
+        ],
+        "score": "0 - 6",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "05:21",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Bitten W.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:28",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Khabarov M.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "18:59",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Popov S.",
+        "assistants": [
+          "Machulin V.",
+          "Guskov M."
+        ],
+        "score": "1 - 6",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:24",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Iskhakov R.",
+        "reason": "Tripping",
+        "duration": "2"
+      }
+    ]
   }
 }

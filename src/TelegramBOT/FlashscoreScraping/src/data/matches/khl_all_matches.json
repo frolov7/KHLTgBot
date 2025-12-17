@@ -5762,7 +5762,7 @@
   "M7vASobe": {
     "id": "M7vASobe",
     "date": "17.12.2025 12:15",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Khabarovsk"
     },
@@ -5770,14 +5770,14 @@
       "name": "Vladivostok"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "1"
     }
   },
   "rNSIQPS7": {
     "id": "rNSIQPS7",
     "date": "17.12.2025 19:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Sochi"
     },
@@ -5785,8 +5785,8 @@
       "name": "Magnitogorsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "6"
     }
   },
   "A31lcDmd": {
