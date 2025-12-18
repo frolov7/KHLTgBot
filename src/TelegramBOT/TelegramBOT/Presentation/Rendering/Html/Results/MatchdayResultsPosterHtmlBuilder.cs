@@ -1,6 +1,8 @@
-﻿using System.Text;
+﻿using System.Drawing;
+using System.Text;
 using Microsoft.Extensions.Configuration;
 using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Domain.Entities.MatchEvents;
 
 namespace TelegramBOT.Presentation.Rendering.Html.Results
 {
@@ -13,7 +15,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
             _config = config;
         }
 
-        public string Build(IEnumerable<Match> matches, DateTime day)
+        public string Build(IEnumerable<Match> matches, DateTime day, Dictionary<string, List<PeriodGoals>> goalsByMatch)
         {
             // ==== Пути ====
             string root = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
@@ -69,7 +71,10 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
             // ==== Генерация строк матчей ====
             var rowsSb = new StringBuilder();
             foreach (var m in list)
-                rowsSb.AppendLine(BuildRow(m, teamsDir, rowHeight, logoSize));
+            {
+                var periodGoals = goalsByMatch.TryGetValue(m.MatchId, out var g) ? g : new List<PeriodGoals>();
+                rowsSb.AppendLine(BuildRow(m, teamsDir, rowHeight, logoSize, periodGoals));
+            }
 
             // ==== Сборка HTML ====
             var sb = new StringBuilder();
@@ -107,14 +112,23 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
         }
 
         // ===== helpers =====
-        private string BuildRow(Match m, string dir, int rowHeight, int logoSize)
+        private string BuildRow(
+            Match m,
+            string dir,
+            int rowHeight,
+            int logoSize,
+            List<PeriodGoals> periodGoals)
         {
             string homeLogo = TryLoadLogo(dir, m.HomeTeamName) ?? "";
             string awayLogo = TryLoadLogo(dir, m.AwayTeamName) ?? "";
 
-            string score = $"{m.HomeScore}:{m.AwayScore}";
+            string score = $"{m.HomeScore} : {m.AwayScore}";
+
             if (m.Status == "AFTER OVERTIME") score += " (ОТ)";
-            if (m.Status == "AFTER PENALTIES") score += " (Бул)";
+            if (m.Status == "AFTER PENALTIES") score += " (Б)";
+
+            var periods = BuildPeriodsText(m, periodGoals);
+            score += $"<div class='periods'>{periods}</div>";
 
             return $@"
                 <div class='match-row' style='height:{rowHeight}px'>
@@ -127,6 +141,35 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
                     <img class='team-logo-right' style='width:{logoSize}px' src='data:image/png;base64,{awayLogo}' />
                 </div>
             ";
+        }
+
+        private string BuildPeriodsText(Match match, List<PeriodGoals> goals)
+        {
+            var periods = new[]
+            {
+                "1st period",
+                "2nd period",
+                "3rd period"
+            };
+
+            var parts = new List<string>();
+
+            foreach (var p in periods)
+            {
+                int home = goals
+                    .Where(g => g.Period == p && g.TeamId == match.HomeTeamId)
+                    .Select(g => g.Goals)
+                    .FirstOrDefault();
+
+                int away = goals
+                    .Where(g => g.Period == p && g.TeamId == match.AwayTeamId)
+                    .Select(g => g.Goals)
+                    .FirstOrDefault();
+
+                parts.Add($"{home}:{away}");
+            }
+
+            return $"({string.Join("; ", parts)})";
         }
 
         private string? TryLoadLogo(string dir, string teamName)
@@ -203,6 +246,16 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
             .score-text {{
                 font-size: 42px;
                 font-weight: 900;
+            }}
+
+            .periods {{
+                font-size: 12px;
+                font-weight: 700;
+                color: #1a2b44;
+                opacity: 0.9;
+                margin-top: 2px;
+                line-height: 1.1;
+                text-align: center;
             }}
 
             .footer-strip {{

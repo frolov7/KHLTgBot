@@ -13,5 +13,7 @@ namespace TelegramBOT.Domain.Interfaces
         Task<IEnumerable<Prediction>> GetPredictionsByMatchIdAsync(string matchId);
         Task<Match?> GetMatchByIdAsync(string matchId);
         Task<IEnumerable<MatchEvent>> GetMatchEventsAsync(string matchId);
+        Task<List<PeriodGoals>> GetGoalsByPeriodsAsync(string matchId);
+        Task<Dictionary<string, List<PeriodGoals>>> GetGoalsByPeriodsForMatchesAsync(IEnumerable<string> matchIds);
     }
 }

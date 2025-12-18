@@ -2,6 +2,7 @@
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Domain.Entities.MatchEvents;
 
 namespace TelegramBOT.Presentation.Rendering.Html.Calendar
 {
@@ -14,11 +15,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
             _config = config;
         }
 
-        public string Build(
-            string homeTeamName,
-            string awayTeamName,
-            IEnumerable<Match> homeMatches,
-            IEnumerable<Match> awayMatches)
+        public string Build(string homeTeamName, string awayTeamName, IEnumerable<Match> homeMatches, IEnumerable<Match> awayMatches, Dictionary<string, List<PeriodGoals>> goalsByMatch)
         {
             string root = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
                 "src", "TelegramBOT", "TelegramBOT", "wwwroot", "icons");
@@ -60,13 +57,27 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
             // Left column — home team
             sb.AppendLine("<div class='col'>");
             foreach (var m in homeMatches.Take(7))
-                sb.AppendLine(BuildRow(m, teamsDir, homeTeamName));
+            {
+                var periodGoals = goalsByMatch.TryGetValue(m.MatchId, out var g)
+                ? g
+                : new List<PeriodGoals>();
+
+                sb.AppendLine(BuildRow(m, teamsDir, homeTeamName, periodGoals));
+
+            }
             sb.AppendLine("</div>");
 
             // Right column — away team
             sb.AppendLine("<div class='col'>");
             foreach (var m in awayMatches.Take(7))
-                sb.AppendLine(BuildRow(m, teamsDir, awayTeamName));
+            {
+                var periodGoals = goalsByMatch.TryGetValue(m.MatchId, out var g)
+                    ? g
+                    : new List<PeriodGoals>();
+
+                sb.AppendLine(BuildRow(m, teamsDir, awayTeamName, periodGoals));
+            }
+
             sb.AppendLine("</div>");
 
             sb.AppendLine(@"
@@ -79,7 +90,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
             return sb.ToString();
         }
 
-        private string BuildRow(Match m, string teamsDir, string teamName)
+        private string BuildRow(Match m, string teamsDir, string teamName, List<PeriodGoals> periodGoals)
         {
             bool isHome = m.HomeTeamName == teamName;
             bool win = isHome && m.HomeScore > m.AwayScore ||
@@ -95,9 +106,16 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
 
             string date = m.MatchDate.ToString("dd'/'MM", new CultureInfo("ru-RU"));
 
-            string score = $"{m.HomeScore}:{m.AwayScore}";
+            string score = $"{m.HomeScore} : {m.AwayScore}";
+
             if (m.Status == "AFTER OVERTIME") score += " (ОТ)";
             if (m.Status == "AFTER PENALTIES") score += " (Б)";
+
+            if (periodGoals != null)
+            {
+                var periods = BuildPeriodsText(m, periodGoals);
+                score += $"<div class='periods'>{periods}</div>";
+            }
 
             if (isHome)
             {
@@ -131,6 +149,35 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
                     </div>
                 ";
             }
+        }
+
+        private string BuildPeriodsText(Match match, List<PeriodGoals> goals)
+        {
+            var periods = new[]
+            {
+                "1st period",
+                "2nd period",
+                "3rd period"
+            };
+
+            var parts = new List<string>();
+
+            foreach (var p in periods)
+            {
+                int home = goals
+                    .Where(g => g.Period == p && g.TeamId == match.HomeTeamId)
+                    .Select(g => g.Goals)
+                    .FirstOrDefault();
+
+                int away = goals
+                    .Where(g => g.Period == p && g.TeamId == match.AwayTeamId)
+                    .Select(g => g.Goals)
+                    .FirstOrDefault();
+
+                parts.Add($"{home}:{away}");
+            }
+
+            return $"({string.Join("; ", parts)})";
         }
 
         private string? TryLoadLogo(string dir, string teamName)
@@ -225,14 +272,32 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
                 border-radius: 16px;
                 box-shadow: 0 4px 20px rgba(0,0,0,0.35);
                 font-weight: 900;
-                display:flex;
-                align-items:center;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
             }
 
             .score-text {
-                flex:1;
-                text-align:center;
-                font-size:33px;
+                font-size: 23px;
+                line-height: 1;
+                margin-top: 4px;
+                text-align: center;
+                width: 100%;
+                white-space: nowrap;
+            }
+
+            .periods {
+                font-size: 10px;
+                font-weight: 700;
+                color: #1a2b44;
+                opacity: 0.9;
+
+                margin-top: 2px;
+                line-height: 1.1;
+
+                text-align: center;
             }
 
             .date {
