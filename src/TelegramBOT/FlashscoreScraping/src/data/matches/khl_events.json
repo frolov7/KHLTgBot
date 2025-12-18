@@ -56318,7 +56318,7 @@
         "team": "Khabarovsk",
         "eventType": "Penalty",
         "player": "Yevseyev N.",
-        "reason": "Holding",
+        "reason": "Hooking",
         "duration": "2"
       },
       {
@@ -56386,7 +56386,7 @@
         "scorer": "Talaluyev I.",
         "assistants": [
           "Svechnikov Y.",
-          "Galchenyuk A."
+          "Yevseyev N."
         ],
         "score": "2 - 0",
         "goalType": "Even strength"
