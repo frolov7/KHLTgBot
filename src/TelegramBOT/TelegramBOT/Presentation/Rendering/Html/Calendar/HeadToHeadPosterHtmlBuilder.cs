@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Domain.Entities.MatchEvents;
 
 namespace TelegramBOT.Presentation.Rendering.Html.Calendar
 {
@@ -16,7 +17,36 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
             _mapper = mapper;
         }
 
-        public string Build(Match mainMatch, IEnumerable<Match> h2hMatches)
+        private string BuildPeriodsText(Match match, List<PeriodGoals> goals)
+        {
+            var periods = new[]
+            {
+                "1st period",
+                "2nd period",
+                "3rd period"
+            };
+
+            var parts = new List<string>();
+
+            foreach (var p in periods)
+            {
+                int home = goals
+                    .Where(g => g.Period == p && g.TeamId == match.HomeTeamId)
+                    .Select(g => g.Goals)
+                    .FirstOrDefault();
+
+                int away = goals
+                    .Where(g => g.Period == p && g.TeamId == match.AwayTeamId)
+                    .Select(g => g.Goals)
+                    .FirstOrDefault();
+
+                parts.Add($"{home}:{away}");
+            }
+
+            return $"({string.Join("; ", parts)})";
+        }
+
+        public string Build(IEnumerable<Match> h2hMatches, Dictionary<string, List<PeriodGoals>> goalsByMatch)
         {
             string root = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
                 "src", "TelegramBOT", "TelegramBOT", "wwwroot", "icons");
@@ -64,9 +94,16 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
                 string homeLogo64 = Convert.ToBase64String(File.ReadAllBytes(homeLogoPath));
                 string awayLogo64 = Convert.ToBase64String(File.ReadAllBytes(awayLogoPath));
 
-                string score = $"{m.HomeScore}:{m.AwayScore}";
+                string score = $"{m.HomeScore} : {m.AwayScore}";
+
                 if (m.Status == "AFTER OVERTIME") score += " (ОТ)";
                 if (m.Status == "AFTER PENALTIES") score += " (Б)";
+
+                if (goalsByMatch.TryGetValue(m.MatchId, out var periodGoals))
+                {
+                    var periods = BuildPeriodsText(m, periodGoals);
+                    score += $"<div class='periods'>{periods}</div>";
+                }
 
                 string dateShort = m.MatchDate.ToString("dd'/'MM", new System.Globalization.CultureInfo("ru-RU"));
 
@@ -225,10 +262,21 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
                 position: absolute;
                 left: 50%;
                 transform: translateX(-50%);
-                font-size: 42px;
+                font-size: 36px;
                 font-weight: 900;
                 white-space: nowrap;     /* ← главное! */
                 line-height: 1;          /* минимальная высота строки */
+            }
+
+            .periods {
+                font-size: 12px;
+                font-weight: 700;
+                color: #1a2b44;
+                opacity: 0.9;
+
+                margin-top: 5px;
+                line-height: 1.1;
+                text-align: center;
             }
 
             /* Плашка */

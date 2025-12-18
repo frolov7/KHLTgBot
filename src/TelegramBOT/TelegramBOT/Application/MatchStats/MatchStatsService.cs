@@ -5,6 +5,7 @@ using TelegramBOT.Application.MatchEvents;
 using TelegramBOT.Application.Telegram;
 using TelegramBOT.Application.Utils;
 using TelegramBOT.Domain.Entities.Matches;
+using TelegramBOT.Domain.Entities.MatchEvents;
 using TelegramBOT.Domain.Interfaces;
 using TelegramBOT.Presentation.Rendering.Html;
 using TelegramBOT.Presentation.Rendering.Html.Calendar;
@@ -44,35 +45,64 @@ namespace TelegramBOT.Application.MatchStats
         /// </summary>
         public async Task SendHeadToHeadAsync(long chatId, string matchId)
         {
+            Log.Information(
+                "[SendHeadToHeadAsync] Старт. chatId={ChatId}, matchId={MatchId}",
+                chatId, matchId);
+
+            // 1. Загружаем основной матч
             var match = await _matchStatsRepository.GetMatchByIdAsync(matchId);
             if (match == null)
             {
+                Log.Warning("[SendHeadToHeadAsync] Матч не найден. matchId={MatchId}", matchId);
+
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
 
-            var matches = await _matchStatsRepository.GetHeadToHeadMatchesAsync(match.HomeTeamName, match.AwayTeamName);
-            if (!matches.Any())
+            // 2. Загружаем очные встречи команд
+            var h2hMatches = (await _matchStatsRepository.GetHeadToHeadMatchesAsync(match.HomeTeamName, match.AwayTeamName)).ToList();
+
+            if (!h2hMatches.Any())
             {
+                Log.Information("[SendHeadToHeadAsync] Очных встреч не найдено. {Home} vs {Away}", match.HomeTeamName, match.AwayTeamName);
+
                 await _messageService.SendTextAsync(chatId, "Эти команды ещё не встречались.");
                 return;
             }
 
-            // HTML билдер
-            var builder = new HeadToHeadPosterHtmlBuilder(_config, _mappingService);
-            string html = builder.Build(match, matches);
+            Log.Information("[SendHeadToHeadAsync] Найдено очных встреч: {Count}. {Home} vs {Away}", h2hMatches.Count, match.HomeTeamName, match.AwayTeamName);
 
-            // рендер
+            // 3. Загружаем голы по периодам для всех матчей
+            var goalsByMatch = new Dictionary<string, List<PeriodGoals>>();
+
+            foreach (var m in h2hMatches)
+            {
+                var goals = await _matchStatsRepository.GetGoalsByPeriodsAsync(m.MatchId);
+                goalsByMatch[m.MatchId] = goals;
+            }
+
+            // 4. Генерация HTML
+            var builder = new HeadToHeadPosterHtmlBuilder(_config, _mappingService);
+
+            string html = builder.Build(
+                h2hMatches,
+                goalsByMatch);
+
+            Log.Debug("[SendHeadToHeadAsync] HTML успешно сгенерирован");
+
+            // 5. Рендер HTML → PNG
             var renderer = new HtmlToImageRenderer();
             byte[] png = await renderer.RenderAsync(html, 1024, 810);
 
             using var ms = new MemoryStream(png);
 
-            // меню
+            // 6. Формирование меню матча
             var menu = new MatchMenuBuilder().Build(match);
 
-            // отправка
+            // 7. Отправка изображения в Telegram
             await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, menu);
+
+            Log.Information("[SendHeadToHeadAsync] Завершено успешно. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
         }
 
         // ==========================================================
@@ -103,28 +133,40 @@ namespace TelegramBOT.Application.MatchStats
                 return;
             }
 
-            Log.Information("[SendTeamsHistoryAsync] Найдены данные: home={Home}, away={Away}. matchId={MatchId}",
-                homeResults.Count, awayResults.Count, matchId);
+            // ====== собираем матчи для истории ======
+            var matchesForHistory = homeResults
+                .Concat(awayResults)
+                .DistinctBy(m => m.MatchId)
+                .Take(14)
+                .ToList();
 
-            // ========== ГЕНЕРАЦИЯ HTML ==========
+            // ====== грузим голы по периодам ======
+            var goalsByMatch = new Dictionary<string, List<PeriodGoals>>();
+
+            foreach (var m in matchesForHistory)
+            {
+                goalsByMatch[m.MatchId] =
+                    await _matchStatsRepository.GetGoalsByPeriodsAsync(m.MatchId);
+            }
+
+            // ====== генерация HTML ======
             var builder = new HistoryPosterHtmlBuilder(_config);
 
             string html = builder.Build(
                 match.HomeTeamName,
                 match.AwayTeamName,
                 homeResults.Take(7),
-                awayResults.Take(7));
+                awayResults.Take(7),
+                goalsByMatch);
 
-            // ========== РЕНДЕР ==========
+            // ====== рендер ======
             var renderer = new HtmlToImageRenderer();
             byte[] png = await renderer.RenderAsync(html, 1024, 900);
 
             using var ms = new MemoryStream(png);
 
-            // меню
             var menu = new MatchMenuBuilder().Build(match);
 
-            // ========== ОТПРАВКА ТАК ЖЕ, КАК В SendHeadToHeadAsync ==========
             await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, menu);
         }
 

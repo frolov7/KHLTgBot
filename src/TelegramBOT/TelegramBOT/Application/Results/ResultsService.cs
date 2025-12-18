@@ -17,9 +17,10 @@ namespace TelegramBOT.Application.Results
     /// Сервис бизнес-логики для работы с результатами матчей.
     /// Отвечает за получение, обновление и форматирование данных о результатах.
     /// </summary>
-    public class ResultsService
+    public class ResultsService         
     {
         private readonly IResultsRepository _resultRepository;
+        private readonly IMatchStatsServiceRepository _matchStatsRepository;
         private readonly ScriptService _scriptService;
         private readonly MappingService _mappingService;
         private readonly MessageService _messageService;
@@ -28,6 +29,7 @@ namespace TelegramBOT.Application.Results
 
         public ResultsService(
             IResultsRepository resultRepository,
+            IMatchStatsServiceRepository matchStatsRepository,
             ScriptService scriptService,
             MappingService mappingService,
             MessageService messageService,
@@ -35,6 +37,7 @@ namespace TelegramBOT.Application.Results
             IConfiguration config)   // <-- добавили
         {
             _resultRepository = resultRepository;
+            _matchStatsRepository = matchStatsRepository;
             _scriptService = scriptService;
             _mappingService = mappingService;
             _messageService = messageService;
@@ -80,7 +83,9 @@ namespace TelegramBOT.Application.Results
 
             // === HTML Генерация ===
             var builder = new MatchdayResultsPosterHtmlBuilder(_config);
-            string html = builder.Build(matches, date);
+            var goalsByMatch = await _matchStatsRepository.GetGoalsByPeriodsForMatchesAsync(matches.Select(m => m.MatchId));
+
+            string html = builder.Build(matches, date, goalsByMatch);
 
             // === Рендер ===
             var renderer = new HtmlToImageRenderer();

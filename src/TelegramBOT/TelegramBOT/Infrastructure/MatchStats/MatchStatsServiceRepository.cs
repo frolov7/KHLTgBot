@@ -104,5 +104,97 @@ namespace TelegramBOT.Infrastructure.MatchStats
                 .ThenBy(e => e.Time)
                 .ToList();
         }
+
+        // ==========================================================
+        // ============      СТАТИСТИКА ПО ПЕРИОДАМ        ===========
+        // ==========================================================
+
+        /// <summary>
+        /// Возвращает количество заброшенных шайб по периодам
+        /// для каждой команды в указанном матче.
+        /// 
+        /// Используются только события типа "GOAL".
+        /// </summary>
+        /// <param name="matchId">Идентификатор матча.</param>
+        /// <returns>
+        /// Список, содержащий количество голов команды в каждом периоде.
+        /// </returns>
+        public async Task<List<PeriodGoals>> GetGoalsByPeriodsAsync(string matchId)
+        {
+            return await _db.MatchEvents
+                .Where(e =>
+                    e.MatchId == matchId &&
+                    e.EventType.Name == "GOAL" &&
+                    e.Period != null &&
+                    (e.Period == "1st period" ||
+                     e.Period == "2nd period" ||
+                     e.Period == "3rd period"))
+                .GroupBy(e => new { e.Period, e.TeamId })
+                .Select(g => new PeriodGoals
+                {
+                    Period = g.Key.Period!,
+                    TeamId = g.Key.TeamId!.Value,
+                    Goals = g.Count()
+                })
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Возвращает количество заброшенных шайб по периодам
+        /// для каждой команды сразу по нескольким матчам.
+        /// 
+        /// Ключ словаря — MatchId.
+        /// Используются только события типа "GOAL".
+        /// </summary>
+        /// <param name="matchIds">Список идентификаторов матчей.</param>
+        /// <returns>
+        /// Словарь:
+        ///   MatchId -> список PeriodGoals (период, команда, количество голов)
+        /// </returns>
+        public async Task<Dictionary<string, List<PeriodGoals>>> GetGoalsByPeriodsForMatchesAsync(IEnumerable<string> matchIds)
+        {
+            var ids = matchIds
+                .Where(id => !string.IsNullOrWhiteSpace(id))
+                .Distinct()
+                .ToList();
+
+            if (!ids.Any())
+                return new Dictionary<string, List<PeriodGoals>>();
+
+            var goals = await _db.MatchEvents
+                .Where(e =>
+                    ids.Contains(e.MatchId) &&
+                    e.EventType.Name == "GOAL" &&
+                    e.Period != null &&
+                    (e.Period == "1st period" ||
+                     e.Period == "2nd period" ||
+                     e.Period == "3rd period"))
+                .GroupBy(e => new
+                {
+                    e.MatchId,
+                    e.Period,
+                    e.TeamId
+                })
+                .Select(g => new
+                {
+                    g.Key.MatchId,
+                    PeriodGoal = new PeriodGoals
+                    {
+                        Period = g.Key.Period!,
+                        TeamId = g.Key.TeamId!.Value,
+                        Goals = g.Count()
+                    }
+                })
+                .AsNoTracking()
+                .ToListAsync();
+
+            return goals
+                .GroupBy(x => x.MatchId)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(x => x.PeriodGoal).ToList()
+                );
+        }
     }
 }

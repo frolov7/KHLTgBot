@@ -2647,13 +2647,13 @@
   },
   "IsbVCJbm": {
     "id": "IsbVCJbm",
-    "home": "Nizhny Novgorod",
-    "away": "SKA St. Petersburg",
+    "home": "Novosibirsk",
+    "away": "Vladivostok",
     "events": [
       {
         "period": "1st period",
         "time": "09:16",
-        "team": "SKA St. Petersburg",
+        "team": "Vladivostok",
         "eventType": "Penalty",
         "player": "Geraskin I.",
         "reason": "Tripping",
@@ -2662,7 +2662,7 @@
       {
         "period": "1st period",
         "time": "14:59",
-        "team": "Nizhny Novgorod",
+        "team": "Novosibirsk",
         "eventType": "Penalty",
         "player": "Yakovlev A.",
         "reason": "Holding",
@@ -2671,7 +2671,7 @@
       {
         "period": "2nd period",
         "time": "05:25",
-        "team": "SKA St. Petersburg",
+        "team": "Vladivostok",
         "eventType": "Penalty",
         "player": "Sulak L.",
         "reason": "Delay of game",
@@ -2680,7 +2680,7 @@
       {
         "period": "2nd period",
         "time": "14:56",
-        "team": "SKA St. Petersburg",
+        "team": "Vladivostok",
         "eventType": "Goal",
         "scorer": "Shen P.",
         "assistants": [
@@ -2693,7 +2693,7 @@
       {
         "period": "3rd period",
         "time": "03:44",
-        "team": "SKA St. Petersburg",
+        "team": "Vladivostok",
         "eventType": "Penalty",
         "player": "Deryabin D.",
         "reason": "Cross-checking",
@@ -2702,7 +2702,7 @@
       {
         "period": "3rd period",
         "time": "06:35",
-        "team": "Nizhny Novgorod",
+        "team": "Novosibirsk",
         "eventType": "Goal",
         "scorer": "Yakovlev A.",
         "assistants": [
@@ -2714,39 +2714,15 @@
       {
         "period": "SO",
         "time": "1",
-        "team": "Nizhny Novgorod",
+        "team": "Novosibirsk",
         "eventType": "Goal",
         "scorer": "Soshnikov N.",
         "goalType": "Penalty"
       },
       {
         "period": "SO",
-        "time": "1",
-        "team": "SKA St. Petersburg",
-        "eventType": "Shootout missed",
-        "details": "Penalty missed",
-        "player": "Zavgorodny D."
-      },
-      {
-        "period": "SO",
-        "time": "2",
-        "team": "Nizhny Novgorod",
-        "eventType": "Shootout missed",
-        "details": "Penalty missed",
-        "player": "Wilson S."
-      },
-      {
-        "period": "SO",
-        "time": "2",
-        "team": "SKA St. Petersburg",
-        "eventType": "Shootout missed",
-        "details": "Penalty missed",
-        "player": "Geraskin I."
-      },
-      {
-        "period": "SO",
         "time": "3",
-        "team": "Nizhny Novgorod",
+        "team": "Novosibirsk",
         "eventType": "Goal",
         "scorer": "Tkachyov V.",
         "goalType": "Penalty"
@@ -56620,6 +56596,176 @@
         "player": "Iskhakov R.",
         "reason": "Tripping",
         "duration": "2"
+      }
+    ]
+  },
+  "veZuyinT": {
+    "id": "veZuyinT",
+    "home": "Nizhny Novgorod",
+    "away": "Salavat Ufa",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "15:22",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Firstov V.",
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "17:27",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Firstov V.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "17:27",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Kuzmin G.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "00:36",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Kruchinin A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "06:25",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Atanasov V.",
+        "assistants": [
+          "Kruchinin A.",
+          "Goncharuk S."
+        ],
+        "score": "2 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "09:09",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Fedotov I.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "10:13",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Nardella B.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:31",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Gazimov I.",
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:08",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Kuznetsov M.",
+        "assistants": [
+          "Chmelevski A.",
+          "Stewart D."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:54",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Atanasov V.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:54",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Tsulygin Y.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:54",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Goncharuk S.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:50",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Tsulygin Y.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:27",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Alalykin D.",
+        "assistants": [
+          "Zorkin N.",
+          "Kuznetsov M."
+        ],
+        "score": "2 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "08:57",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Kruchinin A.",
+        "assistants": [
+          "Atanasov V.",
+          "Goncharuk S."
+        ],
+        "score": "3 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "11:33",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Shavin N.",
+        "assistants": [
+          "Vinogradov Y."
+        ],
+        "score": "4 - 3",
+        "goalType": "Even strength"
       }
     ]
   }
