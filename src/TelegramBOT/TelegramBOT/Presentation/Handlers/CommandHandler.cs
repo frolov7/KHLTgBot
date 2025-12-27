@@ -404,6 +404,11 @@ namespace TelegramBOT.Presentation.Handlers
                     await _standingsHandler.ShowConferenceSelection(chatId);
                     return true;
 
+                case "📊 Рейтинг прогнозов":
+                    Log.Information("[HandleTablesCommands] Обработчик: ShowPredictionsRating");
+                    await _standingsHandler.ShowPredictionsRating(chatId);
+                    return true;
+
                 case "⬅️ Назад (Главное меню)":
                     Log.Information("[HandleTablesCommands] Обработчик: ShowMainMenu");
                     await _navigationHandler.ShowMainMenu(chatId);

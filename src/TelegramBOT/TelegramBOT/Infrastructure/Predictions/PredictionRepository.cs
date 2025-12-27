@@ -51,5 +51,16 @@ namespace TelegramBOT.Infrastructure.Predictions
                 .Where(p => p.MatchId == matchId)
                 .ToListAsync();
         }
+
+        /// <summary>
+        /// Возвращает все прогнозы с привязанными матчами.
+        /// Используется для аналитики и расчёта статистики.
+        /// </summary>
+        public async Task<List<Prediction>> GetAllAsync()
+        {
+            return await _db.Predictions
+                .Include(p => p.Match)
+                .ToListAsync();
+        }
     }
 }
