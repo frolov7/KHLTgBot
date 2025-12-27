@@ -12,6 +12,7 @@ namespace TelegramBOT.Presentation.UI.Menus.Stats
             var keyboard = new[]
             {
                 new[] { new KeyboardButton("🏆 Турнирная таблица") },
+                new[] { new KeyboardButton("📊 Рейтинг прогнозов") },
                 new[] { new KeyboardButton("⬅️ Назад (Главное меню)") }
             };
 

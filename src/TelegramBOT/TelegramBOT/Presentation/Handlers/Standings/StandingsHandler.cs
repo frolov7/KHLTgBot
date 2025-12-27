@@ -16,17 +16,37 @@ namespace TelegramBOT.Presentation.Handlers
         private readonly MenuService _menuService;
         private readonly StandingsService _service;
         private readonly MessageService _messageService;
+        private readonly PredictionsRatingService _predictionsRatingService;
+
 
         public StandingsHandler(
             ITelegramBotClient bot,
             MenuService menuService,
             StandingsService service,
-            MessageService messageService)
+            MessageService messageService,
+            PredictionsRatingService predictionsRatingService)
         {
             _bot = bot;
             _menuService = menuService;
             _service = service;
             _messageService = messageService;
+            _predictionsRatingService = predictionsRatingService;
+        }
+
+        // ==========================================================
+        // ============   РЕЙТИНГ ПРОГНОЗОВ ПО ИСТОЧНИКАМ ============
+        // ==========================================================
+
+        /// <summary>
+        /// Отображает рейтинг точности прогнозов по источникам.
+        /// Используется для аналитической таблицы прогнозов (WIN / LOSE).
+        /// </summary>
+        /// <param name="chatId">ID чата Telegram, в который будет отправлён рейтинг.</param>
+        public async Task ShowPredictionsRating(long chatId)
+        {
+            Log.Information("[ShowPredictionsRating] Начало работы метода. chatId={ChatId}", chatId);
+            await _predictionsRatingService.SendPredictionsRatingAsync(chatId);
+            Log.Information("[ShowPredictionsRating] Запрос на отображение рейтинга отправлен. chatId={ChatId}", chatId);
         }
 
         // ==========================================================
@@ -100,6 +120,12 @@ namespace TelegramBOT.Presentation.Handlers
                 case "🔹 Восточная конференция":
                     Log.Information("[HandleConference] Пользователь выбрал восточную конференцию. chatId={ChatId}", chatId);
                     await ShowStandings(chatId, "east");
+                    return true;
+
+                // ---------- Рейтинг прогнозов ----------
+                case "📊 Рейтинг прогнозов":
+                    Log.Information("[HandleStandingsCommands] Пользователь выбрал рейтинг прогнозов. chatId={ChatId}", chatId);
+                    await ShowPredictionsRating(chatId);
                     return true;
 
                 // ---------- Навигация ----------

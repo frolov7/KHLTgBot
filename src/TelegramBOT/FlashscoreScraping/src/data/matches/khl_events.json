@@ -56768,5 +56768,5271 @@
         "goalType": "Even strength"
       }
     ]
+  },
+  "A31lcDmd": {
+    "id": "A31lcDmd",
+    "home": "Yekaterinburg",
+    "away": "Dinamo Minsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "06:04",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "player": "Ouellet X.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "09:05",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "player": "Shipachyov V.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "09:05",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Byvaltsev A.",
+        "reason": "Holding the stick",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "15:35",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Byvaltsev A.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "19:51",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Khripunov S.",
+        "assistants": [
+          "Shashkov N.",
+          "Romantsev D."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:58",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Valk C.",
+        "assistants": [
+          "Osipov M.",
+          "Macek B."
+        ],
+        "score": "2 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "13:21",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Moroz V.",
+        "assistants": [
+          "Stas A."
+        ],
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:01",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Tryamkin N.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "15:08",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Usov I.",
+        "assistants": [
+          "Hamilton R.",
+          "Borikov Y."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "SO",
+        "time": "1",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Pinchuk V.",
+        "goalType": "Penalty"
+      },
+      {
+        "period": "SO",
+        "time": "2",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Boucher R.",
+        "goalType": "Penalty"
+      },
+      {
+        "period": "SO",
+        "time": "5",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Golyshev A.",
+        "goalType": "Penalty"
+      }
+    ]
+  },
+  "n9ErsoDl": {
+    "id": "n9ErsoDl",
+    "home": "Cherepovets",
+    "away": "Salavat Ufa",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "02:03",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Zharovskiy A.",
+        "assistants": [
+          "Suchkov Y.",
+          "Gorshkov A."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "03:58",
+        "team": "Cherepovets",
+        "eventType": "Penalty",
+        "player": "Abrosimov R.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "06:29",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Kuznetsov M.",
+        "assistants": [
+          "Khokhryakov P."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "08:59",
+        "team": "Cherepovets",
+        "eventType": "Penalty",
+        "player": "Dumbadze D.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "11:05",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Suchkov Y.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "19:15",
+        "team": "Cherepovets",
+        "eventType": "Goal",
+        "scorer": "Veryayev D.",
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "02:02",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "04:36",
+        "team": "Cherepovets",
+        "eventType": "Penalty",
+        "player": "Grudinin V.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "06:05",
+        "team": "Cherepovets",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:22",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Khokhryakov P.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "15:05",
+        "team": "Cherepovets",
+        "eventType": "Penalty",
+        "player": "Skorenov A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "20:00",
+        "team": "Cherepovets",
+        "eventType": "Penalty",
+        "player": "Kamalov N.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      }
+    ]
+  },
+  "jwTCn7kR": {
+    "id": "jwTCn7kR",
+    "home": "Lokomotiv Yaroslavl",
+    "away": "CSKA Moscow",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "15:15",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Goal",
+        "scorer": "Shalunov M.",
+        "assistants": [
+          "Kayumov A.",
+          "Ulyev M."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "06:32",
+        "team": "CSKA Moscow",
+        "eventType": "Goal",
+        "scorer": "Poltapov P.",
+        "assistants": [
+          "Abramov V.",
+          "Sorkin M."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:39",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Samorukov D.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "02:15",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Rafikov R.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "02:19",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Gurianov D.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "03:47",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Misyul D.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "04:44",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Gernat M.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:58",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Zernov D.",
+        "reason": "Illegal check to the head",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:07",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Rafikov R.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "SO",
+        "time": "1",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Goal",
+        "scorer": "Radulov A.",
+        "goalType": "Penalty"
+      },
+      {
+        "period": "SO",
+        "time": "1",
+        "team": "CSKA Moscow",
+        "eventType": "Goal",
+        "scorer": "Kovalenko N.",
+        "goalType": "Penalty"
+      },
+      {
+        "period": "SO",
+        "time": "2",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Goal",
+        "scorer": "Kayumov A.",
+        "goalType": "Penalty"
+      }
+    ]
+  },
+  "ATK4lTKE": {
+    "id": "ATK4lTKE",
+    "home": "Niznekamsk",
+    "away": "Avangard Omsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "03:20",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Blazhiyevsky A.",
+        "assistants": [
+          "Volkov A.",
+          "Okulov K."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "05:53",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Khoruzhev N.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "08:01",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Prokhorkin N.",
+        "assistants": [
+          "Volkov A.",
+          "Blazhiyevsky A."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "17:15",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Okulov K.",
+        "score": "0 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:57",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Prokhorkin N.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "11:51",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Shafigullin B.",
+        "reason": "Unsportsmanlike conduct",
+        "duration": "10"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:07",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Martynov I.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "17:08",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:30",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Khairulin T.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "17:45",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Dergachyov A.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:19",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Yakupov N.",
+        "reason": "Holding",
+        "duration": "2"
+      }
+    ]
+  },
+  "2wbtaZIq": {
+    "id": "2wbtaZIq",
+    "home": "Dynamo Moscow",
+    "away": "Barys Astana",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "11:00",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Weal J.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "18:07",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "McCoshen I.",
+        "reason": "Holding the stick",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "02:18",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Savitsky K.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "06:28",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Thompson T.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:58",
+        "team": "Dynamo Moscow",
+        "eventType": "Goal",
+        "scorer": "Comtois M.",
+        "assistants": [
+          "Pylenkov D.",
+          "Gusev N."
+        ],
+        "score": "1 - 0",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "10:29",
+        "team": "Barys Astana",
+        "eventType": "Goal",
+        "scorer": "Shaikhmeddenov A.",
+        "assistants": [
+          "Kaiyrzhan D.",
+          "Savitsky K."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "00:48",
+        "team": "Barys Astana",
+        "eventType": "Goal",
+        "scorer": "Simonov S.",
+        "assistants": [
+          "Logvin V."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "02:22",
+        "team": "Barys Astana",
+        "eventType": "Goal",
+        "scorer": "McCoshen I.",
+        "assistants": [
+          "Morelli M.",
+          "Vecchione M."
+        ],
+        "score": "1 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "11:01",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Comtois M.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:54",
+        "team": "Barys Astana",
+        "eventType": "Goal",
+        "scorer": "Kaiyrzhan D.",
+        "assistants": [
+          "Omirbekov A.",
+          "Savitsky K."
+        ],
+        "score": "1 - 4",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "13:58",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Vecchione M.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "15:23",
+        "team": "Dynamo Moscow",
+        "eventType": "Goal",
+        "scorer": "Gusev N.",
+        "assistants": [
+          "Pylenkov D."
+        ],
+        "score": "2 - 4",
+        "goalType": "Power-play"
+      }
+    ]
+  },
+  "KtoH4uBC": {
+    "id": "KtoH4uBC",
+    "home": "SKA St. Petersburg",
+    "away": "Bars Kazan",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "08:28",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "15:50",
+        "team": "Bars Kazan",
+        "eventType": "Goal",
+        "scorer": "Chmelevski A.",
+        "assistants": [
+          "Lyamkin N.",
+          "Terekhov S."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "19:43",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "03:32",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Denisenko G.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "03:39",
+        "team": "SKA St. Petersburg",
+        "eventType": "Goal",
+        "scorer": "Khairullin M.",
+        "assistants": [
+          "Zykov V.",
+          "Goldobin N."
+        ],
+        "score": "1 - 1",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "04:11",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Khairullin M.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:05",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Pedan A.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:33",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Vorobyov M.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:33",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Jaskin D.",
+        "reason": "Spearing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:33",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Jaskin D.",
+        "reason": "Spearing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "01:49",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Chmelevski A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "04:11",
+        "team": "SKA St. Petersburg",
+        "eventType": "Goal",
+        "scorer": "Polyakov M.",
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:34",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Kniazev A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:08",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Kniazev A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:27",
+        "team": "SKA St. Petersburg",
+        "eventType": "Goal",
+        "scorer": "Plotnikov S.",
+        "assistants": [
+          "Savikov Y.",
+          "Khairullin M."
+        ],
+        "score": "3 - 1",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "17:10",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Leipsic B.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "17:45",
+        "team": "Bars Kazan",
+        "eventType": "Goal",
+        "scorer": "Miller M.",
+        "assistants": [
+          "Lyamkin N.",
+          "Semyonov K."
+        ],
+        "score": "3 - 2",
+        "goalType": "Power-play"
+      }
+    ]
+  },
+  "j1Baw3CD": {
+    "id": "j1Baw3CD",
+    "home": "Novosibirsk",
+    "away": "Vladivostok",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "00:21",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Beck T.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "03:15",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Kosolapov A.",
+        "assistants": [
+          "Koshelev S.",
+          "Nekolenko A."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "08:53",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Gutik D.",
+        "assistants": [
+          "Tertyshny N.",
+          "Ruchkin S."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "13:19",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Zavgorodny D.",
+        "assistants": [
+          "Koledov P.",
+          "Solyannikov G."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "19:29",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Churkin A.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "02:15",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Beck T.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "03:56",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Starkov S.",
+        "assistants": [
+          "Shen P.",
+          "Solyannikov G."
+        ],
+        "score": "1 - 3",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "04:55",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Beck T.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "11:13",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Orlov M.",
+        "assistants": [
+          "Wilson S."
+        ],
+        "score": "2 - 3",
+        "goalType": "Even strength"
+      }
+    ]
+  },
+  "Wdln164K": {
+    "id": "Wdln164K",
+    "home": "Tractor Chelyabinsk",
+    "away": "Magnitogorsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "05:19",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Khabarov M.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "06:14",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Palivko D.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "07:26",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Der-Arguchintsev S.",
+        "assistants": [
+          "Glotov V.",
+          "Svetlakov A."
+        ],
+        "score": "1 - 0",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "1st period",
+        "time": "17:22",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Barach D.",
+        "assistants": [
+          "Tolchinsky S.",
+          "Khabarov M."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:11",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Yakovlev Y.",
+        "assistants": [
+          "Tolchinsky S.",
+          "Tkachev V."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "03:15",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Nikonov A.",
+        "assistants": [
+          "Gross J.",
+          "Zharkov V."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:56",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Tolchinsky S.",
+        "assistants": [
+          "Khabarov M."
+        ],
+        "score": "2 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "08:11",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Pribylsky A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "08:37",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Svetlakov A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "09:12",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Silantyev D.",
+        "assistants": [
+          "Barach D.",
+          "Tkachev V."
+        ],
+        "score": "2 - 4",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:08",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Orekhov V.",
+        "assistants": [
+          "Tolchinsky S.",
+          "Vovchenko D."
+        ],
+        "score": "2 - 5",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "04:19",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "08:15",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Grigorenko M.",
+        "assistants": [
+          "Korshkov Y.",
+          "Sherstnev S."
+        ],
+        "score": "3 - 5",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "11:36",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Svetlakov A.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:16",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Silantyev D.",
+        "assistants": [
+          "Yakovlev Y.",
+          "Barach D."
+        ],
+        "score": "3 - 6",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "16:09",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Kravtsov V.",
+        "assistants": [
+          "Glotov V.",
+          "Koromyslov A."
+        ],
+        "score": "4 - 6",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:44",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Kantserov R.",
+        "assistants": [
+          "Barach D.",
+          "Khabarov M."
+        ],
+        "score": "4 - 7",
+        "goalType": "Empty net"
+      }
+    ]
+  },
+  "javyLGu3": {
+    "id": "javyLGu3",
+    "home": "Shanghai",
+    "away": "Lada",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "14:08",
+        "team": "Lada",
+        "eventType": "Goal",
+        "scorer": "Romanov I.",
+        "assistants": [
+          "Kugryshev D.",
+          "Chivilyov A."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "15:42",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Lukin A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "00:40",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Mikhailov N.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "00:57",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Obidin A.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "02:16",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Rendulic B.",
+        "assistants": [
+          "Spooner R.",
+          "Labanc K."
+        ],
+        "score": "1 - 1",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "03:54",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Shuai Fu",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:35",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Bryntsev A.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:13",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Merkley N.",
+        "assistants": [
+          "Reilly W.",
+          "Akolzin P."
+        ],
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:59",
+        "team": "Lada",
+        "eventType": "Goal",
+        "scorer": "Cotton A.",
+        "assistants": [
+          "Setdikov N.",
+          "Altybarmakyan A."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:04",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Kalynuk W.",
+        "reason": "High sticking",
+        "duration": "2+2"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:00",
+        "team": "Lada",
+        "eventType": "Goal",
+        "scorer": "Altybarmakyan A.",
+        "assistants": [
+          "Jurco T.",
+          "Antipin V."
+        ],
+        "score": "2 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "16:21",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Reilly W.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:59",
+        "team": "Lada",
+        "eventType": "Goal",
+        "scorer": "Sawchuk R.",
+        "assistants": [
+          "Chivilyov A."
+        ],
+        "score": "2 - 4",
+        "goalType": "Empty net"
+      }
+    ]
+  },
+  "tWZHepSs": {
+    "id": "tWZHepSs",
+    "home": "Salavat Ufa",
+    "away": "Bars Kazan",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "10:23",
+        "team": "Bars Kazan",
+        "eventType": "Goal",
+        "scorer": "Falkovsky S.",
+        "assistants": [
+          "Fisenko M."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "11:45",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Varlov S.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:07",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Fisenko M.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:07",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Zharovskiy A.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "03:45",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Dynyak N.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:59",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Rodewald J.",
+        "reason": "Roughing",
+        "duration": "2+2"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:59",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Fisenko M.",
+        "reason": "Roughing",
+        "duration": "2+2"
+      },
+      {
+        "period": "2nd period",
+        "time": "10:47",
+        "team": "Bars Kazan",
+        "eventType": "Goal disallowed",
+        "details": "10:47Goal Disallowed - coach's challenge(Karpukhin I.)",
+        "player": "Karpukhin I."
+      },
+      {
+        "period": "2nd period",
+        "time": "13:36",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Rodewald J.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:39",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Pustozyorov A.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:22",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Karpukhin I.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "01:39",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Suchkov Y.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "02:09",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Panin G.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "02:09",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Safonov I.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "03:59",
+        "team": "Bars Kazan",
+        "eventType": "Penalty",
+        "player": "Marchenko A.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "15:05",
+        "team": "Bars Kazan",
+        "eventType": "Goal",
+        "scorer": "Barabanov A.",
+        "assistants": [
+          "Semyonov K.",
+          "Brovkin A."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:45",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Yefremov V.",
+        "assistants": [
+          "Kuznetsov M.",
+          "Pimenov A."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      }
+    ]
+  },
+  "ABRYi2R6": {
+    "id": "ABRYi2R6",
+    "home": "Lokomotiv Yaroslavl",
+    "away": "Avangard Omsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "13:40",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Blazhiyevsky A.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "19:22",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Kayumov A.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "02:00",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Blazhiyevsky A.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:52",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Poturalski A.",
+        "assistants": [
+          "Sharipzyanov D."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "11:50",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Rafikov R.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:21",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Sharipzyanov D.",
+        "assistants": [
+          "Lajoie M.",
+          "Okulov K."
+        ],
+        "score": "0 - 2",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "18:58",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Radulov A.",
+        "reason": "Holding the stick",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:39",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "McLeod M.",
+        "assistants": [
+          "Poturalski A.",
+          "Lajoie M."
+        ],
+        "score": "0 - 3",
+        "goalType": "Power-play, Empty net"
+      }
+    ]
+  },
+  "xbTQgOdf": {
+    "id": "xbTQgOdf",
+    "home": "SKA St. Petersburg",
+    "away": "Spartak Moscow",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "01:40",
+        "team": "SKA St. Petersburg",
+        "eventType": "Goal",
+        "scorer": "Grimaldi R.",
+        "assistants": [
+          "Phillips M.",
+          "Blandisi J."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "08:28",
+        "team": "Spartak Moscow",
+        "eventType": "Penalty",
+        "player": "Vorobyov I.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:30",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Zykov V.",
+        "reason": "Slashing",
+        "duration": "5"
+      },
+      {
+        "period": "2nd period",
+        "time": "13:03",
+        "team": "Spartak Moscow",
+        "eventType": "Goal",
+        "scorer": "Maltsev M.",
+        "assistants": [
+          "Todd N.",
+          "Keane J."
+        ],
+        "score": "1 - 1",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "20:00",
+        "team": "Spartak Moscow",
+        "eventType": "Penalty",
+        "player": "Mironov A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "20:00",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Blandisi J.",
+        "reason": "Diving",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "15:43",
+        "team": "Spartak Moscow",
+        "eventType": "Goal",
+        "scorer": "Vorobyov I.",
+        "assistants": [
+          "Lockhart L."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "15:43",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "reason": "Delay of game",
+        "duration": "2"
+      }
+    ]
+  },
+  "WGCTDqlQ": {
+    "id": "WGCTDqlQ",
+    "home": "Novosibirsk",
+    "away": "Khabarovsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "18:35",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Leshchenko V.",
+        "assistants": [
+          "Priskie C.",
+          "Sushko M."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:39",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Korotkikh I.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "08:17",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Alanov Y.",
+        "assistants": [
+          "Kosolapov A.",
+          "Beck T."
+        ],
+        "score": "2 - 0",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "09:17",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Galchenyuk A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "10:34",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Kosolapov A.",
+        "assistants": [
+          "Priskie C.",
+          "Beck T."
+        ],
+        "score": "3 - 0",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:57",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Likhachyov Y.",
+        "assistants": [
+          "Li O.",
+          "Rykov Y."
+        ],
+        "score": "3 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "06:09",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Galchenyuk A.",
+        "assistants": [
+          "Talaluyev I."
+        ],
+        "score": "3 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:43",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Kosolapov A.",
+        "assistants": [
+          "Koshelev S.",
+          "Valitov D."
+        ],
+        "score": "4 - 2",
+        "goalType": "Empty net"
+      }
+    ]
+  },
+  "xGxqJfAF": {
+    "id": "xGxqJfAF",
+    "home": "Barys Astana",
+    "away": "Sochi",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "03:16",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Vengryzhanovsky D.",
+        "assistants": [
+          "Hoefenmayer N.",
+          "Popov S."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "04:51",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Seroukh D.",
+        "assistants": [
+          "Hoefenmayer N.",
+          "Nikolayev I."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "05:16",
+        "team": "Barys Astana",
+        "eventType": "Goal",
+        "scorer": "Simonov S.",
+        "assistants": [
+          "Logvin V.",
+          "Walsh R."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "06:53",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Ellis M.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "10:24",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Volkov A.",
+        "assistants": [
+          "Ellis M.",
+          "Kagarlitsky D."
+        ],
+        "score": "1 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "16:32",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Kagarlitsky D.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "17:00",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Vecchione M.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "00:04",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Morelli M.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "06:20",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Bikmullin R.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "11:21",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Seroukh D.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:06",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Lee C.",
+        "assistants": [
+          "Guskov M.",
+          "Ellis M."
+        ],
+        "score": "1 - 4",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "01:53",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Bitten W.",
+        "reason": "Boarding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:18",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Lee C.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "18:41",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Vengryzhanovsky D.",
+        "assistants": [
+          "Lee C.",
+          "Popov S."
+        ],
+        "score": "1 - 5",
+        "goalType": "Even strength"
+      }
+    ]
+  },
+  "6wLsjtdJ": {
+    "id": "6wLsjtdJ",
+    "home": "Yekaterinburg",
+    "away": "Vladivostok",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "12:41",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Geraskin I.",
+        "assistants": [
+          "Shestakov A.",
+          "Soshnikov N."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "12:41",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "13:30",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Olson K.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "14:49",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Deryabin D.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "15:12",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Macek B.",
+        "assistants": [
+          "Da Costa S.",
+          "Boucher R."
+        ],
+        "score": "1 - 1",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "1st period",
+        "time": "17:04",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Shen P.",
+        "assistants": [
+          "Koledov P."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:34",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Da Costa S.",
+        "assistants": [
+          "Sharov A.",
+          "Blacker J."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:34",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "10:59",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Timashov D.",
+        "reason": "Head-butting",
+        "duration": "5"
+      },
+      {
+        "period": "2nd period",
+        "time": "11:47",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Boucher R.",
+        "assistants": [
+          "Yudin D.",
+          "Da Costa S."
+        ],
+        "score": "3 - 2",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "06:13",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Zborovsky S.",
+        "reason": "Tripping",
+        "duration": "2"
+      }
+    ]
+  },
+  "Gll08NBm": {
+    "id": "Gll08NBm",
+    "home": "CSKA Moscow",
+    "away": "Dynamo Moscow",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "02:53",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Patrikhayev I.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "03:54",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Weal J.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "06:59",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Weal J.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "20:00",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Slepyshev A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "03:00",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Kalinin S.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "SO",
+        "time": "3",
+        "team": "Dynamo Moscow",
+        "eventType": "Goal",
+        "scorer": "Ilyenko A.",
+        "goalType": "Penalty"
+      }
+    ]
+  },
+  "WGfH0nfl": {
+    "id": "WGfH0nfl",
+    "home": "Dinamo Minsk",
+    "away": "Lada",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "09:39",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Usov I.",
+        "assistants": [
+          "Salygo N.",
+          "Pyshkaylo N."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "11:56",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "16:10",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Cotton A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "03:37",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Lipsky D.",
+        "assistants": [
+          "Dietz D.",
+          "Hamilton R."
+        ],
+        "score": "2 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:32",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Hamilton R.",
+        "assistants": [
+          "Anas S.",
+          "Limoges A."
+        ],
+        "score": "3 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:43",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "player": "Hamilton R.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:43",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Sawchuk R.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "10:03",
+        "team": "Lada",
+        "eventType": "Goal",
+        "scorer": "Mikhailov N.",
+        "assistants": [
+          "Makarov N."
+        ],
+        "score": "3 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:15",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Anas S.",
+        "assistants": [
+          "Limoges A.",
+          "Pinchuk V."
+        ],
+        "score": "4 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "17:22",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Mikhailov N.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:30",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Kuznetsov S.",
+        "assistants": [
+          "Limoges A.",
+          "Anas S."
+        ],
+        "score": "5 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "00:19",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Pinchuk V.",
+        "assistants": [
+          "Smith T.",
+          "Ouellet X."
+        ],
+        "score": "6 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "00:19",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "05:15",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Chivilyov A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:23",
+        "team": "Lada",
+        "eventType": "Goal",
+        "scorer": "Chivilyov A.",
+        "score": "6 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:31",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Obidin A.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:57",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "player": "Kuznetsov S.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:38",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Kugryshev D.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:14",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Pinchuk V.",
+        "assistants": [
+          "Smith T.",
+          "Limoges A."
+        ],
+        "score": "7 - 2",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:44",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Williams C.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:44",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Kugryshev D.",
+        "reason": "Unsportsmanlike conduct",
+        "duration": "2"
+      }
+    ]
+  },
+  "OEi861t0": {
+    "id": "OEi861t0",
+    "home": "Magnitogorsk",
+    "away": "Niznekamsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "02:03",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Seleznyov G.",
+        "assistants": [
+          "Popugayev N.",
+          "Nikolishin I."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "11:43",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Minulin A.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "16:08",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Khabarov M.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "16:34",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Fedotov M.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "00:30",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Silantyev D.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "00:30",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Profaca L.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "03:28",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Minulin A.",
+        "reason": "Holding the stick",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "04:39",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Korobkin Y.",
+        "assistants": [
+          "Khabarov M.",
+          "Korotkov N."
+        ],
+        "score": "1 - 1",
+        "goalType": "Shorthanded"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:17",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Tkachev V.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:54",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Korotkov N.",
+        "assistants": [
+          "Johnson L.",
+          "Korobkin Y."
+        ],
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "02:00",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Profaca L.",
+        "assistants": [
+          "Nikolishin I.",
+          "Popugayev N."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "02:35",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Tochilkin G.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "04:40",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Fedotov M.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:30",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Duszak J.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "08:36",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Kantserov R.",
+        "assistants": [
+          "Press R."
+        ],
+        "score": "3 - 2",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:36",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Khairulin T.",
+        "assistants": [
+          "Fedotov M.",
+          "Barulin V."
+        ],
+        "score": "3 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:49",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Fyodorov M.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "16:55",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Dolganov F.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:23",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Duszak J.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "20:00",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Silantyev D.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "20:00",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Profaca L.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "SO",
+        "time": "1",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Tolchinsky S.",
+        "goalType": "Penalty"
+      },
+      {
+        "period": "SO",
+        "time": "2",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Artamonov N.",
+        "goalType": "Penalty"
+      },
+      {
+        "period": "SO",
+        "time": "2",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Iskhakov R.",
+        "goalType": "Penalty"
+      }
+    ]
+  },
+  "4UhPbQO0": {
+    "id": "4UhPbQO0",
+    "home": "Shanghai",
+    "away": "Spartak Moscow",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "04:11",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Labanc K.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "07:31",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Popugayev N. A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "11:23",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Popugayev N. A.",
+        "assistants": [
+          "Rendulic B.",
+          "Josephs T."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:18",
+        "team": "Spartak Moscow",
+        "eventType": "Goal",
+        "scorer": "Ruzicka A.",
+        "assistants": [
+          "Jaros C.",
+          "Vorobyov I."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "09:57",
+        "team": "Spartak Moscow",
+        "eventType": "Goal",
+        "scorer": "Ryabov I.",
+        "assistants": [
+          "Mansurov D."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:17",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Merkley N.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:12",
+        "team": "Spartak Moscow",
+        "eventType": "Goal",
+        "scorer": "Keane J.",
+        "assistants": [
+          "Todd N.",
+          "Ruzicka A."
+        ],
+        "score": "1 - 3",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:12",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "05:17",
+        "team": "Spartak Moscow",
+        "eventType": "Penalty",
+        "player": "Korolyov V.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "06:26",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Labanc K.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "06:26",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Clendening A.",
+        "reason": "Roughing",
+        "duration": "10"
+      },
+      {
+        "period": "3rd period",
+        "time": "11:47",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Labanc K.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:36",
+        "team": "Spartak Moscow",
+        "eventType": "Penalty",
+        "player": "Pashin A.",
+        "reason": "Roughing",
+        "duration": "2"
+      }
+    ]
+  },
+  "jatX49Mh": {
+    "id": "jatX49Mh",
+    "home": "Novosibirsk",
+    "away": "Yekaterinburg",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "08:20",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Boucher R.",
+        "assistants": [
+          "Da Costa S.",
+          "Tryamkin N."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "12:07",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Golyshev A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "15:06",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Pautov Y.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "00:36",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Boucher R.",
+        "assistants": [
+          "Sharov A."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "04:09",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Pautov Y.",
+        "assistants": [
+          "Shashkov N."
+        ],
+        "score": "0 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:16",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Klimovich I.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:43",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Da Costa S.",
+        "assistants": [
+          "Boucher R.",
+          "Macek B."
+        ],
+        "score": "0 - 4",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:30",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Churkin A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "17:36",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Busygin Y.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "06:27",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Shashkov N.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:38",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Beck T.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:17",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Tryamkin N.",
+        "assistants": [
+          "Da Costa S.",
+          "Boucher R."
+        ],
+        "score": "0 - 5",
+        "goalType": "Power-play"
+      }
+    ]
+  },
+  "KvYm1RLH": {
+    "id": "KvYm1RLH",
+    "home": "Salavat Ufa",
+    "away": "Khabarovsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "04:11",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Zharovskiy A.",
+        "assistants": [
+          "Suchkov Y.",
+          "Gorshkov A."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "10:34",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Kuznetsov M.",
+        "assistants": [
+          "Gorshkov A."
+        ],
+        "score": "2 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "10:51",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Korotkikh I.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "13:36",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Kuznetsov M.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:28",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "08:05",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Talaluyev I.",
+        "reason": "Slashing",
+        "duration": "5"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:27",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Slepets K.",
+        "assistants": [
+          "Baldayev V.",
+          "Voronkov Y."
+        ],
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:58",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Likhachyov Y.",
+        "assistants": [
+          "Svechnikov Y.",
+          "Korotkikh I."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "08:43",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Svechnikov Y.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:49",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Varlov S.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "13:19",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Korotkikh I.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:08",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Kuznetsov M.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:41",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Likhachyov Y.",
+        "assistants": [
+          "Galchenyuk A.",
+          "Mishchenko I."
+        ],
+        "score": "2 - 3",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:50",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Galchenyuk A.",
+        "assistants": [
+          "Petkov K."
+        ],
+        "score": "2 - 4",
+        "goalType": "Empty net"
+      }
+    ]
+  },
+  "QZwKK7oK": {
+    "id": "QZwKK7oK",
+    "home": "Barys Astana",
+    "away": "Tractor Chelyabinsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "00:32",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Glotov V.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "03:45",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Panyukov K.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "05:22",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Willman M.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "07:46",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Goryunov-Rolgizer M.",
+        "assistants": [
+          "Zharkov V."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "11:53",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Kaiyrzhan D.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "14:37",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "McCoshen I.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "19:05",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Day L.",
+        "assistants": [
+          "Svetlakov A.",
+          "Dzhioshvili M."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:51",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Glotov V.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "05:26",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Koromyslov A.",
+        "reason": "Boarding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:33",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Shaikhmeddenov A.",
+        "reason": "Throwing the stick",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "20:00",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Dronov G.",
+        "reason": "Unsportsmanlike conduct",
+        "duration": "10"
+      }
+    ]
+  },
+  "hfqP2JuP": {
+    "id": "hfqP2JuP",
+    "home": "Cherepovets",
+    "away": "CSKA Moscow",
+    "events": [
+      {
+        "period": "2nd period",
+        "time": "07:01",
+        "team": "Cherepovets",
+        "eventType": "Penalty",
+        "player": "Ivantsov I.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:11",
+        "team": "Cherepovets",
+        "eventType": "Penalty",
+        "player": "Kamalov N.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:47",
+        "team": "Cherepovets",
+        "eventType": "Goal disallowed",
+        "details": "19:47Goal Disallowed - coach's challenge(Kaldis Y.)",
+        "player": "Kaldis Y."
+      },
+      {
+        "period": "3rd period",
+        "time": "05:01",
+        "team": "Cherepovets",
+        "eventType": "Goal",
+        "scorer": "Aimurzin D.",
+        "assistants": [
+          "Ilyin M.",
+          "Kamalov N."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:36",
+        "team": "CSKA Moscow",
+        "eventType": "Goal",
+        "scorer": "Abramov V.",
+        "assistants": [
+          "Sorkin M.",
+          "Poltapov P."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:27",
+        "team": "Cherepovets",
+        "eventType": "Goal",
+        "scorer": "Skorenov A.",
+        "assistants": [
+          "Aimurzin D.",
+          "Ilyin M."
+        ],
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:17",
+        "team": "Cherepovets",
+        "eventType": "Goal",
+        "scorer": "Liska A.",
+        "score": "3 - 1",
+        "goalType": "Empty net"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:50",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Drozdov I.",
+        "reason": "Hooking",
+        "duration": "2"
+      }
+    ]
+  },
+  "CEUu3mi5": {
+    "id": "CEUu3mi5",
+    "home": "Lokomotiv Yaroslavl",
+    "away": "Vladivostok",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "07:52",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Goal",
+        "scorer": "Radulov A.",
+        "assistants": [
+          "Nikulin S.",
+          "Ivanov G."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "11:16",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Kiryanov N.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "00:31",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Soshnikov N.",
+        "assistants": [
+          "Geraskin I.",
+          "Shestakov A."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "11:38",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Shestakov A.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:52",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Gernat M.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "17:40",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Soshnikov N.",
+        "assistants": [
+          "Sulak L.",
+          "Zavgorodny D."
+        ],
+        "score": "1 - 2",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:00",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Goal",
+        "scorer": "Alexeyev D.",
+        "assistants": [
+          "Polunin A."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "08:42",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Grman M.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:22",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Goal",
+        "scorer": "Cherepanov N.",
+        "assistants": [
+          "Kayumov A.",
+          "Shalunov M."
+        ],
+        "score": "3 - 2",
+        "goalType": "Even strength"
+      }
+    ]
+  },
+  "rZxP6Vit": {
+    "id": "rZxP6Vit",
+    "home": "Nizhny Novgorod",
+    "away": "Sochi",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "01:45",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Polyakov N.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "04:37",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Atanasov V.",
+        "assistants": [
+          "Tkachyov V."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "10:00",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Bikmullin R.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "11:43",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Tkachyov V.",
+        "assistants": [
+          "Firstov V.",
+          "Vinogradov Y."
+        ],
+        "score": "2 - 0",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "1st period",
+        "time": "12:56",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Yaremchuk A.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "15:15",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Naumenkov M.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:39",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Belevich A.",
+        "reason": "High sticking",
+        "duration": "2+2"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:46",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Khafizov T.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:46",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Belevich A.",
+        "reason": "Diving",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:44",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Bitten W.",
+        "assistants": [
+          "Hoefenmayer N.",
+          "Bikmullin R."
+        ],
+        "score": "2 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "00:25",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Vengryzhanovsky D.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "06:22",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Goncharuk S.",
+        "reason": "Elbowing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:26",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Beaudin J.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:11",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Shevchenko D.",
+        "assistants": [
+          "Konyushkov B.",
+          "Sokolov Y."
+        ],
+        "score": "3 - 1",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:38",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Vinogradov Y.",
+        "assistants": [
+          "Atanasov V."
+        ],
+        "score": "4 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:52",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      }
+    ]
+  },
+  "0dnYd4gD": {
+    "id": "0dnYd4gD",
+    "home": "Dinamo Minsk",
+    "away": "Dynamo Moscow",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "01:39",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Usov I.",
+        "assistants": [
+          "Galiyev S.",
+          "Smith T."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "04:22",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Pinchuk V.",
+        "assistants": [
+          "Anas S.",
+          "Limoges A."
+        ],
+        "score": "2 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:46",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Anas S.",
+        "assistants": [
+          "Pinchuk V.",
+          "Borikov Y."
+        ],
+        "score": "3 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "06:06",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Borikov Y.",
+        "assistants": [
+          "Brook J.",
+          "Lipsky D."
+        ],
+        "score": "4 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:29",
+        "team": "Dynamo Moscow",
+        "eventType": "Goal",
+        "scorer": "Der-Arguchintsev S.",
+        "assistants": [
+          "Kalinichenko R.",
+          "Pylenkov D."
+        ],
+        "score": "4 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:13",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Lipsky D.",
+        "assistants": [
+          "Borikov Y."
+        ],
+        "score": "5 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:01",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "player": "Borikov Y.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "01:25",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "player": "Lipsky D.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "03:38",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Shipachyov V.",
+        "assistants": [
+          "Borikov Y."
+        ],
+        "score": "6 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "04:43",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "player": "Lyle B.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "10:01",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Weal J.",
+        "reason": "Slashing",
+        "duration": "5"
+      },
+      {
+        "period": "3rd period",
+        "time": "13:17",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "player": "Pinchuk V.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "16:40",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Kisakov A.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "17:49",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Limoges A.",
+        "assistants": [
+          "Kuznetsov S.",
+          "Smith T."
+        ],
+        "score": "7 - 1",
+        "goalType": "Power-play"
+      }
+    ]
+  },
+  "CCkMrJ5j": {
+    "id": "CCkMrJ5j",
+    "home": "Avangard Omsk",
+    "away": "Niznekamsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "12:15",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Mityakin Y.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:33",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Yakupov N.",
+        "assistants": [
+          "Blazhiyevsky A."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:46",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Belozyorov A.",
+        "assistants": [
+          "Zhafyarov D.",
+          "Profaca L."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:03",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Kostin K.",
+        "reason": "Throwing the stick",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:58",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Tochilkin G.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:04",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Tochilkin G.",
+        "assistants": [
+          "Seleznyov G."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "05:32",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Ponomaryov V.",
+        "assistants": [
+          "Voynov V.",
+          "Yakupov N."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "08:44",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Poturalski A.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:39",
+        "team": "Niznekamsk",
+        "eventType": "Goal disallowed",
+        "details": "14:39Goal Disallowed - video review(Seleznyov G.)",
+        "player": "Seleznyov G."
+      },
+      {
+        "period": "3rd period",
+        "time": "16:33",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Tochilkin G.",
+        "assistants": [
+          "Mityakin Y."
+        ],
+        "score": "2 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:07",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Prokhorkin N.",
+        "assistants": [
+          "Okulov K.",
+          "Poturalski A."
+        ],
+        "score": "3 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "OT",
+        "time": "03:39",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Ponomaryov V.",
+        "assistants": [
+          "Lajoie M.",
+          "Okulov K."
+        ],
+        "score": "4 - 3",
+        "goalType": "Even strength"
+      }
+    ]
+  },
+  "A7FjFo9s": {
+    "id": "A7FjFo9s",
+    "home": "Shanghai",
+    "away": "Spartak Moscow",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "06:11",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Harpur B.",
+        "assistants": [
+          "Josephs T.",
+          "Wagner A."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "09:24",
+        "team": "Spartak Moscow",
+        "eventType": "Goal",
+        "scorer": "Pashin A.",
+        "assistants": [
+          "Maltsev M."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "14:42",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Shuai Fu",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "15:46",
+        "team": "Spartak Moscow",
+        "eventType": "Goal",
+        "scorer": "Maltsev M.",
+        "score": "1 - 2",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "1st period",
+        "time": "19:46",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Merkley N.",
+        "reason": "Illegal check to the head",
+        "duration": "5"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:32",
+        "team": "Spartak Moscow",
+        "eventType": "Penalty",
+        "player": "Jaros C.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:34",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Sutter R.",
+        "assistants": [
+          "Popugayev N. A."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:12",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Josephs T.",
+        "assistants": [
+          "Rendulic B.",
+          "Valentsov V."
+        ],
+        "score": "3 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "20:00",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Merkley N.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:41",
+        "team": "Spartak Moscow",
+        "eventType": "Goal",
+        "scorer": "Maltsev M.",
+        "assistants": [
+          "Todd N.",
+          "Orlov D."
+        ],
+        "score": "3 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:16",
+        "team": "Spartak Moscow",
+        "eventType": "Penalty",
+        "player": "Ivanov D.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "OT",
+        "time": "02:21",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Valentsov V.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "SO",
+        "time": "2",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Rasskazov K.",
+        "goalType": "Penalty"
+      }
+    ]
+  },
+  "vm93edkd": {
+    "id": "vm93edkd",
+    "home": "Salavat Ufa",
+    "away": "Khabarovsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "06:13",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Suchkov Y.",
+        "assistants": [
+          "Zharovskiy A.",
+          "Rodewald J."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "16:04",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Brosseau D.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "18:54",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Stewart D.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:01",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Dyblenko Y.",
+        "assistants": [
+          "Petkov K.",
+          "Urakov K."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:05",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Dorozhko M.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:47",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Brosseau D.",
+        "assistants": [
+          "Khokhlachev A.",
+          "Zharovskiy A."
+        ],
+        "score": "2 - 1",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "03:12",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Petkov K.",
+        "assistants": [
+          "Mishchenko I.",
+          "Grachyov Y."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "04:39",
+        "team": "Salavat Ufa",
+        "eventType": "Penalty",
+        "player": "Stewart D.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "04:39",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Talaluyev I.",
+        "reason": "Cross-checking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:15",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Zharovskiy A.",
+        "assistants": [
+          "Kulik Y.",
+          "Suchkov Y."
+        ],
+        "score": "3 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:58",
+        "team": "Salavat Ufa",
+        "eventType": "Goal",
+        "scorer": "Rodewald J.",
+        "assistants": [
+          "Brosseau D.",
+          "Vyazovoy S."
+        ],
+        "score": "4 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "18:30",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Filatyev A.",
+        "reason": "Delay of game",
+        "duration": "2"
+      }
+    ]
+  },
+  "IXIbDPwf": {
+    "id": "IXIbDPwf",
+    "home": "Barys Astana",
+    "away": "Yekaterinburg",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "09:48",
+        "team": "Barys Astana",
+        "eventType": "Goal",
+        "scorer": "Massie J.",
+        "assistants": [
+          "Kaiyrzhan D.",
+          "Omirbekov A."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "10:30",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Kizimov S.",
+        "reason": "Boarding",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "14:24",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Sharov A.",
+        "assistants": [
+          "Da Costa S.",
+          "Boucher R."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "18:42",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Shashkov N.",
+        "assistants": [
+          "Khripunov S.",
+          "Vorobyov K."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "18:52",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Macek B.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "11:03",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Tarasov M.",
+        "assistants": [
+          "Osipov M.",
+          "Byvaltsev A."
+        ],
+        "score": "1 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "13:00",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Massie J.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "13:00",
+        "team": "Yekaterinburg",
+        "eventType": "Penalty",
+        "player": "Busygin Y.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:34",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Morelli M.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:07",
+        "team": "Yekaterinburg",
+        "eventType": "Goal",
+        "scorer": "Boucher R.",
+        "score": "1 - 4",
+        "goalType": "Empty net"
+      }
+    ]
+  },
+  "8bZO2vcM": {
+    "id": "8bZO2vcM",
+    "home": "Lada",
+    "away": "Tractor Chelyabinsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "00:57",
+        "team": "Lada",
+        "eventType": "Goal",
+        "scorer": "Romanov I.",
+        "assistants": [
+          "Chivilyov A.",
+          "Makarov N."
+        ],
+        "score": "1 - 0",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "04:50",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Dzhioshvili M.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "10:16",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Korshkov Y.",
+        "assistants": [
+          "Grigorenko M.",
+          "Kadeykin A."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "10:53",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Telegin S.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "15:48",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Altybarmakyan A.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "17:04",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Korshkov Y.",
+        "assistants": [
+          "Kadeykin A.",
+          "Grigorenko M."
+        ],
+        "score": "1 - 2",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "1st period",
+        "time": "18:56",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Leivo J.",
+        "assistants": [
+          "Kravtsov V."
+        ],
+        "score": "1 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "19:35",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Telegin S.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "00:07",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Tyanulin A.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:11",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Svetlakov A.",
+        "assistants": [
+          "Dzhioshvili M.",
+          "Kirpichnikov A."
+        ],
+        "score": "1 - 4",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:05",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Burdasov A.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:02",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Glotov V.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "04:24",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Kravtsov V.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:26",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Kravtsov V.",
+        "assistants": [
+          "Glotov V."
+        ],
+        "score": "1 - 5",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "10:43",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Penalty",
+        "player": "Koromyslov A.",
+        "reason": "Unsportsmanlike conduct",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "13:42",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Bokun D.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "16:14",
+        "team": "Lada",
+        "eventType": "Penalty",
+        "player": "Obidin A.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "17:56",
+        "team": "Tractor Chelyabinsk",
+        "eventType": "Goal",
+        "scorer": "Leivo J.",
+        "assistants": [
+          "Svetlakov A.",
+          "Kravtsov V."
+        ],
+        "score": "1 - 6",
+        "goalType": "Power-play"
+      }
+    ]
+  },
+  "hWAecIKq": {
+    "id": "hWAecIKq",
+    "home": "Cherepovets",
+    "away": "Sochi",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "04:18",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Kagarlitsky D.",
+        "assistants": [
+          "Guskov M."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "14:06",
+        "team": "Cherepovets",
+        "eventType": "Goal",
+        "scorer": "Tankov K.",
+        "assistants": [
+          "Kaldis Y.",
+          "Liska A."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "19:45",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Hoefenmayer N.",
+        "assistants": [
+          "Polyakov N."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "04:23",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Guskov M.",
+        "reason": "Holding the stick",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "04:38",
+        "team": "Cherepovets",
+        "eventType": "Goal",
+        "scorer": "Abrosimov R.",
+        "assistants": [
+          "Liska A.",
+          "Kamalov N."
+        ],
+        "score": "2 - 2",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "2nd period",
+        "time": "10:30",
+        "team": "Sochi",
+        "eventType": "Goal",
+        "scorer": "Ellis M.",
+        "assistants": [
+          "Lee C."
+        ],
+        "score": "2 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:06",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Kagarlitsky D.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "12:25",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Mokrushev D.",
+        "reason": "Boarding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:30",
+        "team": "Cherepovets",
+        "eventType": "Penalty",
+        "player": "Skorenov A.",
+        "reason": "Holding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "10:25",
+        "team": "Sochi",
+        "eventType": "Penalty",
+        "player": "Vengryzhanovsky D.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:14",
+        "team": "Cherepovets",
+        "eventType": "Goal",
+        "scorer": "Ivantsov I.",
+        "assistants": [
+          "Chebykin N.",
+          "Skorenov A."
+        ],
+        "score": "3 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "OT",
+        "time": "00:59",
+        "team": "Cherepovets",
+        "eventType": "Goal",
+        "scorer": "Gregoire T.",
+        "assistants": [
+          "Tankov K.",
+          "Chebykin N."
+        ],
+        "score": "4 - 3",
+        "goalType": "Even strength"
+      }
+    ]
+  },
+  "46x86Mcc": {
+    "id": "46x86Mcc",
+    "home": "Lokomotiv Yaroslavl",
+    "away": "Dynamo Moscow",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "13:22",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "player": "Panik R.",
+        "reason": "Boarding",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:35",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Der-Arguchintsev S.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "02:34",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Kalinichenko R.",
+        "reason": "Charging",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "11:25",
+        "team": "Dynamo Moscow",
+        "eventType": "Penalty",
+        "player": "Galimov A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "15:41",
+        "team": "Dynamo Moscow",
+        "eventType": "Goal",
+        "scorer": "Slepyshev A.",
+        "assistants": [
+          "Galimov A.",
+          "Sergeyev A."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:28",
+        "team": "Lokomotiv Yaroslavl",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:39",
+        "team": "Dynamo Moscow",
+        "eventType": "Goal",
+        "scorer": "Gusev N.",
+        "score": "0 - 2",
+        "goalType": "Power-play"
+      }
+    ]
+  },
+  "0YVG40S9": {
+    "id": "0YVG40S9",
+    "home": "Nizhny Novgorod",
+    "away": "CSKA Moscow",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "03:42",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "09:35",
+        "team": "CSKA Moscow",
+        "eventType": "Goal",
+        "scorer": "Abramov V.",
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "15:29",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Poltapov P.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "15:29",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Boikov S.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "17:25",
+        "team": "CSKA Moscow",
+        "eventType": "Goal",
+        "scorer": "Gurianov D.",
+        "assistants": [
+          "Patrikhayev I.",
+          "Kalinin S."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:21",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Provolnev V.",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "09:51",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Kalinin S.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "17:20",
+        "team": "CSKA Moscow",
+        "eventType": "Penalty",
+        "player": "Churkin A.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:58",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Tkachyov V.",
+        "assistants": [
+          "Atanasov V.",
+          "Sizov A."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "11:02",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "13:25",
+        "team": "Nizhny Novgorod",
+        "eventType": "Penalty",
+        "player": "Letunov M.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:13",
+        "team": "Nizhny Novgorod",
+        "eventType": "Goal",
+        "scorer": "Sokolov Y.",
+        "assistants": [
+          "Konyushkov B.",
+          "Nardella B."
+        ],
+        "score": "2 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "OT",
+        "time": "00:12",
+        "team": "CSKA Moscow",
+        "eventType": "Goal",
+        "scorer": "Drozdov I.",
+        "assistants": [
+          "Nesterov N.",
+          "Karnaukhov P."
+        ],
+        "score": "2 - 3",
+        "goalType": "Even strength"
+      }
+    ]
+  },
+  "S8kbHwCF": {
+    "id": "S8kbHwCF",
+    "home": "Vladivostok",
+    "away": "Novosibirsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "04:07",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Leshchenko V.",
+        "assistants": [
+          "Pyanov V.",
+          "Fedotov I."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "12:41",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Muranov I.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "13:52",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Shirokov S.",
+        "assistants": [
+          "Wilson S.",
+          "Alanov Y."
+        ],
+        "score": "0 - 2",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "1st period",
+        "time": "18:08",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Deryabin D.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:06",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "player": "Starkov S.",
+        "reason": "High sticking",
+        "duration": "2+2"
+      },
+      {
+        "period": "2nd period",
+        "time": "13:06",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Beck T.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:12",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Klimovich I.",
+        "assistants": [
+          "Yakovlev A.",
+          "Valitov D."
+        ],
+        "score": "0 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "07:20",
+        "team": "Vladivostok",
+        "eventType": "Penalty",
+        "reason": "Unsportsmanlike conduct",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "08:52",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Alanov Y.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:03",
+        "team": "Novosibirsk",
+        "eventType": "Penalty",
+        "player": "Nekolenko A.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:52",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Sulak L.",
+        "assistants": [
+          "Soshnikov N.",
+          "Zavgorodny D."
+        ],
+        "score": "1 - 3",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "15:20",
+        "team": "Novosibirsk",
+        "eventType": "Goal",
+        "scorer": "Beck T.",
+        "assistants": [
+          "Nekolenko A.",
+          "Wilson S."
+        ],
+        "score": "1 - 4",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:53",
+        "team": "Vladivostok",
+        "eventType": "Goal",
+        "scorer": "Sulak L.",
+        "assistants": [
+          "Tertyshny N.",
+          "Olson K."
+        ],
+        "score": "2 - 4",
+        "goalType": "Even strength"
+      }
+    ]
+  },
+  "feijJas3": {
+    "id": "feijJas3",
+    "home": "Avangard Omsk",
+    "away": "Magnitogorsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "05:48",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Martynov I.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "13:31",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Barach D.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "16:50",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Yakupov N.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:21",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Johnson L.",
+        "assistants": [
+          "Korobkin Y.",
+          "Korotkov N."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "08:21",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Blazhiyevsky A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "10:35",
+        "team": "Magnitogorsk",
+        "eventType": "Penalty",
+        "player": "Korobkin Y.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:51",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "01:32",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Prokhorkin N.",
+        "assistants": [
+          "Rashevsky D."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:02",
+        "team": "Avangard Omsk",
+        "eventType": "Penalty",
+        "player": "Chistyakov S.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "SO",
+        "time": "1",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Okulov K.",
+        "goalType": "Penalty"
+      },
+      {
+        "period": "SO",
+        "time": "3",
+        "team": "Magnitogorsk",
+        "eventType": "Goal",
+        "scorer": "Iskhakov R.",
+        "goalType": "Penalty"
+      },
+      {
+        "period": "SO",
+        "time": "5",
+        "team": "Avangard Omsk",
+        "eventType": "Goal",
+        "scorer": "Prokhorkin N.",
+        "goalType": "Penalty"
+      }
+    ]
+  },
+  "EaC7B386": {
+    "id": "EaC7B386",
+    "home": "Dinamo Minsk",
+    "away": "SKA St. Petersburg",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "05:49",
+        "team": "SKA St. Petersburg",
+        "eventType": "Goal",
+        "scorer": "Leipsic B.",
+        "assistants": [
+          "Grimaldi R."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "13:50",
+        "team": "SKA St. Petersburg",
+        "eventType": "Goal",
+        "scorer": "Polyakov M.",
+        "assistants": [
+          "Gurzanov Y."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "03:28",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Polyakov M.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "07:58",
+        "team": "SKA St. Petersburg",
+        "eventType": "Goal",
+        "scorer": "Vorobyov M.",
+        "assistants": [
+          "Galenyuk D."
+        ],
+        "score": "0 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "16:35",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Grimaldi R.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "18:02",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Blandisi J.",
+        "reason": "Throwing the stick",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:24",
+        "team": "SKA St. Petersburg",
+        "eventType": "Penalty",
+        "player": "Savikov Y.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "09:48",
+        "team": "Dinamo Minsk",
+        "eventType": "Goal",
+        "scorer": "Anas S.",
+        "assistants": [
+          "Limoges A.",
+          "Pinchuk V."
+        ],
+        "score": "1 - 3",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "12:22",
+        "team": "Dinamo Minsk",
+        "eventType": "Penalty",
+        "player": "Pinchuk V.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "19:10",
+        "team": "SKA St. Petersburg",
+        "eventType": "Goal",
+        "scorer": "Vorobyov M.",
+        "assistants": [
+          "Plotnikov S."
+        ],
+        "score": "1 - 4",
+        "goalType": "Empty net"
+      }
+    ]
+  },
+  "nDAF9swJ": {
+    "id": "nDAF9swJ",
+    "home": "Shanghai",
+    "away": "Niznekamsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "00:36",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "03:19",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Shuai Fu",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "03:19",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Belozyorov A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "04:19",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Kalynuk W.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "08:23",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Fedotov M.",
+        "reason": "Slashing",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "08:42",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Clendening A.",
+        "reason": "Charging",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "10:46",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Serikov A.",
+        "assistants": [
+          "Shafigullin B.",
+          "Dergachyov A."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "11:20",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Merkley N.",
+        "reason": "Interference",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "14:35",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Pastukhov I.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "18:08",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Rasskazov K.",
+        "assistants": [
+          "Popugayev N. A.",
+          "Akolzin P."
+        ],
+        "score": "1 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "18:46",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Pastukhov I.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "1st period",
+        "time": "18:58",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "reason": "Delay of game",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:43",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Khoruzhev N.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:53",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Kareyev A.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "13:12",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Belozyorov A.",
+        "assistants": [
+          "Zhafyarov D.",
+          "Mityakin Y."
+        ],
+        "score": "1 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "14:54",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Nadvorny M.",
+        "assistants": [
+          "Krivolapov N.",
+          "Fedotov M."
+        ],
+        "score": "1 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "17:12",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Sutter R.",
+        "reason": "Tripping",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "06:23",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Profaca L.",
+        "reason": "Boarding",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "08:20",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Labanc K.",
+        "assistants": [
+          "Kalynuk W.",
+          "Sutter R."
+        ],
+        "score": "2 - 3",
+        "goalType": "Power-play"
+      },
+      {
+        "period": "3rd period",
+        "time": "13:31",
+        "team": "Shanghai",
+        "eventType": "Goal",
+        "scorer": "Kuznetsov V.",
+        "assistants": [
+          "Bryntsev A."
+        ],
+        "score": "3 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:16",
+        "team": "Shanghai",
+        "eventType": "Penalty",
+        "player": "Labanc K.",
+        "reason": "Elbowing",
+        "duration": "2"
+      },
+      {
+        "period": "3rd period",
+        "time": "14:16",
+        "team": "Niznekamsk",
+        "eventType": "Penalty",
+        "player": "Pastukhov I.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "OT",
+        "time": "02:11",
+        "team": "Niznekamsk",
+        "eventType": "Goal",
+        "scorer": "Khoruzhev N.",
+        "assistants": [
+          "Belozyorov A."
+        ],
+        "score": "3 - 4",
+        "goalType": "Even strength"
+      }
+    ]
   }
 }

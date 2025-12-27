@@ -113,6 +113,7 @@ builder.ConfigureServices((context, services) =>
     services.AddScoped<TeamsService>();
     services.AddScoped<PredictionService>();
     services.AddScoped<StandingsService>();
+    services.AddScoped<PredictionsRatingService>();
 
     services.AddScoped<TeamStrengthCalculator>();
     services.AddScoped<TeamStatsCalculator>();
