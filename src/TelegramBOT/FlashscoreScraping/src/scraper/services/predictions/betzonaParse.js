@@ -9,6 +9,38 @@ const BASE_URL = "https://betzona.ru";
 
 export { scrapePredictionsBetzona as scrapePredictions };
 
+function parseRuDateTime(text) {
+    if (!text) return null;
+
+    const months = {
+        января: 0, февраля: 1, марта: 2, апреля: 3,
+        мая: 4, июня: 5, июля: 6, августа: 7,
+        сентября: 8, октября: 9, ноября: 10, декабря: 11
+    };
+
+    const clean = text
+        .replace(/–|-/g, " ")
+        .replace(/Хоккей.*$/i, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    // 27 декабря 14:30
+    const m = clean.match(
+        /(\d{1,2})\s+([а-яё]+)\s+(\d{1,2}):(\d{2})/i
+    );
+
+    if (!m) return null;
+
+    const [, d, monthName, hh, mm] = m;
+    const month = months[monthName.toLowerCase()];
+    if (month === undefined) return null;
+
+    const year = new Date().getFullYear();
+
+    const date = new Date(year, month, Number(d), Number(hh), Number(mm));
+    return isNaN(date.getTime()) ? null : date;
+}
+
 /// <summary>
 /// Загружает HTML-страницу по указанному URL.
 /// </summary>
@@ -108,26 +140,20 @@ async function parseData(url, calendar, matchInfo, logger) {
     const $ = cheerio.load(html);
     const home = normalizeTeamName(matchInfo.home);
     const away = normalizeTeamName(matchInfo.away);
-    let matchDate = null;
-
-    const dateBlock = $(".match-review-head-date").first().text().trim();
-    if (dateBlock) {
-        const [dateStr, timeStr] = dateBlock.split(" ");
-        if (dateStr && timeStr) {
-            const [day, month, year] = dateStr.split(".").map(Number);
-            const [hours, minutes] = timeStr.split(":").map(Number);
-            matchDate = new Date(year, month - 1, day, hours, minutes);
-        }
-    }
+    const matchDate = matchInfo.matchDate;
 
     if (!matchDate) return null;
 
     const matchId = findMatchId(home, away, calendar, matchDate);
-    logger.info(`Матч: ${home} – ${away} | matchID: ${matchId || "не найден"} | Дата: ${matchDate.toISOString()}`);
+    logger.info(`Матч: ${home} – ${away} | matchID: ${matchId || "не найден"} | Дата: ${matchDate.toLocaleString("ru-RU")}`);
 
     const texts = extractTeamAndPredictionTexts($, home, away);
     const forecastText = extractForecastText($);
-    const mainBet = $(".forecast-info .bet_name").first().text().trim() || null;
+    const mainBetRaw = $(".forecast-info .bet_name").first().text().trim();
+
+    const mainBet = mainBetRaw
+        ? normalizePrediction(mainBetRaw, home, away)
+        : null;
 
     return {
         source: "betzona",
@@ -181,7 +207,18 @@ export async function scrapePredictionsBetzona({ logger = console } = {}) {
         const href = $(el).attr("href");
         const tournament = $(el).attr("data-tournament") || "";
         const matchTitle = $(el).attr("data-match-name") || "";
-        const matchDate = $(el).attr("data-date") || null;
+
+        const description = $(el)
+            .find(".bets-description-card__match-info__description")
+            .text()
+            .trim();
+
+        const matchDate = parseRuDateTime(description);
+
+        if (!matchDate) {
+            logger.warn(`Не удалось распарсить дату: "${description}"`);
+            return;
+        }
 
         if (!href || !matchTitle || !tournament.includes("КХЛ")) return;
 
@@ -190,15 +227,21 @@ export async function scrapePredictionsBetzona({ logger = console } = {}) {
         seen.add(key);
 
         const [home, away] = matchTitle.split(/[-–]/).map(s => s.trim());
-        links.push({ url: BASE_URL + href, home, away, date: matchDate });
+        links.push({ url: BASE_URL + href, home, away, matchDate });
     });
 
     logger.info(`Найдено ${links.length} матчей.`);
 
     const rawResults = [];
-    for (const { url, home, away } of links) {
+    for (const { url, home, away, matchDate } of links) {
         try {
-            const data = await parseData(url, calendar, { home, away }, logger);
+            const data = await parseData(
+                url,
+                calendar,
+                { home, away, matchDate },
+                logger
+            );
+
             if (data) rawResults.push(data);
         } catch (err) {
             logger.error(`Ошибка при парсинге ${url}`, err);
