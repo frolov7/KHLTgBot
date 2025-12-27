@@ -24,7 +24,7 @@ import { createLogger } from "./services/utils/core/logger.js";
 
 import fs from "fs";
 import path from "path";
-
+import { fileURLToPath } from "url";
 // путь к JSON
 const MATCHES_PATH = FILES.KHL_MATCHES;
 
@@ -34,13 +34,16 @@ const VALIDATE_SCRIPT = path.join(
     "src/scraper/services/matches/validateJson.js"
 );
 
-const IMPORT_MATCHES_SCRIPT = path.join(process.cwd(), "src/db/import/importMatches.js");
-const IMPORT_PREDICTIONS_SCRIPT = path.join(process.cwd(), "src/db/import/importPredictions.js");
-const IMPORT_VIDEOS_SCRIPT = path.join(process.cwd(), "src/db/import/importMatchVideos.js");
-const IMPORT_EVENTS_SCRIPT = path.join(process.cwd(), "src/db/import/importMatchEvents.js");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const SRC_ROOT = path.resolve(__dirname, "..");
+
+const IMPORT_MATCHES_SCRIPT = path.join(SRC_ROOT, "db/import/importMatches.js");
+const IMPORT_PREDICTIONS_SCRIPT = path.join(SRC_ROOT, "db/import/importPredictions.js");
+const IMPORT_VIDEOS_SCRIPT = path.join(SRC_ROOT, "db/import/importMatchVideos.js");
+const IMPORT_EVENTS_SCRIPT = path.join(SRC_ROOT, "db/import/importMatchEvents.js");
 
 const logger = createLogger("scraperRunner");
-
 /// <summary>
 /// Главная функция запуска парсеров и сервисов обновления данных.
 /// Обрабатывает аргументы командной строки (--validate, --import, --updateResults, --predictions, --resultvideos)

@@ -61668,11 +61668,67 @@
       },
       {
         "period": "SO",
+        "time": "1",
+        "team": "Magnitogorsk",
+        "eventType": "Shootout missed",
+        "details": "Penalty missed",
+        "player": "Yakovlev Y."
+      },
+      {
+        "period": "SO",
+        "time": "2",
+        "team": "Avangard Omsk",
+        "eventType": "Shootout missed",
+        "details": "Penalty missed",
+        "player": "Prokhorkin N."
+      },
+      {
+        "period": "SO",
+        "time": "2",
+        "team": "Magnitogorsk",
+        "eventType": "Shootout missed",
+        "details": "Penalty missed",
+        "player": "Tolchinsky S."
+      },
+      {
+        "period": "SO",
+        "time": "3",
+        "team": "Avangard Omsk",
+        "eventType": "Shootout missed",
+        "details": "Penalty missed",
+        "player": "Poturalski A."
+      },
+      {
+        "period": "SO",
         "time": "3",
         "team": "Magnitogorsk",
         "eventType": "Goal",
         "scorer": "Iskhakov R.",
         "goalType": "Penalty"
+      },
+      {
+        "period": "SO",
+        "time": "4",
+        "team": "Magnitogorsk",
+        "eventType": "Shootout missed",
+        "details": "Penalty missed",
+        "player": "Kantserov R."
+      },
+      {
+        "period": "SO",
+        "time": "4",
+        "team": "Avangard Omsk",
+        "eventType": "Shootout missed",
+        "details": "Penalty missed",
+        "player": "Okulov K."
+      },
+      {
+        "period": "SO",
+        "time": "5",
+        "team": "Magnitogorsk",
+        "eventType": "Shootout missed",
+        "details": "Penalty missed",
+        "player": "Iskhakov R."
       },
       {
         "period": "SO",
@@ -62031,6 +62087,125 @@
           "Belozyorov A."
         ],
         "score": "3 - 4",
+        "goalType": "Even strength"
+      }
+    ]
+  },
+  "C6UgXpVP": {
+    "id": "C6UgXpVP",
+    "home": "Barys Astana",
+    "away": "Khabarovsk",
+    "events": [
+      {
+        "period": "1st period",
+        "time": "09:05",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Shvaryov A.",
+        "assistants": [
+          "Slepets K."
+        ],
+        "score": "0 - 1",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "1st period",
+        "time": "10:18",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Savitsky K.",
+        "reason": "Hooking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "01:56",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Baldayev V.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "05:11",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Filatyev A.",
+        "assistants": [
+          "Baldayev V.",
+          "Svechnikov Y."
+        ],
+        "score": "0 - 2",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "08:56",
+        "team": "Khabarovsk",
+        "eventType": "Goal",
+        "scorer": "Urakov K.",
+        "assistants": [
+          "Rykov Y.",
+          "Petkov K."
+        ],
+        "score": "0 - 3",
+        "goalType": "Even strength"
+      },
+      {
+        "period": "2nd period",
+        "time": "09:37",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Shvaryov A.",
+        "reason": "High sticking",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "12'",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "reason": "Too many men on the ice",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "13:57",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Daniyar Sam.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "13:57",
+        "team": "Khabarovsk",
+        "eventType": "Penalty",
+        "player": "Likhachyov Y.",
+        "reason": "Roughing",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "15:38",
+        "team": "Barys Astana",
+        "eventType": "Penalty",
+        "player": "Massie J.",
+        "reason": "Illegal check to the head",
+        "duration": "2"
+      },
+      {
+        "period": "2nd period",
+        "time": "19:39",
+        "team": "Barys Astana",
+        "eventType": "Goal",
+        "scorer": "Panyukov K.",
+        "assistants": [
+          "Asetov A."
+        ],
+        "score": "1 - 3",
         "goalType": "Even strength"
       }
     ]

@@ -147,14 +147,16 @@ export async function scrapeMatchEvents({ browser, matchId, matchUrl, homeTeam, 
                 }
 
                 // === БУЛЛИТ НЕ РЕАЛИЗОВАН ===
-                else if ($incident.find("svg.warning").length > 0) {
+                else if (currentPeriod === "SO" && $incident.find('svg[data-testid="wcl-icon-incidents-warning"]').length > 0) {
                     const eventType = "Shootout missed";
-                    const details =
-                        $incident.find("svg.warning title").text().trim() ||
-                        $incident.find(".smv__subIncident").text().trim() ||
-                        "Буллит не реализован";
 
-                    const player = $incident.find(".smv__playerName").text().trim() || null;
+                    const details =
+                        $incident.find("svg[data-testid='wcl-icon-incidents-warning'] title").text().trim() ||
+                        $incident.find(".smv__subIncident").text().replace(/[()]/g, "").trim() ||
+                        "Shootout missed";
+
+                    const player =
+                        $incident.find(".smv__playerName").text().trim() || null;
 
                     event.eventType = eventType;
                     if (details) event.details = details;
