@@ -70,6 +70,36 @@ async function parseMatchPage(url, calendar) {
         rawDateLabel = dateMatch?.[0] || timeStr || "Неизвестно";
     }
 
+    // Фолбэк для "Сегодня" / "Завтра"
+    if (!matchDate && timeStr) {
+        const now = new Date();
+        const [h, m] = timeStr.split(":").map(Number);
+
+        if (/Сегодня/i.test(leadText)) {
+            matchDate = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate(),
+                h,
+                m
+            );
+            rawDateLabel = "Сегодня";
+        }
+
+        if (/Завтра/i.test(leadText)) {
+            const tomorrow = new Date(now);
+            tomorrow.setDate(now.getDate() + 1);
+            matchDate = new Date(
+                tomorrow.getFullYear(),
+                tomorrow.getMonth(),
+                tomorrow.getDate(),
+                h,
+                m
+            );
+            rawDateLabel = "Завтра";
+        }
+    }
+
     // Если не удалось определить дату или матч уже завершён
     if (!matchDate || isNaN(matchDate)) {
         const statusLabel = matchStatus ? `, ${matchStatus}` : "";

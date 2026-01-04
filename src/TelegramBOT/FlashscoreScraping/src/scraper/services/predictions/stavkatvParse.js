@@ -84,15 +84,19 @@ function parseStavkaDate(dateStr, timeStr) {
         июл: 6, авг: 7, сен: 8, окт: 9, ноя: 10, дек: 11,
     };
 
-    if (!dateStr) return null;
+    if (!dateStr || !timeStr) return null;
+    if (!timeStr.includes(":")) return null; // "Завершен"
+
     const [dayStr, monStr] = dateStr.split(" ");
     const day = parseInt(dayStr, 10);
-    const month = months[monStr?.toLowerCase?.()] ?? null;
-    const year = new Date().getFullYear();
+    const month = months[monStr?.toLowerCase()];
 
-    if (!month || !timeStr || !timeStr.includes(":")) return null;
+    // ВАЖНО: НЕ !month
+    if (month === undefined) return null;
 
     const [h, m] = timeStr.split(":").map(Number);
+    const year = new Date().getFullYear();
+
     const date = new Date(year, month, day, h, m);
     return isNaN(date.getTime()) ? null : date;
 }

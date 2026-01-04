@@ -63,7 +63,7 @@ export default async function main(args) {
     }
 
     if (args.includes("--import")) {
-        runImport(IMPORT_MATCHES_SCRIPT, "импорт матчей");
+        await runImportAsync(IMPORT_MATCHES_SCRIPT, "импорт матчей");
         return;
     }
 
@@ -84,25 +84,25 @@ export default async function main(args) {
         await updateRecentMatches(browser);
         console.info(`Сохранили в: ${FILES.KHL_MATCHES}`);
 
-        runImport(IMPORT_MATCHES_SCRIPT, "импорт матчей");
+        await runImportAsync(IMPORT_MATCHES_SCRIPT, "импорт матчей");
 
         const UPDATE_PREDICTIONS_RESULTS_SCRIPT = path.join(
-            process.cwd(),
-            "src/db/import/updatePredictionResults.js"
+            SRC_ROOT,
+            "db/import/updatePredictionResults.js"
         );
-        runImport(UPDATE_PREDICTIONS_RESULTS_SCRIPT, "обновление результатов прогнозов");
+        await runImportAsync(UPDATE_PREDICTIONS_RESULTS_SCRIPT, "обновление результатов прогнозов");
     }
 
     // === Парсинг прогнозов ===
     if (args.includes("--predictions")) {
         const scrapers = [
-            { name: "betzona", fn: scrapeBetzona },
-            { name: "legalbet", fn: scrapeLegalbet },
+            //{ name: "betzona", fn: scrapeBetzona },
+            //{ name: "legalbet", fn: scrapeLegalbet },
             { name: "livesport", fn: scrapeLivesport },
-            { name: "metaratings", fn: scrapeMetaRatings },
-            { name: "stavkatv", fn: scrapeStavkatv },
-            { name: "vprognoze", fn: scrapeVprognoze },
-            { name: "vseprosport", fn: scrapeVseprosport },
+            //{ name: "metaratings", fn: scrapeMetaRatings },
+            //{ name: "stavkatv", fn: scrapeStavkatv },
+            //{ name: "vprognoze", fn: scrapeVprognoze },
+            //{ name: "vseprosport", fn: scrapeVseprosport },
         ];
 
         const logsMap = {};
@@ -154,7 +154,7 @@ export default async function main(args) {
         const totalDuration = ((Date.now() - totalStart) / 1000).toFixed(2);
         logger.info(`✅ Парсеры прогнозов завершили работу за ${totalDuration} сек.\n`);
 
-        runImport(IMPORT_PREDICTIONS_SCRIPT, "импорт прогнозов");
+        runImportAsync(IMPORT_PREDICTIONS_SCRIPT, "импорт прогнозов");
     }
 
     // === Видеообзоры ===
@@ -162,7 +162,7 @@ export default async function main(args) {
         logger.info("Запускаем парсинг видеообзоров КХЛ...");
         await scrapeKhlVideos();
         logger.info("Импортируем видеообзоры в БД...");
-        runImport(IMPORT_VIDEOS_SCRIPT, "импорт видеообзоров");
+        runImportAsync(IMPORT_VIDEOS_SCRIPT, "импорт видеообзоров");
     }
 
     // === Парсинг событий матчей (голы, удаления, буллиты и т.д.) ===
@@ -170,7 +170,7 @@ export default async function main(args) {
         logger.info("=== ▶ Запуск парсера событий КХЛ ===");
         await scrapeRecentEvents({ browser, logger });
         logger.info("Импортируем события в БД...");
-        runImport(IMPORT_EVENTS_SCRIPT, "импорт событий матчей");
+        runImportAsync(IMPORT_EVENTS_SCRIPT, "импорт событий матчей");
     }
 
     // === Парсинг событий одного конкретного матча ===
@@ -204,7 +204,7 @@ export default async function main(args) {
         const duration = ((Date.now() - startTime) / 1000).toFixed(2);
 
         logger.info("Импортируем события только для одного матча в БД...");
-        runImport(`${IMPORT_EVENTS_SCRIPT} --single ${matchId}`, `импорт событий для ${matchId}`);
+        runImportAsync(`${IMPORT_EVENTS_SCRIPT} --single ${matchId}`, `импорт событий для ${matchId}`);
 
         logger.info(`✅ Завершён парсинг событий для матча ${matchId} (${duration} сек.)`);
     }
@@ -217,22 +217,27 @@ export default async function main(args) {
 /// Выполняет запуск внешнего Node.js-скрипта (импорта данных) и отображает лог его выполнения.
 /// Используется для импортирования матчей, прогнозов и видеообзоров в базу данных.
 /// </summary>
-function runImport(command, label = "импорт") {
+function runImportAsync(command, label = "импорт") {
     logger.info(`Запускаем ${label}...`);
-    exec(`node ${command}`, { encoding: "buffer" }, (error, stdout, stderr) => {
-        const out = iconv.decode(stdout, "utf8");
-        const err = iconv.decode(stderr, "utf8");
 
-        if (error) {
-            logger.error(`Ошибка запуска ${label}: ${error.message}`);
-            return;
-        }
+    return new Promise((resolve, reject) => {
+        exec(`node ${command}`, { encoding: "buffer" }, (error, stdout, stderr) => {
+            const out = iconv.decode(stdout, "utf8");
+            const err = iconv.decode(stderr, "utf8");
 
-        if (err.trim()) {
-            logger.warn(`STDERR:\n${err}`);
-        }
+            if (error) {
+                logger.error(`Ошибка запуска ${label}: ${error.message}`);
+                reject(error);
+                return;
+            }
 
-        logger.info(out);
+            if (err.trim()) {
+                logger.warn(`STDERR:\n${err}`);
+            }
+
+            logger.info(out);
+            resolve();
+        });
     });
 }
 
