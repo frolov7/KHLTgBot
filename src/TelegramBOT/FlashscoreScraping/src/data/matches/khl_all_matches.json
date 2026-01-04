@@ -6347,7 +6347,7 @@
   "C6UgXpVP": {
     "id": "C6UgXpVP",
     "date": "27.12.2025 15:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Barys Astana"
     },
@@ -6355,14 +6355,14 @@
       "name": "Khabarovsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "4"
     }
   },
   "Ozq7FHtS": {
     "id": "Ozq7FHtS",
     "date": "27.12.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Bars Kazan"
     },
@@ -6370,14 +6370,14 @@
       "name": "Tractor Chelyabinsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "vNPCMYme": {
     "id": "vNPCMYme",
     "date": "28.12.2025 10:00",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Vladivostok"
     },
@@ -6385,14 +6385,14 @@
       "name": "Novosibirsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "3"
     }
   },
   "SMUWVxR8": {
     "id": "SMUWVxR8",
     "date": "28.12.2025 14:00",
-    "status": "SCHEDULED",
+    "status": "AFTER PENALTIES",
     "home": {
       "name": "Avangard Omsk"
     },
@@ -6400,14 +6400,14 @@
       "name": "Lada"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "4",
+      "away": "3"
     }
   },
   "KK9BOfJr": {
     "id": "KK9BOfJr",
     "date": "28.12.2025 14:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Niznekamsk"
     },
@@ -6415,14 +6415,14 @@
       "name": "Nizhny Novgorod"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "0"
     }
   },
   "v1lxAe4k": {
     "id": "v1lxAe4k",
     "date": "28.12.2025 14:30",
-    "status": "SCHEDULED",
+    "status": "AFTER PENALTIES",
     "home": {
       "name": "Salavat Ufa"
     },
@@ -6430,14 +6430,14 @@
       "name": "Cherepovets"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "1"
     }
   },
   "0Gxo8ZY1": {
     "id": "0Gxo8ZY1",
     "date": "28.12.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "CSKA Moscow"
     },
@@ -6445,14 +6445,14 @@
       "name": "Spartak Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "1"
     }
   },
   "OlOuUGeL": {
     "id": "OlOuUGeL",
     "date": "28.12.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Sochi"
     },
@@ -6460,14 +6460,14 @@
       "name": "SKA St. Petersburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "8",
+      "away": "4"
     }
   },
   "rkLPROhm": {
     "id": "rkLPROhm",
     "date": "28.12.2025 17:10",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Dinamo Minsk"
     },
@@ -6475,14 +6475,14 @@
       "name": "Dynamo Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "3"
     }
   },
   "nmTKKCI7": {
     "id": "nmTKKCI7",
     "date": "29.12.2025 17:00",
-    "status": "SCHEDULED",
+    "status": "AFTER OVERTIME",
     "home": {
       "name": "Magnitogorsk"
     },
@@ -6490,8 +6490,8 @@
       "name": "Tractor Chelyabinsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "4"
     }
   },
   "Sr67rGAE": {
@@ -6617,7 +6617,7 @@
   "nobEv79t": {
     "id": "nobEv79t",
     "date": "03.01.2026 10:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Vladivostok"
     },
@@ -6625,14 +6625,14 @@
       "name": "Khabarovsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "2"
     }
   },
   "80nNxovg": {
     "id": "80nNxovg",
     "date": "03.01.2026 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Cherepovets"
     },
@@ -6640,14 +6640,14 @@
       "name": "Lada"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "4",
+      "away": "2"
     }
   },
   "MutatO7t": {
     "id": "MutatO7t",
     "date": "03.01.2026 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Shanghai"
     },
@@ -6655,14 +6655,14 @@
       "name": "Magnitogorsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "3",
+      "away": "7"
     }
   },
   "tSaUzP85": {
     "id": "tSaUzP85",
     "date": "03.01.2026 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Sochi"
     },
@@ -6670,8 +6670,8 @@
       "name": "Niznekamsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "1"
     }
   },
   "lYMeipgn": {
