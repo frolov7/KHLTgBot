@@ -369,33 +369,31 @@ export function evaluatePrediction(pred, match) {
 
         // ======= ДВОЙНОЙ ШАНС =======
         case "DOUBLE_CHANCE": {
-            const home = Number(match.result.home);
-            const away = Number(match.result.away);
+            if (mainHome == null || mainAway == null) return "UNKNOWN";
 
-            // ======================
-            // 1) Стандартные варианты
-            // ======================
+            const home = mainHome;
+            const away = mainAway;
 
+            // 1X — хозяин не проиграет в основное время
             if (pred.variant === "1X")
                 return home >= away ? "WIN" : "LOSE";
 
+            // X2 — гость не проиграет в основное время
             if (pred.variant === "X2")
                 return away >= home ? "WIN" : "LOSE";
 
+            // 12 — не будет ничьей в основное время
             if (pred.variant === "12")
                 return home !== away ? "WIN" : "LOSE";
 
-            // ======================
-            // 2) “Команда не проиграет”
-            // ======================
+            // “Команда не проиграет”
             if (pred.dcMode === "NOLOSE") {
                 const team = resolveTeam(pred.teamByName);
                 if (!team) return "UNKNOWN";
 
-                if (team === "home")
-                    return home >= away ? "WIN" : "LOSE";
-                else
-                    return away >= home ? "WIN" : "LOSE";
+                return team === "home"
+                    ? home >= away ? "WIN" : "LOSE"
+                    : away >= home ? "WIN" : "LOSE";
             }
 
             return "UNKNOWN";

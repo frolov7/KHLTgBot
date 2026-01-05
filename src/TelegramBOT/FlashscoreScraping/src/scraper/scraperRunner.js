@@ -96,13 +96,13 @@ export default async function main(args) {
     // === Парсинг прогнозов ===
     if (args.includes("--predictions")) {
         const scrapers = [
-            //{ name: "betzona", fn: scrapeBetzona },
-            //{ name: "legalbet", fn: scrapeLegalbet },
+            { name: "betzona", fn: scrapeBetzona },
+            { name: "legalbet", fn: scrapeLegalbet },
             { name: "livesport", fn: scrapeLivesport },
-            //{ name: "metaratings", fn: scrapeMetaRatings },
-            //{ name: "stavkatv", fn: scrapeStavkatv },
-            //{ name: "vprognoze", fn: scrapeVprognoze },
-            //{ name: "vseprosport", fn: scrapeVseprosport },
+            { name: "metaratings", fn: scrapeMetaRatings },
+            { name: "stavkatv", fn: scrapeStavkatv },
+            { name: "vprognoze", fn: scrapeVprognoze },
+            { name: "vseprosport", fn: scrapeVseprosport },
         ];
 
         const logsMap = {};
