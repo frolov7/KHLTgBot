@@ -53,10 +53,8 @@ async function updatePredictionResults() {
     // === ВКЛЮЧЕНО ПО УМОЛЧАНИЮ: только последние 2 дня ===
     const UPDATE_ONLY_RECENT = true;
 
-    /*  
     // === ВАРИАНТ: обновлять ВСЕ прогнозы ===
-    const UPDATE_ONLY_RECENT = false;
-    */
+    //const UPDATE_ONLY_RECENT = false;
 
     logger.info(
         UPDATE_ONLY_RECENT

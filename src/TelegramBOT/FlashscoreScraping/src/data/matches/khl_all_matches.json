@@ -6677,7 +6677,7 @@
   "lYMeipgn": {
     "id": "lYMeipgn",
     "date": "04.01.2026 13:30",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Novosibirsk"
     },
@@ -6685,14 +6685,14 @@
       "name": "Avangard Omsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "2",
+      "away": "5"
     }
   },
   "I7Z7v2xg": {
     "id": "I7Z7v2xg",
     "date": "04.01.2026 14:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Tractor Chelyabinsk"
     },
@@ -6700,14 +6700,14 @@
       "name": "Dinamo Minsk"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "4"
     }
   },
   "A7ioXt8U": {
     "id": "A7ioXt8U",
     "date": "04.01.2026 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Bars Kazan"
     },
@@ -6715,14 +6715,14 @@
       "name": "Yekaterinburg"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "5",
+      "away": "0"
     }
   },
   "fVP3kONb": {
     "id": "fVP3kONb",
     "date": "04.01.2026 17:00",
-    "status": "SCHEDULED",
+    "status": "AFTER PENALTIES",
     "home": {
       "name": "CSKA Moscow"
     },
@@ -6730,14 +6730,14 @@
       "name": "Lokomotiv Yaroslavl"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "1",
+      "away": "2"
     }
   },
   "xfgwZ2wI": {
     "id": "xfgwZ2wI",
     "date": "04.01.2026 17:00",
-    "status": "SCHEDULED",
+    "status": "FINISHED",
     "home": {
       "name": "Nizhny Novgorod"
     },
@@ -6745,8 +6745,8 @@
       "name": "Spartak Moscow"
     },
     "result": {
-      "home": null,
-      "away": null
+      "home": "6",
+      "away": "7"
     }
   },
   "rebitKpo": {

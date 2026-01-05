@@ -121,7 +121,7 @@ function extractTeamTotal(text, homeTeam, awayTeam, prefix) {
     if (away) return `${prefix}2 (${num})`;
 
     // 3) fallback
-    return `${prefix}1 (${num})`;
+    return null;
 }
 
 /**
@@ -144,7 +144,7 @@ function detectShortNotation(text) {
     }
 
     // 1X, X2, 12 — двойной шанс
-    if (/^(1x|x2|12)$/i.test(trimmed)) {
+    if (/^(1x|x2|2x|12)$/i.test(trimmed)) {
         return trimmed.toUpperCase();
     }
 
@@ -235,13 +235,13 @@ export function normalizePrediction(text, homeTeam, awayTeam, ctx = {}) {
         return bothTeamsNorm;
     }
 
-    // Любые конструкции "... или ничья" / "ничья или ..." → двойной шанс 1X / 2X
+    // Любые конструкции "... или ничья" / "ничья или ..." → двойной шанс 1X / X2
     if (/(или\s+ничья|ничья\s+или)/i.test(lowerText)) {
         const home = textMentionsTeam(lowerText, homeTeam);
         const away = textMentionsTeam(lowerText, awayTeam);
 
         if (home && !away) return "1X";
-        if (away && !home) return "2X";
+        if (away && !home) return "X2";
 
         // если не получилось однозначно, по умолчанию 1X
         return "1X";
@@ -401,7 +401,7 @@ export function normalizePrediction(text, homeTeam, awayTeam, ctx = {}) {
                     const away = textMentionsTeam(lowerText, awayTeam);
 
                     if (home && !away) return "1X";
-                    if (away && !home) return "2X";
+                    if (away && !home) return "X2";
 
                     return "1X";
                 }

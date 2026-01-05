@@ -137,7 +137,7 @@ for (const file of files) {
             const newNorm = normalizePrediction(match.prediction.main, home, away, ctx);
 
             if (!newNorm) {
-                logProblem("MAIN NOTHING MATCHED", match.prediction.main, ctx);
+                logProblem("MAIN NOTHING MATCHED", match.prediction.main, null, ctx);
             } else if (newNorm !== match.prediction.main) {
                 console.log(`   MAIN FIXED: "${match.prediction.main}" → "${newNorm}"`);
                 match.prediction.main = newNorm;
