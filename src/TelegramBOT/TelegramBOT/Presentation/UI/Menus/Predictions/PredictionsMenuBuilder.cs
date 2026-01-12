@@ -27,19 +27,28 @@ namespace TelegramBOT.Presentation.UI.Menus.Predictions
         /// Формирует inline-меню для выбора источника прогноза.
         /// </summary>
         /// <param name="matchId">Идентификатор матча, к которому относится прогноз.</param>
-        public InlineKeyboardMarkup Build(string matchId)
+        public InlineKeyboardMarkup Build(string matchId, bool fromHeadToHead = false, string? originMatchId = null)
         {
-            var rows = Sources
-                .Select(src => new[]
-                {
-                    InlineKeyboardButton.WithCallbackData(src, $"prediction_{src.ToLower()}_{matchId}")
-                })
-                .ToList();
+            var rows = Sources.Select(
+                src => new[]{
+                    InlineKeyboardButton.WithCallbackData(
+                        src,
+                        $"prediction_{src.ToLower()}_{matchId}"
+                    )
+                }
+            )
+            .ToList();
 
-            // Кнопка возврата
-            rows.Add(new[]
-            {
-                InlineKeyboardButton.WithCallbackData("⬅️ Назад (К матчу)", $"back_to_match_{matchId}")
+            rows.Add(new[]{
+                fromHeadToHead && originMatchId != null
+                    ? InlineKeyboardButton.WithCallbackData(
+                        "⬅️ Назад (К матчу)",
+                        $"result_h2h_{originMatchId}_{matchId}"
+                      )
+                    : InlineKeyboardButton.WithCallbackData(
+                        "⬅️ Назад (К матчу)",
+                        $"back_to_match_{matchId}"
+                      )
             });
 
             return new InlineKeyboardMarkup(rows);

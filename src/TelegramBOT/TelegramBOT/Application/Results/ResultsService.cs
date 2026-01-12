@@ -248,7 +248,7 @@ namespace TelegramBOT.Application.Results
         /// <param name="chatId">ID Telegram-чата.</param>
         /// <param name="matchId">Уникальный идентификатор матча.</param>
         /// <param name="menuService">Фасад построения меню.</param>
-        public async Task SendResultMatchMenuAsync(long chatId, string matchId, MenuService menuService)
+        public async Task SendResultMatchMenuAsync(long chatId, string matchId, MenuService menuService, bool fromHeadToHead = false, string? originMatchId = null)
         {
             Log.Information("[SendResultMatchMenuAsync] Старт. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
 
@@ -270,7 +270,12 @@ namespace TelegramBOT.Application.Results
 
             await using var ms = new MemoryStream(pngBytes);
 
-            var keyboard = menuService.GetResultMatchMenu(match, video);
+            var keyboard = menuService.GetResultMatchMenu(
+                match,
+                video,
+                fromHeadToHead,
+                originMatchId
+            );
 
             await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, keyboard);
 

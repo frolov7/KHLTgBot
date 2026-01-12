@@ -113,10 +113,64 @@ namespace TelegramBOT.Presentation.Handlers
                     await _statsHandler.HandlePredictions(chatId, callback);
                     break;
 
-                case var _ when callback.StartsWith("prediction_") || callback.StartsWith("back_to_match_"):
+                case var _ when callback.StartsWith("prediction_"):
                     Log.Information("[HandleCallbackQueryAsync] Обработчик: HandlePredictionSelected");
                     await _predictionHandler.HandlePredictionSelected(chatId, callback, messageId);
                     break;
+
+                // ---------- Игры между собой ----------
+                case var _ when callback.StartsWith("back_to_match_"):
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: BackToMatch");
+
+                    var matchId = callback.Replace("back_to_match_", "");
+
+                    await _calendarHandler.ShowMatchMenu(chatId, matchId);
+                    break;
+                
+                case var _ when callback.StartsWith("back_to_h2h_"):
+                    var originMatchId = callback.Replace("back_to_h2h_", "");
+
+                    await _statsHandler.HandleHeadToHead(
+                        chatId,
+                        $"stats_{originMatchId}"
+                    );
+                    break;
+
+                case var _ when callback.StartsWith("open_result_h2h_"):
+                {
+                    var parts = callback.Replace("open_result_h2h_", "").Split('_');
+                    originMatchId = parts[0];
+                    matchId = parts[1];
+
+                    await _resultsHandler.ShowResultFromH2H(
+                        chatId,
+                        matchId,
+                        originMatchId
+                    );
+
+                    break;
+                }
+
+                case var _ when callback.StartsWith("open_match_"):
+                    matchId = callback.Replace("open_match_", "");
+                    await _calendarHandler.HandleMatchSelected(chatId, $"match_{matchId}");
+                    break;
+
+                case var _ when callback.StartsWith("result_h2h_"):
+                {
+                    Log.Information("[HandleCallbackQueryAsync] Обработчик: HandleResult (H2H)");
+
+                    var parts = callback.Replace("result_h2h_", "").Split('_');
+                    originMatchId = parts[0];
+                    matchId = parts[1];
+
+                    await _resultsHandler.ShowResultFromH2H(
+                        chatId,
+                        matchId,
+                        originMatchId
+                    );
+                    break;
+                }
 
                 // ---------- События ----------
                 case var _ when callback.StartsWith("events_results_"):

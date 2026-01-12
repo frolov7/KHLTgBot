@@ -74,7 +74,33 @@ namespace TelegramBOT.Application.Predictions
         {
             Log.Information("[HandlePredictionSelectedAsync] Старт. chatId={ChatId}, callback={Callback}", chatId, callback);
 
+            bool fromHeadToHead = false;
+            string? originMatchId = null;
+
+            // ==========================================================
             // Возврат к матчу
+            // ==========================================================
+            if (callback.StartsWith("back_to_match_h2h_"))
+            {
+                var parts = callback.Replace("back_to_match_h2h_", "").Split('_');
+
+                originMatchId = parts[0];
+                var matchId = parts[1];
+
+                Log.Information(
+                    "[HandlePredictionSelectedAsync] Возврат к меню матча (H2H). matchId={MatchId}, originMatchId={OriginMatchId}",
+                    matchId,
+                    originMatchId
+                );
+
+                if (messageId.HasValue)
+                    await messageService.DeleteMessageAsync(chatId, messageId.Value);
+
+                // Возвращаемся именно в H2H-матч
+                await calendarHandler.ShowMatchMenu(chatId, matchId);
+                return;
+            }
+
             if (callback.StartsWith("back_to_match_"))
             {
                 var matchId = callback.Replace("back_to_match_", "");
@@ -88,25 +114,53 @@ namespace TelegramBOT.Application.Predictions
                 return;
             }
 
+            // ==========================================================
             // Разбор callback
-            var parts = callback.Split('_');
-            if (parts.Length < 3)
+            // ==========================================================
+            var partsCallback = callback.Split('_');
+            if (partsCallback.Length < 3)
             {
                 Log.Warning("[HandlePredictionSelectedAsync] Неверный формат callback: {Callback}", callback);
                 await messageService.SendTextAsync(chatId, "Неверный формат callback-запроса.");
                 return;
             }
 
-            var source = parts[1];
-            var matchIdParsed = parts[2];
+            string source;
+            string matchIdParsed;
 
-            Log.Information("[HandlePredictionSelectedAsync] Выбран источник: {Source}, matchId={MatchId}", source, matchIdParsed);
+            // Формат: prediction_h2h_{originMatchId}_{source}_{matchId}
+            if (partsCallback.Length >= 5 && partsCallback[1] == "h2h")
+            {
+                fromHeadToHead = true;
+                originMatchId = partsCallback[2];
+                source = partsCallback[3];
+                matchIdParsed = partsCallback[4];
+            }
+            // Формат: prediction_{source}_{matchId}
+            else
+            {
+                source = partsCallback[1];
+                matchIdParsed = partsCallback[2];
+            }
 
+            Log.Information(
+                "[HandlePredictionSelectedAsync] Выбран источник: {Source}, matchId={MatchId}, fromHeadToHead={FromH2H}, originMatchId={OriginMatchId}",
+                source,
+                matchIdParsed,
+                fromHeadToHead,
+                originMatchId
+            );
+
+            // ==========================================================
             // Общий суммарный прогноз
+            // ==========================================================
             if (source.Equals("общий прогноз", StringComparison.OrdinalIgnoreCase))
             {
                 var predictions = await GetPredictionsForMatchAsync(matchIdParsed);
-                Log.Information("[HandlePredictionSelectedAsync] Получено {Count} прогнозов для общего анализа", predictions.Count);
+                Log.Information(
+                    "[HandlePredictionSelectedAsync] Получено {Count} прогнозов для общего анализа",
+                    predictions.Count
+                );
 
                 var text = BuildSummaryMessage(predictions);
                 await messageService.SendTextAsync(chatId, text);
@@ -117,7 +171,12 @@ namespace TelegramBOT.Application.Predictions
                 var prediction = await GetPredictionAsync(matchIdParsed, source);
                 if (prediction == null)
                 {
-                    Log.Information("[HandlePredictionSelectedAsync] Прогноз отсутствует. source={Source}, matchId={MatchId}", source, matchIdParsed);
+                    Log.Information(
+                        "[HandlePredictionSelectedAsync] Прогноз отсутствует. source={Source}, matchId={MatchId}",
+                        source,
+                        matchIdParsed
+                    );
+
                     await messageService.SendTextAsync(chatId, $"Прогноз от {source} не найден.");
                     return;
                 }
@@ -128,8 +187,17 @@ namespace TelegramBOT.Application.Predictions
                 await messageService.SendTextAsync(chatId, text);
             }
 
+            // ==========================================================
+            // Отправка меню выбора нового источника
+            // ==========================================================
             Log.Information("[HandlePredictionSelectedAsync] Отправка меню выбора нового источника");
-            var menu = new PredictionsMenuBuilder().Build(matchIdParsed);
+
+            var menu = new PredictionsMenuBuilder().Build(
+                matchIdParsed,
+                fromHeadToHead,
+                originMatchId
+            );
+
             await messageService.SendKeyboardAsync(chatId, "Выберите другой источник:", menu);
         }
 
