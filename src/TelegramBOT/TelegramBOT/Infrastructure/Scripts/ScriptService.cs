@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 using Serilog;
 
 namespace TelegramBOT.Infrastructure.Scripts
@@ -37,14 +38,22 @@ namespace TelegramBOT.Infrastructure.Scripts
         /// </summary>
         public async Task RunScrapersAsync()
         {
-            var updateResultsTask = RunScraperAsync(ScraperMode.Results);
-            var updatePredictionsTask = RunScraperAsync(ScraperMode.Predictions);
-            var updateMatchVideoTask = RunScraperAsync(ScraperMode.MatchVideos);
-            var updateMatchEventTask = RunScraperAsync(ScraperMode.MatchEvents);
+            // 1. Обновляем матчи + считаем результаты прогнозов
+            await RunScraperAsync(ScraperMode.Results);
+            // 2. Парсим прогнозы + импорт
+            await RunScraperAsync(ScraperMode.Predictions);
+            // 3. Повторно считаем WIN / LOSE (ОБЯЗАТЕЛЬНО)
+            await RunNodeScriptAsync(
+                "src/db/import/updatePredictionResults.js"
+            );
 
-            await Task.WhenAll(updateResultsTask, updatePredictionsTask, updateMatchVideoTask, updateMatchEventTask);
+            // 4. Остальное параллельно
+            var videosTask = RunScraperAsync(ScraperMode.MatchVideos);
+            var eventsTask = RunScraperAsync(ScraperMode.MatchEvents);
 
-            Log.Information("✅ Обновление результатов и прогнозов завершено успешно.");
+            await Task.WhenAll(videosTask, eventsTask);
+
+            Log.Information("✅ Обновление данных завершено корректно");
         }
 
         /// <summary>
@@ -99,7 +108,10 @@ namespace TelegramBOT.Infrastructure.Scripts
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
-                    CreateNoWindow = true
+                    CreateNoWindow = true,
+
+                    StandardOutputEncoding = Encoding.UTF8,
+                    StandardErrorEncoding = Encoding.UTF8
                 };
 
                 using var process = new Process { StartInfo = startInfo };

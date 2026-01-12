@@ -18,17 +18,20 @@ namespace TelegramBOT.Application.Calendar
     public class CalendarService
     {
         private readonly ICalendarRepository _calendarRepository;
+        private readonly IMatchStatsServiceRepository _matchStatsRepository;
         private readonly MessageService _messageService;
         private readonly MappingService _mappingService;
         private readonly IConfiguration _config;
 
         public CalendarService(
             ICalendarRepository calendarRepository,
+            IMatchStatsServiceRepository matchStatsRepository,
             MessageService messageService,
             IConfiguration config,
             MappingService mappingService)
         {
             _calendarRepository = calendarRepository;
+            _matchStatsRepository = matchStatsRepository;
             _messageService = messageService;
             _mappingService = mappingService;
             _config = config;
@@ -87,9 +90,15 @@ namespace TelegramBOT.Application.Calendar
 
             var keyboard = new InlineKeyboardMarkup(buttons);
 
-            // === НОВЫЙ ГЕНЕРАТОР ПОСТЕРА ===
+            // === ГОЛЫ ПО ПЕРИОДАМ ===
+            var goalsByMatch =
+                await _matchStatsRepository
+                    .GetGoalsByPeriodsForMatchesAsync(matches.Select(m => m.MatchId));
+
+            // === ГЕНЕРАЦИЯ HTML ===
             var builder = new TodayMatchesHtmlBuilder(_config);
-            string html = builder.Build(matches, from);
+            string html = builder.Build(matches, from, goalsByMatch);
+
 
             // === РЕНДЕР В PNG ===
             var renderer = new HtmlToImageRenderer();

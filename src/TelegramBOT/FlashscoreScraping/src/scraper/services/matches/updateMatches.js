@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import { exec } from "child_process";
 
 import { BASE_URL, FILES } from "../../../constants/constants.js";
-import { openPageAndNavigate, waitForSelectorSafe } from "../utils/core/pageUtils.js";
+import { openPageAndNavigate, waitForSelectorSafe } from "../utils/matches/pageUtils.js";
 import { parseDate } from "../utils/core/dateUtils.js";
 import { createLogger } from "../utils/core/logger.js";
 
