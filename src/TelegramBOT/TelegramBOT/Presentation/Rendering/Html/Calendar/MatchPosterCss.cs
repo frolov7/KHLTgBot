@@ -107,9 +107,11 @@ namespace TelegramBOT.Presentation.Rendering.Html.Calendar
             /* Основные (цветные) маскоты спереди */
             .mascot-main {{
                 position: absolute;
-                width: 405px;             
+                width: 405px;
                 z-index: 30;
-                bottom: 250px; 
+
+                top: 55%;
+                transform: translateY(-50%);
             }}
 
             .mascot-main-home {{

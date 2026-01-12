@@ -1,7 +1,7 @@
 ﻿import fs from "fs";
 import * as cheerio from "cheerio";
 import { BASE_URL, FILES } from "../../../constants/constants.js";
-import { openPageAndNavigate, waitForSelectorSafe } from "../utils/core/pageUtils.js";
+import { openPageAndNavigate, waitForSelectorSafe } from "../utils/matches/pageUtils.js";
 
 /// <summary>
 /// Преобразует название периода матча в стандартный формат (строковое обозначение).

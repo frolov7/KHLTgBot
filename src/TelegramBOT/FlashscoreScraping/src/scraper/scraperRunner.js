@@ -154,7 +154,7 @@ export default async function main(args) {
         const totalDuration = ((Date.now() - totalStart) / 1000).toFixed(2);
         logger.info(`✅ Парсеры прогнозов завершили работу за ${totalDuration} сек.\n`);
 
-        runImportAsync(IMPORT_PREDICTIONS_SCRIPT, "импорт прогнозов");
+        await runImportAsync(IMPORT_PREDICTIONS_SCRIPT, "импорт прогнозов");
     }
 
     // === Видеообзоры ===

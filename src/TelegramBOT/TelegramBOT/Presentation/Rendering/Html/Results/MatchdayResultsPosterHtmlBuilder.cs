@@ -29,51 +29,56 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
 
             // ==== Подготовка матчей ====
             var list = matches.OrderBy(m => m.MatchDate).ToList();
-            int count = list.Count == 0 ? 1 : list.Count;
+
 
             // ==== Адаптивные размеры ====
-            int rowHeight = count switch
+
+            const int BASE_ROW_HEIGHT = 100;
+            const int BASE_LOGO_SIZE = 130;
+            const int BASE_SCORE_BOX_WIDTH = 330;
+            const int BASE_SCORE_FONT = 45;
+            const int BASE_PERIODS_FONT = 18;
+            const int BASE_GAP = 25;
+
+            int count = Math.Clamp(list.Count, 1, 68);
+
+            double scale = count switch
             {
-                1 => 150,
-                2 => 130,
-                3 => 110,
-                4 => 90,
-                5 => 70,
-                6 => 55,
-                7 => 50,
-                8 => 45,
-                _ => 40
+                <= 2 => 1.25,
+                <= 4 => 1.0,
+                5 => 0.88,
+                6 => 0.7,   // 🔥 ВАЖНО
+                7 => 0.58,
+                _ => 0.50
             };
 
-            int logoSize = count switch
-            {
-                1 => 150,
-                2 => 140,
-                3 => 130,
-                4 => 120,
-                5 => 110,
-                6 => 100,
-                7 => 95,
-                8 => 90,
-                9 => 85,
-                10 => 80,
-                _ => 70
-            };
 
-            int shift = count switch
-            {
-                1 => 200,
-                2 => 140,
-                3 => 60,
-                _ => 0
-            };
+            int rowHeight = (int)(BASE_ROW_HEIGHT * scale);
+            int logoSize = (int)(BASE_LOGO_SIZE * scale);
+            int scoreBoxWidth = (int)(BASE_SCORE_BOX_WIDTH * scale);
+            int scoreFontSize = (int)(BASE_SCORE_FONT * scale);
+            int periodsFontSize = (int)(BASE_PERIODS_FONT * scale);
+            int gap = (int)(BASE_GAP * scale);
+
+            string justifyContent = count <= 3 ? "center" : "flex-start";
 
             // ==== Генерация строк матчей ====
             var rowsSb = new StringBuilder();
             foreach (var m in list)
             {
                 var periodGoals = goalsByMatch.TryGetValue(m.MatchId, out var g) ? g : new List<PeriodGoals>();
-                rowsSb.AppendLine(BuildRow(m, teamsDir, rowHeight, logoSize, periodGoals));
+                rowsSb.AppendLine(
+                    BuildRow(
+                        m,
+                        teamsDir,
+                        rowHeight,
+                        logoSize,
+                        scoreBoxWidth,
+                        scoreFontSize,
+                        periodsFontSize,
+                        periodGoals
+                    )
+                );
             }
 
             // ==== Сборка HTML ====
@@ -84,7 +89,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
             sb.AppendLine("<meta charset='utf-8'>");
 
             sb.AppendLine("<style>");
-            sb.AppendLine(NewCss(shift));
+            sb.AppendLine(NewCss(gap, justifyContent));
             sb.AppendLine("</style>");
 
             sb.AppendLine("</head><body>");
@@ -117,31 +122,41 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
             string dir,
             int rowHeight,
             int logoSize,
+            int scoreBoxWidth,
+            int scoreFontSize,
+            int periodsFontSize,
             List<PeriodGoals> periodGoals)
         {
             string homeLogo = TryLoadLogo(dir, m.HomeTeamName) ?? "";
             string awayLogo = TryLoadLogo(dir, m.AwayTeamName) ?? "";
 
             string score = $"{m.HomeScore} : {m.AwayScore}";
-
             if (m.Status == "AFTER OVERTIME") score += " (ОТ)";
             if (m.Status == "AFTER PENALTIES") score += " (Б)";
 
-            var periods = BuildPeriodsText(m, periodGoals);
-            score += $"<div class='periods'>{periods}</div>";
+            string periods = BuildPeriodsText(m, periodGoals);
 
             return $@"
-                <div class='match-row' style='height:{rowHeight}px'>
-                    <img class='team-logo-left' style='width:{logoSize}px' src='data:image/png;base64,{homeLogo}' />
+            <div class='match-row' style='height:{rowHeight}px'>
+                <img class='team-logo-left'
+                        style='width:{logoSize}px'
+                        src='data:image/png;base64,{homeLogo}' />
 
-                    <div class='score-box'>
-                        <div class='score-text'>{score}</div>
+                <div class='score-box' style='width:{scoreBoxWidth}px'>
+                    <div class='score-text' style='font-size:{scoreFontSize}px'>
+                        {score}
                     </div>
-
-                    <img class='team-logo-right' style='width:{logoSize}px' src='data:image/png;base64,{awayLogo}' />
+                    <div class='periods' style='font-size:{periodsFontSize}px'>
+                        {periods}
+                    </div>
                 </div>
-            ";
+
+                <img class='team-logo-right'
+                        style='width:{logoSize}px'
+                        src='data:image/png;base64,{awayLogo}' />
+            </div>";
         }
+
 
         private string BuildPeriodsText(Match match, List<PeriodGoals> goals)
         {
@@ -181,7 +196,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
             return Convert.ToBase64String(File.ReadAllBytes(path));
         }
 
-        private string NewCss(int shift) => $@"
+        private string NewCss(int gap, string justifyContent) => $@"
             body, html {{
                 margin:0;
                 padding:0;
@@ -207,13 +222,14 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
 
             .matches {{
                 position: absolute;
-                top: 120px;
+                top: 90px;
+                bottom: 200px;
                 width: 100%;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 30px;
-                transform: translateY({shift}px);
+                justify-content: {justifyContent};
+                gap: {gap}px;
             }}
 
             .match-row {{
@@ -228,34 +244,25 @@ namespace TelegramBOT.Presentation.Rendering.Html.Results
             }}
 
             .team-logo-left,
-            .team-logo-right {{
+            .team-logo-right 
+            {{
                 height: auto;
             }}
 
             .score-box {{
                 background: white;
-                width: 320px;
-                height: 80%;
                 border-radius: 18px;
                 display: flex;
-                align-items:center;
-                justify-content:center;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 4px 0;
                 box-shadow: 0 4px 20px rgba(0,0,0,0.4);
             }}
 
-            .score-text {{
-                font-size: 42px;
-                font-weight: 900;
-            }}
-
-            .periods {{
-                font-size: 12px;
+            .score-text 
+            {{
                 font-weight: 700;
-                color: #1a2b44;
-                opacity: 0.9;
-                margin-top: 2px;
-                line-height: 1.1;
-                text-align: center;
             }}
 
             .footer-strip {{
