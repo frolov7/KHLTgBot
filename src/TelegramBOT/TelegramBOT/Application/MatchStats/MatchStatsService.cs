@@ -96,11 +96,10 @@ namespace TelegramBOT.Application.MatchStats
 
             using var ms = new MemoryStream(png);
 
-            // 6. Формирование меню матча
-            var menu = new MatchMenuBuilder().Build(match);
+            var h2hMenu = new HeadToHeadMatchesMenuBuilder(_mappingService)
+                .Build(h2hMatches, match.MatchId);
 
-            // 7. Отправка изображения в Telegram
-            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, menu);
+            await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, h2hMenu);
 
             Log.Information("[SendHeadToHeadAsync] Завершено успешно. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
         }
@@ -225,7 +224,7 @@ namespace TelegramBOT.Application.MatchStats
         /// <summary>
         /// Загружает прогнозы по матчу и отправляет меню с выбором источников.
         /// </summary>
-        public async Task SendPredictionsAsync(long chatId, string matchId)
+        public async Task SendPredictionsAsync(long chatId, string matchId, bool fromHeadToHead = false, string? originMatchId = null)
         {
             Log.Information("[SendPredictionsAsync] Старт. chatId={ChatId}, matchId={MatchId}", chatId, matchId);
 
@@ -265,7 +264,12 @@ namespace TelegramBOT.Application.MatchStats
             using var ms = new MemoryStream(png);
 
             // ==== 4. Клавиатура ====
-            var menu = new PredictionsMenuBuilder().Build(matchId);
+            var menu = new PredictionsMenuBuilder().Build(
+                matchId,
+                fromHeadToHead,
+                originMatchId
+            );
+
 
             // ==== 5. Фото + клавиатура одним сообщением ====
             await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, menu);

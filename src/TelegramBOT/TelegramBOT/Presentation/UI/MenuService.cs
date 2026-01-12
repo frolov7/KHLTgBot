@@ -45,7 +45,15 @@ namespace TelegramBOT.Presentation.UI
 
         // ---------- Результаты ----------
         public ReplyKeyboardMarkup GetResultsMenu() => _results.Build();
-        public InlineKeyboardMarkup GetResultMatchMenu(Match match, MatchVideo? video) => _resultsMatch.Build(match, video);
+        public InlineKeyboardMarkup GetResultMatchMenu(Match match, MatchVideo? video, bool fromHeadToHead = false, string? originMatchId = null)
+        {
+            return _resultsMatch.Build(
+                match,
+                video,
+                fromHeadToHead,
+                originMatchId
+            );
+        }
 
         // ---------- Команды ----------
         public InlineKeyboardMarkup GetTeamsConferenceMenu()

@@ -127,6 +127,32 @@ namespace TelegramBOT.Presentation.Handlers.Results
             await _resultsService.SendTeamResultsAsync(chatId, callback);
         }
 
+        /// <summary>
+        /// Отображает результат матча, выбранного из раздела
+        /// «Игры между собой» (H2H), с корректной логикой возврата.
+        /// </summary>
+        /// <param name="chatId">Идентификатор Telegram-чата.</param>
+        /// <param name="matchId">Идентификатор выбранного матча.</param>
+        /// <param name="originMatchId"> Идентификатор исходного матча (сегодняшнего), из которого был открыт раздел H2H.
+        /// </param>
+        public async Task ShowResultFromH2H(long chatId, string matchId, string originMatchId)
+        {
+            Log.Information(
+                "[ShowResultFromH2H] chatId={ChatId}, matchId={MatchId}, originMatchId={OriginMatchId}",
+                chatId,
+                matchId,
+                originMatchId
+            );
+
+            await _resultsService.SendResultMatchMenuAsync(
+                chatId,
+                matchId,
+                _menuService,
+                fromHeadToHead: true,
+                originMatchId: originMatchId
+            );
+        }
+
         // ==========================================================
         // ============      БЛОК МЕНЮ КОМАНД          =============
         // ==========================================================
@@ -169,21 +195,46 @@ namespace TelegramBOT.Presentation.Handlers.Results
         {
             Log.Information("[HandleMatchPredictions] chatId={ChatId}, callback={Callback}", chatId, callback);
 
-            // ==== 1. matchId ====
-            var matchId = callback.Replace("results_predictions_", "");
+            bool fromHeadToHead = false;
+            string? originMatchId = null;
+            string matchId;
+
+            // =======================
+            // H2H-сценарий
+            // results_predictions_h2h_{originMatchId}_{matchId}
+            // =======================
+            if (callback.StartsWith("results_predictions_h2h_"))
+            {
+                var parts = callback.Replace("results_predictions_h2h_", "").Split('_');
+                if (parts.Length != 2)
+                {
+                    Log.Warning("[HandleMatchPredictions] Неверный формат H2H callback: {Callback}", callback);
+                    await _messageService.SendTextAsync(chatId, "Неверный формат callback.");
+                    return;
+                }
+
+                originMatchId = parts[0];
+                matchId = parts[1];
+                fromHeadToHead = true;
+            }
+            // =======================
+            // Обычный сценарий
+            // results_predictions_{matchId}
+            // =======================
+            else
+                matchId = callback.Replace("results_predictions_", "");
 
             // ==== 2. Матч ====
             var match = await _resultsService.GetResultByIdAsync(matchId);
             if (match == null)
             {
+                Log.Warning("[HandleMatchPredictions] Матч не найден. matchId={MatchId}", matchId);
                 await _messageService.SendTextAsync(chatId, "Матч не найден.");
                 return;
             }
 
-            // ==== 3. Прогнозы (С РЕЗУЛЬТАТАМИ: WIN / LOSE / DRAW) ====
+            // ==== 3. Прогнозы ====
             var predictions = await _matchStatsRepository.GetPredictionsByMatchIdAsync(matchId);
-            // ↑ должен возвращать Prediction.Result
-
             if (predictions == null || !predictions.Any())
             {
                 await _messageService.SendTextAsync(chatId, "Прогнозы отсутствуют.");
@@ -196,14 +247,14 @@ namespace TelegramBOT.Presentation.Handlers.Results
                 matchId
             );
 
-            // ==== 4. HTML (РЕЖИМ РЕЗУЛЬТАТОВ) ====
+            // ==== 4. HTML ====
             var builder = new MatchPredictionPosterHtmlBuilder(_config);
 
             string html = builder.Build(
                 predictions,
                 match.HomeTeamName,
                 match.AwayTeamName,
-                PredictionPosterMode.Result   // 🔥 КЛЮЧЕВОЕ ОТЛИЧИЕ
+                PredictionPosterMode.Result
             );
 
             // ==== 5. PNG ====
@@ -212,16 +263,18 @@ namespace TelegramBOT.Presentation.Handlers.Results
 
             await using var ms = new MemoryStream(png);
 
-            // ==== 6. Клавиатура "Назад к результатам" ====
+            // ==== 6. КНОПКА НАЗАД (КЛЮЧЕВО!) ====
             var menu = new InlineKeyboardMarkup(new[]
             {
                 InlineKeyboardButton.WithCallbackData(
                     "⬅️ Назад (К матчу)",
-                    $"result_{matchId}"
+                    fromHeadToHead && originMatchId != null
+                        ? $"open_result_h2h_{originMatchId}_{matchId}"
+                        : $"result_{matchId}"
                 )
             });
 
-            // ==== 7. Фото + клавиатура одним сообщением ====
+            // ==== 7. Фото + клавиатура ====
             await _messageService.SendPhotoWithKeyboardAsync(chatId, ms, menu);
 
             Log.Information("[HandleMatchPredictions] Картинка прогнозов с результатами отправлена успешно");
