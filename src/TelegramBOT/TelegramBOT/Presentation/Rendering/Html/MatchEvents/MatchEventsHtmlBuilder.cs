@@ -10,12 +10,34 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
     {
         private readonly IConfiguration _config;
         private readonly MappingService _mapper;
+        private readonly Dictionary<string, Dictionary<string, string>> _eventDict;
+
 
         public MatchEventsHtmlBuilder(IConfiguration config, MappingService mapper)
         {
             _config = config;
             _mapper = mapper;
+
+            _eventDict = _config
+                .GetSection("EventTranslations")
+                .Get<Dictionary<string, Dictionary<string, string>>>()
+                ?? new();
         }
+
+        private string T(string category, string? key)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+                return "";
+
+            key = key.Trim().ToLowerInvariant();
+
+            return _eventDict.TryGetValue(category, out var cat) &&
+                   cat.TryGetValue(key, out var value)
+                ? value
+                : key; // fallback — покажем оригинал
+        }
+
+        private static string N(string? s) => string.IsNullOrWhiteSpace(s) ? "" : s.Trim().ToLowerInvariant();
 
         public string Build(Match match, IEnumerable<MatchEvent> events)
         {
@@ -119,7 +141,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
                     sb.AppendLine("<td class='home'>");
                     foreach (var e in homeEvents)
                     {
-                        string type = e.EventType?.Name?.ToLower() ?? "";
+                        string type = N(e.EventType?.Name);
                         sb.AppendLine(GetEventHtml(e, type, true));
                     }
                     sb.AppendLine("</td>");
@@ -136,7 +158,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
                     sb.AppendLine("<td class='away'>");
                     foreach (var e in awayEvents)
                     {
-                        string type = e.EventType?.Name?.ToLower() ?? "";
+                        string type = N(e.EventType?.Name);
                         sb.AppendLine(GetEventHtml(e, type, false));
                     }
                     sb.AppendLine("</td>");
@@ -145,7 +167,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
                     // Нейтральные события
                     foreach (var e in neutralEvents)
                     {
-                        string type = e.EventType?.Name?.ToLower() ?? "";
+                        string type = N(e.EventType?.Name);
                         string html = GetEventHtml(e, type, true);
 
                         sb.AppendLine($@"<tr>
@@ -164,7 +186,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
         }
 
         // === Заголовок периода ===
-        private static string PeriodTitle(string? p) =>
+        private string PeriodTitle(string? p) =>
             (p ?? "").ToUpper() switch
             {
                 var x when x.StartsWith("1") => "1-Й ПЕРИОД",
@@ -176,7 +198,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
             };
 
         // === Определение типа события ===
-        private static string GetEventHtml(MatchEvent e, string type, bool isHome) =>
+        private string GetEventHtml(MatchEvent e, string type, bool isHome) =>
             type switch
             {
                 "goal" =>
@@ -199,7 +221,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
             };
 
         // ======== ЗАМЕНА ВРАТАРЯ ========
-        private static string BuildGoalieChangeBlock(MatchEvent e, bool isHome)
+        private string BuildGoalieChangeBlock(MatchEvent e, bool isHome)
         {
             string side = isHome ? "home" : "away";
             string goalieOut = e.GoalieChange?.GoalieOut ?? "";
@@ -217,11 +239,11 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
             if (!string.IsNullOrWhiteSpace(goalieOut) && !string.IsNullOrWhiteSpace(goalieIn))
                 changeText = $"{goalieOut} → {goalieIn}";
             else if (!string.IsNullOrWhiteSpace(goalieIn))
-                changeText = $"Entered: {goalieIn}";
+                changeText = $"{T("goalie", "entered")}: {goalieIn}";
             else if (!string.IsNullOrWhiteSpace(goalieOut))
-                changeText = $"Left: {goalieOut}";
+                changeText = T("goalie", "goalie change");
             else
-                changeText = "Goalie change";
+                changeText = T("goalie", "goalie change");
 
             return $@"
                 <div class='event-block {side}'>
@@ -233,7 +255,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
         }
 
         // ======== ГОЛ ========
-        private static string BuildGoalBlock(MatchEvent e, bool isHome)
+        private string BuildGoalBlock(MatchEvent e, bool isHome)
         {
             string player = e.GoalDetail?.Scorer ?? e.Player ?? "";
             string assists = e.GoalDetail?.Assistants ?? "";
@@ -241,15 +263,25 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
             string goalType = e.GoalDetail?.GoalType ?? "";
             string side = isHome ? "home" : "away";
 
-            string goalTypeText = goalType switch
+            bool isShootout = !string.IsNullOrWhiteSpace(e.Period) && e.Period.Trim().StartsWith("SO", StringComparison.OrdinalIgnoreCase);
+
+            string goalTypeText = "";
+
+            if (isShootout)
             {
-                "Power-play" => "(Большинство)",
-                "Power-play, Empty net" => "(Большинство, пустые ворота)",
-                "Shorthanded" => "(Меньшинство)",
-                "Shorthanded, Empty net" => "(Меньшинство, пустые ворота)",
-                "Empty net" => "(Пустые ворота)",
-                _ => ""
-            };
+                // ✅ ЯВНО помечаем буллит
+                goalTypeText = $"({T("eventType", "shootout")})";
+            }
+            else if (!string.IsNullOrWhiteSpace(goalType))
+            {
+                var gt = goalType.Trim().ToLowerInvariant();
+
+                // ❗ Гол в равных составах — ничего не выводим
+                if (gt != "even strength")
+                {
+                    goalTypeText = $"({T("goalType", gt)})";
+                }
+            }
 
             string playerHtml = string.IsNullOrEmpty(goalTypeText)
                 ? player
@@ -278,10 +310,11 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
         }
 
         // ======== НЕЗАСЧИТАННЫЙ ГОЛ ========
-        private static string BuildGoalDisallowedBlock(MatchEvent e, bool isHome)
+        private string BuildGoalDisallowedBlock(MatchEvent e, bool isHome)
         {
             string side = isHome ? "home" : "away";
-            string reason = e.Details ?? e.EventType?.Name ?? "Goal disallowed";
+            string reasonRaw = e.Details ?? e.EventType?.Name ?? "goal disallowed";
+            string reason = T("details", reasonRaw);
 
             // Иконка крестика на шайбе
             string iconPath = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
@@ -302,20 +335,20 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
         }
 
         // ======== УДАЛЕНИЕ ========
-        private static string BuildPenaltyBlock(MatchEvent e, bool isHome)
+        private string BuildPenaltyBlock(MatchEvent e, bool isHome)
         {
             string player = e.Penalty?.Player ?? e.Player ?? "";
-            string reason = e.Penalty?.Reason ?? "";
+            string reasonRaw = e.Penalty?.Reason ?? "";
+            string reason = T("penalty", reasonRaw);
             string side = isHome ? "home" : "away";
             string durationRaw = e.Penalty?.Duration?.Trim() ?? "2";
 
             // Получаем HTML всех иконок (например 5+10 -> две картинки)
             string iconsHtml = BuildPenaltyIcons(durationRaw);
 
-            if (!string.IsNullOrWhiteSpace(reason) &&
-                reason.Contains("too many men on the ice", StringComparison.OrdinalIgnoreCase))
+            if (reasonRaw.Contains("too many men on the ice", StringComparison.OrdinalIgnoreCase))
             {
-                player = "Bench minor penalty";
+                player = T("common", "bench minor penalty");
             }
 
             return $@"
@@ -328,7 +361,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
         </div>";
         }
 
-        private static string BuildPenaltyIcons(string durationRaw)
+        private string BuildPenaltyIcons(string durationRaw)
         {
             var parts = durationRaw
                 .Replace("мин", "")
@@ -381,7 +414,7 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
         }
 
         // ======== НЕЗАБИТЫЙ БУЛЛИТ ========
-        private static string BuildMissedPenalty(MatchEvent e, bool isHome)
+        private string BuildMissedPenalty(MatchEvent e, bool isHome)
         {
             string puckPath = Path.Combine("C:", "Users", "gimna", "Desktop", "BMSTU", "MyProjects", "bot",
                 "src", "TelegramBOT", "TelegramBOT", "wwwroot", "icons", "puck.png");
@@ -400,19 +433,21 @@ namespace TelegramBOT.Presentation.Rendering.Html.MatchEvents
                 <div class='event-block {side}'>
                   <div class='event-header'>
                     {imgHtml}
-                    <span class='event-player' style='color:#ff4d4d;'>Penalty missed</span>
+                    <span class='event-player' style='color:#ff4d4d;'>
+                        {T("details", "penalty missed")}
+                    </span>
                   </div>
                   {playerHtml}
                 </div>";
         }
 
         // ======== ИНФО / ПРОЧИЕ ========
-        private static string BuildInfoBlock(MatchEvent e, bool isHome)
+        private string BuildInfoBlock(MatchEvent e, bool isHome)
         {
             string side = isHome ? "home" : "away";
             return $@"
                 <div class='event-block {side}'>
-                    <div class='event-player'>{e.Details}</div>
+                    <div class='event-player'>{T("details", e.Details)}</div>
                 </div>";
         }
     }

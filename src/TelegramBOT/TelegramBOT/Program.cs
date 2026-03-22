@@ -35,7 +35,7 @@ using TelegramBOT.Presentation.UI;
 // -----------------------------
 // Создание builder
 // -----------------------------
-var builder = Host.CreateDefaultBuilder(args);
+var builder = Host.CreateDefaultBuilder(args).UseWindowsService();
 
 // -----------------------------
 // Логирование через Serilog
@@ -141,4 +141,4 @@ builder.ConfigureServices((context, services) =>
 // -----------------------------
 // Запуск приложения
 // -----------------------------
-await builder.RunConsoleAsync();
+await builder.Build().RunAsync();

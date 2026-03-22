@@ -26,6 +26,8 @@ namespace TelegramBOT.Application.Telegram
         {
             Log.Information("{Service} запущен и готов к приему апдейтов", nameof(BotBackgroundService));
 
+            Log.Information("Telegram-бот запускается (long polling)");
+
             try
             {
                 _client.StartReceiving(
@@ -68,6 +70,15 @@ namespace TelegramBOT.Application.Telegram
             {
                 Log.Information("{Service} остановлен", nameof(BotBackgroundService));
             }
+        }
+
+        public override async Task StopAsync(CancellationToken cancellationToken)
+        {
+            Log.Information("Остановка Telegram-бота...");
+
+            await base.StopAsync(cancellationToken);
+
+            Log.Information("Telegram-бот корректно остановлен");
         }
     }
 }
